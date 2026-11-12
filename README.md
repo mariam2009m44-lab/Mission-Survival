@@ -23,8 +23,14 @@ Mission-Survival/
 - A randomly assigned side objective for each new mission.
 - Live telemetry, operational-risk indicators, and resource reserve tracking.
 - Final mission score, resource-by-resource debrief, decision log, and achievement badges.
+- Locally saved personal-best score and completed-mission count (stored only in the player's browser).
 - Responsive layout for desktop and mobile.
 - No build step, package installation, API key, backend, or external runtime dependency.
+- GitHub Actions checks JavaScript syntax and verifies that the required front-end assets are present.
+
+## Project checks
+
+A GitHub Actions workflow runs on pushes and pull requests. It checks the JavaScript syntax and confirms that the HTML references the required CSS, JavaScript, and favicon files. This automated check does not replace a full browser play-test.
 
 ## Run locally
 
