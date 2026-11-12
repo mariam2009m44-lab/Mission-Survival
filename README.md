@@ -10,6 +10,8 @@ Mission-Survival/
 ├── styles.css      # Responsive visual system and interface styles
 ├── app.js          # Mission state, decisions, scoring, and debrief
 ├── favicon.svg     # Browser tab icon
+├── manifest.webmanifest # App metadata
+├── service-worker.js # Offline asset cache
 ├── README.md       # Project documentation
 └── .nojekyll       # Keep GitHub Pages from applying Jekyll processing
 ```
@@ -25,8 +27,14 @@ Mission-Survival/
 - Final mission score, resource-by-resource debrief, decision log, and achievement badges.
 - Locally saved personal-best score and completed-mission count (stored only in the player's browser).
 - Responsive layout for desktop and mobile.
+- Offline caching of the core game files after the first successful online visit.
+- Live online/offline status indicator.
 - No build step, package installation, API key, backend, or external runtime dependency.
 - GitHub Actions checks JavaScript syntax and verifies that the required front-end assets are present.
+
+## Offline support
+
+When hosted on HTTPS (including GitHub Pages), the service worker caches the core game files after the first successful visit. The simulation can then reopen offline on that browser and device. The first visit still requires an internet connection; Google Fonts may not be available offline.
 
 ## Project checks
 
