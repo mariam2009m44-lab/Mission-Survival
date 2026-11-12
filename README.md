@@ -1,24 +1,44 @@
 # LUNAR OUTPOST: Mission Survival
 
-An interactive, browser-based educational simulation where you command a lunar research outpost for five days.
+A responsive, browser-based lunar outpost management simulation. Lead a five-day mission, make engineering decisions, and balance five essential habitat resources.
 
-## Play locally
-Open `index.html` in a modern browser. No build tools, package installation, API key, or backend are required.
+## Project structure
 
-## Mission features
-- Five mission days with distinct lunar engineering challenges
-- Five resources to balance: oxygen, water, energy, food, and radiation shielding
-- Three choices per event, each with trade-offs across multiple resources
-- Short science explanations connecting decisions to real spaceflight concepts
-- A final mission score, debrief, and replay option
-- Responsive layout for desktop and mobile
+```text
+Mission-Survival/
+├── index.html      # Page structure and metadata
+├── styles.css      # Responsive visual system and interface styles
+├── app.js          # Mission state, decisions, scoring, and debrief
+├── favicon.svg     # Browser tab icon
+├── README.md       # Project documentation
+└── .nojekyll       # Keep GitHub Pages from applying Jekyll processing
+```
+
+## Features
+
+- Five lunar mission days with distinct engineering scenarios.
+- Five resources to manage: oxygen, water, energy, food, and radiation shielding.
+- Three decision paths per day, with visible resource trade-offs.
+- Training, Standard, and Expert starting difficulty settings.
+- A randomly assigned side objective for each new mission.
+- Live telemetry, operational-risk indicators, and resource reserve tracking.
+- Final mission score, resource-by-resource debrief, decision log, and achievement badges.
+- Responsive layout for desktop and mobile.
+- No build step, package installation, API key, backend, or external runtime dependency.
+
+## Run locally
+
+Download or clone the repository, then open `index.html` in a modern browser. The Google Fonts connection is optional; the page has local system-font fallbacks.
 
 ## Publish with GitHub Pages
-1. Open **Settings → Pages** in this repository.
+
+1. Open **Settings → Pages** in the repository.
 2. Under **Build and deployment**, choose **Deploy from a branch**.
 3. Select branch **main** and folder **/(root)**, then save.
-4. After GitHub Pages finishes deploying, the game will be available at:
+4. Wait for the deployment to finish. The expected site address is:
+
    https://mariam2009m44-lab.github.io/Mission-Survival/
 
 ## Educational note
-This is a simplified learning simulation, not an operational spacecraft model. Resource changes are illustrative and are not engineering specifications.
+
+This is a simplified learning simulation. Resource values and decision effects are illustrative game mechanics, not spacecraft engineering specifications or operational guidance.
