@@ -10,6 +10,8 @@
 - Added locally saved personal-best score and completed-mission count.
 - Added keyboard-focus styling and a live announcement region for mission updates.
 - Added a GitHub Actions workflow for JavaScript syntax and required-asset checks.
+- Added a web app manifest and a service worker that caches core assets for offline revisits.
+- Added a live online/offline connection indicator.
 
 ### Improved
 - Corrected safe HTML escaping for the commander callsign and decision log.
