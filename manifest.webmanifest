@@ -1,0 +1,19 @@
+{
+  "name": "LUNAR OUTPOST: Mission Survival",
+  "short_name": "Lunar Outpost",
+  "description": "A five-day educational lunar outpost survival simulation.",
+  "lang": "en",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#070b12",
+  "theme_color": "#070b12",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
