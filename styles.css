@@ -5,3 +5,5 @@
 
 /* Mission record and keyboard-accessible controls */
 .telemetry-tile strong{font-variant-numeric:tabular-nums}.btn:focus-visible,.choice:focus-visible,.launch-select:focus-visible,.commander-input:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}.choice:disabled{filter:saturate(.55)}.result-score{font-variant-numeric:tabular-nums}.event-copy,.launch-foot,.science,.console-note{overflow-wrap:anywhere}
+
+.connection-status{color:var(--cyan)}.connection-status.offline{color:#f0b76b}.connection-status::before{content:"";display:inline-block;width:6px;height:6px;margin-right:7px;border-radius:50%;background:currentColor;vertical-align:middle}
