@@ -25,6 +25,8 @@ jobs:
           node --check app.js
           node --check service-worker.js
           node -e "JSON.parse(require('node:fs').readFileSync('manifest.webmanifest', 'utf8'))"
+      - name: Run gameplay regression tests
+        run: node --test tests/simulation.test.js
       - name: Verify required assets
         run: |
           test -s index.html
@@ -33,6 +35,8 @@ jobs:
           test -s favicon.svg
           test -s manifest.webmanifest
           test -s service-worker.js
+          test -s tests/simulation.test.js
+          grep -q '3 LUNAR DAYS' index.html
           if grep -Fq '\n' index.html; then echo 'Unexpected literal \n sequence in index.html'; exit 1; fi
           grep -q 'href="styles.css"' index.html
           grep -q 'src="app.js"' index.html
