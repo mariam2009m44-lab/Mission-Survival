@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 const root={innerHTML:"",listeners:{},addEventListener(type,handler){this.listeners[type]=handler;}};
 const storage=new Map();
-Object.defineProperty(globalThis,"document",{configurable:true,value:{querySelector:()=>root,documentElement:{}}});
+Object.defineProperty(globalThis,"document",{configurable:true,value:{querySelector:selector=>selector==="#app"?root:selector==="#commander-name"?{value:"Test Commander"}:null,documentElement:{}}});
 Object.defineProperty(globalThis,"window",{configurable:true,value:{addEventListener(){},scrollTo(){}}});
 Object.defineProperty(globalThis,"navigator",{configurable:true,value:{serviceWorker:{register:async()=>({})}}});
 Object.defineProperty(globalThis,"location",{configurable:true,value:{protocol:"file:"}});
