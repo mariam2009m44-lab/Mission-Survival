@@ -24,7 +24,8 @@ jobs:
         run: |
           node --check app.js
           node --check service-worker.js
-          node -e "JSON.parse(require('node:fs').readFileSync('manifest.webmanifest', 'utf8'))"
+          node -e "JSON.parse(require('node:fs').readFileSync('manifest.webmanifest', 'utf8'))
+          JSON.parse(require('node:fs').readFileSync('data/lunar-2026-source.json', 'utf8'))"
       - name: Run gameplay regression tests
         run: node --test tests/simulation.test.js
       - name: Verify required assets
@@ -36,6 +37,7 @@ jobs:
           test -s manifest.webmanifest
           test -s service-worker.js
           test -s tests/simulation.test.js
+          test -s data/lunar-2026-source.json
           grep -q '3 LUNAR DAYS' index.html
           if grep -Fq '\n' index.html; then echo 'Unexpected literal \n sequence in index.html'; exit 1; fi
           grep -q 'href="styles.css"' index.html
@@ -47,3 +49,5 @@ jobs:
           grep -q 'DAY 03 · WATER & FOOD' app.js
           grep -q 'HIDDEN · PERFECT MARGIN' app.js
           grep -q 'NOVA · MISSION COMPANION' app.js
+          grep -q 'showTrainingBriefing' app.js
+          grep -q '2026 LUNAR LIGHT MODEL' app.js
