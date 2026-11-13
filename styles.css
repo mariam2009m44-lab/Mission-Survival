@@ -472,3 +472,13 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--amber);outline-offs
 @media(prefers-reduced-motion:reduce){
   button{transition:none!important}
 }
+
+/* Original NOVA mascot artwork used consistently across the interface */
+.nova-orb{overflow:visible;background:transparent;border:0;box-shadow:none}
+.nova-orb img{display:block;width:76px;height:76px;object-fit:contain;filter:drop-shadow(0 8px 16px rgba(120,226,232,.2))}
+.nova-avatar{overflow:hidden;background:linear-gradient(145deg,#263c66,#172a48);border-color:rgba(120,226,232,.4)}
+.nova-avatar img{display:block;width:100%;height:100%;object-fit:contain}
+.nova-fab{gap:7px;padding:8px 14px 8px 9px}
+.nova-fab-art{display:block;width:34px;height:34px;object-fit:contain}
+.nova-fab b{font-size:11px}
+@media(max-width:520px){.nova-fab-art{width:31px;height:31px}.nova-orb img{width:68px;height:68px}}
