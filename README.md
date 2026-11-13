@@ -27,13 +27,13 @@ Each choice changes the five resource reserves: oxygen, water, energy, food, and
 
 - A live command task bar tracks oxygen, power, crew protection, and water/food goals.
 - Short illustrated-style crew comic panels introduce each daily challenge and connect the story.
-- NOVA is a mission companion that provides scientific context and hints without selecting a decision for the player.
+- Mission science notes and the NOVA companion appear in separate panels; NOVA provides hints without selecting a decision for the player.
 - A quick commander-training stage explains the five resource meters, decision trade-offs, and the NASA 2026 lunar illumination model before launch. Training does not consume a mission day.
 - Training, Standard, and Expert difficulty settings adjust starting reserves.
 - A randomized side objective adds replay variety.
 - Decisions award XP; completed missions, strong resource management, and hidden conditions unlock achievement badges.
 - The final mission report shows the score, remaining reserves, achievement badges, strongest and weakest systems, and the decision log.
-- Personal-best score, mission runs, and earned XP are stored locally in the player's browser.
+- Personal-best score, mission attempts, and earned XP are stored locally in the player's browser.
 
 ## 2026 lunar environment reference
 
