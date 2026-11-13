@@ -3,7 +3,7 @@
 ## 2026-11-13
 
 ### Added
-- Added a short commander-training stage before pre-flight authorization and launch; the briefing does not consume a mission day.
+- Added NASA's 2026 lunar South Pole preview image and a research library linking DONKI, RadLab, OSDR, Moon Trek, and Mars Trek with clear scope/limitations.\n- Added a short commander-training stage before pre-flight authorization and launch; the briefing does not consume a mission day.
 - Added a NASA 2026 lunar South Pole illumination reference in training, with clear separation between sourced environmental context and illustrative gameplay values.
 
 ### Added
