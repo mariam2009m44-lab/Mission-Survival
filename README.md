@@ -32,6 +32,12 @@ A sample CRaTER product linked in the app is a 31 March 2026 primary-science fil
 
 See docs/RESEARCH.md and data/mission-science.json for provenance.
 
+## Cloud backend
+
+A Cloudflare Worker + D1 backend foundation is included in `backend/`. It supports signed anonymous guest sessions and server-side progress storage while preserving local/offline play. The server intentionally avoids collecting names, emails, birth dates, location, or chat messages. Guest sessions are device-specific and are not cross-device accounts.
+
+The backend is not live until a Cloudflare D1 database and Worker are deployed and `API_BASE_URL` in `src/backend-config.js` is set. Follow [docs/BACKEND.md](docs/BACKEND.md) for setup. Until then, the app correctly remains in local-save mode.
+
 ## Install as an app
 
 ### Android APK
