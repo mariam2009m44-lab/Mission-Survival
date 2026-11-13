@@ -45,11 +45,23 @@ function makeScene(THREE,root){
  box(1.7,.65,1.25,white,0,.85,0,rover);box(.65,.5,.6,gold,-.15,1.42,-.1,rover);
  for(const x of [-.72,.72])for(const z of [-.72,.72]){const wheel=new THREE.Mesh(new THREE.CylinderGeometry(.38,.38,.2,20),dark);wheel.rotation.z=Math.PI/2;wheel.position.set(x,.45,z);rover.add(wheel);}
  const mast=cyl(.045,.045,1.5,white,.45,1.8,0,rover);mast.rotation.z=-.15;
- // Astronaut marker.
+ // Junior commander avatar: a child-proportioned astronaut in a clear helmet.
+ let commander={avatar:"blue",name:"Commander"};try{commander={...commander,...(JSON.parse(localStorage.getItem("lunar-outpost-trainer-v2")||"{}").commander||{})};}catch{}
+ const avatarPalette={blue:{accent:0x42dfff,hair:0x56382d,skin:0xe7ae88},purple:{accent:0xc28cff,hair:0x49302c,skin:0xe6ae88},gold:{accent:0xffbf59,hair:0x211b18,skin:0xd99570},green:{accent:0x62e2b2,hair:0x3e2a24,skin:0xe8b28f}};
+ const chosen=avatarPalette[commander.avatar]||avatarPalette.blue,accentMat=mat(chosen.accent,.35,.28),skinMat=mat(chosen.skin,0,.72),hairMat=mat(chosen.hair,0,.8);
  const astronaut=new THREE.Group();astronaut.position.set(1,0,5);group.add(astronaut);
- const body=new THREE.Mesh(new THREE.SphereGeometry(.35,18,14),white);body.scale.set(.85,1.3,.7);body.position.y=.85;astronaut.add(body);
- const helmet=new THREE.Mesh(new THREE.SphereGeometry(.29,20,16),glass);helmet.position.set(0,1.45,0);astronaut.add(helmet);
- for(const x of [-.42,.42]){const leg=box(.18,.65,.2,white,x,.25,0,astronaut);leg.rotation.z=x*.25;}
+ const torso=new THREE.Mesh(new THREE.SphereGeometry(.43,24,18),white);torso.scale.set(.88,1.18,.72);torso.position.y=.88;astronaut.add(torso);
+ const neck=cyl(.12,.13,.18,skinMat,0,1.35,0,astronaut);
+ const head=new THREE.Mesh(new THREE.SphereGeometry(.31,24,20),skinMat);head.scale.set(.92,1.08,.86);head.position.set(0,1.62,.015);astronaut.add(head);
+ const hair=new THREE.Mesh(new THREE.SphereGeometry(.32,20,14,0,Math.PI*2,0,Math.PI*.62),hairMat);hair.position.set(0,1.76,-.01);astronaut.add(hair);
+ for(const x of [-.115,.115]){const eye=new THREE.Mesh(new THREE.SphereGeometry(.035,12,10),dark);eye.position.set(x,1.64,.276);astronaut.add(eye);}
+ const smile=new THREE.Mesh(new THREE.TorusGeometry(.075,.012,8,20,Math.PI),mat(0x8d4c45,0,.7));smile.position.set(0,1.52,.275);smile.rotation.z=Math.PI;astronaut.add(smile);
+ const helmet=new THREE.Mesh(new THREE.SphereGeometry(.405,28,20),glass);helmet.position.set(0,1.63,0);astronaut.add(helmet);
+ const helmetRing=new THREE.Mesh(new THREE.TorusGeometry(.395,.035,10,48),accentMat);helmetRing.position.set(0,1.57,0);astronaut.add(helmetRing);
+ const backpack=box(.62,.78,.3,dark,0,.9,-.42,astronaut);
+ box(.38,.22,.09,accentMat,0,1.05,-.59,astronaut);
+ for(const x of [-.43,.43]){const arm=cyl(.13,.16,.62,white,x,.92,0,astronaut);arm.rotation.z=x*.45;const glove=new THREE.Mesh(new THREE.SphereGeometry(.14,14,12),white);glove.position.set(x*1.22,.64,.08);astronaut.add(glove);const leg=box(.2,.58,.22,white,x*.55,.27,0,astronaut);leg.rotation.z=-x*.12;box(.25,.13,.34,dark,x*.55,.02,.04,astronaut);}
+ const chestBadge=box(.24,.18,.035,accentMat,.12,1.02,.29,astronaut);
  // Navigation beacon.
  const beacon=new THREE.PointLight(0x55dfff,22,8);beacon.position.set(-2,3.5,1);group.add(beacon);
  const starsGeo=new THREE.BufferGeometry(),stars=new Float32Array(900*3);for(let i=0;i<900;i++){stars[i*3]=(Math.random()-.5)*100;stars[i*3+1]=Math.random()*42+5;stars[i*3+2]=(Math.random()-.5)*100;}starsGeo.setAttribute("position",new THREE.BufferAttribute(stars,3));scene.add(new THREE.Points(starsGeo,new THREE.PointsMaterial({color:0xc8ddff,size:.12,transparent:true,opacity:.8})));
@@ -64,7 +76,7 @@ function makeScene(THREE,root){
  const focus={base:[0,.5,0],habitat:[-2,1,1],power:[4,1,-1],rover:[5,1,6],lander:[-8,1,-5]};
  root.querySelectorAll("[data-scene-focus]").forEach(b=>b.addEventListener("click",()=>{const v=focus[b.dataset.sceneFocus];if(v){target.set(...v);radius= b.dataset.sceneFocus==="base"?25:14;cameraUpdate();root.querySelectorAll("[data-scene-focus]").forEach(x=>x.classList.toggle("active",x===b));}}));
  const clock=new THREE.Clock();
- function animate(){raf=requestAnimationFrame(animate);const t=clock.getElapsedTime();if(!drag){azimuth+=.0007;}beacon.intensity=17+Math.sin(t*2.4)*5;cameraUpdate();renderer.render(scene,camera);}
+ function animate(){raf=requestAnimationFrame(animate);const t=clock.getElapsedTime();if(!drag){azimuth+=.0007;}astronaut.position.y=.035+Math.sin(t*1.8)*.035;beacon.intensity=17+Math.sin(t*2.4)*5;cameraUpdate();renderer.render(scene,camera);}
  animate();
  return()=>{cancelAnimationFrame(raf);ro.disconnect();renderer.dispose();geo.dispose();starsGeo.dispose();};
 }
