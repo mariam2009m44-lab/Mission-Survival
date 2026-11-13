@@ -12,6 +12,9 @@
 - Expanded the final report with the three-day decision log and reward summary.
 
 ### Improved
+- Corrected mission reporting when a critical reserve ends the expedition early.
+- Reset task-bar status when replaying and aligned progress with completed daily decisions.
+- Added lifetime XP to the mission telemetry panel and removed outdated five-day copy.
 - Updated mission briefing, duration labels, and project documentation to match the three-day experience.
 - Kept task objectives pending until the mission is launched.
 - Corrected lifetime XP display after a mission is completed.
