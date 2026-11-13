@@ -138,5 +138,5 @@ test('a critical final reserve prevents a safe-handover badge', () => {
   assert.equal(api.state.over, true);
   assert.match(elements.get('eventPanel').innerHTML, /MISSION INTERRUPTED/);
   assert.match(elements.get('eventPanel').innerHTML, /LOCKED · MISSION COMPLETE/);
-  assert.doesNotMatch(elements.get('eventPanel').innerHTML, /MISSION REWARD: \+300 XP/);
+  assert.equal(api.getStats().xp, 200);
 });
