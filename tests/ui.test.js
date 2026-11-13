@@ -27,6 +27,8 @@ test("app completes junior commander onboarding, training, five mission decision
  await action("language");
  await nav("overview");
  assert.match(root.innerHTML,/A smarter outpost/);
+ assert.match(root.innerHTML,/Crew protection/i);
+ assert.doesNotMatch(root.innerHTML,/CREW HEALTH|صحة الطاقم/);
  await nav("training");
  assert.match(root.innerHTML,/QUICK KNOWLEDGE CHECK/);
  await action("quiz",{id:"power",answer:"0"});
