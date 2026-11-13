@@ -37,7 +37,8 @@ test("offline service worker precaches NOVA and rotates the cache",async()=>{
  const sw=await readFile(new URL("../service-worker.js",import.meta.url),"utf8");
  assert.match(sw,/lunar-outpost-app-v5/);
  assert.match(sw,/\.\/src\/nova\.js/);
- assert.match(sw,/\.\/src\/scene3d\.js/);\n assert.match(sw,/astronaut-kids\.svg/);
+ assert.match(sw,/\.\/src\/scene3d\.js/);
+ assert.match(sw,/astronaut-kids\.svg/);
  assert.match(sw,/cdn\.jsdelivr\.net/);
 });
 test("science manifest records the NASA-IBM model and LROC 68B schedule",async()=>{
