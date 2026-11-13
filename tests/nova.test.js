@@ -26,8 +26,27 @@ test("NOVA does not invent unsupported answers",()=>{
  const r=answerNova("Who won a fictional moon race on Neptune?","en");
  assert.match(r.answer,/won't invent an answer/i);
 });
+
+test("NOVA explains Moon basics in child-friendly Arabic and English with NASA sources",()=>{
+ const en=answerNova("What is the Moon?","en");
+ const ar=answerNova("إيه هو القمر؟","ar");
+ assert.match(en.answer,/natural space companion/i);
+ assert.match(ar.answer,/الجار الفضائي الطبيعي/);
+ assert.ok(en.sources.some(x=>x[1].includes("spaceplace.nasa.gov")));
+});
+test("NOVA explains gravity, craters, water ice and breathable-air limits",()=>{
+ assert.match(answerNova("Why is gravity weaker on the Moon?","en").answer,/one-sixth/i);
+ assert.match(answerNova("Why are there craters on the Moon?","en").answer,/space rock hits/i);
+ assert.match(answerNova("Is there water ice on the Moon?","en").answer,/permanently shadowed/i);
+ assert.match(answerNova("Can people breathe on the Moon?","en").answer,/cannot breathe/i);
+});
+test("NOVA keeps bilingual suggested prompts kid-focused",()=>{
+ assert.ok(NOVA_PROMPTS.some(p=>p.en==="What is the Moon?"));
+ assert.ok(NOVA_PROMPTS.some(p=>p.en==="Can people breathe on the Moon?"));
+});
+
 test("NOVA prompt suggestions are bilingual",()=>{
- assert.equal(NOVA_PROMPTS.length,5);
+ assert.equal(NOVA_PROMPTS.length,8);
  assert.ok(NOVA_PROMPTS.every(p=>p.en&&p.ar));
 });
 
