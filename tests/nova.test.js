@@ -24,3 +24,17 @@ test("NOVA prompt suggestions are bilingual",()=>{
  assert.equal(NOVA_PROMPTS.length,4);
  assert.ok(NOVA_PROMPTS.every(p=>p.en&&p.ar));
 });
+
+import {readFile} from "node:fs/promises";
+
+test("offline service worker precaches NOVA and rotates the cache",async()=>{
+ const sw=await readFile(new URL("../service-worker.js",import.meta.url),"utf8");
+ assert.match(sw,/lunar-outpost-app-v3/);
+ assert.match(sw,/\.\/src\/nova\.js/);
+});
+test("science manifest records the NASA-IBM model and LROC 68B schedule",async()=>{
+ const raw=await readFile(new URL("../data/mission-science.json",import.meta.url),"utf8");
+ const manifest=JSON.parse(raw);
+ assert.ok(manifest.datasets.some(d=>d.id==="nasa-ibm-lunar-foundation-model"));
+ assert.ok(manifest.datasets.some(d=>d.id==="lro-lroc-release-68b"&&d.scheduled_public_release_date==="2026-11-13"));
+});
