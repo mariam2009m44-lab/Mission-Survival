@@ -6,12 +6,12 @@ The app teaches young learners to command a lunar South Pole training outpost, u
 
 ## Rebuild highlights
 - Modular ES modules for mission data, simulation, persistence and UI.
-- Mobile-first app shell, desktop navigation and touch-friendly mobile navigation.
+- Mobile-first app shell, desktop navigation and touch-friendly mobile navigation.\n- First-run junior commander profile with four custom astronaut avatars (local demo profile, not online authentication).\n- Mission selection hub with three lunar campaign destinations, comic interludes, five decisions across three days, four resource meters, task checklist and achievement badges.
 - Interactive Three.js lunar outpost scene with orbit/zoom controls and focus points for the habitat, solar farm, rover and lander.
 - Lightweight visual fallback if the 3D renderer cannot load; the Three.js module is cached after first successful load for offline use.
 - English and Arabic interface modes.
 - Four science-training modules.
-- Three-day simulation with guided, standard and expert difficulty.
+- Three-day simulation with five sequential decisions, guided/standard/expert difficulty, comic story beats, a live task bar and hidden sustainability badge.
 - Science library with source dates, data coverage and limitations.
 - Optional DONKI event lookup using NASA CCMC's migrated 2026 API.
 - Local progress storage and offline caching.
