@@ -19,6 +19,7 @@
 - Expanded the final report with the three-day decision log and reward summary.
 
 ### Improved
+- Keep the science panel synchronized with the training, transition, and active-day screens so an earlier day's note is never mistaken for the current briefing.
 - Separated the mission-science panel from NOVA so science notes, including the CSA Day 3 reference, remain visible while NOVA gives hints.
 - Changed the telemetry label to identify the displayed values as simulated rather than live spacecraft data.
 - Corrected mission reporting when a critical reserve ends the expedition early.
