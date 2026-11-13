@@ -220,3 +220,17 @@ test('training and transition screens do not leave stale science notes visible',
   assert.match(elements.get('scienceNote').innerHTML, /UPCOMING MISSION SCIENCE/);
   assert.match(elements.get('scienceNote').innerHTML, /solar particle event/);
 });
+
+
+test('Day 3 offers the CSA mini-greenhouse activity as a separate learning extension', () => {
+  const { api, elements } = createMission();
+  api.start();
+  api.choose(0);
+  api.advance();
+  api.showChallenge();
+  api.choose(0);
+  api.advance();
+  elements.get('continueDay').listeners.click();
+  assert.match(elements.get('scienceNote').innerHTML, /CSA Space Farmer mini-greenhouse activity/);
+  assert.match(elements.get('eventPanel').innerHTML, /DAY 03/);
+});
