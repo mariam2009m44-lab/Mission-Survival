@@ -1,1 +1,8 @@
-{"appId":"org.lunaroutpost.missiontrainer","appName":"Lunar Outpost","webDir":"www","server":{"androidScheme":"https"}}
+{
+  "appId": "org.lunaroutpost.missiontrainer",
+  "appName": "TECNOVA",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}

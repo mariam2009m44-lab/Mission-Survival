@@ -160,3 +160,10 @@ button:focus-visible,a:focus-visible{outline:3px solid rgba(112,220,226,.85);out
   button,.island-card{transition:none!important}
   .island-card:hover{transform:none}
 }
+
+/* Friendly motion and tactile mobile polish */
+.sound-toggle{box-shadow:0 5px 18px rgba(72,187,203,.08)}
+.sound-toggle:hover{border-color:rgba(112,220,226,.6);background:rgba(112,220,226,.14)}
+.primary,.tecnova-start,.intro-launch,.field-guide-button{transition:transform .18s ease,filter .18s ease,box-shadow .18s ease}
+.primary:active,.tecnova-start:active,.intro-launch:active,.field-guide-button:active{transform:translateY(1px) scale(.985)}
+@media(prefers-reduced-motion:reduce){.primary,.tecnova-start,.intro-launch,.field-guide-button{transition:none!important}}
