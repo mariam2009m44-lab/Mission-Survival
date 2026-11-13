@@ -14,7 +14,7 @@ A responsive, browser-based lunar outpost management simulation. Lead a three-da
 
 ## Gameplay
 
-The commander leads a three-day lunar expedition:
+The commander completes a short, non-scoring training briefing, reviews the pre-flight authorization, launches to the lunar outpost, and then leads a three-day expedition:
 
 1. **Power and oxygen:** choose between conserving energy, prioritizing oxygen generation, or running a balanced maintenance cycle.
 2. **Solar storm:** protect the crew in a shielded shelter, reinforce it with water stores, or limit activities while monitoring the alert.
@@ -27,13 +27,13 @@ Each choice changes the five resource reserves: oxygen, water, energy, food, and
 - A live command task bar tracks oxygen, power, crew protection, and water/food goals.
 - Short illustrated-style crew comic panels introduce each daily challenge and connect the story.
 - NOVA is a mission companion that provides scientific context and hints without selecting a decision for the player.
-- Training, Standard, and Expert difficulty settings adjust starting reserves.
+- A quick commander-training stage explains the five resource meters, decision trade-offs, and the NASA 2026 lunar illumination model before launch. Training does not consume a mission day.\n- Training, Standard, and Expert difficulty settings adjust starting reserves.
 - A randomized side objective adds replay variety.
 - Decisions award XP; completed missions, strong resource management, and hidden conditions unlock achievement badges.
 - The final mission report shows the score, remaining reserves, achievement badges, strongest and weakest systems, and the decision log.
 - Personal-best score, mission runs, and earned XP are stored locally in the player's browser.
 
-## Technical notes
+## 2026 lunar environment reference\n\nThe pre-flight briefing links NASA's Scientific Visualization Studio model, *Illumination at the Moon's South Pole, 2023 to 2030*. The 2026 sequence models sunlight and shadow within 2 degrees of the lunar South Pole at two-hour intervals (4,381 frames). NASA describes the use of Lunar Reconnaissance Orbiter LOLA terrain mapping to simulate illumination. This supports the game's explanation that local terrain shadows matter for solar-power planning. It is a modeled illumination visualization, not live base telemetry.\n\nSource: https://svs.gsfc.nasa.gov/4930/\n\nThe simulation's oxygen, water, food, shielding, and energy percentages and all choice deltas remain illustrative game mechanics. They are not represented as measured 2026 mission data.\n\n## Technical notes
 
 - Responsive desktop and mobile layout.
 - Offline caching of core game files after the first successful online visit.
