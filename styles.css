@@ -241,3 +241,15 @@
 @media(max-width:760px){.intro-3d-world{right:-16%;top:12%;width:115%;height:53%;opacity:.9}.intro-skip{right:17px;bottom:55px}.intro-copy{position:relative;z-index:4}.intro-astronaut{z-index:3}}
 @media(max-width:380px){.intro-skip{bottom:52px;font-size:8px}}
 @media(prefers-reduced-motion:reduce){.intro-3d-world{filter:none}}
+
+
+/* Child-friendly first-person and WebXR controls */
+.scene-camera-switch{display:flex;flex-wrap:wrap;gap:6px;max-width:min(94%,680px)}
+.scene-camera-switch button{min-height:36px;padding:8px 12px;border:1px solid rgba(177,205,255,.35);border-radius:999px;background:rgba(12,22,48,.86);color:#eaf3ff;font:800 10px/1.2 system-ui,sans-serif;cursor:pointer;backdrop-filter:blur(9px)}
+.scene-camera-switch button.active,.scene-camera-switch button[aria-pressed="true"]{border-color:#8be7ed;background:linear-gradient(110deg,#286e91,#6558bd);box-shadow:0 0 18px #66d8ed35}
+.scene-camera-switch button:focus-visible,.scene-interact button:focus-visible,.scene-pad button:focus-visible{outline:3px solid #ffe28b;outline-offset:3px}
+.scene-camera-switch button[hidden]{display:none}
+.scene-child-tip{display:block;max-width:290px;margin-top:5px;color:#d7e5ff!important;font-size:10px!important;line-height:1.6}
+.scene-hud{max-width:min(90%,350px)}
+@media(max-width:680px){.scene-camera-switch{top:auto!important;right:8px!important;left:8px!important;bottom:8px;justify-content:center}.scene-camera-switch button{font-size:9px;min-height:34px;padding:7px 10px}.scene-hud{max-width:75%}.scene-child-tip{font-size:9px!important}.scene-pad{bottom:62px!important}}
+@media(prefers-reduced-motion:reduce){.scene-camera-switch button{transition:none!important}}
