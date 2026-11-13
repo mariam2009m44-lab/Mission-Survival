@@ -1,6 +1,6 @@
 import {API_BASE_URL} from "./backend-config.js";
 const SESSION_KEY="lunar-outpost-cloud-session-v1";
-let timer=null,lastState=null,syncStatus="local";
+let timer=null,lastState=null,syncStatus="local",sessionPromise=null;
 const enabled=()=>Boolean(API_BASE_URL&&/^https:\/\//.test(API_BASE_URL));
 const readSession=()=>{try{return JSON.parse(localStorage.getItem(SESSION_KEY)||"null");}catch{return null;}};
 const writeSession=value=>{try{localStorage.setItem(SESSION_KEY,JSON.stringify(value));}catch{}};
@@ -20,10 +20,14 @@ function snapshot(state){
   };
 }
 async function sessionFor(state){
-  let session=readSession();
-  if(session?.token&&session?.commanderId)return session;
-  const created=await request("/v1/session",{method:"POST",body:JSON.stringify({avatar:state.commander?.avatar,language:state.language})});
-  session={token:created.token,commanderId:created.commanderId};writeSession(session);return session;
+  const existing=readSession();
+  if(existing?.token&&existing?.commanderId)return existing;
+  if(sessionPromise)return sessionPromise;
+  sessionPromise=(async()=>{
+    const created=await request("/v1/session",{method:"POST",body:JSON.stringify({avatar:state.commander?.avatar,language:state.language})});
+    const session={token:created.token,commanderId:created.commanderId};writeSession(session);return session;
+  })();
+  try{return await sessionPromise;}finally{sessionPromise=null;}
 }
 export async function restoreProgress(localState){
   if(!enabled()){syncStatus="local";return{status:"local",state:localState};}
@@ -33,7 +37,7 @@ export async function restoreProgress(localState){
     if(!remote.state){syncStatus="local";scheduleSync(localState);return{status:"local",state:localState};}
     const remoteTime=Date.parse(remote.updatedAt||"")||0;
     const localTime=Number(localState.localUpdatedAt)||0;
-    if(localTime>remoteTime){syncStatus="pending";scheduleSync(localState);return{status:"local",state:localState};}
+    if(localTime>remoteTime||(!localTime&&(localState.commander||localState.mission||(localState.trainingDone||[]).length))){syncStatus="pending";scheduleSync(localState);return{status:"local",state:localState};}
     const cloud=remote.state;
     const restored={
       ...localState,
