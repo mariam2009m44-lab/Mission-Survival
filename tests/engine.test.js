@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {createMission,startMission,choose,nextDay,summary} from "../src/engine.js";
+import {createMission,startMission,choose,nextDay,summary,completeStationTask} from "../src/engine.js";
 import {DAYS,SOURCES,MODULES} from "../src/data.js";
 test("three mission days contain five sequential decision stages",()=>{const m=startMission(createMission());assert.equal(new Set(DAYS.map(d=>d.dayNumber)).size,3);assert.equal(DAYS.length,5);assert.deepEqual(Object.keys(m.resources).sort(),["food","oxygen","power","shield","water"]);assert.deepEqual(DAYS.map(d=>d.id),["launch","isru","solar-safety","water-recovery","food-strategy"]);assert.ok(DAYS.every(d=>d.choices.length===2));});
 test("difficulty modes have different starting reserves",()=>{assert.ok(createMission("training").resources.oxygen>createMission("standard").resources.oxygen);assert.ok(createMission("standard").resources.oxygen>createMission("expert").resources.oxygen);});
@@ -20,3 +20,21 @@ test("sustainable commander badge requires all three sustainability actions",()=
 
 test("launch payload cannot be selected before a landing region",()=>{const m=startMission(createMission());assert.equal(choose(m,0),null);m.site="nobile";assert.ok(choose(m,0));});
 test("final report preserves the selected candidate landing region",()=>{const m=startMission(createMission());m.site="malapert";m.siteName="Malapert Massif";for(let i=0;i<DAYS.length;i++){choose(m,0);if(i<DAYS.length-1)nextDay(m);}assert.equal(summary(m).siteName,"Malapert Massif");});
+
+test("station tasks reward learning and update only their declared resources once",()=>{
+ const m=startMission(createMission("standard")),before={...m.resources};
+ const result=completeStationTask(m,"oxygen");
+ assert.equal(result.xp,25);assert.equal(m.xp,25);assert.equal(m.resources.oxygen,Math.min(100,before.oxygen+10));assert.equal(m.resources.power,before.power-8);
+ assert.deepEqual(completeStationTask(m,"oxygen"),null);assert.equal(m.stationTasks.length,1);
+});
+test("station tasks reject unknown stations and inactive missions",()=>{
+ const m=createMission();assert.equal(completeStationTask(m,"oxygen"),null);
+ startMission(m);m.phase="debrief";assert.equal(completeStationTask(m,"solar"),null);
+ m.phase="active";assert.equal(completeStationTask(m,"moon-base"),null);
+});
+test("all five station tasks preserve resource bounds",()=>{
+ const m=startMission(createMission("training"));
+ for(const id of ["habitat","oxygen","solar","greenhouse","rover"])assert.ok(completeStationTask(m,id));
+ for(const value of Object.values(m.resources))assert.ok(value>=0&&value<=100);
+ assert.equal(m.xp,125);
+});
