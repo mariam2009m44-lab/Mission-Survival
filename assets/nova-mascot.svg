@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+<title id="title">NOVA friendly lunar robot</title>
+<desc id="desc">A friendly rounded white and turquoise lunar exploration robot with a glowing blue face and small antenna.</desc>
+<defs>
+ <linearGradient id="shell" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffdf7"/><stop offset="1" stop-color="#b8d9ed"/></linearGradient>
+ <linearGradient id="face" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#233d73"/><stop offset="1" stop-color="#101d42"/></linearGradient>
+ <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8af2eb"/><stop offset="1" stop-color="#7b9cff"/></linearGradient>
+ <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<circle cx="80" cy="82" r="72" fill="#7b9cff" opacity=".12"/>
+<path d="M80 17v13" stroke="#8af2eb" stroke-width="6" stroke-linecap="round"/>
+<circle cx="80" cy="14" r="8" fill="#ffd27a" stroke="#fff3c7" stroke-width="2" filter="url(#glow)"/>
+<path d="M46 61c0-13 10-23 23-23h22c13 0 23 10 23 23v46c0 15-12 27-27 27H73c-15 0-27-12-27-27V61Z" fill="url(#shell)" stroke="#8fb8d7" stroke-width="3"/>
+<path d="M35 75c-9 0-14 7-14 16s5 16 14 16h10V75H35Zm90 0c9 0 14 7 14 16s-5 16-14 16h-10V75h10Z" fill="url(#accent)" stroke="#7ea8ce" stroke-width="3"/>
+<rect x="50" y="56" width="60" height="49" rx="17" fill="url(#face)" stroke="#91e8ec" stroke-width="3"/>
+<ellipse cx="67" cy="79" rx="5" ry="7" fill="#8af2eb" filter="url(#glow)"/>
+<ellipse cx="93" cy="79" rx="5" ry="7" fill="#8af2eb" filter="url(#glow)"/>
+<path d="M70 91q10 9 20 0" fill="none" stroke="#ffd27a" stroke-width="3" stroke-linecap="round"/>
+<path d="M57 116h46l9 15H48l9-15Z" fill="#78dce8" stroke="#8fb8d7" stroke-width="2"/>
+<circle cx="80" cy="123" r="4" fill="#263f71"/>
+<path d="M49 139h-9m71 0h-9" stroke="#8af2eb" stroke-width="5" stroke-linecap="round"/>
+<path d="M23 43l5 5m104-5-5 5" stroke="#ffd27a" stroke-width="3" stroke-linecap="round"/>
+<path d="M19 119l4 1m114-1-4 1" stroke="#8af2eb" stroke-width="3" stroke-linecap="round"/>
+</svg>
