@@ -45,6 +45,12 @@
       "url": "https://trek.nasa.gov/moon/",
       "role": "Lunar imagery and terrain exploration",
       "limitation": "Use for lunar mapping context; distinguish map layers from current operational measurements."
+    },
+    {
+      "name": "Canadian Space Agency Food Production Toolkit",
+      "url": "https://www.asc-csa.gc.ca/eng/youth-educators/toolkits/food-production/",
+      "role": "Educational activities about astronaut nutrition, crop selection, and growing food for future lunar missions",
+      "limitation": "Educational reference material; it does not provide measured greenhouse yields or real outpost food-supply values."
     }
   ]
 }
