@@ -20,6 +20,7 @@ WebXR immersive VR is optional and depends on the headset, browser, permissions 
 - English and Arabic interface modes.
 - Four science-training modules and three NASA-studied candidate landing-region scenarios.
 - Three-day simulation with five sequential decisions, guided/standard/expert difficulty, comic story beats, a live task bar and hidden sustainability badge.
+- In-mission fieldwork guide listing all five walkable stations, showing discovery progress, and explaining how optional NOVA challenges award bonus XP and adjust illustrative game reserves.
 - Science library with source dates, data coverage and limitations.
 - Optional DONKI event lookup using NASA CCMC's migrated 2026 API.
 - Local progress storage and offline caching.
