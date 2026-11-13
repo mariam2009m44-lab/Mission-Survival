@@ -51,6 +51,12 @@
       "url": "https://www.asc-csa.gc.ca/eng/youth-educators/toolkits/food-production/",
       "role": "Educational activities about astronaut nutrition, crop selection, and growing food for future lunar missions",
       "limitation": "Educational reference material; it does not provide measured greenhouse yields or real outpost food-supply values."
+    },
+    {
+      "name": "Canadian Space Agency Space Farmer Mini-Greenhouse Experiment",
+      "url": "https://www.asc-csa.gc.ca/eng/youth-educators/activities/mini-greenhouse-experiment.asp",
+      "role": "Youth activity about seed sprouting, plant needs, and observing a mini-greenhouse",
+      "limitation": "A classroom learning activity, not a validated lunar greenhouse design or measured crop-yield dataset."
     }
   ]
 }
