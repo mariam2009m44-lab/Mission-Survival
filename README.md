@@ -10,6 +10,7 @@ A responsive, browser-based lunar outpost management simulation. Lead a three-da
 - `favicon.svg` — browser tab icon
 - `manifest.webmanifest` — web app metadata
 - `service-worker.js` — offline asset cache
+- `data/lunar-2026-source.json` — provenance and limitations for the NASA 2026 illumination reference
 - `.github/workflows/validate.yml` — automated project checks
 
 ## Gameplay
