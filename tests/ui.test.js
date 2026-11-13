@@ -34,6 +34,8 @@ test("app completes junior commander onboarding, training, five mission decision
  await nav("mission");
  await action("start");
  assert.match(root.innerHTML,/fieldwork-panel/);
+ assert.match(root.innerHTML,/active-station-guide/);
+ assert.match(root.innerHTML,/YOUR EXPLORER TASK/);
  assert.match(root.innerHTML,/Visit the five stations/);
  assert.match(root.innerHTML,/Find the glowing station/);
  for(const station of ["habitat","oxygen","solar","greenhouse","rover"])assert.match(root.innerHTML,new RegExp("assets/stations/"+station+"\\.svg"));
