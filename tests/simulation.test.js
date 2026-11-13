@@ -117,7 +117,7 @@ test('a critical reserve ends the mission without falsely claiming completion', 
   assert.equal(api.state.history.length, 1);
   assert.match(elements.get('eventPanel').innerHTML, /MISSION INTERRUPTED/);
   assert.match(elements.get('eventPanel').innerHTML, /LOCKED · MISSION COMPLETE/);
-  assert.equal(api.missionStats.missions, 1);
+  assert.equal(api.getStats().missions, 1);
 });
 
 
@@ -154,4 +154,35 @@ test('commander training comes before pre-flight and does not consume a mission 
   elements.get('trainingComplete').listeners.click();
   assert.match(elements.get('eventPanel').innerHTML, /PRE-FLIGHT AUTHORIZATION/);
   assert.equal(api.state.started, false);
+});
+
+
+test('choice effects stay within the displayed resource range and cannot be submitted twice', () => {
+  const { api } = createMission();
+  api.start();
+  api.choose(0);
+  const afterFirstChoice = { ...api.state.resources };
+  api.choose(0);
+  assert.deepEqual({ ...api.state.resources }, afterFirstChoice);
+  for (const value of Object.values(api.state.resources)) {
+    assert.ok(value >= 0 && value <= 100);
+  }
+});
+
+test('solar alert is identified as a fictional training scenario, not live telemetry', () => {
+  const { api } = createMission();
+  assert.match(api.days[1].science, /fictional training scenario/i);
+  assert.match(api.days[1].story, /training scenario/i);
+});
+
+test('the food challenge links to a real educational space-food resource', () => {
+  const { api, elements } = createMission();
+  api.start();
+  api.choose(0);
+  api.advance();
+  api.showChallenge();
+  api.choose(0);
+  api.advance();
+  elements.get('continueDay').listeners.click();
+  assert.match(elements.get('scienceNote').innerHTML, /CSA \/ FOOD PRODUCTION LEARNING TOOLKIT/);
 });
