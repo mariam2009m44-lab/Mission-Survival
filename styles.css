@@ -113,3 +113,73 @@
  .lunar-3d-stage.mission-world .scene-pad>button,.lunar-3d-stage.mission-world .scene-pad>div button{width:40px;height:37px}
  .lunar-3d-stage.mission-world .scene-interact{bottom:12px;left:10px;max-width:calc(100% - 125px)}
 }
+
+
+/* TECNOVA immersive lunar mission landing screen */
+.home-shell{display:block;min-height:100svh;max-width:none;background:radial-gradient(ellipse at 50% 38%,rgba(91,104,190,.2),transparent 48%),#080d1d}
+.home-shell .sidebar,.home-shell .topbar,.home-shell .mobile-nav,.home-shell .footer{display:none!important}
+.home-shell .main{padding:0;min-height:100svh}
+.home-shell .content{max-width:1600px;padding:20px clamp(14px,3vw,44px) 22px;margin:0 auto}
+.tecnova-home{min-height:calc(100svh - 42px);display:flex;flex-direction:column;gap:clamp(14px,2vh,24px);position:relative;color:#f7f8ff;overflow:hidden}
+.tecnova-home:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.42;background-image:radial-gradient(1.5px 1.5px at 12% 19%,#fff,transparent 70%),radial-gradient(1px 1px at 71% 13%,#d7e7ff,transparent 70%),radial-gradient(1.5px 1.5px at 87% 67%,#fff,transparent 70%),radial-gradient(1px 1px at 42% 81%,#c7dcff,transparent 70%),radial-gradient(1px 1px at 26% 61%,#fff,transparent 70%);background-size:260px 220px}
+.tecnova-header{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:15px;padding:2px 4px 14px;border-bottom:1px solid rgba(194,204,255,.13)}
+.tecnova-brand{display:flex;align-items:center;gap:13px}
+.tecnova-orbit{width:47px;height:47px;display:grid;place-items:center;border:1px solid rgba(171,160,255,.5);border-radius:50%;color:#d6c7ff;font-size:27px;background:radial-gradient(circle at 35% 25%,#5968a8,#171c3d 72%);box-shadow:0 0 28px rgba(145,125,255,.22)}
+.tecnova-brand b{display:block;font-size:clamp(20px,3vw,30px);letter-spacing:.16em;font-weight:900}
+.tecnova-brand small{display:block;margin-top:4px;color:#aab6d5;font:9px monospace;letter-spacing:.13em}
+.tecnova-day{display:flex;align-items:center;gap:9px;padding:10px 15px;border:1px solid rgba(171,145,255,.3);border-radius:12px;background:rgba(108,83,180,.2);color:#e2d9ff;font:800 10px monospace;letter-spacing:.08em;white-space:nowrap}
+.tecnova-day b{color:#f7d77d}
+.tecnova-stage-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(205px,245px) minmax(0,1fr) minmax(205px,245px);gap:clamp(12px,2vw,25px);align-items:center;flex:1;direction:ltr;min-height:450px}
+.tecnova-panel{direction:rtl;align-self:center;padding:19px 17px;border:1px solid rgba(218,225,255,.48);border-radius:17px;background:linear-gradient(155deg,rgba(246,248,255,.97),rgba(224,231,250,.94));color:#202943;box-shadow:0 18px 55px rgba(0,0,0,.22),inset 0 1px #fff;backdrop-filter:blur(14px)}
+.tecnova-panel-title{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.tecnova-panel-title>span{width:36px;height:36px;display:grid;place-items:center;border-radius:11px;background:#e6eaff;color:#6555c8;font-size:19px}
+.tecnova-panel-title b,.tecnova-panel-title small{display:block}
+.tecnova-panel-title b{font-size:12px;letter-spacing:.04em}
+.tecnova-panel-title small{margin-top:4px;color:#7d87a2;font:8px monospace;letter-spacing:.1em}
+.tecnova-meter{margin:15px 0}
+.tecnova-meter>div{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:7px;font-size:11px;font-weight:750}
+.tecnova-meter>div b{font:800 11px monospace;color:#46516d}
+.tecnova-meter>i{display:block;height:7px;border-radius:20px;background:#dce2f0;overflow:hidden}
+.tecnova-meter>i>span{display:block;height:100%;border-radius:20px;box-shadow:0 0 9px currentColor}
+.tecnova-disclaimer{margin:18px 0 0;padding-top:11px;border-top:1px solid #d9deeb;color:#7e89a2;font-size:8px;line-height:1.6}
+.tecnova-world{position:relative;min-width:0;min-height:460px;display:flex;flex-direction:column;justify-content:center;align-items:stretch}
+.tecnova-world-label{position:absolute;z-index:6;top:0;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(174,204,255,.18);border-radius:999px;background:rgba(8,15,35,.65);color:#c7d7f3;font:8px monospace;letter-spacing:.1em;white-space:nowrap;backdrop-filter:blur(8px)}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#6fe3b2;box-shadow:0 0 10px #6fe3b2}
+.tecnova-world .moon-wrap{height:auto;min-height:450px;width:100%;display:block;position:relative;overflow:visible}
+.tecnova-world .lunar-3d-stage{width:100%;margin:0;border:1px solid rgba(143,166,255,.28);border-radius:24px;overflow:hidden;background:linear-gradient(145deg,#111a37,#252a53 55%,#0c1429);box-shadow:0 24px 80px rgba(0,0,0,.42),0 0 45px rgba(132,121,255,.13)}
+.tecnova-world .scene-topline{padding:10px 15px;font-size:8px}
+.tecnova-world .scene-viewport{height:clamp(430px,58vh,650px);min-height:430px;background:radial-gradient(ellipse at 50% 78%,#6a6385,#27294d 58%,#0a1228)}
+.tecnova-world .scene-hud{top:13px;left:13px}
+.tecnova-world .scene-camera-switch{top:13px;right:13px}
+.tecnova-world .scene-pad>button,.tecnova-world .scene-pad>div button{width:39px;height:36px}
+.tecnova-world .scene-interact{bottom:12px}
+.tecnova-world .scene-toolbar{padding:9px 12px;gap:8px}
+.tecnova-world .scene-focus{display:flex;flex-wrap:wrap;gap:5px}
+.tecnova-world .scene-focus button{font-size:7px;padding:6px 8px}
+.tecnova-world-caption{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);z-index:5;color:#e5e5ff;font:8px monospace;letter-spacing:.16em;text-shadow:0 2px 8px #000;pointer-events:none}
+.tecnova-brief{padding:22px 19px}
+.tecnova-alert{width:39px;height:39px;display:grid;place-items:center;margin-bottom:14px;border-radius:12px;background:#fff2c9;color:#a66b0a;font-size:24px;font-weight:900}
+.tecnova-brief .eyebrow{color:#7162bd;font-size:8px}
+.tecnova-brief h2{margin:10px 0;font-size:19px;line-height:1.45;color:#202943}
+.tecnova-brief>p:not(.eyebrow){font-size:11px;line-height:1.85;color:#66718d}
+.tecnova-brief-meta{display:grid;gap:9px;margin-top:18px;padding-top:13px;border-top:1px solid #d9deeb;color:#6558b8;font:8px monospace;letter-spacing:.06em}
+.tecnova-start-row{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:-3px}
+.tecnova-start{min-width:min(330px,90%);padding:17px 28px;border:1px solid rgba(196,174,255,.7);border-radius:15px;background:linear-gradient(110deg,#7962db,#9b75ee);color:#fff;font-size:15px;font-weight:900;letter-spacing:.04em;box-shadow:0 12px 35px rgba(118,88,220,.36),inset 0 1px rgba(255,255,255,.3)}
+.tecnova-start span{margin-inline-end:9px}
+.tecnova-start:hover{filter:brightness(1.09);transform:translateY(-1px)}
+.tecnova-start-row>p{margin:0;color:#9ba9ca;font-size:9px}
+.tecnova-bottom-nav{position:relative;z-index:2;display:flex;justify-content:center;gap:clamp(12px,5vw,65px);padding:10px 14px;border:1px solid rgba(210,220,255,.65);border-radius:17px;background:rgba(246,248,255,.96);box-shadow:0 12px 38px rgba(0,0,0,.24)}
+.tecnova-bottom-nav button{min-width:90px;display:flex;align-items:center;justify-content:center;gap:9px;padding:7px 13px;border:0;border-radius:11px;background:transparent;color:#35405e}
+.tecnova-bottom-nav button:hover{background:#ecebff;color:#6553bd}
+.tecnova-bottom-nav button span{font-size:19px;color:#7666c8}
+.tecnova-bottom-nav button b{font-size:11px}
+.tecnova-settings-backdrop{position:fixed;inset:0;z-index:1100;display:grid;place-items:center;padding:18px;background:rgba(3,7,20,.78);backdrop-filter:blur(9px)}
+.tecnova-settings{position:relative;width:min(420px,100%);display:grid;gap:12px;padding:27px;border:1px solid rgba(185,176,255,.4);border-radius:22px;background:#151d39;color:#f5f5ff;box-shadow:0 25px 90px #0009}
+.tecnova-settings h2{margin:0 0 5px}
+.tecnova-settings label{margin-top:7px;color:#bdc9e8;font-size:11px}
+.tecnova-settings select{width:100%;padding:12px;border:1px solid #465078;border-radius:10px;background:#0c1530;color:#fff}
+.tecnova-settings-close{position:absolute;top:12px;right:13px;width:31px;height:31px;border:1px solid #465078;border-radius:50%;background:#20294a;color:white;font-size:19px}
+.tecnova-settings>p:last-child{margin:4px 0 0;color:#9caaca;font-size:10px;line-height:1.6}
+@media(max-width:1050px){.tecnova-stage-grid{grid-template-columns:minmax(185px,220px) minmax(0,1fr);}.tecnova-brief{grid-column:1/-1;display:grid;grid-template-columns:42px 1fr;column-gap:12px;align-items:center;padding:14px 17px}.tecnova-brief .tecnova-alert{grid-row:1/4;margin:0}.tecnova-brief .eyebrow,.tecnova-brief h2,.tecnova-brief>p:not(.eyebrow){grid-column:2}.tecnova-brief h2{font-size:15px;margin:3px 0}.tecnova-brief>p:not(.eyebrow){margin:0}.tecnova-brief-meta{grid-column:2;display:flex;flex-wrap:wrap;margin-top:8px;padding-top:8px}}
+@media(max-width:680px){.home-shell .content{padding:12px 12px 18px}.tecnova-home{min-height:calc(100svh - 30px);gap:12px}.tecnova-header{padding-bottom:10px}.tecnova-orbit{width:39px;height:39px}.tecnova-brand b{font-size:19px}.tecnova-brand small{font-size:7px;letter-spacing:.07em}.tecnova-day{padding:8px 10px;font-size:8px}.tecnova-stage-grid{grid-template-columns:1fr;gap:12px;min-height:0}.tecnova-world{grid-row:1;min-height:0}.tecnova-world .moon-wrap{min-height:0}.tecnova-world .lunar-3d-stage{border-radius:17px}.tecnova-world .scene-viewport{height:54svh;min-height:350px;max-height:520px}.tecnova-world .scene-toolbar{display:none}.tecnova-world-label{top:9px;font-size:7px}.tecnova-world-caption{bottom:8px}.tecnova-status{grid-row:2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 13px;padding:14px}.tecnova-panel-title,.tecnova-disclaimer{grid-column:1/-1}.tecnova-panel-title{margin-bottom:8px}.tecnova-meter{margin:9px 0}.tecnova-brief{grid-row:3;display:grid}.tecnova-start-row{margin-top:0}.tecnova-start{width:100%;padding:15px}.tecnova-bottom-nav{gap:4px;padding:7px}.tecnova-bottom-nav button{min-width:0;flex:1;gap:6px;padding:8px 4px}.tecnova-bottom-nav button b{font-size:10px}.tecnova-bottom-nav button span{font-size:17px}}
+@media(max-width:380px){.tecnova-brand small{max-width:180px}.tecnova-status{grid-template-columns:1fr}.tecnova-meter{margin:7px 0}}
