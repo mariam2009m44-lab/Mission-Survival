@@ -24,7 +24,7 @@
  <div class="telemetry"><span class="mission-id">MISSION LRO-07</span><span class="live">SIMULATION READY</span><span class="connection-status" id="connectionStatus" aria-live="polite">LOCAL SYSTEM / ONLINE</span></div>
 </header>
 <section class="hero">
- <div><div class="kicker">FIELD OPERATIONS / SURVIVAL PROTOCOL</div><h1>LUNAR OUTPOST:<span>MISSION SURVIVAL</span></h1><p class="hero-copy">Five days. One remote outpost. A chain of engineering decisions. Take command of a lunar research base, protect the crew, and keep every critical system within safe operating limits.</p>
+ <div><div class="kicker">FIELD OPERATIONS / SURVIVAL PROTOCOL</div><h1>LUNAR OUTPOST:<span>MISSION SURVIVAL</span></h1><p class="hero-copy">Three lunar days. One remote outpost. A chain of engineering decisions. Lead the crew, balance five critical resources, and prepare a safe mission handover.</p>
   <div class="hero-actions" id="startActions"><button class="btn primary" id="startBtn">INITIALIZE MISSION&nbsp; ↗</button><span class="hero-meta">5 LUNAR DAYS&nbsp; / &nbsp;5 VITAL SYSTEMS&nbsp; / &nbsp;YOUR COMMAND</span></div>
  </div>
  <div class="lunar-scene" aria-label="Illustration of a lunar research outpost"><div class="planet"></div><div class="ridge"></div><div class="horizon"></div><div class="solar"></div><div class="base"></div><div class="scene-label">LUNAR SURFACE · HABITAT 01</div></div>
@@ -33,20 +33,21 @@
  <div class="section-heading"><h2>01 / OUTPOST VITALS</h2><span id="dayLabel">AWAITING INITIALIZATION</span></div>
  <div class="vitals" id="resources"></div><div class="progress-line"><i id="missionProgress" style="width:0%"></i></div>
 </section>
+<section class="section task-section" aria-labelledby="taskHeading"><div class="section-heading"><h2 id="taskHeading">02 / COMMAND TASK BAR</h2><span id="taskProgress">0 / 4 SECURED</span></div><div id="taskList" class="task-list" aria-live="polite"></div></section>
 <div class="workspace">
  <main class="section briefing" id="eventPanel" aria-live="polite">
-  <div class="section-heading"><h2>02 / FLIGHT DIRECTOR BRIEFING</h2><span>COMMAND CONSOLE</span></div>
+  <div class="section-heading"><h2>03 / FLIGHT DIRECTOR BRIEFING</h2><span>COMMAND CONSOLE</span></div>
   <div class="event-code">SYSTEM STANDBY / 00</div><h3 class="event-title">The outpost is waiting for your command.</h3>
   <p class="event-copy">Initialize the mission to receive your first operational briefing. Each lunar day presents a new engineering challenge. Review the situation, consider the trade-offs, and select one response.</p>
   <div class="console-note"><b>MISSION OBJECTIVE</b><br>Complete five lunar days while maintaining essential life-support systems and preparing a safe crew handover.</div>
  </main>
  <aside class="section data-panel">
-  <div class="section-heading"><h2>03 / MISSION TELEMETRY</h2><span>LIVE DATA</span></div>
+  <div class="section-heading"><h2>04 / MISSION TELEMETRY</h2><span>LIVE DATA</span></div>
   <div class="data-row"><span>Mission elapsed</span><strong id="sideDay">— / 5 DAYS</strong></div>
   <div class="data-row"><span>Crew condition</span><strong id="crewStatus">STANDBY</strong></div>
   <div class="data-row"><span>Commands issued</span><strong id="decisionCount">00</strong></div>
   <div class="data-row"><span>System integrity</span><strong id="missionScore">—</strong></div><div class="data-row"><span>Operational risk</span><strong id="riskLevel">NOT ASSESSED</strong></div><div class="telemetry-grid"><div class="telemetry-tile"><small>LOWEST RESERVE</small><strong id="weakestSystem">—</strong></div><div class="telemetry-tile"><small>SAFE SYSTEMS</small><strong id="safeSystems">05 / 05</strong></div><div class="telemetry-tile"><small>PERSONAL BEST</small><strong id="bestScore">—</strong></div><div class="telemetry-tile"><small>MISSIONS LOGGED</small><strong id="missionsRun">00</strong></div></div>
-  <div class="science" id="scienceNote"><b>SCIENCE TRANSMISSION</b>Every outpost system is connected. Power supports life support, water recovery protects supplies, and shielding helps keep the crew safe from the space environment.</div>
+  <div class="science nova-panel" id="scienceNote"><b>NOVA · MISSION COMPANION</b><p>Your virtual mission partner is standing by.</p></div>
  </aside>
 </div>
 <footer class="footer"><span>LUNAR OUTPOST SIMULATION · EDUCATION THROUGH ENGINEERING</span><span>CONCEPTUAL TRAINING ENVIRONMENT · NOT A REAL FLIGHT SYSTEM</span></footer>
