@@ -29,8 +29,10 @@ import {readFile} from "node:fs/promises";
 
 test("offline service worker precaches NOVA and rotates the cache",async()=>{
  const sw=await readFile(new URL("../service-worker.js",import.meta.url),"utf8");
- assert.match(sw,/lunar-outpost-app-v3/);
+ assert.match(sw,/lunar-outpost-app-v4/);
  assert.match(sw,/\.\/src\/nova\.js/);
+ assert.match(sw,/\.\/src\/scene3d\.js/);
+ assert.match(sw,/cdn\.jsdelivr\.net/);
 });
 test("science manifest records the NASA-IBM model and LROC 68B schedule",async()=>{
  const raw=await readFile(new URL("../data/mission-science.json",import.meta.url),"utf8");
