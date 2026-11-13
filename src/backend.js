@@ -43,3 +43,5 @@ export function scheduleSync(state){
 }
 export function getSyncStatus(){return enabled()?syncStatus:"local";}
 export function isCloudEnabled(){return enabled();}
+
+if(typeof window!=="undefined")window.addEventListener("online",()=>{if(lastState&&enabled())syncNow(lastState);});
