@@ -33,6 +33,9 @@ test("app completes junior commander onboarding, training, five mission decision
  assert.match(root.innerHTML,/Correct. Terrain and sunlight models/);
  await nav("mission");
  await action("start");
+ assert.match(root.innerHTML,/fieldwork-panel/);
+ assert.match(root.innerHTML,/Visit the five stations/);
+ assert.match(root.innerHTML,/Find the glowing station/);
  await action("site-select",{site:"malapert","siteName":"Malapert Massif"});
  for(let day=0;day<5;day++){await action("choose",{choice:"0"});if(day<4)await action("next");}
  assert.match(root.innerHTML,/MISSION SCORE/);
