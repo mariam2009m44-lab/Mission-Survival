@@ -16,5 +16,6 @@ jobs:
       - run: npm test
       - run: npm run build
       - run: node --check src/main.js
+      - run: node --check src/nova.js
       - run: node --check src/engine.js
       - run: node -e "JSON.parse(require('node:fs').readFileSync('manifest.webmanifest','utf8'));JSON.parse(require('node:fs').readFileSync('data/mission-science.json','utf8'))"

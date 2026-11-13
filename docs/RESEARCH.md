@@ -69,3 +69,22 @@ The 2026 event is scheduled for 14–15 November. As of 13 November 2026, 2026 g
 5. Treat DONKI as optional context only.
 6. Connect power, oxygen, shelter, water and food across three mission days.
 7. Build as an installable PWA and provide a Capacitor Android packaging path.
+
+## 8. NASA–IBM lunar AI model (announced 10 September 2026)
+NASA announced the open-source NASA-IBM Lunar Foundation Model, trained primarily on Lunar Reconnaissance Orbiter data. NASA describes approximately two million image tiles in the training collection: more than one million high-resolution camera images at 1 m resolution and nearly 964,000 multispectral images at 100 m resolution. Additional lunar imagery and terrain data include GRAIL, Lunar Prospector and JAXA SELENE.
+
+Potential downstream tasks include crater mapping, irregular mare patch segmentation and lunar polar ice prospectivity. The model is a geospatial/image foundation model, **not a public conversational chatbot** and not a direct ice sensor. Model predictions require scientific interpretation and validation.
+
+- NASA announcement: https://science.nasa.gov/science-research/artificial-intelligence-lunar-foundation-model/
+- Public model collection: https://huggingface.co/collections/nasa-ibm-ai4science/nasa-ibm-lunar-fm-and-downstream-models
+- Open-source code: https://github.com/NASA-IMPACT/NASA-IBM-Lunar-Foundation-Model
+
+## 9. NASA-GPT availability boundary
+NASA Ames describes NASA-GPT as an internally hosted, non-cloud chatbot/search tool for NASA technical reports and repositories. Its published description says the team hoped to make it available to NASA-badged users; it does not establish a public chatbot for general use. Source: https://nas.nasa.gov/SC24/research/project09.php
+
+NOVA in this project is therefore a separate, local, source-grounded educational assistant. It is not NASA-GPT, not made or endorsed by NASA, and does not call a generative AI service. It matches questions against a curated bilingual knowledge library and returns the relevant official sources. It deliberately declines to invent answers outside that library.
+
+## 10. LRO LROC Release 68B — 13 November 2026 data watch
+The LRO PDS Geosciences Node release schedule lists LROC Release 68B with a public-release date of 13 November 2026 and a nominal image acquisition window of 16 July–15 August 2026. This is a scheduled camera-data release. The schedule alone does not prove that every product is already available at the time of checking; verify actual products in the archive. It is not a new CRaTER or Diviner release.
+
+Source and schedule: https://pds-geosciences.wustl.edu/missions/lro/

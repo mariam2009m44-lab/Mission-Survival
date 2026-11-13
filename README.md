@@ -56,3 +56,10 @@ The 2026 hackathon takes place on 14–15 November 2026. As of 13 November, 2026
 
 ## AI disclosure
 AI assistance was used to help draft and refactor code, interface text, tests and documentation. Scientific claims and data limitations are tied to the cited official sources. No NASA logo or mission insignia was generated or modified.
+
+## NOVA lunar-science copilot
+The floating NOVA assistant is a bilingual, source-grounded educational retrieval interface. It matches questions to a small curated knowledge library and attaches official source links. It does not call a hosted generative model, does not claim to be NASA-GPT, and explicitly identifies itself as a project feature rather than an official NASA service.
+
+NASA-GPT is described by NASA Ames as an internally hosted tool for NASA staff. Separately, NASA and IBM announced a public open-source Lunar Foundation Model on 10 September 2026. That model is for lunar imagery/geospatial analysis (e.g. crater mapping and polar-ice prospectivity), not conversational chat. See the NASA research announcement and model/code links in the Science Lab.
+
+As of 13 November 2026, the LRO PDS release schedule lists LROC Release 68B for public release on that date, with a nominal acquisition window of 16 July–15 August 2026. This is a scheduled camera-data release; actual product availability should be checked in the archive.
