@@ -15,7 +15,7 @@ The player receives a fictional training alert, not a live radiation forecast. E
 
 ## Simulation rules
 - Resource values are illustrative game units from 0 to 100, not spacecraft telemetry or engineering safety thresholds.
-- The three mission days contain three strategic decisions. Day 3 choices bundle shelter, water and food strategy to keep the short campaign playable.
+- The three mission days contain five strategic decision stages: one on Day 1, one on Day 2, and three connected decisions on Day 3. The five stages are separate player choices, not five in-game days.
 - Solar-weather records from DONKI are contextual references only; they do not change game values or predict radiation at a lunar habitat.
 - CRaTER data are from lunar orbit, not from inside a surface habitat.
 - NASA's lunar illumination sequence is a terrain-based model, not live sunlight or power telemetry.
@@ -34,8 +34,18 @@ The interactive campaign now uses five decision stages across three in-game days
 
 The candidate-region picker uses Malapert Massif, Nobile Rim 1 and de Gerlache Rim 2 as educational scenarios. NASA identified these among candidate Artemis III landing regions; the app does not present them as approved or guaranteed-safe landing sites. Terrain, illumination, communication and landing safety require mission-specific assessment.
 
-The mission HUD summarizes Energy, Oxygen, Water & Food, and Crew Health. Detailed meters remain available in the mission panel. Resource values are illustrative game units, not engineering telemetry. The task list marks completed stages, and the final report includes the chosen site, decision history, score and badges.
+The mission HUD summarizes Oxygen, Water, Power, Food, and Crew Protection. Crew protection is a simplified game resource; it is not a medical measure of astronaut health. Resource values are illustrative game units, not engineering telemetry. The task list marks completed stages, and the final report includes the chosen site, decision history, score and badges.
 
 The first-run commander profile offers four original child-astronaut avatar illustrations. The profile is saved locally on the device; it is not an online account or authentication system. The selected avatar also appears as a child-proportioned astronaut in the Three.js lunar scene.
 
 NOVA provides a contextual science panel during each stage and remains available through the floating assistant. NOVA is a project feature, not an official NASA service. The comic interludes are fictional storytelling and are clearly separated from the NASA source notes.
+
+
+## In-world learning route
+
+Each of the five decision stages now includes a NOVA field assignment that points the junior commander to one matching 3D station: solar farm, oxygen lab, habitat, greenhouse, then rover garage. The player can open the base, follow the glowing station marker, complete its short knowledge challenge, and return to the same mission step. Station discoveries remain optional learning bonuses; they do not block the core decision flow, and the app continues to explain that all resource effects are illustrative game units.
+
+
+## Child-friendly station artwork
+
+Five original, lightweight SVG illustrations identify the habitat, oxygen lab, solar farm, greenhouse and rover garage in the mission field guide. Each illustration is decorative guidance rather than a scale-accurate engineering drawing.
