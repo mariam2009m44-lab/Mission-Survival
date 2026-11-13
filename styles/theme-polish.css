@@ -273,3 +273,31 @@ button:focus-visible,a:focus-visible{outline:3px solid rgba(112,220,226,.85);out
  .kid-nova-hint>button{max-width:80px;white-space:normal}
 }
 @media(prefers-reduced-motion:reduce){.kid-quick-card,.kid-progress-track i{transition:none!important}.kid-quick-card:hover{transform:none}}
+
+
+/* NOVA junior learning assistant readability */
+.nova-panel{width:min(430px,calc(100vw - 24px));height:min(690px,calc(100dvh - 108px));border-radius:22px}
+.nova-head{min-height:68px}
+.nova-head b{font-size:14px}
+.nova-head b small{font-size:9px}
+.nova-head span{font-size:10px}
+.nova-disclosure{padding:9px 13px;font-size:10px;line-height:1.6}
+.nova-messages{gap:12px;padding:15px}
+.nova-welcome>b{font-size:17px}
+.nova-welcome>p{font-size:12px;line-height:1.8}
+.nova-prompts{gap:8px}
+.nova-prompts button{min-height:42px;padding:11px 13px;border-radius:12px;font-size:12px;line-height:1.5;text-align:start}
+.nova-message{max-width:96%;padding:13px 14px;font-size:13px;line-height:1.85}
+.nova-citations a{min-height:30px;display:inline-flex;align-items:center;font-size:11px}
+.nova-compose{gap:9px;padding:12px}
+.nova-compose input{min-height:48px;padding:13px;font-size:14px}
+.nova-compose button{width:48px;min-width:48px;min-height:48px}
+.nova-foot{padding:0 14px 12px;font-size:10px;line-height:1.6}
+@media(max-width:700px){
+ .nova-launcher{right:13px;bottom:calc(14px + env(safe-area-inset-bottom))}
+ .rtl .nova-launcher{right:auto;left:13px}
+ .nova-panel{position:fixed;z-index:40;right:10px;bottom:calc(78px + env(safe-area-inset-bottom));left:10px;width:auto;height:min(70dvh,650px);max-height:calc(100dvh - 105px)}
+ .rtl .nova-panel{right:10px;left:10px}
+ .nova-fab{min-width:62px;min-height:62px}
+ .nova-prompts button{min-height:44px;font-size:12px}
+}
