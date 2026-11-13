@@ -11,9 +11,9 @@ function makeScene(THREE,root){
  const canvas=root.querySelector("canvas");const scene=new THREE.Scene();scene.background=new THREE.Color(0x070d18);scene.fog=new THREE.FogExp2(0x070d18,.012);
  const camera=new THREE.PerspectiveCamera(43,1,.1,180);camera.position.set(15,12,19);
  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
- renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.6));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
+ renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.45));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
  scene.add(new THREE.HemisphereLight(0x9eb9df,0x1c2430,1.65));
- const sun=new THREE.DirectionalLight(0xffe6bd,3.2);sun.position.set(-12,18,9);scene.add(sun);
+ const sun=new THREE.DirectionalLight(0xffe6bd,3.4);sun.position.set(-12,18,9);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-25;sun.shadow.camera.right=25;sun.shadow.camera.top=25;sun.shadow.camera.bottom=-25;sun.shadow.bias=-.00018;scene.add(sun);
  const fill=new THREE.PointLight(0x4aa9ff,38,45);fill.position.set(7,7,-8);scene.add(fill);
  const terrainMat=new THREE.MeshStandardMaterial({color:0x85869a,roughness:1,metalness:0});
  const geo=new THREE.PlaneGeometry(54,54,120,120);geo.rotateX(-Math.PI/2);
@@ -46,6 +46,25 @@ function makeScene(THREE,root){
  box(1.7,.65,1.25,white,0,.85,0,rover);box(.65,.5,.6,gold,-.15,1.42,-.1,rover);
  for(const x of [-.72,.72])for(const z of [-.72,.72]){const wheel=new THREE.Mesh(new THREE.CylinderGeometry(.38,.38,.2,20),dark);wheel.rotation.z=Math.PI/2;wheel.position.set(x,.45,z);rover.add(wheel);}
  const mast=cyl(.045,.045,1.5,white,.45,1.8,0,rover);mast.rotation.z=-.15;
+ // Detailed outpost infrastructure: landing pad, communications mast, storage and service lights.
+ const serviceMat=mat(0x9aaabd,.48,.42),warningMat=mat(0xffb95e,.25,.38),windowMat=new THREE.MeshStandardMaterial({color:0x79d8f1,emissive:0x17445b,emissiveIntensity:.8,metalness:.25,roughness:.22});
+ const landingPad=new THREE.Group();landingPad.position.set(-8,0,-5);group.add(landingPad);
+ const pad=new THREE.Mesh(new THREE.CylinderGeometry(2.35,2.55,.16,48),mat(0x515d70,.25,.9));pad.position.y=.05;landingPad.add(pad);
+ const padMark=new THREE.Mesh(new THREE.TorusGeometry(1.95,.045,8,64),warningMat);padMark.rotation.x=Math.PI/2;padMark.position.y=.15;landingPad.add(padMark);
+ for(let i=0;i<4;i++){const a=i*Math.PI/2,px=Math.cos(a)*2.12,pz=Math.sin(a)*2.12;const lamp=new THREE.Mesh(new THREE.SphereGeometry(.09,12,10),new THREE.MeshBasicMaterial({color:0x7deaff}));lamp.position.set(px,.22,pz);landingPad.add(lamp);}
+ const comms=new THREE.Group();comms.position.set(-3,0,-7);group.add(comms);
+ cyl(.12,.2,4.4,serviceMat,0,2.2,0,comms);cyl(.42,.42,.12,dark,0,4.35,0,comms);
+ const dish2=new THREE.Mesh(new THREE.SphereGeometry(.72,24,16,0,Math.PI),white);dish2.position.set(.15,3.45,.12);dish2.rotation.set(.45,0,-.5);comms.add(dish2);
+ for(let y=1;y<4;y+=.7){const ring=new THREE.Mesh(new THREE.TorusGeometry(.18,.025,6,18),gold);ring.rotation.x=Math.PI/2;ring.position.y=y;comms.add(ring);}
+ const tanks=new THREE.Group();tanks.position.set(-7,0,-1);group.add(tanks);
+ for(let i=0;i<3;i++){const tank=cyl(.43,.43,1.55,i===1?white:serviceMat,i*1.05,.86,0,tanks);tank.rotation.z=Math.PI/2;const cap=cyl(.44,.44,.12,gold,i*1.05,.86,.82,tanks);cap.rotation.x=Math.PI/2;const gauge=new THREE.Mesh(new THREE.SphereGeometry(.12,12,10),windowMat);gauge.position.set(i*1.05,.88,.48);tanks.add(gauge);}
+ const walkway=new THREE.Mesh(new THREE.BoxGeometry(4.1,.12,.55),mat(0x53677e,.35,.7));walkway.position.set(-4.5,.12,1.2);walkway.rotation.y=.25;group.add(walkway);
+ for(let i=0;i<6;i++){const post=cyl(.045,.055,.42,warningMat,-6.35+i*.7,.28,1.35,group);post.rotation.z=.12;}
+ const storageModule=new THREE.Group();storageModule.position.set(1,0,-5);group.add(storageModule);
+ cyl(.92,.92,2.2,white,0,1.05,0,storageModule);
+ for(let y=.35;y<2;y+=.42){const band=new THREE.Mesh(new THREE.TorusGeometry(.91,.035,8,32),gold);band.position.y=y;storageModule.add(band);}
+ box(.55,.45,.12,windowMat,0,1.15,.91,storageModule);
+ for(const x of [-.55,.55]){const foot=box(.14,.65,.14,dark,x,.32,0,storageModule);foot.rotation.z=x*.12;}
  // Junior commander avatar: a child-proportioned astronaut in a clear helmet.
  let commander={avatar:"blue",name:"Commander"};try{commander={...commander,...(JSON.parse(localStorage.getItem("lunar-outpost-trainer-v2")||"{}").commander||{})};}catch{}
  const avatarPalette={blue:{accent:0x42dfff,hair:0x56382d,skin:0xe7ae88},purple:{accent:0xc28cff,hair:0x49302c,skin:0xe6ae88},gold:{accent:0xffbf59,hair:0x211b18,skin:0xd99570},green:{accent:0x62e2b2,hair:0x3e2a24,skin:0xe8b28f}};
@@ -121,14 +140,15 @@ function makeScene(THREE,root){
  // Navigation beacon.
  const beacon=new THREE.PointLight(0x55dfff,22,8);beacon.position.set(-2,3.5,1);group.add(beacon);
  const starsGeo=new THREE.BufferGeometry(),stars=new Float32Array(900*3);for(let i=0;i<900;i++){stars[i*3]=(Math.random()-.5)*100;stars[i*3+1]=Math.random()*42+5;stars[i*3+2]=(Math.random()-.5)*100;}starsGeo.setAttribute("position",new THREE.BufferAttribute(stars,3));scene.add(new THREE.Points(starsGeo,new THREE.PointsMaterial({color:0xc8ddff,size:.12,transparent:true,opacity:.8})));
- const target=new THREE.Vector3(0,.4,0);let radius=25,azimuth=.72,polar=1.08,drag=false,lastX=0,lastY=0,raf=0;
+ const target=new THREE.Vector3(1,.65,5);let radius=13.5,azimuth=.72,polar=1.08,drag=false,lastX=0,lastY=0,raf=0,cameraMode="follow";
  function cameraUpdate(){camera.position.set(target.x+radius*Math.sin(polar)*Math.sin(azimuth),target.y+radius*Math.cos(polar),target.z+radius*Math.sin(polar)*Math.cos(azimuth));camera.lookAt(target);}
  function resize(){const w=Math.max(1,root.clientWidth),h=Math.max(1,root.clientHeight);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
  const ro=new ResizeObserver(resize);ro.observe(root);resize();cameraUpdate();
  canvas.addEventListener("pointerdown",e=>{drag=true;lastX=e.clientX;lastY=e.clientY;canvas.setPointerCapture(e.pointerId);});
  canvas.addEventListener("pointermove",e=>{if(!drag)return;azimuth-=(e.clientX-lastX)*.006;polar=clamp(polar+(e.clientY-lastY)*.005,.38,1.48);lastX=e.clientX;lastY=e.clientY;cameraUpdate();});
  canvas.addEventListener("pointerup",()=>drag=false);canvas.addEventListener("pointercancel",()=>drag=false);
- canvas.addEventListener("wheel",e=>{e.preventDefault();radius=clamp(radius+e.deltaY*.018,13,36);cameraUpdate();},{passive:false});
+ canvas.addEventListener("wheel",e=>{e.preventDefault();radius=clamp(radius+e.deltaY*.018,7,34);cameraUpdate();},{passive:false});
+ root.querySelectorAll("[data-scene-camera]").forEach(button=>button.addEventListener("click",()=>{cameraMode=button.dataset.sceneCamera;if(cameraMode==="follow"){followPlayer=true;radius=12.5;setStatus(uiAr?"الكاميرا تتبع رائد الفضاء":"Camera follows your astronaut");}else{followPlayer=false;target.set(0,.5,0);radius=27;setStatus(uiAr?"عرض القاعدة بالكامل":"Full outpost overview");}root.querySelectorAll("[data-scene-camera]").forEach(x=>x.classList.toggle("active",x===button));cameraUpdate();}));
  const focus={base:[0,.5,0],habitat:[-2,1,1],oxygen:[-5,1,-3],power:[4,1,-1],greenhouse:[-5,1,7],rover:[5,1,6],lander:[-8,1,-5]};
  let followPlayer=true,nearby=null,moveX=0,moveZ=0;const keys=new Set(),moveSpeed=4.2;
  const status=root.querySelector("[data-scene-status]"),interactWrap=root.querySelector(".scene-interact"),interactButton=root.querySelector("[data-scene-interact]");
@@ -144,20 +164,21 @@ function makeScene(THREE,root){
  const onKeyDown=e=>{const key=e.key.toLowerCase();if(["w","a","s","d","arrowup","arrowdown","arrowleft","arrowright"," "].includes(key))e.preventDefault();keys.add(key);if(key==="e"||key==="enter")interact();};
  const onKeyUp=e=>keys.delete(e.key.toLowerCase());window.addEventListener("keydown",onKeyDown);window.addEventListener("keyup",onKeyUp);
  root.querySelectorAll("[data-move]").forEach(btn=>{const set=(on)=>{const dir=btn.dataset.move;const key={forward:"w",back:"s",left:"a",right:"d"}[dir];if(on)keys.add(key);else keys.delete(key);};btn.addEventListener("pointerdown",e=>{e.preventDefault();set(true);btn.setPointerCapture(e.pointerId);});btn.addEventListener("pointerup",()=>set(false));btn.addEventListener("pointercancel",()=>set(false));btn.addEventListener("lostpointercapture",()=>set(false));});
- root.querySelectorAll("[data-scene-focus]").forEach(b=>b.addEventListener("click",()=>{const v=focus[b.dataset.sceneFocus];if(v){followPlayer=false;target.set(...v);radius= b.dataset.sceneFocus==="base"?25:14;cameraUpdate();root.querySelectorAll("[data-scene-focus]").forEach(x=>x.classList.toggle("active",x===b));}}));
+ root.querySelectorAll("[data-scene-focus]").forEach(b=>b.addEventListener("click",()=>{const v=focus[b.dataset.sceneFocus];if(v){followPlayer=false;target.set(...v);radius= b.dataset.sceneFocus==="base"?27:10.5;cameraMode="overview";root.querySelectorAll("[data-scene-camera]").forEach(x=>x.classList.toggle("active",x.dataset.sceneCamera==="overview"));cameraUpdate();root.querySelectorAll("[data-scene-focus]").forEach(x=>x.classList.toggle("active",x===b));}}));
  const clock=new THREE.Clock();
- function animate(){raf=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),t=clock.elapsedTime;if(!drag&&!keys.size){azimuth+=.0007;}updateMovement(dt);astronaut.position.y=.035+Math.sin(t*1.8)*.035;beacon.intensity=17+Math.sin(t*2.4)*5;cameraUpdate();renderer.render(scene,camera);}
+ group.traverse(object=>{if(object.isMesh){object.castShadow=true;object.receiveShadow=true;}});
+ function animate(){raf=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),t=clock.elapsedTime;if(!drag&&!keys.size&&cameraMode==="follow"){azimuth+=.00018;}updateMovement(dt);astronaut.position.y=.035+Math.sin(t*1.8)*.035;beacon.intensity=17+Math.sin(t*2.4)*5;cameraUpdate();renderer.render(scene,camera);}
  animate();
  return()=>{cancelAnimationFrame(raf);ro.disconnect();window.removeEventListener("keydown",onKeyDown);window.removeEventListener("keyup",onKeyUp);renderer.dispose();geo.dispose();starsGeo.dispose();};
 }
 function mount(){
  const app=document.querySelector("#app");if(!app)return;
- const hero=app.querySelector(".moon-wrap");const heading=app.querySelector(".heading");const label=heading?.querySelector(".eyebrow")?.textContent||"";
+ const hero=app.querySelector(".moon-wrap");const heading=app.querySelector(".heading");const label=heading?.querySelector(".eyebrow")?.textContent||"";const missionWorld=/MISSION DAY|MISSION CONTROL \/ FINAL DEBRIEF/i.test(label);
  const target=hero||(/MISSION DAY|SIMULATION \/ TRAINING ENVIRONMENT/i.test(label)?heading:null);
  if(!target)return;
  let root=app.querySelector(".lunar-3d-stage");
  if(!root){root=document.createElement("section");root.className="lunar-3d-stage";const uiAr=(()=>{try{return JSON.parse(localStorage.getItem("lunar-outpost-trainer-v2")||"{}").language==="ar";}catch{return false;}})();
- root.innerHTML='<div class="scene-topline"><span>LIVE 3D · LUNAR SOUTH POLE</span><span class="scene-hint">'+(uiAr?"WASD / الأسهم للحركة · E للتفاعل":"WASD / ARROWS TO MOVE · E TO INTERACT")+'</span></div><div class="scene-viewport"><canvas aria-label="Interactive three-dimensional lunar outpost scene"></canvas><div class="scene-loading">INITIALIZING 3D TERRAIN…</div><div class="scene-hud"><span class="scene-hud-dot"></span><b>'+(uiAr?"وضع الاستكشاف":"EXPLORATION MODE")+'</b><small data-scene-status>'+(uiAr?"اقتربي من محطة مضيئة":"Move near a glowing station")+'</small></div><div class="scene-interact" hidden><b data-scene-nearby>STATION</b><button type="button" data-scene-interact>'+(uiAr?"تفاعل ↗":"INTERACT ↗")+'</button></div><div class="scene-pad" aria-label="Movement controls"><button data-move="forward" aria-label="Move forward">▲</button><div><button data-move="left" aria-label="Move left">◀</button><button data-move="back" aria-label="Move back">▼</button><button data-move="right" aria-label="Move right">▶</button></div></div></div><div class="scene-toolbar"><div class="scene-focus"><button class="active" data-scene-focus="base">'+(uiAr?"القاعدة":"BASE")+'</button><button data-scene-focus="habitat">'+(uiAr?"السكن":"HABITAT")+'</button><button data-scene-focus="oxygen">'+(uiAr?"معمل الأكسجين":"OXYGEN LAB")+'</button><button data-scene-focus="power">'+(uiAr?"الطاقة الشمسية":"SOLAR FARM")+'</button><button data-scene-focus="greenhouse">'+(uiAr?"الصوبة":"GREENHOUSE")+'</button><button data-scene-focus="rover">'+(uiAr?"المركبة":"ROVER")+'</button><button data-scene-focus="lander">'+(uiAr?"المركبة الهابطة":"LANDER")+'</button></div><span class="scene-caption">'+(uiAr?"بيئة تدريب تصورية · ليست معدات طيران":"CONCEPTUAL TRAINING ENVIRONMENT · NOT FLIGHT HARDWARE")+'</span></div>';
+ root.innerHTML='<div class="scene-topline"><span>LIVE 3D · LUNAR SOUTH POLE</span><span class="scene-hint">'+(uiAr?"WASD / الأسهم للحركة · E للتفاعل":"WASD / ARROWS TO MOVE · E TO INTERACT")+'</span></div><div class="scene-viewport"><canvas aria-label="Interactive three-dimensional lunar outpost scene"></canvas><div class="scene-loading">INITIALIZING 3D TERRAIN…</div><div class="scene-camera-switch"><button type="button" class="active" data-scene-camera="follow">'+(uiAr?"تتبع":"FOLLOW")+'</button><button type="button" data-scene-camera="overview">'+(uiAr?"نظرة عامة":"OVERVIEW")+'</button></div><div class="scene-hud"><span class="scene-hud-dot"></span><b>'+(uiAr?"وضع الاستكشاف":"EXPLORATION MODE")+'</b><small data-scene-status>'+(uiAr?"اقتربي من محطة مضيئة":"Move near a glowing station")+'</small></div><div class="scene-interact" hidden><b data-scene-nearby>STATION</b><button type="button" data-scene-interact>'+(uiAr?"تفاعل ↗":"INTERACT ↗")+'</button></div><div class="scene-pad" aria-label="Movement controls"><button data-move="forward" aria-label="Move forward">▲</button><div><button data-move="left" aria-label="Move left">◀</button><button data-move="back" aria-label="Move back">▼</button><button data-move="right" aria-label="Move right">▶</button></div></div></div><div class="scene-toolbar"><div class="scene-focus"><button class="active" data-scene-focus="base">'+(uiAr?"القاعدة":"BASE")+'</button><button data-scene-focus="habitat">'+(uiAr?"السكن":"HABITAT")+'</button><button data-scene-focus="oxygen">'+(uiAr?"معمل الأكسجين":"OXYGEN LAB")+'</button><button data-scene-focus="power">'+(uiAr?"الطاقة الشمسية":"SOLAR FARM")+'</button><button data-scene-focus="greenhouse">'+(uiAr?"الصوبة":"GREENHOUSE")+'</button><button data-scene-focus="rover">'+(uiAr?"المركبة":"ROVER")+'</button><button data-scene-focus="lander">'+(uiAr?"المركبة الهابطة":"LANDER")+'</button></div><span class="scene-caption">'+(uiAr?"بيئة تدريب تصورية · ليست معدات طيران":"CONCEPTUAL TRAINING ENVIRONMENT · NOT FLIGHT HARDWARE")+'</span></div>';
   if(hero){hero.innerHTML="";hero.append(root);}else target.after(root);
   }
  if(root.dataset.ready)return;root.dataset.ready="loading";
