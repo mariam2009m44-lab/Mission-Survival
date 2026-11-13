@@ -15,6 +15,8 @@ jobs:
       - run: npm install --no-audit --no-fund
       - run: npm test
       - run: npm run build
+      - run: node --check backend/worker.js
+      - run: node --check src/backend.js
       - run: node --check src/main.js
       - run: node --check src/scene3d.js
       - run: node --check src/nova.js
