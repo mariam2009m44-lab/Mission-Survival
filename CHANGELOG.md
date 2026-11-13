@@ -5,7 +5,7 @@
 ### Added
 - Added NASA's 2026 lunar South Pole preview image and a research library linking DONKI, RadLab, OSDR, Moon Trek, Mars Trek, and the Canadian Space Agency's food-production toolkit with clear scope/limitations.
 - Clarified that the Day 2 solar alert is a fictional training scenario, not live space-weather telemetry.
-- Added a CSA food-production learning reference to the Day 3 briefing.
+- Added CSA food-production and mini-greenhouse learning references to the Day 3 briefing.
 - Added a short commander-training stage before pre-flight authorization and launch; the briefing does not consume a mission day.
 - Added a NASA 2026 lunar South Pole illumination reference in training, with clear separation between sourced environmental context and illustrative gameplay values.
 
