@@ -395,7 +395,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--amber);outline-offs
 .resource-list{gap:16px}
 .resource{grid-template-columns:105px minmax(0,1fr) 34px;gap:12px}
 .resource label{font-size:11px;color:var(--soft)}
-.resource b{font:800 12px inherit;color:var(--text)}
+.resource b{font:800 12px system-ui,sans-serif;color:var(--text)}
 .bar{height:10px;border-radius:99px;background:#303b5a}
 .bar i{background:linear-gradient(90deg,#78e2e8,#9aa7ff)}
 .bar i.low{background:linear-gradient(90deg,#ffd27a,#ff9b91)}
@@ -404,18 +404,18 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--amber);outline-offs
 .decision:hover{border-color:rgba(120,226,232,.65);background:linear-gradient(145deg,#243456,#1a2946);transform:translateY(-3px)}
 .decision h3{font-size:14px;line-height:1.5}
 .decision p{font-size:12px;line-height:1.75;color:var(--soft)}
-.delta{font:700 10px inherit;border-radius:8px;padding:5px 8px}
+.delta{font:700 10px system-ui,sans-serif;border-radius:8px;padding:5px 8px}
 .delta.up{color:#a8f3ca;background:rgba(140,230,181,.12)}
 .delta.down{color:#ffcf9c;background:rgba(255,210,122,.12)}
 .fieldwork-panel,.field-guide{border:1px solid rgba(181,162,255,.24);border-radius:22px;background:linear-gradient(125deg,rgba(45,54,98,.62),rgba(24,42,67,.92));box-shadow:var(--kid-shadow)}
 .fieldwork-heading .eyebrow,.field-guide-copy .eyebrow{font-family:inherit;font-weight:900;color:var(--amber)}
 .fieldwork-heading h2,.field-guide-copy h3{font-size:17px;line-height:1.5}
 .fieldwork-heading p:not(.eyebrow),.field-guide-copy p{font-size:12px;line-height:1.8;color:#e0e8fa}
-.fieldwork-count{border-radius:17px;background:rgba(120,226,232,.14);color:var(--cyan);font:800 19px inherit}
+.fieldwork-count{border-radius:17px;background:rgba(120,226,232,.14);color:var(--cyan);font:800 19px system-ui,sans-serif}
 .fieldwork-station{border-radius:15px;background:rgba(255,255,255,.045);border-color:var(--line);padding:12px}
 .fieldwork-icon{width:42px;height:42px;border-radius:14px;background:rgba(181,162,255,.15);font-size:22px}
 .fieldwork-station b{font-size:12px;color:var(--text)}
-.fieldwork-station small{font:10px inherit;color:var(--muted)}
+.fieldwork-station small{font:10px system-ui,sans-serif;color:var(--muted)}
 .field-guide-icon{width:54px;height:54px;border-radius:18px;background:linear-gradient(145deg,rgba(120,226,232,.2),rgba(181,162,255,.2));font-size:29px}
 .field-guide-button{border:0;border-radius:14px;background:linear-gradient(110deg,#78e2e8,#9aa7ff);color:#101a32;font-size:11px;box-shadow:0 8px 18px rgba(120,226,232,.13)}
 .quiz-box,.station-modal,.feed{border-radius:20px}
