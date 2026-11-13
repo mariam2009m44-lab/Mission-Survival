@@ -186,3 +186,25 @@ test('the food challenge links to a real educational space-food resource', () =>
   elements.get('continueDay').listeners.click();
   assert.match(elements.get('scienceNote').innerHTML, /CSA \/ FOOD PRODUCTION LEARNING TOOLKIT/);
 });
+
+
+test('mission science and NOVA companion render in separate panels', () => {
+  const { api, elements } = createMission();
+  api.start();
+  assert.match(elements.get('scienceNote').innerHTML, /Oxygen systems in a closed habitat/);
+  assert.match(elements.get('novaNote').innerHTML, /NOVA · MISSION COMPANION/);
+  assert.match(elements.get('novaNote').innerHTML, /Check both oxygen and energy/);
+});
+
+test('Day 3 includes the CSA food-production source in the mission science panel', () => {
+  const { api, elements } = createMission();
+  api.start();
+  api.choose(0);
+  api.advance();
+  api.showChallenge();
+  api.choose(0);
+  api.advance();
+  elements.get('continueDay').listeners.click();
+  assert.match(elements.get('scienceNote').innerHTML, /CSA \/ FOOD PRODUCTION LEARNING TOOLKIT/);
+  assert.match(elements.get('novaNote').innerHTML, /A combined recycling-and-growing strategy/);
+});
