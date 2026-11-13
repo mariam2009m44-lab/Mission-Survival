@@ -31,14 +31,14 @@ Each choice changes the five resource reserves: oxygen, water, energy, food, and
 - A randomized side objective adds replay variety.
 - Decisions award XP; completed missions, strong resource management, and hidden conditions unlock achievement badges.
 - The final mission report shows the score, remaining reserves, achievement badges, strongest and weakest systems, and the decision log.
-- Personal-best score, completed missions, and earned XP are stored locally in the player's browser.
+- Personal-best score, mission runs, and earned XP are stored locally in the player's browser.
 
 ## Technical notes
 
 - Responsive desktop and mobile layout.
 - Offline caching of core game files after the first successful online visit.
 - No build step, package installation, API key, backend, or external runtime dependency.
-- GitHub Actions checks JavaScript syntax, manifest validity, required assets, and key gameplay interface hooks.
+- GitHub Actions checks JavaScript syntax, manifest validity, required assets, key gameplay interface hooks, and automated three-day mission regression tests.
 
 ## Offline support
 
