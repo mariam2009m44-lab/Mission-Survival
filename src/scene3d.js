@@ -1,6 +1,33 @@
 const THREE_URL="https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
 let mounted=false;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function makeIntroScene(THREE,root){
+ const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(38,1,.1,100);camera.position.set(0,0,9);
+ const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:"low-power"});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));renderer.setSize(Math.max(1,root.clientWidth),Math.max(1,root.clientHeight));renderer.setClearColor(0x000000,0);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.18;root.append(renderer.domElement);
+ scene.add(new THREE.AmbientLight(0xb9d5ff,1.5));const key=new THREE.DirectionalLight(0xffe6c4,3.2);key.position.set(-4,5,7);scene.add(key);const rim=new THREE.PointLight(0x6a9dff,18,16);rim.position.set(4,-2,3);scene.add(rim);
+ const universe=new THREE.Group();scene.add(universe);
+ const sphere=(radius,color,roughness=.78)=>new THREE.Mesh(new THREE.SphereGeometry(radius,40,28),new THREE.MeshStandardMaterial({color,roughness,metalness:.02}));
+ const earth=sphere(1.38,0x287dc5,.65);earth.position.set(1.05,.45,0);universe.add(earth);
+ const landMat=new THREE.MeshStandardMaterial({color:0x65b78a,roughness:1});
+ for(const [x,y,z,sx,sy,sz] of [[-.35,.42,.98,.34,.17,.08],[.3,-.18,1.1,.22,.12,.07],[-.55,-.2,.98,.18,.1,.06]]){const land=new THREE.Mesh(new THREE.SphereGeometry(.42,18,12),landMat);land.scale.set(sx,sy,sz);land.position.set(earth.position.x+x,earth.position.y+y,z);universe.add(land);}
+ const cloud=new THREE.Mesh(new THREE.SphereGeometry(1.405,32,22),new THREE.MeshBasicMaterial({color:0xb9e9ff,wireframe:true,transparent:true,opacity:.12}));cloud.position.copy(earth.position);universe.add(cloud);
+ const saturn=sphere(.78,0xe5b56f);saturn.position.set(-2.15,-1.05,-.7);universe.add(saturn);
+ const ring=new THREE.Mesh(new THREE.TorusGeometry(1.08,.19,12,100),new THREE.MeshStandardMaterial({color:0xd9b8a0,roughness:.8,metalness:.05,side:THREE.DoubleSide}));ring.position.copy(saturn.position);ring.rotation.set(.9,.1,-.35);universe.add(ring);
+ const little=sphere(.43,0xd98ebd);little.position.set(2.45,-1.35,-.9);universe.add(little);
+ const moon=sphere(.78,0xb8c1d2,1);moon.position.set(-.15,-2.65,-1.5);universe.add(moon);
+ const craterMat=new THREE.MeshBasicMaterial({color:0x596780,transparent:true,opacity:.35});
+ for(const [x,y,r] of [[-.35,.15,.13],[.18,-.22,.09],[.28,.28,.07],[-.05,-.4,.06]]){const crater=new THREE.Mesh(new THREE.CircleGeometry(r,20),craterMat);crater.position.set(moon.position.x+x,moon.position.y+y,-.69);universe.add(crater);}
+ const orbitMat=new THREE.MeshBasicMaterial({color:0x9bb8ff,transparent:true,opacity:.2});
+ for(const [radius,scale,rotation] of [[2.5, .5,.35],[3.2,.42,-.45]]){const orbit=new THREE.Mesh(new THREE.TorusGeometry(radius,.008,6,140),orbitMat);orbit.scale.y=scale;orbit.rotation.z=rotation;orbit.position.z=-1.8;universe.add(orbit);}
+ const starGeo=new THREE.BufferGeometry(),positions=new Float32Array(650*3);for(let i=0;i<650;i++){positions[i*3]=(Math.random()-.5)*18;positions[i*3+1]=(Math.random()-.5)*10;positions[i*3+2]=-4-Math.random()*12;}starGeo.setAttribute("position",new THREE.BufferAttribute(positions,3));const stars=new THREE.Points(starGeo,new THREE.PointsMaterial({color:0xe1eaff,size:.035,transparent:true,opacity:.85}));scene.add(stars);
+ const clock=new THREE.Clock();let raf=0;const resize=()=>{const w=Math.max(1,root.clientWidth),h=Math.max(1,root.clientHeight);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();};const ro=new ResizeObserver(resize);ro.observe(root);resize();
+ function animate(){raf=requestAnimationFrame(animate);const t=clock.getElapsedTime();earth.rotation.y=t*.08;cloud.rotation.y=-t*.055;saturn.rotation.y=t*.1;little.rotation.y=-t*.13;universe.rotation.y=Math.sin(t*.16)*.035;universe.position.y=Math.sin(t*.3)*.035;stars.rotation.y=t*.003;renderer.render(scene,camera);}animate();
+ return()=>{cancelAnimationFrame(raf);ro.disconnect();scene.traverse(o=>{o.geometry?.dispose();if(o.material){if(Array.isArray(o.material))o.material.forEach(m=>m.dispose());else o.material.dispose();}});renderer.dispose();renderer.domElement.remove();};
+}
+function mountIntro(){
+ const root=document.querySelector("#app .intro-3d-world");if(!root||root.dataset.ready)return;if(root.dataset.ready==="loading")return;root.dataset.ready="loading";
+ import(THREE_URL).then(THREE=>{if(!root.isConnected)return;root.dataset.ready="true";root._dispose=makeIntroScene(THREE,root);}).catch(()=>{root.dataset.ready="fallback";});
+}
 function addStylesFallback(root){
  root.classList.add("scene-fallback");
  const fallback=document.createElement("div");fallback.className="scene-fallback-art";fallback.innerHTML='<div class="fallback-earth"></div><div class="fallback-moon"></div><div class="fallback-habitat"></div><div class="fallback-rover"></div><div class="fallback-caption">LUNAR SOUTH POLE · 3D PREVIEW MODE</div>';
@@ -189,6 +216,6 @@ const observer=new MutationObserver(()=>{if(activeRoot&&!activeRoot.isConnected)
 observer.observe(document.querySelector("#app"),{childList:true,subtree:true});
 mount();
 const appRoot=document.querySelector("#app");
-const capture=new MutationObserver(()=>{const next=appRoot.querySelector(".lunar-3d-stage");if(next&&next!==activeRoot)activeRoot=next;});
+const capture=new MutationObserver(()=>{const next=appRoot.querySelector(".lunar-3d-stage");if(next&&next!==activeRoot)activeRoot=next;const intro=appRoot.querySelector(".intro-3d-world");if(window.__tecnovaIntroRoot&&window.__tecnovaIntroRoot!==intro){window.__tecnovaIntroRoot._dispose?.();window.__tecnovaIntroRoot=null;}if(intro)window.__tecnovaIntroRoot=intro;});
 capture.observe(appRoot,{childList:true,subtree:true});
 
