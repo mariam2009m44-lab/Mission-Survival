@@ -34,6 +34,12 @@ test("app completes junior commander onboarding, training, five mission decision
  await action("tour-start");
  assert.match(root.innerHTML,/MISSION DAY/);
  assert.match(root.innerHTML,/sound-toggle/);
+ assert.match(root.innerHTML,/music-toggle/);
+ assert.match(root.innerHTML,/aria-pressed="true"/);
+ await action("music");
+ assert.match(root.innerHTML,/aria-pressed="false"/);
+ await action("music");
+ assert.match(root.innerHTML,/aria-pressed="true"/);
  await action("sound");
  assert.match(root.innerHTML,/sound-toggle/);
  await action("language");
