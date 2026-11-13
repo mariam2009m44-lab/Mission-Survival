@@ -2,12 +2,12 @@ import {VERSION,DIFFICULTIES,RESOURCES,MODULES,DAYS,SOURCES,COPY} from "./data.j
 import {createMission,startMission,choose,nextDay,summary} from "./engine.js";
 import {loadState,saveState} from "./storage.js";
 import {answerNova,NOVA_PROMPTS} from "./nova.js";
-import {scheduleSync,isCloudEnabled} from "./backend.js";
+import {scheduleSync,isCloudEnabled,restoreProgress} from "./backend.js";
 const app=document.querySelector("#app");let s=loadState(),installEvent=null,novaOpen=false,novaMessages=[],selectedAvatar=s.commander?.avatar||"blue";
 const ar=()=>s.language==="ar",t=k=>COPY[s.language][k]||COPY.en[k]||k,local=(en,arab)=>ar()?arab:en;
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const nav=[["overview","⌂"],["training","◎"],["mission","ϟ"],["science","✧"],["report","▤"]];
-const persist=()=>{saveState(s);scheduleSync(s);},go=view=>{s.view=view;persist();render();window.scrollTo(0,0);};
+const persist=()=>{s.localUpdatedAt=Date.now();saveState(s);scheduleSync(s);},go=view=>{s.view=view;persist();render();window.scrollTo(0,0);};
 function resources(values){return RESOURCES.map(r=>{const v=values[r.id],state=v<30?"low":v<70?"warning":"healthy";return'<div class="resource"><label>'+(ar()?r.ar:r.name)+'</label><div class="bar"><i class="'+state+'" style="width:'+v+'%"></i></div><b>'+v+'</b></div>';}).join("");}
 function resourceSummary(values){const groups=[["power",local("ENERGY","الطاقة"),"⚡",values.power],["oxygen",local("OXYGEN","الأكسجين"),"◉",values.oxygen],["supplies",local("WATER & FOOD","المياه والغذاء"),"◈",Math.round((values.water+values.food)/2)],["shield",local("CREW HEALTH","سلامة الطاقم"),"✚",values.shield]];return '<div class="resource-summary">'+groups.map(([id,label,icon,value])=>'<div class="resource-tile"><span>'+icon+'</span><div><small>'+label+'</small><b>'+value+'%</b><div class="bar"><i class="'+(value<30?"low":value<70?"warning":"healthy")+'" style="width:'+value+'%"></i></div></div></div>').join("")+'</div>';}
 function navHtml(mobile=false){return nav.map(([id,icon],i)=>'<button class="'+(mobile?"":"nav-item ")+(s.view===id?"active":"")+'" data-nav="'+id+'"><span class="'+(mobile?"":"nav-icon")+'">'+icon+'</span><span>'+t("nav")[i]+'</span></button>').join("");}
@@ -43,4 +43,5 @@ app.addEventListener("submit",e=>{if(e.target.id==="nova-form"){e.preventDefault
 app.addEventListener("change",e=>{if(e.target.id==="difficulty"){s.difficulty=DIFFICULTIES[e.target.value]?e.target.value:"standard";persist();render();}});
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();installEvent=e;render();});
 render();
+if(isCloudEnabled())restoreProgress(s).then(result=>{if(result.status==="restored"){s=result.state;selectedAvatar=s.commander?.avatar||selectedAvatar;saveState(s);render();}else if(result.status==="local")scheduleSync(s);}).catch(()=>{});
 if("serviceWorker"in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
