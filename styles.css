@@ -529,6 +529,7 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--amber);outline-offs
 }
 
 /* TECNOVA mobile-app comfort, tactile feedback and safe-area support */
+.music-toggle{width:36px;height:36px;display:grid;place-items:center;border:1px solid rgba(143,161,255,.24);border-radius:12px;background:rgba(143,161,255,.08);color:#c4d0ff;font-size:17px}.music-toggle[aria-pressed="false"]{color:#8c9bb2;background:rgba(255,255,255,.035)}
 .sound-toggle{width:36px;height:36px;display:grid;place-items:center;border:1px solid rgba(112,220,226,.25);border-radius:12px;background:rgba(112,220,226,.08);color:#a5f0ee;font-size:18px}
 .sound-toggle[aria-pressed="false"]{color:#8c9bb2;background:rgba(255,255,255,.035)}
 button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
