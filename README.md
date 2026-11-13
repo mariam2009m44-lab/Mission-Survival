@@ -1,10 +1,10 @@
-# LUNAR OUTPOST — Junior Astronaut Mission Trainer
+# TECNOVA — Lunar Outpost Space Adventure
 
 An installable, mobile-first mission trainer for NASA Space Apps 2026 challenge **Build a Junior Astronaut Mission Trainer**.
 
 The app teaches young learners to command a lunar South Pole training outpost, understand connected life-support systems, and make three days of resource decisions. Its science library separates modeled illumination, lunar-orbit instrument measurements, space-weather event records and partner-agency learning resources.
 
-## Rebuild highlights
+## TECNOVA experience\n- Cinematic first-launch planetarium with animated 3D planets, Saturn rings, Earth, lunar surface, stars and a floating astronaut illustration.\n- Browser-based 3D experience designed for phones and computers; no VR headset is required.\n- Responsive child-friendly welcome screen with Arabic/English controls and a skip-intro option.\n- Interactive Three.js lunar outpost with a walkable astronaut, NOVA robot, habitat, rover, solar farm, greenhouse and oxygen lab.\n\n## Rebuild highlights
 - Modular ES modules for mission data, simulation, persistence and UI.
 - Mobile-first app shell, desktop navigation and touch-friendly mobile navigation.
 - First-run junior commander profile with four custom astronaut avatars (local demo profile, not online authentication).

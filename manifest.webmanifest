@@ -1,19 +1,20 @@
 {
   "id":"./",
-  "name":"Lunar Outpost — Junior Astronaut Mission Trainer",
-  "short_name":"Lunar Outpost",
-  "description":"An installable educational mission trainer using verified lunar science sources.",
-  "lang":"en",
+  "name":"TECNOVA — Lunar Outpost Space Adventure",
+  "short_name":"TECNOVA",
+  "description":"A playful 3D space adventure for young explorers, with lunar missions and real space science.",
+  "lang":"ar",
   "start_url":"./",
   "scope":"./",
   "display":"standalone",
   "orientation":"portrait-primary",
   "background_color":"#080e19",
-  "theme_color":"#09111f",
+  "theme_color":"#090e29",
   "categories":["education","games","science"],
   "icons":[
+    {"src":"./assets/icons/icon-512.svg","sizes":"512x512","type":"image/svg+xml","purpose":"any maskable"},
+    {"src":"./assets/icons/icon-192.svg","sizes":"192x192","type":"image/svg+xml","purpose":"any"},
     {"src":"./assets/icons/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
-    {"src":"./assets/icons/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"},
-    {"src":"./assets/icons/icon-192.svg","sizes":"192x192","type":"image/svg+xml","purpose":"any"}
+    {"src":"./assets/icons/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
   ]
 }
