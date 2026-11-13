@@ -24,7 +24,7 @@ The app teaches young learners to command a lunar South Pole training outpost, u
 | NASA CCMC DONKI | Optional recent event records | Research context, not lunar radiation forecasts |
 | Canadian Space Agency | Food-production and mini-greenhouse learning activities | Educational material, not measured lunar crop yields |
 
-A sample CRaTER product linked in the app is a 31 March 2026 primary-science file with 2,310,946 records and a listed size of 257.86 MB. The app links to the archive record rather than bundling the large raw data file.
+A sample CRaTER product linked in the app is a 31 March 2026 primary-science file with 2,310,946 records and a listed size of 257.86 MB. The primary file schema includes spacecraft time, detector amplitudes (ADU) and deposited energy (keV) across detectors D1–D6. The app links to the archive record rather than bundling the large raw data file.
 
 See docs/RESEARCH.md and data/mission-science.json for provenance.
 

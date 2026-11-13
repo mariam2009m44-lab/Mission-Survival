@@ -23,7 +23,7 @@ Product announcement: https://pds.nasa.gov/datasearch/subscription-service/SS-20
 Release-specific record: https://pds.nasa.gov/datasearch/subscription-service/data_product_information.cfm?dsid=LRO-L-CRAT-3-CDR-CALIBRATED-V1.0&releaseid=0067
 The 31 March 2026 example primary-science file has 2,310,946 records and a listed size of 257.86 MB:
 https://search-pdsppi.igpp.ucla.edu/search/view/?f=no&id=pds%3A%2F%2FPPI%2FLRO-L-CRAT-3-CDR-CALIBRATED-V1.0%2FDATA%2F2026%2F2026090%2FCRAT_L1_PRI_2026090_V01&o=1
-CRaTER measures the lunar-orbit radiation environment behind detector materials, including tissue-equivalent plastic. It does not measure dose inside a future lunar habitat.
+The PDS label/format files identify primary-science fields including spacecraft time, detector amplitudes (D1–D6, ADU) and deposited energy in the six detectors (keV). The 31 March sample file contains 2,310,946 event records. CRaTER measures the lunar-orbit radiation environment behind detector materials, including tissue-equivalent plastic. It does not measure dose inside a future lunar habitat.
 
 ### Diviner
 NASA PDS Release 67 includes LRO-L-DLRE-4-RDR-V1.0 calibrated radiance products acquired from 16 March through 15 June 2026:

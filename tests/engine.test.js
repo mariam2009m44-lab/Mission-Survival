@@ -12,3 +12,4 @@ test("all game resources remain between zero and one hundred",()=>{const m=start
 test("illumination source is explicitly a model",()=>{const x=SOURCES.find(v=>v.id==="illumination");assert.match(x.limit,/model/i);assert.match(x.date,/2022/);});
 test("CRaTER coverage is correctly dated and qualified",()=>{const x=SOURCES.find(v=>v.id==="crater");assert.match(x.date,/30 Jun 2026/);assert.match(x.limit,/not direct readings/i);});
 test("Diviner coverage is the verified 2026 interval",()=>{const x=SOURCES.find(v=>v.id==="diviner");assert.match(x.date,/16 Mar–15 Jun 2026/);});
+test("the CRaTER primary file exposes verified detector-energy fields",()=>{const x=SOURCES.find(v=>v.id==="crater");assert.match(x.fields,/ENERGY.*keV/);assert.match(x.fields,/AMPL.*ADU/);});

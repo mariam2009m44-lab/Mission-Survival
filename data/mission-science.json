@@ -1,15 +1,83 @@
 {
-  "schema_version":"2.0",
-  "verified_on":"2026-11-13",
-  "challenge":{"title":"Build a Junior Astronaut Mission Trainer","official_url":"https://www.spaceappschallenge.org/2026/challenges/junior-astronaut-mission-trainer/"},
-  "datasets":[
-    {"id":"nasa-svs-lunar-illumination-2026","publisher":"NASA Scientific Visualization Studio","product":"Illumination at the Moon's South Pole, 2023 to 2030","model_year":2026,"source_release_date":"2022-10-05","region":"Within 2 degrees of lunar South Pole","time_step_hours":2,"frame_count":4381,"inputs":["LRO LOLA terrain mapping"],"url":"https://svs.gsfc.nasa.gov/4930/","data_type":"modeled illumination","limitation":"A model for 2026, not observations newly collected in 2026 or live habitat telemetry."},
-    {"id":"lro-crater-release-67","publisher":"NASA Planetary Data System","product":"LRO-L-CRAT-3-CDR-CALIBRATED-V1.0","release":"0067","release_date":"2026-09-15","coverage_end":"2026-06-30","instrument":"CRaTER","measurement":"Calibrated charged-particle energy deposition in lunar orbit","url":"https://pds.nasa.gov/datasearch/subscription-service/SS-20260915.shtml","sample":{"date":"2026-03-31","file":"CRAT_L1_PRI_2026090_V01.TAB","records":2310946,"size_mb":257.86,"url":"https://search-pdsppi.igpp.ucla.edu/search/view/?f=no&id=pds%3A%2F%2FPPI%2FLRO-L-CRAT-3-CDR-CALIBRATED-V1.0%2FDATA%2F2026%2F2026090%2FCRAT_L1_PRI_2026090_V01&o=1"},"limitation":"Orbital instrument measurements behind detector materials are not direct readings inside a lunar surface habitat."},
-    {"id":"lro-diviner-release-67","publisher":"NASA Planetary Data System","product":"LRO-L-DLRE-4-RDR-V1.0","release":"0067","coverage_start":"2026-03-16","coverage_end":"2026-06-15","measurement":"Calibrated lunar surface thermal radiance","url":"https://pds.nasa.gov/datasearch/subscription-service/data_product_information.cfm?dsid=LRO-L-DLRE-4-RDR-V1.0&releaseid=0067","limitation":"Orbital surface observations are not interior habitat temperature."},
-    {"id":"donki","publisher":"NASA CCMC","api_base":"https://ccmc.gsfc.nasa.gov/DONKI-API/get/","migration_date":"2026-09-30","url":"https://ccmc.gsfc.nasa.gov/DONKI/","limitation":"Event records and model analyses are research context, not lunar surface radiation forecasts."}
+  "schema_version": "2.0",
+  "verified_on": "2026-11-13",
+  "challenge": {
+    "title": "Build a Junior Astronaut Mission Trainer",
+    "official_url": "https://www.spaceappschallenge.org/2026/challenges/junior-astronaut-mission-trainer/"
+  },
+  "datasets": [
+    {
+      "id": "nasa-svs-lunar-illumination-2026",
+      "publisher": "NASA Scientific Visualization Studio",
+      "product": "Illumination at the Moon's South Pole, 2023 to 2030",
+      "model_year": 2026,
+      "source_release_date": "2022-10-05",
+      "region": "Within 2 degrees of lunar South Pole",
+      "time_step_hours": 2,
+      "frame_count": 4381,
+      "inputs": [
+        "LRO LOLA terrain mapping"
+      ],
+      "url": "https://svs.gsfc.nasa.gov/4930/",
+      "data_type": "modeled illumination",
+      "limitation": "A model for 2026, not observations newly collected in 2026 or live habitat telemetry."
+    },
+    {
+      "id": "lro-crater-release-67",
+      "publisher": "NASA Planetary Data System",
+      "product": "LRO-L-CRAT-3-CDR-CALIBRATED-V1.0",
+      "release": "0067",
+      "release_date": "2026-09-15",
+      "coverage_end": "2026-06-30",
+      "instrument": "CRaTER",
+      "measurement": "Calibrated charged-particle energy deposition in lunar orbit",
+      "url": "https://pds.nasa.gov/datasearch/subscription-service/SS-20260915.shtml",
+      "sample": {
+        "date": "2026-03-31",
+        "file": "CRAT_L1_PRI_2026090_V01.TAB",
+        "records": 2310946,
+        "size_mb": 257.86,
+        "url": "https://search-pdsppi.igpp.ucla.edu/search/view/?f=no&id=pds%3A%2F%2FPPI%2FLRO-L-CRAT-3-CDR-CALIBRATED-V1.0%2FDATA%2F2026%2F2026090%2FCRAT_L1_PRI_2026090_V01&o=1",
+        "fields": [
+          "SECONDS: spacecraft elapsed time from 2001-01-01 UTC",
+          "AMPL: pulse-height amplitude for detector signals D1-D6, in ADU",
+          "ENERGY: deposited energy for detectors D1-D6, in kilo-electron volts"
+        ]
+      },
+      "limitation": "Orbital instrument measurements behind detector materials are not direct readings inside a lunar surface habitat."
+    },
+    {
+      "id": "lro-diviner-release-67",
+      "publisher": "NASA Planetary Data System",
+      "product": "LRO-L-DLRE-4-RDR-V1.0",
+      "release": "0067",
+      "coverage_start": "2026-03-16",
+      "coverage_end": "2026-06-15",
+      "measurement": "Calibrated lunar surface thermal radiance",
+      "url": "https://pds.nasa.gov/datasearch/subscription-service/data_product_information.cfm?dsid=LRO-L-DLRE-4-RDR-V1.0&releaseid=0067",
+      "limitation": "Orbital surface observations are not interior habitat temperature."
+    },
+    {
+      "id": "donki",
+      "publisher": "NASA CCMC",
+      "api_base": "https://ccmc.gsfc.nasa.gov/DONKI-API/get/",
+      "migration_date": "2026-09-30",
+      "url": "https://ccmc.gsfc.nasa.gov/DONKI/",
+      "limitation": "Event records and model analyses are research context, not lunar surface radiation forecasts."
+    }
   ],
-  "partner_resources":[
-    {"publisher":"Canadian Space Agency","name":"Food Production Toolkit","url":"https://www.asc-csa.gc.ca/eng/youth-educators/toolkits/food-production/","limitation":"Educational resource, not measured lunar crop yields."},
-    {"publisher":"Canadian Space Agency","name":"Space Farmer Mini-Greenhouse Experiment","url":"https://www.asc-csa.gc.ca/eng/youth-educators/activities/mini-greenhouse-experiment.asp","limitation":"Classroom activity, not a validated lunar greenhouse design."}
+  "partner_resources": [
+    {
+      "publisher": "Canadian Space Agency",
+      "name": "Food Production Toolkit",
+      "url": "https://www.asc-csa.gc.ca/eng/youth-educators/toolkits/food-production/",
+      "limitation": "Educational resource, not measured lunar crop yields."
+    },
+    {
+      "publisher": "Canadian Space Agency",
+      "name": "Space Farmer Mini-Greenhouse Experiment",
+      "url": "https://www.asc-csa.gc.ca/eng/youth-educators/activities/mini-greenhouse-experiment.asp",
+      "limitation": "Classroom activity, not a validated lunar greenhouse design."
+    }
   ]
 }
