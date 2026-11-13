@@ -41,7 +41,7 @@ The pre-flight briefing links NASA's Scientific Visualization Studio model, *Ill
 
 Source: https://svs.gsfc.nasa.gov/4930/
 
-The briefing also links DONKI, RadLab, OSDR, Moon Trek, Mars Trek, and the Canadian Space Agency's Food Production Toolkit as further research resources. The Day 2 solar alert is a fictional training scenario and is not presented as a live DONKI feed. The Day 3 food-production link is educational context; no greenhouse yield is claimed as measured mission data. Their roles and limitations are explained in the game: DONKI event records are not lunar radiation readings; RadLab's ISS data are not lunar exposure readings; OSDR research is not live crew telemetry; Mars Trek is for Mars rather than the Moon; Moon Trek is the relevant lunar terrain companion.
+The briefing also links DONKI, RadLab, OSDR, Moon Trek, Mars Trek, and the Canadian Space Agency's Food Production Toolkit and Space Farmer mini-greenhouse activity as further research resources. The Day 2 solar alert is a fictional training scenario and is not presented as a live DONKI feed. The Day 3 food-production links are educational context; no greenhouse yield is claimed as measured mission data. Their roles and limitations are explained in the game: DONKI event records are not lunar radiation readings; RadLab's ISS data are not lunar exposure readings; OSDR research is not live crew telemetry; Mars Trek is for Mars rather than the Moon; Moon Trek is the relevant lunar terrain companion.
 
 The simulation's oxygen, water, food, shielding, and energy percentages and all choice deltas remain illustrative game mechanics. They are not represented as measured 2026 mission data.
 
