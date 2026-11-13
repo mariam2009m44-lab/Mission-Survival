@@ -16,7 +16,7 @@ function snapshot(state){
     language:state.language==="en"?"en":"ar",
     trainingDone:Array.isArray(state.trainingDone)?state.trainingDone.slice(0,20):[],
     stats:{missions:state.stats?.missions||0,totalXp:state.stats?.totalXp||0,bestScore:state.stats?.bestScore||0},
-    mission:m?{difficulty:m.difficulty,started:m.started,phase:m.phase,day:m.day,site:m.site,siteName:m.siteName,resources:m.resources,history:m.history,xp:m.xp||0,result:m.result||null,saved:Boolean(m.saved)}:null
+    mission:m?{difficulty:m.difficulty,started:m.started,phase:m.phase,day:m.day,site:m.site,siteName:m.siteName,resources:m.resources,history:m.history,stationTasks:Array.isArray(m.stationTasks)?m.stationTasks.slice(0,5):[],xp:m.xp||0,result:m.result||null,saved:Boolean(m.saved)}:null
   };
 }
 async function sessionFor(state){
