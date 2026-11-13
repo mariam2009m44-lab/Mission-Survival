@@ -80,6 +80,11 @@ function mount(){
  if(root.dataset.ready)return;root.dataset.ready="loading";
  import(THREE_URL).then(THREE=>{if(!root.isConnected)return;root.dataset.ready="true";root.querySelector(".scene-loading")?.remove();root._dispose=makeScene(THREE,root.querySelector(".scene-viewport"));}).catch(()=>{root.dataset.ready="fallback";root.querySelector(".scene-loading")?.remove();addStylesFallback(root.querySelector(".scene-viewport"));});
 }
-const observer=new MutationObserver(()=>{mounted=false;mount();});
+let activeRoot=null;
+const observer=new MutationObserver(()=>{if(activeRoot&&!activeRoot.isConnected){activeRoot._dispose?.();activeRoot=null;}mount();});
 observer.observe(document.querySelector("#app"),{childList:true,subtree:true});
 mount();
+const appRoot=document.querySelector("#app");
+const capture=new MutationObserver(()=>{const next=appRoot.querySelector(".lunar-3d-stage");if(next&&next!==activeRoot)activeRoot=next;});
+capture.observe(appRoot,{childList:true,subtree:true});
+
