@@ -38,3 +38,8 @@ jobs:
           grep -q 'src="app.js"' index.html
           grep -q 'href="favicon.svg"' index.html
           grep -q 'href="manifest.webmanifest"' index.html
+          grep -q 'id="taskList"' index.html
+          grep -q 'id="scienceNote"' index.html
+          grep -q 'DAY 03 · WATER & FOOD' app.js
+          grep -q 'HIDDEN · PERFECT MARGIN' app.js
+          grep -q 'NOVA · MISSION COMPANION' app.js
