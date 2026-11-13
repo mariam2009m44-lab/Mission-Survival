@@ -29,8 +29,10 @@ test("backend rejects non-object progress",()=>{
 });
 
 test("backend preserves mission completion metadata for safe restoration",()=>{
- const result=validateProgress({mission:{difficulty:"guided",started:true,phase:"complete",day:4,resources:{power:80,oxygen:70,water:60,food:90,shield:95},history:[],xp:350,result:"success",saved:true}});
+ const result=validateProgress({mission:{difficulty:"training",started:true,phase:"complete",day:4,resources:{power:80,oxygen:70,water:60,food:90,shield:95},history:[],xp:350,result:"success",saved:true}});
  assert.equal(result.mission.xp,350);
  assert.equal(result.mission.result,"success");
  assert.equal(result.mission.saved,true);
 });
+
+test("backend keeps the minimum decision fields needed to resume a mission",()=>{const result=validateProgress({mission:{difficulty:"training",history:[{day:2,stageIndex:1,choiceIndex:0,choiceId:"isru",title:"Extract oxygen",why:"Use local resources"}]}});const row=result.mission.history[0];assert.equal(result.mission.difficulty,"training");assert.equal(row.stageIndex,1);assert.equal(row.choiceIndex,0);assert.equal(row.title,"Extract oxygen");assert.equal(row.why,"Use local resources");});
