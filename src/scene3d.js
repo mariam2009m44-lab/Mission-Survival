@@ -7,6 +7,7 @@ function addStylesFallback(root){
  root.append(fallback);
 }
 function makeScene(THREE,root){
+ const uiAr=(()=>{try{return JSON.parse(localStorage.getItem("lunar-outpost-trainer-v2")||"{}").language==="ar";}catch{return false;}})();
  const canvas=root.querySelector("canvas");const scene=new THREE.Scene();scene.background=new THREE.Color(0x070d18);scene.fog=new THREE.FogExp2(0x070d18,.012);
  const camera=new THREE.PerspectiveCamera(43,1,.1,180);camera.position.set(15,12,19);
  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
@@ -14,13 +15,13 @@ function makeScene(THREE,root){
  scene.add(new THREE.HemisphereLight(0x9eb9df,0x1c2430,1.65));
  const sun=new THREE.DirectionalLight(0xffe6bd,3.2);sun.position.set(-12,18,9);scene.add(sun);
  const fill=new THREE.PointLight(0x4aa9ff,38,45);fill.position.set(7,7,-8);scene.add(fill);
- const terrainMat=new THREE.MeshStandardMaterial({color:0x69717c,roughness:1,metalness:0});
+ const terrainMat=new THREE.MeshStandardMaterial({color:0x85869a,roughness:1,metalness:0});
  const geo=new THREE.PlaneGeometry(54,54,120,120);geo.rotateX(-Math.PI/2);
  const pos=geo.attributes.position;
  for(let i=0;i<pos.count;i++){const x=pos.getX(i),z=pos.getZ(i);let h=.16*Math.sin(x*.7)*Math.cos(z*.52)+.09*Math.sin(x*1.9+z*.8);for(const c of [[-8,-4,3],[7,5,4],[-2,10,2.5],[12,-9,3]]){const d=Math.hypot(x-c[0],z-c[1]);h-=.62*Math.exp(-Math.pow(d/c[2],2)*2);h+=.17*Math.exp(-Math.pow((d-c[2]*.78)/.42,2));}pos.setY(i,h);}
  geo.computeVertexNormals();const ground=new THREE.Mesh(geo,terrainMat);ground.receiveShadow=true;scene.add(ground);
  const grid=new THREE.GridHelper(52,52,0x52677e,0x26384d);grid.position.y=-.12;grid.material.transparent=true;grid.material.opacity=.11;scene.add(grid);
- const craterMat=new THREE.MeshStandardMaterial({color:0x3e4856,roughness:1});
+ const craterMat=new THREE.MeshStandardMaterial({color:0x555b72,roughness:1});
  for(const [x,z,r] of [[-8,-4,3],[7,5,4],[-2,10,2.5],[12,-9,3]]){const ring=new THREE.Mesh(new THREE.TorusGeometry(r,.12,8,64),new THREE.MeshStandardMaterial({color:0x89919a,roughness:1}));ring.rotation.x=Math.PI/2;ring.position.set(x,.03,z);scene.add(ring);const bowl=new THREE.Mesh(new THREE.CircleGeometry(r*.9,48),craterMat);bowl.rotation.x=-Math.PI/2;bowl.position.set(x,-.02,z);scene.add(bowl);}
  const mat=(color,metalness=.15,roughness=.55)=>new THREE.MeshStandardMaterial({color,metalness,roughness});
  const white=mat(0xd5e1ed,.55,.35),dark=mat(0x25364b,.55,.42),gold=mat(0xc58d48,.6,.38),glass=new THREE.MeshPhysicalMaterial({color:0x3e83a8,metalness:.25,roughness:.16,transparent:true,opacity:.62});
@@ -75,8 +76,48 @@ function makeScene(THREE,root){
   {id:"greenhouse",name:"Greenhouse & Water",ar:"الزراعة وإعادة تدوير المياه",position:new THREE.Vector3(-5,0,7),radius:3.0,info:"A closed growing system can help study food production and water use. It is a research challenge, not a promise of instant self-sufficiency.",arInfo:"يساعد نظام الزراعة المغلق في دراسة إنتاج الغذاء واستخدام المياه. لكنه تحدٍ بحثي وليس ضمانًا للاكتفاء الذاتي الفوري."},
   {id:"rover",name:"Rover Garage",ar:"مركبة الاستكشاف",position:new THREE.Vector3(5,0,6),radius:3.0,info:"Rovers help astronauts explore terrain and carry instruments. Routes must be planned around slopes, rocks, lighting and communication.",arInfo:"تساعد المركبات رواد الفضاء في استكشاف التضاريس وحمل الأجهزة. ويجب تخطيط المسارات مع مراعاة المنحدرات والصخور والإضاءة والاتصالات."}
  ];
- const markerMaterial=mat(0x72d9e8,.25,.35);
- const stationMarkers=stations.map(st=>{const ring=new THREE.Mesh(new THREE.TorusGeometry(1.05,.035,8,40),markerMaterial);ring.rotation.x=Math.PI/2;ring.position.set(st.position.x,.08,st.position.z);group.add(ring);const beacon=new THREE.PointLight(0x5edcf4,5,5);beacon.position.set(st.position.x,1.5,st.position.z);group.add(beacon);return{ring,beacon,station:st};});
+ // Bright, readable station signs: the child can identify every place before walking to it.
+ const stationColors={habitat:0x5bd8cf,oxygen:0x75b8ff,solar:0xffcf65,greenhouse:0x75df9a,rover:0xffa879};
+ function stationSign(st){
+  const canvasLabel=document.createElement("canvas");canvasLabel.width=640;canvasLabel.height=160;
+  const ctx=canvasLabel.getContext("2d");ctx.clearRect(0,0,640,160);
+  ctx.fillStyle="rgba(8,22,42,.88)";ctx.strokeStyle="#"+stationColors[st.id].toString(16).padStart(6,"0");ctx.lineWidth=8;
+  ctx.beginPath();ctx.roundRect(12,12,616,136,34);ctx.fill();ctx.stroke();
+  ctx.direction=uiAr?"rtl":"ltr";ctx.textAlign="center";ctx.textBaseline="middle";
+  ctx.fillStyle="#ffffff";ctx.font="bold 37px Arial";ctx.fillText(uiAr?st.ar:st.name,320,80,560);
+  const texture=new THREE.CanvasTexture(canvasLabel);texture.colorSpace=THREE.SRGBColorSpace;
+  const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:texture,transparent:true,depthWrite:false}));
+  sprite.position.set(st.position.x,3.65,st.position.z);sprite.scale.set(4.5,1.12,1);group.add(sprite);
+  return sprite;
+ }
+ const stationMarkers=stations.map(st=>{
+  const color=stationColors[st.id],markerMaterial=mat(color,.25,.35);
+  const ring=new THREE.Mesh(new THREE.TorusGeometry(1.05,.055,10,48),markerMaterial);ring.rotation.x=Math.PI/2;ring.position.set(st.position.x,.1,st.position.z);group.add(ring);
+  const beacon=new THREE.PointLight(color,7,6);beacon.position.set(st.position.x,1.7,st.position.z);group.add(beacon);
+  const sign=stationSign(st);return{ring,beacon,sign,station:st};
+ });
+ // Friendly NOVA companion, built from rounded 3D forms rather than a flat chat icon.
+ const nova=new THREE.Group();group.add(nova);
+ const novaShell=mat(0x42cfe0,.28,.28),novaLight=mat(0xb5f5f4,.12,.24),novaDark=mat(0x17334d,.25,.3),novaGold=mat(0xffcf70,.25,.35);
+ const novaBody=new THREE.Mesh(new THREE.SphereGeometry(.48,28,22),novaShell);novaBody.scale.set(1,1.05,.82);novaBody.position.y=.78;nova.add(novaBody);
+ const novaHead=new THREE.Mesh(new THREE.SphereGeometry(.53,32,24),novaLight);novaHead.scale.set(1.05,.9,.82);novaHead.position.y=1.48;nova.add(novaHead);
+ const face=new THREE.Mesh(new THREE.SphereGeometry(.43,28,20),novaDark);face.scale.set(1,.62,.28);face.position.set(0,1.48,.34);nova.add(face);
+ for(const x of [-.17,.17]){const eye=new THREE.Mesh(new THREE.SphereGeometry(.065,16,12),mat(0x72f7ff,.05,.18));eye.position.set(x,1.53,.47);nova.add(eye);}
+ const mouth=new THREE.Mesh(new THREE.TorusGeometry(.09,.018,8,24,Math.PI),novaGold);mouth.position.set(0,1.34,.46);mouth.rotation.z=Math.PI;nova.add(mouth);
+ const antenna=cyl(.045,.045,.34,novaShell,0,2.05,0,nova);const antennaOrb=new THREE.Mesh(new THREE.SphereGeometry(.105,16,12),novaGold);antennaOrb.position.set(0,2.25,0);nova.add(antennaOrb);
+ for(const x of [-.53,.53]){const ear=new THREE.Mesh(new THREE.SphereGeometry(.16,16,12),novaShell);ear.position.set(x,1.48,0);nova.add(ear);const arm=cyl(.085,.11,.48,novaShell,x*.9,.8,0,nova);arm.rotation.z=x*.7;}
+ const novaBadge=new THREE.Mesh(new THREE.TorusGeometry(.62,.035,8,40),novaGold);novaBadge.rotation.x=Math.PI/2;novaBadge.position.y=.18;nova.add(novaBadge);
+ const novaLamp=new THREE.PointLight(0x53e9ff,5,5);novaLamp.position.set(0,1.8,0);nova.add(novaLamp);
+ // Softly rounded lunar boulders and colorful mineral crystals make the terrain welcoming.
+ for(let i=0;i<34;i++){
+  const x=Math.sin(i*12.37)*22,z=Math.cos(i*7.91)*22;
+  if(Math.hypot(x,z)<8)continue;
+  const rock=new THREE.Mesh(new THREE.IcosahedronGeometry(.22+(i%4)*.09,1),mat(i%3===0?0xaaa6b7:i%3===1?0x8e96aa:0xb8ad9c,0,.9));
+  rock.position.set(x,.12,z);rock.scale.set(1.25,.75,1);rock.rotation.set(i*.3,i*.7,i*.2);group.add(rock);
+ }
+ const earth=new THREE.Mesh(new THREE.SphereGeometry(2.1,32,24),new THREE.MeshStandardMaterial({color:0x2e82c7,roughness:.72,metalness:.02}));
+ earth.position.set(20,14,-25);scene.add(earth);
+ const earthCloud=new THREE.Mesh(new THREE.SphereGeometry(2.13,32,24),new THREE.MeshBasicMaterial({color:0x91dcff,wireframe:true,transparent:true,opacity:.14}));earthCloud.position.copy(earth.position);scene.add(earthCloud);
  // Navigation beacon.
  const beacon=new THREE.PointLight(0x55dfff,22,8);beacon.position.set(-2,3.5,1);group.add(beacon);
  const starsGeo=new THREE.BufferGeometry(),stars=new Float32Array(900*3);for(let i=0;i<900;i++){stars[i*3]=(Math.random()-.5)*100;stars[i*3+1]=Math.random()*42+5;stars[i*3+2]=(Math.random()-.5)*100;}starsGeo.setAttribute("position",new THREE.BufferAttribute(stars,3));scene.add(new THREE.Points(starsGeo,new THREE.PointsMaterial({color:0xc8ddff,size:.12,transparent:true,opacity:.8})));
@@ -98,7 +139,7 @@ function makeScene(THREE,root){
  const px=astronaut.position.x,pz=astronaut.position.z;let nearest=null,dist=Infinity;for(const st of stations){const d=Math.hypot(px-st.position.x,pz-st.position.z);if(d<dist){dist=d;nearest=st;}}
  const next=dist<nearest.radius?nearest:null;if(next!==nearby){nearby=next;if(interactWrap)interactWrap.hidden=!nearby;if(nearby){root.querySelector("[data-scene-nearby]").textContent=nearby.name;setStatus((uiAr?"في النطاق · ":"IN RANGE · ")+(uiAr?nearby.ar:nearby.name));}else setStatus(uiAr?"استكشفي القاعدة وابحثي عن محطة مضيئة":"Explore the outpost and find a glowing station");}
  for(const marker of stationMarkers){const pulse=1+Math.sin(clock.elapsedTime*2.5+marker.station.position.x)*.09;marker.ring.scale.setScalar(pulse);}
- if(followPlayer){target.lerp(new THREE.Vector3(px,.5,pz),Math.min(1,dt*3));}
+ if(followPlayer){target.lerp(new THREE.Vector3(px,.5,pz),Math.min(1,dt*3));}nova.position.set(px+1.55,Math.sin(clock.elapsedTime*2.1)*.12,pz+1.15);nova.rotation.y=Math.sin(clock.elapsedTime*.8)*.16;nova.position.y+=.92;
  }
  const onKeyDown=e=>{const key=e.key.toLowerCase();if(["w","a","s","d","arrowup","arrowdown","arrowleft","arrowright"," "].includes(key))e.preventDefault();keys.add(key);if(key==="e"||key==="enter")interact();};
  const onKeyUp=e=>keys.delete(e.key.toLowerCase());window.addEventListener("keydown",onKeyDown);window.addEventListener("keyup",onKeyUp);
