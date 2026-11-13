@@ -61,7 +61,7 @@ function createMission() {
   };
   vm.createContext(context);
   const source = fs.readFileSync('app.js', 'utf8') +
-    '\nglobalThis.__missionTest = { state, days, start, choose, advance, finish, showChallenge, getStats: () => missionStats };';
+    '\nglobalThis.__missionTest = { state, days, start, choose, advance, finish, showChallenge, showTrainingBriefing, showLaunchBriefing, getStats: () => missionStats };';
   vm.runInContext(source, context);
   return { api: context.__missionTest, elements };
 }
@@ -139,4 +139,19 @@ test('a critical final reserve prevents a safe-handover badge', () => {
   assert.match(elements.get('eventPanel').innerHTML, /MISSION INTERRUPTED/);
   assert.match(elements.get('eventPanel').innerHTML, /LOCKED · MISSION COMPLETE/);
   assert.equal(api.getStats().xp, 200);
+});
+
+
+test('commander training comes before pre-flight and does not consume a mission day', () => {
+  const { api, elements } = createMission();
+  api.showTrainingBriefing();
+
+  assert.equal(api.state.started, false);
+  assert.equal(api.state.day, 0);
+  assert.match(elements.get('eventPanel').innerHTML, /COMMANDER TRAINING/);
+  assert.match(elements.get('eventPanel').innerHTML, /2026 LUNAR LIGHT MODEL/);
+
+  elements.get('trainingComplete').listeners.click();
+  assert.match(elements.get('eventPanel').innerHTML, /PRE-FLIGHT AUTHORIZATION/);
+  assert.equal(api.state.started, false);
 });
