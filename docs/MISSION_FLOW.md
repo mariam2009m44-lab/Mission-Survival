@@ -22,3 +22,20 @@ The player receives a fictional training alert, not a live radiation forecast. E
 
 ## Three-dimensional environment
 The Three.js scene is a conceptual training environment with a habitat, solar farm, lander, rover and astronaut marker. It is not a flight-accurate engineering model or a NASA-built simulator.
+
+## 2026 campaign expansion
+
+The interactive campaign now uses five decision stages across three in-game days:
+1. Select one NASA-studied Artemis III candidate landing region, then prioritize extra batteries or water/oxygen payload.
+2. Run the simulated ISRU oxygen experiment or conserve energy.
+3. Respond to a fictional solar-particle alert with the crew-shelter protocol.
+4. Activate water recovery or ration the available supply.
+5. Start a long-term greenhouse trial or use stored food.
+
+The candidate-region picker uses Malapert Massif, Nobile Rim 1 and de Gerlache Rim 2 as educational scenarios. NASA identified these among candidate Artemis III landing regions; the app does not present them as approved or guaranteed-safe landing sites. Terrain, illumination, communication and landing safety require mission-specific assessment.
+
+The mission HUD summarizes Energy, Oxygen, Water & Food, and Crew Health. Detailed meters remain available in the mission panel. Resource values are illustrative game units, not engineering telemetry. The task list marks completed stages, and the final report includes the chosen site, decision history, score and badges.
+
+The first-run commander profile offers four original child-astronaut avatar illustrations. The profile is saved locally on the device; it is not an online account or authentication system. The selected avatar also appears as a child-proportioned astronaut in the Three.js lunar scene.
+
+NOVA provides a contextual science panel during each stage and remains available through the floating assistant. NOVA is a project feature, not an official NASA service. The comic interludes are fictional storytelling and are clearly separated from the NASA source notes.

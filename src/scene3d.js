@@ -45,11 +45,38 @@ function makeScene(THREE,root){
  box(1.7,.65,1.25,white,0,.85,0,rover);box(.65,.5,.6,gold,-.15,1.42,-.1,rover);
  for(const x of [-.72,.72])for(const z of [-.72,.72]){const wheel=new THREE.Mesh(new THREE.CylinderGeometry(.38,.38,.2,20),dark);wheel.rotation.z=Math.PI/2;wheel.position.set(x,.45,z);rover.add(wheel);}
  const mast=cyl(.045,.045,1.5,white,.45,1.8,0,rover);mast.rotation.z=-.15;
- // Astronaut marker.
+ // Junior commander avatar: a child-proportioned astronaut in a clear helmet.
+ let commander={avatar:"blue",name:"Commander"};try{commander={...commander,...(JSON.parse(localStorage.getItem("lunar-outpost-trainer-v2")||"{}").commander||{})};}catch{}
+ const avatarPalette={blue:{accent:0x42dfff,hair:0x56382d,skin:0xe7ae88},purple:{accent:0xc28cff,hair:0x49302c,skin:0xe6ae88},gold:{accent:0xffbf59,hair:0x211b18,skin:0xd99570},green:{accent:0x62e2b2,hair:0x3e2a24,skin:0xe8b28f}};
+ const chosen=avatarPalette[commander.avatar]||avatarPalette.blue,accentMat=mat(chosen.accent,.35,.28),skinMat=mat(chosen.skin,0,.72),hairMat=mat(chosen.hair,0,.8);
  const astronaut=new THREE.Group();astronaut.position.set(1,0,5);group.add(astronaut);
- const body=new THREE.Mesh(new THREE.SphereGeometry(.35,18,14),white);body.scale.set(.85,1.3,.7);body.position.y=.85;astronaut.add(body);
- const helmet=new THREE.Mesh(new THREE.SphereGeometry(.29,20,16),glass);helmet.position.set(0,1.45,0);astronaut.add(helmet);
- for(const x of [-.42,.42]){const leg=box(.18,.65,.2,white,x,.25,0,astronaut);leg.rotation.z=x*.25;}
+ const torso=new THREE.Mesh(new THREE.SphereGeometry(.43,24,18),white);torso.scale.set(.88,1.18,.72);torso.position.y=.88;astronaut.add(torso);
+ const neck=cyl(.12,.13,.18,skinMat,0,1.35,0,astronaut);
+ const head=new THREE.Mesh(new THREE.SphereGeometry(.31,24,20),skinMat);head.scale.set(.92,1.08,.86);head.position.set(0,1.62,.015);astronaut.add(head);
+ const hair=new THREE.Mesh(new THREE.SphereGeometry(.32,20,14,0,Math.PI*2,0,Math.PI*.62),hairMat);hair.position.set(0,1.76,-.01);astronaut.add(hair);
+ for(const x of [-.115,.115]){const eye=new THREE.Mesh(new THREE.SphereGeometry(.035,12,10),dark);eye.position.set(x,1.64,.276);astronaut.add(eye);}
+ const smile=new THREE.Mesh(new THREE.TorusGeometry(.075,.012,8,20,Math.PI),mat(0x8d4c45,0,.7));smile.position.set(0,1.52,.275);smile.rotation.z=Math.PI;astronaut.add(smile);
+ const helmet=new THREE.Mesh(new THREE.SphereGeometry(.405,28,20),glass);helmet.position.set(0,1.63,0);astronaut.add(helmet);
+ const helmetRing=new THREE.Mesh(new THREE.TorusGeometry(.395,.035,10,48),accentMat);helmetRing.position.set(0,1.57,0);astronaut.add(helmetRing);
+ const backpack=box(.62,.78,.3,dark,0,.9,-.42,astronaut);
+ box(.38,.22,.09,accentMat,0,1.05,-.59,astronaut);
+ for(const x of [-.43,.43]){const arm=cyl(.13,.16,.62,white,x,.92,0,astronaut);arm.rotation.z=x*.45;const glove=new THREE.Mesh(new THREE.SphereGeometry(.14,14,12),white);glove.position.set(x*1.22,.64,.08);astronaut.add(glove);const leg=box(.2,.58,.22,white,x*.55,.27,0,astronaut);leg.rotation.z=-x*.12;box(.25,.13,.34,dark,x*.55,.02,.04,astronaut);}
+ const chestBadge=box(.24,.18,.035,accentMat,.12,1.02,.29,astronaut);
+ // Interactive lunar stations. These are educational props, not engineering hardware.
+ const greenhouse=new THREE.Group();greenhouse.position.set(-5,0,7);group.add(greenhouse);
+ const greenhouseGlass=new THREE.Mesh(new THREE.SphereGeometry(1.25,24,16),new THREE.MeshPhysicalMaterial({color:0x75d7c4,transparent:true,opacity:.22,roughness:.12,metalness:.08,side:THREE.DoubleSide}));greenhouseGlass.scale.y=.72;greenhouseGlass.position.y=1.1;greenhouse.add(greenhouseGlass);
+ for(let i=0;i<4;i++){const bed=box(.35,.18,1.25,mat(0x42634e),-1.05+i*.7,.28,0,greenhouse);bed.rotation.y=.08;for(let j=0;j<4;j++){const plant=cyl(.035,.055,.34,mat(0x69c58a),-1.05+i*.7,.48,j*.25-.4,greenhouse);plant.rotation.z=(j%2?-.25:.25);}}
+ const oxygenLab=new THREE.Group();oxygenLab.position.set(-5,0,-3);group.add(oxygenLab);
+ box(2.2,1.5,1.7,white,0,.8,0,oxygenLab);box(1.35,.65,.16,mat(0x214f6e),0,1.0,.88,oxygenLab);cyl(.35,.35,.5,gold,.72,1.85,0,oxygenLab);cyl(.13,.13,1.0,white,-.65,2.0,0,oxygenLab);
+ const stations=[
+  {id:"habitat",name:"Habitat & Life Support",ar:"السكن ودعم الحياة",position:new THREE.Vector3(-2,0,1),radius:3.2,info:"The habitat protects the crew and houses life-support systems. In a real mission, pressure, temperature, air quality and power are monitored continuously.",arInfo:"توفر القاعدة الحماية للطاقم وتضم أنظمة دعم الحياة. في المهمات الحقيقية تُراقَب باستمرار ضغوط المقصورة والحرارة وجودة الهواء والطاقة."},
+  {id:"oxygen",name:"ISRU Oxygen Lab",ar:"مختبر استخلاص الأكسجين",position:new THREE.Vector3(-5,0,-3),radius:3.0,info:"ISRU means using local resources. NASA's 2026 CaRD work tested a ground prototype with simulated lunar soil; it is not an operating oxygen plant on the Moon.",arInfo:"يعني ISRU استخدام الموارد المحلية. اختبرت NASA في 2026 نموذجًا أوليًا أرضيًا باستخدام تربة قمرية محاكية؛ وليس مصنع أكسجين يعمل على القمر."},
+  {id:"solar",name:"Solar Power Farm",ar:"مزرعة الطاقة الشمسية",position:new THREE.Vector3(4,0,-1),radius:3.0,info:"Solar arrays convert sunlight into electricity. Near the lunar south pole, terrain and long shadow periods make power planning especially important.",arInfo:"تحول الألواح الشمسية ضوء الشمس إلى كهرباء. قرب القطب الجنوبي للقمر تجعل التضاريس وفترات الظل الطويلة تخطيط الطاقة أمرًا مهمًا."},
+  {id:"greenhouse",name:"Greenhouse & Water",ar:"الزراعة وإعادة تدوير المياه",position:new THREE.Vector3(-5,0,7),radius:3.0,info:"A closed growing system can help study food production and water use. It is a research challenge, not a promise of instant self-sufficiency.",arInfo:"يساعد نظام الزراعة المغلق في دراسة إنتاج الغذاء واستخدام المياه. لكنه تحدٍ بحثي وليس ضمانًا للاكتفاء الذاتي الفوري."},
+  {id:"rover",name:"Rover Garage",ar:"مركبة الاستكشاف",position:new THREE.Vector3(5,0,6),radius:3.0,info:"Rovers help astronauts explore terrain and carry instruments. Routes must be planned around slopes, rocks, lighting and communication.",arInfo:"تساعد المركبات رواد الفضاء في استكشاف التضاريس وحمل الأجهزة. ويجب تخطيط المسارات مع مراعاة المنحدرات والصخور والإضاءة والاتصالات."}
+ ];
+ const markerMaterial=mat(0x72d9e8,.25,.35);
+ const stationMarkers=stations.map(st=>{const ring=new THREE.Mesh(new THREE.TorusGeometry(1.05,.035,8,40),markerMaterial);ring.rotation.x=Math.PI/2;ring.position.set(st.position.x,.08,st.position.z);group.add(ring);const beacon=new THREE.PointLight(0x5edcf4,5,5);beacon.position.set(st.position.x,1.5,st.position.z);group.add(beacon);return{ring,beacon,station:st};});
  // Navigation beacon.
  const beacon=new THREE.PointLight(0x55dfff,22,8);beacon.position.set(-2,3.5,1);group.add(beacon);
  const starsGeo=new THREE.BufferGeometry(),stars=new Float32Array(900*3);for(let i=0;i<900;i++){stars[i*3]=(Math.random()-.5)*100;stars[i*3+1]=Math.random()*42+5;stars[i*3+2]=(Math.random()-.5)*100;}starsGeo.setAttribute("position",new THREE.BufferAttribute(stars,3));scene.add(new THREE.Points(starsGeo,new THREE.PointsMaterial({color:0xc8ddff,size:.12,transparent:true,opacity:.8})));
@@ -62,11 +89,25 @@ function makeScene(THREE,root){
  canvas.addEventListener("pointerup",()=>drag=false);canvas.addEventListener("pointercancel",()=>drag=false);
  canvas.addEventListener("wheel",e=>{e.preventDefault();radius=clamp(radius+e.deltaY*.018,13,36);cameraUpdate();},{passive:false});
  const focus={base:[0,.5,0],habitat:[-2,1,1],power:[4,1,-1],rover:[5,1,6],lander:[-8,1,-5]};
- root.querySelectorAll("[data-scene-focus]").forEach(b=>b.addEventListener("click",()=>{const v=focus[b.dataset.sceneFocus];if(v){target.set(...v);radius= b.dataset.sceneFocus==="base"?25:14;cameraUpdate();root.querySelectorAll("[data-scene-focus]").forEach(x=>x.classList.toggle("active",x===b));}}));
+ let followPlayer=true,nearby=null,moveX=0,moveZ=0;const keys=new Set(),moveSpeed=4.2;
+ const status=root.querySelector("[data-scene-status]"),interactWrap=root.querySelector(".scene-interact"),interactButton=root.querySelector("[data-scene-interact]");
+ function setStatus(text){if(status)status.textContent=text;}
+ function interact(){if(!nearby)return;const st=nearby;root.dispatchEvent(new CustomEvent("lunar-station-interact",{bubbles:true,detail:{id:st.id,name:st.name,ar:st.ar,info:st.info,arInfo:st.arInfo}}));setStatus((uiAr?"تمت زيارة · ":"VISITED · ")+(uiAr?st.ar:st.name));}
+ interactButton?.addEventListener("click",interact);
+ function updateMovement(dt){let x=(keys.has("d")||keys.has("arrowright")?1:0)-(keys.has("a")||keys.has("arrowleft")?1:0)+moveX;let z=(keys.has("s")||keys.has("arrowdown")?1:0)-(keys.has("w")||keys.has("arrowup")?1:0)+moveZ;const length=Math.hypot(x,z);if(length>.01){x/=length;z/=length;const dx=x*Math.cos(azimuth)-z*Math.sin(azimuth),dz=x*Math.sin(azimuth)+z*Math.cos(azimuth);astronaut.position.x=clamp(astronaut.position.x+dx*moveSpeed*dt,-21,21);astronaut.position.z=clamp(astronaut.position.z+dz*moveSpeed*dt,-21,21);astronaut.rotation.y=Math.atan2(dx,dz);followPlayer=true;}
+ const px=astronaut.position.x,pz=astronaut.position.z;let nearest=null,dist=Infinity;for(const st of stations){const d=Math.hypot(px-st.position.x,pz-st.position.z);if(d<dist){dist=d;nearest=st;}}
+ const next=dist<nearest.radius?nearest:null;if(next!==nearby){nearby=next;if(interactWrap)interactWrap.hidden=!nearby;if(nearby){root.querySelector("[data-scene-nearby]").textContent=nearby.name;setStatus((uiAr?"في النطاق · ":"IN RANGE · ")+(uiAr?nearby.ar:nearby.name));}else setStatus(uiAr?"استكشفي القاعدة وابحثي عن محطة مضيئة":"Explore the outpost and find a glowing station");}
+ for(const marker of stationMarkers){const pulse=1+Math.sin(clock.elapsedTime*2.5+marker.station.position.x)*.09;marker.ring.scale.setScalar(pulse);}
+ if(followPlayer){target.lerp(new THREE.Vector3(px,.5,pz),Math.min(1,dt*3));}
+ }
+ const onKeyDown=e=>{const key=e.key.toLowerCase();if(["w","a","s","d","arrowup","arrowdown","arrowleft","arrowright"," "].includes(key))e.preventDefault();keys.add(key);if(key==="e"||key==="enter")interact();};
+ const onKeyUp=e=>keys.delete(e.key.toLowerCase());window.addEventListener("keydown",onKeyDown);window.addEventListener("keyup",onKeyUp);
+ root.querySelectorAll("[data-move]").forEach(btn=>{const set=(on)=>{const dir=btn.dataset.move;const key={forward:"w",back:"s",left:"a",right:"d"}[dir];if(on)keys.add(key);else keys.delete(key);};btn.addEventListener("pointerdown",e=>{e.preventDefault();set(true);btn.setPointerCapture(e.pointerId);});btn.addEventListener("pointerup",()=>set(false));btn.addEventListener("pointercancel",()=>set(false));btn.addEventListener("lostpointercapture",()=>set(false));});
+ root.querySelectorAll("[data-scene-focus]").forEach(b=>b.addEventListener("click",()=>{const v=focus[b.dataset.sceneFocus];if(v){followPlayer=false;target.set(...v);radius= b.dataset.sceneFocus==="base"?25:14;cameraUpdate();root.querySelectorAll("[data-scene-focus]").forEach(x=>x.classList.toggle("active",x===b));}}));
  const clock=new THREE.Clock();
- function animate(){raf=requestAnimationFrame(animate);const t=clock.getElapsedTime();if(!drag){azimuth+=.0007;}beacon.intensity=17+Math.sin(t*2.4)*5;cameraUpdate();renderer.render(scene,camera);}
+ function animate(){raf=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),t=clock.elapsedTime;if(!drag&&!keys.size){azimuth+=.0007;}updateMovement(dt);astronaut.position.y=.035+Math.sin(t*1.8)*.035;beacon.intensity=17+Math.sin(t*2.4)*5;cameraUpdate();renderer.render(scene,camera);}
  animate();
- return()=>{cancelAnimationFrame(raf);ro.disconnect();renderer.dispose();geo.dispose();starsGeo.dispose();};
+ return()=>{cancelAnimationFrame(raf);ro.disconnect();window.removeEventListener("keydown",onKeyDown);window.removeEventListener("keyup",onKeyUp);renderer.dispose();geo.dispose();starsGeo.dispose();};
 }
 function mount(){
  const app=document.querySelector("#app");if(!app)return;
@@ -74,7 +115,8 @@ function mount(){
  const target=hero||(/MISSION DAY|SIMULATION \/ TRAINING ENVIRONMENT/i.test(label)?heading:null);
  if(!target)return;
  let root=app.querySelector(".lunar-3d-stage");
- if(!root){root=document.createElement("section");root.className="lunar-3d-stage";root.innerHTML='<div class="scene-topline"><span>LIVE 3D · LUNAR SOUTH POLE</span><span class="scene-hint">DRAG TO ORBIT · SCROLL TO ZOOM</span></div><div class="scene-viewport"><canvas aria-label="Interactive three-dimensional lunar outpost scene"></canvas><div class="scene-loading">INITIALIZING 3D TERRAIN…</div></div><div class="scene-toolbar"><div class="scene-focus"><button class="active" data-scene-focus="base">BASE</button><button data-scene-focus="habitat">HABITAT</button><button data-scene-focus="power">SOLAR FARM</button><button data-scene-focus="rover">ROVER</button><button data-scene-focus="lander">LANDER</button></div><span class="scene-caption">CONCEPTUAL TRAINING ENVIRONMENT · NOT FLIGHT HARDWARE</span></div>';
+ if(!root){root=document.createElement("section");root.className="lunar-3d-stage";const uiAr=(()=>{try{return JSON.parse(localStorage.getItem("lunar-outpost-trainer-v2")||"{}").language==="ar";}catch{return false;}})();
+ root.innerHTML='<div class="scene-topline"><span>LIVE 3D · LUNAR SOUTH POLE</span><span class="scene-hint">'+(uiAr?"WASD / الأسهم للحركة · E للتفاعل":"WASD / ARROWS TO MOVE · E TO INTERACT")+'</span></div><div class="scene-viewport"><canvas aria-label="Interactive three-dimensional lunar outpost scene"></canvas><div class="scene-loading">INITIALIZING 3D TERRAIN…</div><div class="scene-hud"><span class="scene-hud-dot"></span><b>'+(uiAr?"وضع الاستكشاف":"EXPLORATION MODE")+'</b><small data-scene-status>'+(uiAr?"اقتربي من محطة مضيئة":"Move near a glowing station")+'</small></div><div class="scene-interact" hidden><b data-scene-nearby>STATION</b><button type="button" data-scene-interact>'+(uiAr?"تفاعل ↗":"INTERACT ↗")+'</button></div><div class="scene-pad" aria-label="Movement controls"><button data-move="forward" aria-label="Move forward">▲</button><div><button data-move="left" aria-label="Move left">◀</button><button data-move="back" aria-label="Move back">▼</button><button data-move="right" aria-label="Move right">▶</button></div></div></div><div class="scene-toolbar"><div class="scene-focus"><button class="active" data-scene-focus="base">'+(uiAr?"القاعدة":"BASE")+'</button><button data-scene-focus="habitat">'+(uiAr?"السكن":"HABITAT")+'</button><button data-scene-focus="power">'+(uiAr?"الطاقة الشمسية":"SOLAR FARM")+'</button><button data-scene-focus="rover">'+(uiAr?"المركبة":"ROVER")+'</button><button data-scene-focus="lander">'+(uiAr?"المركبة الهابطة":"LANDER")+'</button></div><span class="scene-caption">'+(uiAr?"بيئة تدريب تصورية · ليست معدات طيران":"CONCEPTUAL TRAINING ENVIRONMENT · NOT FLIGHT HARDWARE")+'</span></div>';
   if(hero){hero.innerHTML="";hero.append(root);}else target.after(root);
   }
  if(root.dataset.ready)return;root.dataset.ready="loading";

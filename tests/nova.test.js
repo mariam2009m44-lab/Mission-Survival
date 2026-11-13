@@ -35,9 +35,10 @@ import {readFile} from "node:fs/promises";
 
 test("offline service worker precaches NOVA and rotates the cache",async()=>{
  const sw=await readFile(new URL("../service-worker.js",import.meta.url),"utf8");
- assert.match(sw,/lunar-outpost-app-v4/);
+ assert.match(sw,/lunar-outpost-app-v7/);
  assert.match(sw,/\.\/src\/nova\.js/);
  assert.match(sw,/\.\/src\/scene3d\.js/);
+ assert.match(sw,/astronaut-kids\.svg/);
  assert.match(sw,/cdn\.jsdelivr\.net/);
 });
 test("science manifest records the NASA-IBM model and LROC 68B schedule",async()=>{
@@ -46,3 +47,9 @@ test("science manifest records the NASA-IBM model and LROC 68B schedule",async()
  assert.ok(manifest.datasets.some(d=>d.id==="nasa-ibm-lunar-foundation-model"));
  assert.ok(manifest.datasets.some(d=>d.id==="lro-lroc-release-68b"&&d.scheduled_public_release_date==="2026-11-13"));
 });
+
+test("commander onboarding and mission hub are available in the app shell",async()=>{const app=await readFile(new URL("../src/main.js",import.meta.url),"utf8");assert.match(app,/function onboarding\(\)/);assert.match(app,/function missionHub\(\)/);assert.match(app,/resourceSummary\(values\)/);assert.match(app,/NOVA COMIC/);});
+
+test("3D scene reads the selected junior commander profile",async()=>{const scene=await readFile(new URL("../src/scene3d.js",import.meta.url),"utf8");assert.match(scene,/avatarPalette/);assert.match(scene,/lunar-outpost-trainer-v2/);});
+
+test("3D exploration supports movement, nearby station interaction and NOVA event dispatch",async()=>{const scene=await readFile(new URL("../src/scene3d.js",import.meta.url),"utf8");const app=await readFile(new URL("../src/main.js",import.meta.url),"utf8");assert.match(scene,/data-move/);assert.match(scene,/data-scene-interact/);assert.match(scene,/lunar-station-interact/);assert.match(scene,/ISRU Oxygen Lab/);assert.match(scene,/Greenhouse & Water/);assert.match(app,/lunar-station-interact/);});
