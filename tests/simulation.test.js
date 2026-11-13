@@ -119,3 +119,24 @@ test('a critical reserve ends the mission without falsely claiming completion', 
   assert.match(elements.get('eventPanel').innerHTML, /LOCKED · MISSION COMPLETE/);
   assert.equal(api.missionStats.missions, 1);
 });
+
+
+test('a critical final reserve prevents a safe-handover badge', () => {
+  const { api, elements } = createMission();
+  api.start();
+  api.choose(0);
+  api.advance();
+  api.showChallenge();
+  api.choose(0);
+  api.advance();
+  api.showChallenge();
+  api.choose(0);
+  api.state.resources.shield = 0;
+  api.advance();
+
+  assert.equal(api.state.history.length, 3);
+  assert.equal(api.state.over, true);
+  assert.match(elements.get('eventPanel').innerHTML, /MISSION INTERRUPTED/);
+  assert.match(elements.get('eventPanel').innerHTML, /LOCKED · MISSION COMPLETE/);
+  assert.doesNotMatch(elements.get('eventPanel').innerHTML, /MISSION REWARD: \+300 XP/);
+});
