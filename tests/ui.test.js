@@ -21,6 +21,7 @@ test("app completes junior commander onboarding, training, five mission decision
  await action("tour-start");
  assert.match(root.innerHTML,/MISSION DAY/);
  await action("language");
+ await nav("overview");
  assert.match(root.innerHTML,/A smarter outpost/);
  await nav("training");
  assert.match(root.innerHTML,/QUICK KNOWLEDGE CHECK/);
