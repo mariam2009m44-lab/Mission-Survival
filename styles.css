@@ -290,3 +290,8 @@
 .station-close{width:100%;min-height:44px}
 .rtl .station-modal{text-align:right}
 @media(max-width:520px){.station-modal-backdrop{padding:9px}.station-modal{border-radius:20px}.station-question{font-size:13px}.station-answers button{font-size:11px;min-height:48px}}
+
+/* Clear, pulsing destination cue for younger explorers. */
+.scene-waypoint{display:block;margin-top:7px;padding:7px 10px;border:1px solid rgba(255,207,101,.48);border-radius:9px;background:rgba(255,207,101,.12);color:#ffe5a3!important;font-size:10px!important;font-weight:800;letter-spacing:.04em;line-height:1.45;box-shadow:0 0 18px rgba(255,207,101,.12)}
+.scene-waypoint[hidden]{display:none}
+@media(max-width:680px){.scene-waypoint{font-size:9px!important;padding:6px 8px}}
