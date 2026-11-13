@@ -39,3 +39,8 @@ The mission HUD summarizes Energy, Oxygen, Water & Food, and Crew Health. Detail
 The first-run commander profile offers four original child-astronaut avatar illustrations. The profile is saved locally on the device; it is not an online account or authentication system. The selected avatar also appears as a child-proportioned astronaut in the Three.js lunar scene.
 
 NOVA provides a contextual science panel during each stage and remains available through the floating assistant. NOVA is a project feature, not an official NASA service. The comic interludes are fictional storytelling and are clearly separated from the NASA source notes.
+
+
+## In-world learning route
+
+Each of the five decision stages now includes a NOVA field assignment that points the junior commander to one matching 3D station: solar farm, oxygen lab, habitat, greenhouse, then rover garage. The player can open the base, follow the glowing station marker, complete its short knowledge challenge, and return to the same mission step. Station discoveries remain optional learning bonuses; they do not block the core decision flow, and the app continues to explain that all resource effects are illustrative game units.
