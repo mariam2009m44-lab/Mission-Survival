@@ -28,6 +28,8 @@ test("app completes junior commander onboarding, training, five mission decision
  await nav("overview");
  assert.match(root.innerHTML,/A smarter outpost/);
  assert.match(root.innerHTML,/Crew protection/i);
+ assert.match(root.innerHTML,/5 DECISION STAGES/);
+ assert.match(root.innerHTML,/NOVA SCIENCE GUIDE/);
  assert.doesNotMatch(root.innerHTML,/CREW HEALTH|صحة الطاقم/);
  await nav("training");
  assert.match(root.innerHTML,/QUICK KNOWLEDGE CHECK/);
