@@ -6,8 +6,7 @@
   "time_step_hours": 2,
   "frame_count": 4381,
   "inputs": [
-    "Lunar Reconnaissance Orbiter (LRO) LOLA global terrain mapping",
-    "JPL DE421 planetary ephemeris"
+    "Lunar Reconnaissance Orbiter global terrain mapping from the LOLA laser altimeter"
   ],
   "source_url": "https://svs.gsfc.nasa.gov/4930/",
   "source_release_date": "2022-10-05",
@@ -15,5 +14,37 @@
     "This is a modeled sunlight and shadow visualization, not live lunar weather or habitat telemetry.",
     "It does not provide measured oxygen, water, food, crew consumption, or outpost battery values.",
     "All game resource percentages and decision effects remain illustrative gameplay values."
+  ],
+  "additional_learning_sources": [
+    {
+      "name": "DONKI",
+      "url": "https://api.nasa.gov/",
+      "role": "Space-weather event records for educational solar-event briefings",
+      "limitation": "Earth/near-Earth event records are not direct lunar-surface radiation measurements."
+    },
+    {
+      "name": "RadLab",
+      "url": "https://visualization.osdr.nasa.gov/radlab/gui/data-api/",
+      "role": "Radiation telemetry from spaceflight instruments, including ISS records",
+      "limitation": "ISS measurements must not be presented as lunar-base exposure measurements."
+    },
+    {
+      "name": "OSDR",
+      "url": "https://www.nasa.gov/osdr-api/",
+      "role": "Published space-biology research datasets",
+      "limitation": "Research data are not live astronaut medical telemetry."
+    },
+    {
+      "name": "Mars Trek",
+      "url": "https://trek.nasa.gov/mars/",
+      "role": "Real Mars imagery and terrain exploration",
+      "limitation": "Mars data are not lunar terrain data."
+    },
+    {
+      "name": "Moon Trek",
+      "url": "https://trek.nasa.gov/moon/",
+      "role": "Lunar imagery and terrain exploration",
+      "limitation": "Use for lunar mapping context; distinguish map layers from current operational measurements."
+    }
   ]
 }
