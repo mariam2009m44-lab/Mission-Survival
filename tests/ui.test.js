@@ -10,7 +10,10 @@ Object.defineProperty(globalThis,"localStorage",{configurable:true,value:{getIte
 await import("../src/main.js?ui-smoke");
 async function nav(id){await root.listeners.click({target:{closest:selector=>selector==="[data-nav]"?{dataset:{nav:id}}:null}});}
 async function action(name,data={}){await root.listeners.click({target:{closest:selector=>selector==="[data-action]"?{dataset:{action:name,...data}}:null}});}
-test("app renders, passes a training check, completes the mission and opens the science library",async()=>{
+test("app completes junior commander onboarding, training, five mission decisions and science library",async()=>{
+ assert.match(root.innerHTML,/اختاري شخصية رائدة الفضاء/);
+ await action("create-profile");
+ await action("language");
  assert.match(root.innerHTML,/A smarter outpost/);
  await nav("training");
  assert.match(root.innerHTML,/QUICK KNOWLEDGE CHECK/);
@@ -18,7 +21,8 @@ test("app renders, passes a training check, completes the mission and opens the 
  assert.match(root.innerHTML,/Correct. Terrain and sunlight models/);
  await nav("mission");
  await action("start");
- for(let day=0;day<3;day++){await action("choose",{choice:"0"});if(day<2)await action("next");}
+ await action("site-select",{site:"malapert","siteName":"Malapert Massif"});
+ for(let day=0;day<5;day++){await action("choose",{choice:"0"});if(day<4)await action("next");}
  assert.match(root.innerHTML,/MISSION SCORE/);
  await nav("science");
  assert.match(root.innerHTML,/LRO CRaTER/);
