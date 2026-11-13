@@ -208,3 +208,15 @@ test('Day 3 includes the CSA food-production source in the mission science panel
   assert.match(elements.get('scienceNote').innerHTML, /CSA \/ FOOD PRODUCTION LEARNING TOOLKIT/);
   assert.match(elements.get('novaNote').innerHTML, /A combined recycling-and-growing strategy/);
 });
+
+
+test('training and transition screens do not leave stale science notes visible', () => {
+  const { api, elements } = createMission();
+  api.showTrainingBriefing();
+  assert.match(elements.get('scienceNote').innerHTML, /TRAINING REFERENCE/);
+  api.start();
+  api.choose(0);
+  api.advance();
+  assert.match(elements.get('scienceNote').innerHTML, /UPCOMING MISSION SCIENCE/);
+  assert.match(elements.get('scienceNote').innerHTML, /solar particle event/);
+});
