@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {createMission,startMission,choose,nextDay,summary} from "../src/engine.js";
-import {DAYS,SOURCES} from "../src/data.js";
+import {DAYS,SOURCES,MODULES} from "../src/data.js";
 test("three mission days and five game resources",()=>{const m=startMission(createMission());assert.equal(DAYS.length,3);assert.deepEqual(Object.keys(m.resources).sort(),["food","oxygen","power","shield","water"]);});
 test("difficulty modes have different starting reserves",()=>{assert.ok(createMission("training").resources.oxygen>createMission("standard").resources.oxygen);assert.ok(createMission("standard").resources.oxygen>createMission("expert").resources.oxygen);});
 test("a choice applies declared changes and moves to debrief",()=>{const m=startMission(createMission());const before={...m.resources};const r=choose(m,0);assert.equal(r.day,1);assert.equal(m.phase,"debrief");assert.equal(m.resources.power,before.power+13);assert.equal(m.resources.oxygen,before.oxygen-5);});
@@ -13,3 +13,5 @@ test("illumination source is explicitly a model",()=>{const x=SOURCES.find(v=>v.
 test("CRaTER coverage is correctly dated and qualified",()=>{const x=SOURCES.find(v=>v.id==="crater");assert.match(x.date,/30 Jun 2026/);assert.match(x.limit,/not direct readings/i);});
 test("Diviner coverage is the verified 2026 interval",()=>{const x=SOURCES.find(v=>v.id==="diviner");assert.match(x.date,/16 Mar–15 Jun 2026/);});
 test("the CRaTER primary file exposes verified detector-energy fields",()=>{const x=SOURCES.find(v=>v.id==="crater");assert.match(x.fields,/ENERGY.*keV/);assert.match(x.fields,/AMPL.*ADU/);});
+
+test("each training module has a three-choice knowledge check",()=>{assert.equal(MODULES.length,4);for(const module of MODULES){assert.equal(module.options.length,3);assert.equal(module.arOptions.length,3);assert.ok(module.answer>=0&&module.answer<3);assert.ok(module.question&&module.explain);}});
