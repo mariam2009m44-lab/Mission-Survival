@@ -47,7 +47,7 @@ The backend is not live until a Cloudflare D1 database and Worker are deployed a
 
 ## Mobile game feel and accessibility
 
-- Optional synthesized interface sound effects with a visible mute control; no music or audio files are required.
+- Original procedural ambient space soundtrack generated locally with the Web Audio API, plus independently controlled synthesized interface sound effects. Audio starts after a user gesture and can be muted separately; no copyrighted tracks or external audio downloads are used.
 - Brief success feedback and optional light haptics on supported devices, with reduced-motion support.
 - Mobile safe-area spacing, touch-friendly controls and flexible screen orientation.
 
