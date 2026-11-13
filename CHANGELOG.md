@@ -3,6 +3,10 @@
 ## 2026-11-13
 
 ### Added
+- Added a short commander-training stage before pre-flight authorization and launch; the briefing does not consume a mission day.
+- Added a NASA 2026 lunar South Pole illumination reference in training, with clear separation between sourced environmental context and illustrative gameplay values.
+
+### Added
 - Reworked the core storyline into a focused three-day lunar survival mission.
 - Added three connected challenges: power and oxygen, solar storm protection, and water and food supplies.
 - Added a live command task bar with four mission objectives.
