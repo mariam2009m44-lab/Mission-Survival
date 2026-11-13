@@ -1,4 +1,4 @@
-export const VERSION="2.0.0";
+export const VERSION="2.1.0";
 export const KEY="lunar-outpost-trainer-v2";
 export const RESOURCES=[
 {id:"oxygen",name:"Oxygen",ar:"الأكسجين"},
