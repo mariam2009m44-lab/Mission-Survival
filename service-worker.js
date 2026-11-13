@@ -1,4 +1,4 @@
-const CACHE="lunar-outpost-app-v6";
+const CACHE="lunar-outpost-app-v7";
 const CORE=["./","./index.html","./styles.css","./manifest.webmanifest","./favicon.svg","./src/main.js","./src/scene3d.js","./src/nova.js","./src/data.js","./assets/avatars/astronaut-kids.svg","./src/engine.js","./src/storage.js","./assets/icons/icon-192.svg","./assets/icons/icon-512.svg","./assets/icons/icon-192.png","./assets/icons/icon-512.png","./data/mission-science.json"];
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith("lunar-outpost-")&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
