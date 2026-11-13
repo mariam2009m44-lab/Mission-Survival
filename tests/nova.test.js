@@ -35,7 +35,7 @@ import {readFile} from "node:fs/promises";
 
 test("offline service worker precaches NOVA and rotates the cache",async()=>{
  const sw=await readFile(new URL("../service-worker.js",import.meta.url),"utf8");
- assert.match(sw,/lunar-outpost-app-v14/);
+ assert.match(sw,/lunar-outpost-app-v15/);
  assert.match(sw,/\.\/src\/nova\.js/);
  assert.match(sw,/\.\/src\/scene3d\.js/);
  assert.match(sw,/astronaut-kids\.svg/);
@@ -65,4 +65,16 @@ test("3D experience includes first-person mode and optional immersive WebXR",asy
  assert.match(scene,/Mission waypoint/);
  assert.match(scene,/data-scene-waypoint/);
  assert.match(scene,/NEXT STOP ·/);
+});
+
+test("TECNOVA visual theme is loaded and cached for offline use",async()=>{
+ const css=await readFile(new URL("../styles/theme-polish.css",import.meta.url),"utf8");
+ const html=await readFile(new URL("../index.html",import.meta.url),"utf8");
+ const sw=await readFile(new URL("../service-worker.js",import.meta.url),"utf8");
+ assert.match(html,/styles\/theme-polish\.css/);
+ assert.match(sw,/styles\/theme-polish\.css/);
+ assert.match(css,/--cyan:#70dce2/);
+ assert.match(css,/\.tecnova-panel/);
+ assert.match(css,/\.mission-gateway/);
+ assert.match(css,/prefers-reduced-motion/);
 });
