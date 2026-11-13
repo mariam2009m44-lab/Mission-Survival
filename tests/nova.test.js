@@ -7,6 +7,12 @@ test("NOVA answers lunar AI questions with official NASA and model links",()=>{
  assert.match(r.answer,/not a conversational chatbot/i);
  assert.ok(r.sources.some(x=>x[1].includes("science.nasa.gov")));
 });
+test("NOVA explains the 2026 NASA CaRD oxygen prototype accurately",()=>{
+ const r=answerNova("How could oxygen be extracted from lunar soil?","en");
+ assert.match(r.answer,/simulated lunar regolith/i);
+ assert.match(r.answer,/not an operating plant on the Moon/i);
+ assert.ok(r.sources.some(x=>x[1].includes("nasa.gov")));
+});
 test("NOVA recognizes Arabic lunar data questions",()=>{
  const r=answerNova("إيه أحدث بيانات القمر يوم 13 نوفمبر 2026؟","ar");
  assert.match(r.answer,/68B/);
@@ -21,7 +27,7 @@ test("NOVA does not invent unsupported answers",()=>{
  assert.match(r.answer,/won't invent an answer/i);
 });
 test("NOVA prompt suggestions are bilingual",()=>{
- assert.equal(NOVA_PROMPTS.length,4);
+ assert.equal(NOVA_PROMPTS.length,5);
  assert.ok(NOVA_PROMPTS.every(p=>p.en&&p.ar));
 });
 
