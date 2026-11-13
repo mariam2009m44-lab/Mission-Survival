@@ -482,3 +482,29 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--amber);outline-offs
 .nova-fab-art{display:block;width:34px;height:34px;object-fit:contain}
 .nova-fab b{font-size:11px}
 @media(max-width:520px){.nova-fab-art{width:31px;height:31px}.nova-orb img{width:68px;height:68px}}
+
+/* Illustrated station cards — recognizable artwork instead of emoji-only labels */
+.fieldwork-stations{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.fieldwork-station{display:flex;flex-direction:column;align-items:flex-start;gap:9px;min-width:0;min-height:142px;padding:12px;border:1px solid var(--line);border-radius:17px;background:linear-gradient(155deg,rgba(255,255,255,.065),rgba(255,255,255,.018))}
+.fieldwork-icon{display:grid;place-items:center;width:100%;height:76px;overflow:hidden;border-radius:13px;background:radial-gradient(ellipse at 50% 80%,rgba(120,226,232,.16),transparent 72%),rgba(9,17,35,.42)}
+.fieldwork-icon img{display:block;width:100%;height:100%;max-width:104px;object-fit:contain;filter:drop-shadow(0 6px 9px rgba(0,0,0,.2))}
+.fieldwork-station>span:nth-child(2){display:block;width:100%;min-width:0}
+.fieldwork-station b{display:block;font-size:11px;line-height:1.5}
+.fieldwork-station small{display:block;margin-top:5px;font-size:9px;line-height:1.5}
+.fieldwork-station em{position:absolute;align-self:flex-end;margin-top:-4px;font-size:12px}
+.fieldwork-station{position:relative}
+.fieldwork-station.is-complete{border-color:rgba(140,230,181,.45);background:linear-gradient(155deg,rgba(140,230,181,.12),rgba(255,255,255,.02))}
+.field-guide{display:grid;grid-template-columns:78px minmax(0,1fr) auto;align-items:center;gap:15px;padding:16px}
+.field-guide-icon{display:grid;place-items:center;width:78px;height:78px;overflow:hidden;border-radius:20px;background:radial-gradient(ellipse at 50% 75%,rgba(120,226,232,.2),transparent 72%),rgba(8,16,33,.42)}
+.field-guide-icon img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 7px 10px rgba(0,0,0,.22))}
+.field-guide-copy{min-width:0}
+.field-guide-copy h3{margin:5px 0}
+.field-guide-copy p{margin:5px 0}
+@media(max-width:760px){
+ .fieldwork-stations{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .fieldwork-station{min-height:130px}
+ .field-guide{grid-template-columns:58px minmax(0,1fr);gap:11px;padding:13px}
+ .field-guide-icon{width:58px;height:58px;border-radius:15px}
+ .field-guide-button{grid-column:1/-1;width:100%;min-height:42px}
+}
+@media(max-width:380px){.fieldwork-stations{grid-template-columns:1fr 1fr;gap:7px}.fieldwork-icon{height:64px}}
