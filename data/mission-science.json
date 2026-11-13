@@ -64,6 +64,35 @@
       "migration_date": "2026-09-30",
       "url": "https://ccmc.gsfc.nasa.gov/DONKI/",
       "limitation": "Event records and model analyses are research context, not lunar surface radiation forecasts."
+    },
+    {
+      "id": "nasa-ibm-lunar-foundation-model",
+      "publisher": "NASA / IBM Research",
+      "product": "NASA-IBM Lunar Foundation Model",
+      "announcement_date": "2026-09-10",
+      "model_type": "Open-source geospatial / image foundation model",
+      "training_data": "Primarily LRO imagery and terrain, with GRAIL, Lunar Prospector and JAXA SELENE inputs",
+      "training_scale": "Approximately 2 million image tiles; over 1 million high-resolution camera images at 1 m and nearly 964,000 multispectral images at 100 m",
+      "tasks": [
+        "Crater mapping",
+        "Irregular mare patch segmentation",
+        "Lunar polar ice prospectivity"
+      ],
+      "model_collection_url": "https://huggingface.co/collections/nasa-ibm-ai4science/nasa-ibm-lunar-fm-and-downstream-models",
+      "code_url": "https://github.com/NASA-IMPACT/NASA-IBM-Lunar-Foundation-Model",
+      "nasa_source": "https://science.nasa.gov/science-research/artificial-intelligence-lunar-foundation-model/",
+      "limitation": "This is not a conversational chatbot and does not directly measure ice. It is a research model for image/geospatial analysis; outputs require scientific validation."
+    },
+    {
+      "id": "lro-lroc-release-68b",
+      "publisher": "NASA Planetary Data System / LROC",
+      "product": "LRO Release 68B (LROC)",
+      "scheduled_public_release_date": "2026-11-13",
+      "nominal_acquisition_start": "2026-07-16",
+      "nominal_acquisition_end": "2026-08-15",
+      "measurement": "Lunar Reconnaissance Orbiter Camera imagery",
+      "schedule_url": "https://pds-geosciences.wustl.edu/missions/lro/",
+      "limitation": "The archive schedule lists the planned public-release date. Check the archive for actual product availability; this is not a CRaTER or Diviner release."
     }
   ],
   "partner_resources": [
