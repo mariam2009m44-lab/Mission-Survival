@@ -61,7 +61,8 @@ export function validateProgress(input) {
       site:typeof m.site==="string"?m.site.slice(0,40):null,
       siteName:typeof m.siteName==="string"?m.siteName.slice(0,60):null,
       xp:number(m.xp,1000000),result:["success","interrupted"].includes(m.result)?m.result:null,saved:Boolean(m.saved),
-      resources:{}
+      resources:{},
+      stationTasks:Array.isArray(m.stationTasks)?m.stationTasks.filter(id=>["habitat","oxygen","solar","greenhouse","rover"].includes(id)).slice(0,5):[]
     };
     for(const key of ["power","oxygen","water","food","shield"]) mission.resources[key]=number(m.resources?.[key],100);
     mission.history=Array.isArray(m.history)?m.history.slice(-5).map(row=>({
