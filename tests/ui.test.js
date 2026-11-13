@@ -43,3 +43,16 @@ test("app completes junior commander onboarding, training, five mission decision
  await action("language");
  assert.match(root.innerHTML,/مختبر العلوم|مكتبة العلوم الموثقة/);
 });
+test("walking to a lunar station opens a child-friendly discovery challenge",async()=>{
+ const handler=root.listeners["lunar-station-interact"];
+ assert.equal(typeof handler,"function");
+ handler({detail:{id:"solar",name:"Solar Power Farm",ar:"مزرعة الطاقة الشمسية",info:"Solar panels use sunlight.",arInfo:"الألواح تستخدم ضوء الشمس."}});
+ assert.match(root.innerHTML,/station-modal/);
+ assert.match(root.innerHTML,/ليه قائد القاعدة يدرس الظلال/);
+ await action("station-answer",{answer:"1"});
+ assert.match(root.innerHTML,/مش دي الإجابة الصحيحة/);
+ await action("station-answer",{answer:"0"});
+ assert.match(root.innerHTML,/تم تسجيل اكتشافك|اكتشافك/);
+ await action("station-close");
+ assert.doesNotMatch(root.innerHTML,/station-modal/);
+});
