@@ -1,0 +1,19 @@
+{
+  "dataset_name": "Illumination at the Moon's South Pole, 2023 to 2030",
+  "publisher": "NASA Scientific Visualization Studio",
+  "dataset_year": 2026,
+  "region": "Within 2 degrees of the lunar South Pole; south of 88 degrees south latitude",
+  "time_step_hours": 2,
+  "frame_count": 4381,
+  "inputs": [
+    "Lunar Reconnaissance Orbiter (LRO) LOLA global terrain mapping",
+    "JPL DE421 planetary ephemeris"
+  ],
+  "source_url": "https://svs.gsfc.nasa.gov/4930/",
+  "source_release_date": "2022-10-05",
+  "limitations": [
+    "This is a modeled sunlight and shadow visualization, not live lunar weather or habitat telemetry.",
+    "It does not provide measured oxygen, water, food, crew consumption, or outpost battery values.",
+    "All game resource percentages and decision effects remain illustrative gameplay values."
+  ]
+}
