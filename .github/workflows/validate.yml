@@ -54,5 +54,6 @@ jobs:
           grep -q 'RADLAB / RADIATION DATA API' app.js
           grep -q 'MOON TREK' app.js
           grep -q 'CSA FOOD PRODUCTION TOOLKIT' app.js
+          grep -q 'SPACE FARMER / MINI-GREENHOUSE EXPERIMENT' app.js
           grep -q 'fictional training scenario' app.js
           grep -q 'nasa-lunar-preview' app.js
