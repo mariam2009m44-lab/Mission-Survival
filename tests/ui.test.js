@@ -15,6 +15,15 @@ test("app completes junior commander onboarding, training, five mission decision
  assert.match(root.innerHTML,/intro-3d-world/);
  assert.match(root.innerHTML,/مغامرتك الجديدة/);
  await action("intro-start");
+ assert.match(root.innerHTML,/nova-welcome-guide/);
+ assert.match(root.innerHTML,/أهلًا يا مستكشف/);
+ await action("guide-next");
+ assert.match(root.innerHTML,/دي قاعدتك على القمر/);
+ await action("guide-next");
+ assert.match(root.innerHTML,/خمس محطات/);
+ await action("guide-next");
+ assert.match(root.innerHTML,/اتعلم الأول، وبعدها قُد المهمة/);
+ await action("guide-finish");
  assert.match(root.innerHTML,/اختاري شخصية رائدة الفضاء/);
  await action("create-profile");
  assert.match(root.innerHTML,/أهلاً بك على القمر/);
