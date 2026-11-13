@@ -61,7 +61,7 @@ function createMission() {
   };
   vm.createContext(context);
   const source = fs.readFileSync('app.js', 'utf8') +
-    '\nglobalThis.__missionTest = { state, days, start, choose, advance, finish, showChallenge, missionStats };';
+    '\nglobalThis.__missionTest = { state, days, start, choose, advance, finish, showChallenge, getStats: () => missionStats };';
   vm.runInContext(source, context);
   return { api: context.__missionTest, elements };
 }
@@ -100,8 +100,8 @@ test('a full three-day run produces a completed report and rewards', () => {
 
   assert.equal(api.state.over, true);
   assert.equal(api.state.history.length, 3);
-  assert.equal(api.missionStats.missions, 1);
-  assert.equal(api.missionStats.xp, 475);
+  assert.equal(api.getStats().missions, 1);
+  assert.equal(api.getStats().xp, 475);
   assert.match(elements.get('eventPanel').innerHTML, /MISSION SUCCESS|EXCEPTIONAL COMMAND/);
   assert.match(elements.get('eventPanel').innerHTML, /FINAL MISSION REPORT/);
 });
