@@ -1,7 +1,7 @@
 {
   "name": "LUNAR OUTPOST: Mission Survival",
   "short_name": "Lunar Outpost",
-  "description": "A five-day educational lunar outpost survival simulation.",
+  "description": "A three-day educational lunar outpost survival simulation.",
   "lang": "en",
   "start_url": "./",
   "scope": "./",
