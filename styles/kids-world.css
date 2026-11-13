@@ -1,0 +1,203 @@
+/* TECNOVA Kids World — CSS-only illustration layer
+   No external image dependency; designed for touch-first screens. */
+:root{
+  --kid-sky:#101d3b;
+  --kid-teal:#70e1df;
+  --kid-lilac:#b8a8ff;
+  --kid-sun:#ffd78e;
+  --kid-ink:#f5f8ff;
+}
+.kid-home{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  background:
+    radial-gradient(1.5px 1.5px at 8% 11%,#fff 98%,transparent),
+    radial-gradient(1px 1px at 21% 28%,#a9edff 98%,transparent),
+    radial-gradient(2px 2px at 83% 16%,#fff 98%,transparent),
+    radial-gradient(1px 1px at 92% 43%,#c7baff 98%,transparent),
+    radial-gradient(1.5px 1.5px at 57% 7%,#fff 98%,transparent),
+    linear-gradient(150deg,#0b1530 0%,#142548 54%,#101b37 100%);
+  background-size:230px 190px,280px 240px,310px 260px,250px 220px,340px 290px,auto;
+}
+.kid-home::before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  width:clamp(170px,28vw,330px);
+  aspect-ratio:1;
+  inset-inline-end:-8%;
+  top:9%;
+  border-radius:50%;
+  opacity:.72;
+  background:
+    radial-gradient(ellipse at 34% 27%,rgba(255,255,255,.56),transparent 3%),
+    radial-gradient(ellipse at 62% 63%,rgba(14,38,70,.38) 0 8%,transparent 9%),
+    radial-gradient(ellipse at 36% 70%,rgba(14,38,70,.25) 0 6%,transparent 7%),
+    radial-gradient(circle at 32% 26%,#d8f5ff 0%,#79b9d5 28%,#536ca6 63%,#27385f 100%);
+  box-shadow:inset -22px -18px 35px rgba(4,12,30,.55),0 0 70px rgba(103,171,226,.19);
+  animation:kid-planet-drift 18s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+.kid-home::after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  width:clamp(320px,72vw,900px);
+  height:clamp(90px,17vw,190px);
+  top:clamp(245px,36vw,420px);
+  inset-inline-start:-12%;
+  border:1px solid rgba(180,210,255,.08);
+  border-radius:50%;
+  background:linear-gradient(180deg,rgba(168,192,226,.08),rgba(32,52,82,.02));
+  transform:rotate(-8deg);
+  pointer-events:none;
+}
+.kid-hero{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  border:1px solid rgba(139,222,235,.25)!important;
+  border-radius:26px!important;
+  background:
+    radial-gradient(ellipse at 88% 45%,rgba(111,205,224,.19),transparent 32%),
+    radial-gradient(ellipse at 12% 100%,rgba(172,151,255,.13),transparent 35%),
+    linear-gradient(125deg,rgba(25,48,79,.97),rgba(14,28,52,.97))!important;
+  box-shadow:0 22px 58px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.07)!important;
+}
+.kid-hero::before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  width:clamp(120px,19vw,220px);
+  aspect-ratio:1;
+  inset-inline-end:5%;
+  bottom:-32%;
+  border-radius:50%;
+  background:
+    radial-gradient(ellipse at 28% 24%,rgba(255,255,255,.35),transparent 3%),
+    radial-gradient(ellipse at 65% 68%,rgba(19,36,62,.45) 0 9%,transparent 10%),
+    radial-gradient(circle at 34% 30%,#d4e7e9,#8ba6b7 44%,#435a79 78%);
+  box-shadow:inset -16px -13px 22px rgba(8,18,38,.55),0 0 45px rgba(120,194,215,.16);
+  opacity:.7;
+}
+.kid-hero::after{
+  content:"✦   ·       ✧       ·   ✦";
+  position:absolute;
+  inset-inline-end:7%;
+  top:14%;
+  color:rgba(205,238,255,.62);
+  font-size:clamp(12px,2vw,20px);
+  letter-spacing:1.2em;
+  pointer-events:none;
+}
+.kid-hero-copy{position:relative;z-index:1;max-width:760px}
+.kid-hero-copy h1{letter-spacing:-.035em;text-wrap:balance}
+.kid-hero-copy .eyebrow{color:#9aeeee}
+.kid-hero-actions button,.tecnova-start{
+  min-height:48px;
+  border-radius:15px;
+  font-weight:800;
+}
+.tecnova-start{
+  background:linear-gradient(115deg,#19a3a6,#4d86d5 62%,#806bd4)!important;
+  border:1px solid rgba(185,247,246,.45)!important;
+  box-shadow:0 10px 28px rgba(47,158,180,.24),inset 0 1px rgba(255,255,255,.22)!important;
+}
+.tecnova-start:hover{filter:brightness(1.1);transform:translateY(-2px)}
+.tecnova-header{position:relative;z-index:1}
+.tecnova-orbit{
+  position:relative;
+  overflow:hidden;
+  border-radius:18px!important;
+  background:linear-gradient(145deg,#245d78,#293d76)!important;
+  box-shadow:0 0 0 5px rgba(118,209,225,.07),0 8px 24px rgba(0,0,0,.22)!important;
+}
+.tecnova-orbit::after{
+  content:"";
+  position:absolute;
+  width:34px;height:10px;
+  border:1px solid rgba(188,242,255,.65);
+  border-radius:50%;
+  transform:rotate(-28deg);
+}
+.tecnova-day{
+  border-radius:999px!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.08);
+}
+.tecnova-panel,.tecnova-bottom-nav,.island-card{backdrop-filter:blur(14px)}
+.island-card{
+  position:relative;
+  overflow:hidden;
+  border-radius:21px!important;
+}
+.island-card::after{
+  content:"";
+  position:absolute;
+  width:100px;height:100px;
+  inset-inline-end:-42px;top:-46px;
+  border-radius:50%;
+  border:1px solid rgba(151,226,236,.14);
+  box-shadow:0 0 0 12px rgba(151,226,236,.025),0 0 0 26px rgba(151,226,236,.018);
+  pointer-events:none;
+}
+.island-planet{
+  position:relative;
+  display:grid;
+  place-items:center;
+  font-size:clamp(23px,4vw,34px);
+  transition:transform .25s ease,filter .25s ease;
+}
+.island-card:hover .island-planet{transform:translateY(-3px) rotate(-5deg);filter:brightness(1.12)}
+.mission-gateway{
+  position:relative;
+  overflow:hidden;
+  border-radius:25px!important;
+}
+.mission-gateway::after{
+  content:"";
+  position:absolute;
+  width:clamp(115px,17vw,190px);
+  aspect-ratio:1;
+  inset-inline-end:7%;
+  bottom:-35%;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 25%,#f0e7d4,#aab8c7 48%,#56657e 78%);
+  box-shadow:inset -18px -15px 26px rgba(5,14,31,.48),0 0 45px rgba(174,206,224,.18);
+  opacity:.72;
+  pointer-events:none;
+}
+.moon-wrap{filter:drop-shadow(0 12px 26px rgba(0,0,0,.25))}
+.moon{box-shadow:inset -16px -12px 25px rgba(8,15,30,.4),0 0 34px rgba(185,209,227,.17)}
+.nova-fab{
+  border-radius:23px!important;
+  box-shadow:0 10px 32px rgba(0,0,0,.35),0 0 0 5px rgba(105,223,222,.08)!important;
+  transition:transform .2s ease,filter .2s ease;
+}
+.nova-fab:hover{transform:translateY(-3px);filter:brightness(1.1)}
+.nova-fab-art,.nova-avatar img{filter:drop-shadow(0 4px 8px rgba(0,0,0,.22))}
+.nova-panel{
+  border-radius:23px!important;
+  box-shadow:0 22px 65px rgba(0,0,0,.42)!important;
+}
+.nova-head{border-radius:20px 20px 0 0}
+.nova-compose input{min-height:44px}
+.nova-compose button{min-width:44px;min-height:44px;border-radius:14px}
+button,[role="button"]{-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #9af1ed!important;outline-offset:3px!important}
+@keyframes kid-planet-drift{from{transform:translate3d(0,0,0)}to{transform:translate3d(-12px,9px,0)}}
+@media(max-width:700px){
+  .kid-home{padding-bottom:max(18px,env(safe-area-inset-bottom))}
+  .kid-home::before{width:150px;inset-inline-end:-52px;top:90px;opacity:.48}
+  .kid-home::after{top:310px}
+  .kid-hero{border-radius:20px!important}
+  .kid-hero::before{width:115px;inset-inline-end:-20px;bottom:-22%;opacity:.45}
+  .kid-hero::after{inset-inline-end:4%;letter-spacing:.55em}
+  .island-card{min-width:0}
+  .nova-panel{width:min( calc(100vw - 24px), 390px);max-height:min(72svh,650px)}
+}
+@media(prefers-reduced-motion:reduce){
+  .kid-home::before{animation:none}
+  .island-card:hover .island-planet,.nova-fab:hover,.tecnova-start:hover{transform:none}
+  *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
+}
