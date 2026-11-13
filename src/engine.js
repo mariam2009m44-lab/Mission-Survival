@@ -12,7 +12,7 @@ greenhouse:{delta:{water:8,food:8,power:-4}},
 rover:{delta:{shield:4,power:-4}}
 };
 export function completeStationTask(m,id){
- if(!m||!m.started||m.phase!=="active"||!Object.hasOwn(STATION_TASKS,id))return null;
+ if(!m||!m.started||!["active","debrief"].includes(m.phase)||!Object.hasOwn(STATION_TASKS,id))return null;
  if(!Array.isArray(m.stationTasks))m.stationTasks=[];
  if(m.stationTasks.includes(id))return null;
  const before={...m.resources},delta={...STATION_TASKS[id].delta};
