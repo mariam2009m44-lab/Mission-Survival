@@ -105,7 +105,7 @@ function makeScene(THREE,root){
  root.querySelectorAll("[data-move]").forEach(btn=>{const set=(on)=>{const dir=btn.dataset.move;const key={forward:"w",back:"s",left:"a",right:"d"}[dir];if(on)keys.add(key);else keys.delete(key);};btn.addEventListener("pointerdown",e=>{e.preventDefault();set(true);btn.setPointerCapture(e.pointerId);});btn.addEventListener("pointerup",()=>set(false));btn.addEventListener("pointercancel",()=>set(false));btn.addEventListener("lostpointercapture",()=>set(false));});
  root.querySelectorAll("[data-scene-focus]").forEach(b=>b.addEventListener("click",()=>{const v=focus[b.dataset.sceneFocus];if(v){followPlayer=false;target.set(...v);radius= b.dataset.sceneFocus==="base"?25:14;cameraUpdate();root.querySelectorAll("[data-scene-focus]").forEach(x=>x.classList.toggle("active",x===b));}}));
  const clock=new THREE.Clock();
- function animate(){raf=requestAnimationFrame(animate);const t=clock.getElapsedTime(),dt=Math.min(clock.getDelta(),.05);if(!drag&&!keys.size){azimuth+=.0007;}updateMovement(dt);astronaut.position.y=.035+Math.sin(t*1.8)*.035;beacon.intensity=17+Math.sin(t*2.4)*5;cameraUpdate();renderer.render(scene,camera);}
+ function animate(){raf=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),t=clock.elapsedTime;if(!drag&&!keys.size){azimuth+=.0007;}updateMovement(dt);astronaut.position.y=.035+Math.sin(t*1.8)*.035;beacon.intensity=17+Math.sin(t*2.4)*5;cameraUpdate();renderer.render(scene,camera);}
  animate();
  return()=>{cancelAnimationFrame(raf);ro.disconnect();window.removeEventListener("keydown",onKeyDown);window.removeEventListener("keyup",onKeyUp);renderer.dispose();geo.dispose();starsGeo.dispose();};
 }
