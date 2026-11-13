@@ -1,4 +1,4 @@
-const CACHE_NAME='lunar-outpost-v3';
+const CACHE_NAME='lunar-outpost-v4';
 const CORE_ASSETS=['./','./index.html','./styles.css','./app.js','./favicon.svg','./manifest.webmanifest'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(CORE_ASSETS)).then(()=>self.skipWaiting()));
