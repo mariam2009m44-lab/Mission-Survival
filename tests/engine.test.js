@@ -1,0 +1,14 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import {createMission,startMission,choose,nextDay,summary} from "../src/engine.js";
+import {DAYS,SOURCES} from "../src/data.js";
+test("three mission days and five game resources",()=>{const m=startMission(createMission());assert.equal(DAYS.length,3);assert.deepEqual(Object.keys(m.resources).sort(),["food","oxygen","power","shield","water"]);});
+test("difficulty modes have different starting reserves",()=>{assert.ok(createMission("training").resources.oxygen>createMission("standard").resources.oxygen);assert.ok(createMission("standard").resources.oxygen>createMission("expert").resources.oxygen);});
+test("a choice applies declared changes and moves to debrief",()=>{const m=startMission(createMission());const before={...m.resources};const r=choose(m,0);assert.equal(r.day,1);assert.equal(m.phase,"debrief");assert.equal(m.resources.power,before.power+13);assert.equal(m.resources.oxygen,before.oxygen-5);});
+test("a second choice is blocked until the next day",()=>{const m=startMission(createMission());choose(m,0);const after={...m.resources};assert.equal(choose(m,1),null);assert.deepEqual(m.resources,after);});
+test("a complete run generates a three-decision report",()=>{const m=startMission(createMission());for(let d=0;d<3;d++){assert.ok(choose(m,0));if(d<2)assert.equal(nextDay(m),true);}assert.equal(m.phase,"complete");assert.equal(m.result,"success");assert.equal(summary(m).decisions,3);assert.equal(summary(m).xp,250);});
+test("critical resource failure interrupts the mission",()=>{const m=startMission(createMission("expert"));m.resources.oxygen=4;choose(m,0);assert.equal(m.phase,"complete");assert.equal(m.result,"interrupted");});
+test("all game resources remain between zero and one hundred",()=>{const m=startMission(createMission("training"));m.resources.power=98;choose(m,0);for(const v of Object.values(m.resources))assert.ok(v>=0&&v<=100);});
+test("illumination source is explicitly a model",()=>{const x=SOURCES.find(v=>v.id==="illumination");assert.match(x.limit,/model/i);assert.match(x.date,/2022/);});
+test("CRaTER coverage is correctly dated and qualified",()=>{const x=SOURCES.find(v=>v.id==="crater");assert.match(x.date,/30 Jun 2026/);assert.match(x.limit,/not direct readings/i);});
+test("Diviner coverage is the verified 2026 interval",()=>{const x=SOURCES.find(v=>v.id==="diviner");assert.match(x.date,/16 Mar–15 Jun 2026/);});
