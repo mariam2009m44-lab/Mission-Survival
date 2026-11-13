@@ -45,6 +45,12 @@ A Cloudflare Worker + D1 backend foundation is included in `backend/`. It suppor
 
 The backend is not live until a Cloudflare D1 database and Worker are deployed and `API_BASE_URL` in `src/backend-config.js` is set. Follow [docs/BACKEND.md](docs/BACKEND.md) for setup. Until then, the app correctly remains in local-save mode.
 
+## Mobile game feel and accessibility
+
+- Optional synthesized interface sound effects with a visible mute control; no music or audio files are required.
+- Brief success feedback and optional light haptics on supported devices, with reduced-motion support.
+- Mobile safe-area spacing, touch-friendly controls and flexible screen orientation.
+
 ## Install as an app
 
 ### Android APK
