@@ -58,3 +58,22 @@
 /* Walkable 3D lunar exploration controls */
 .scene-viewport{position:relative}.scene-hud{position:absolute;left:13px;top:13px;z-index:3;display:grid;grid-template-columns:8px auto;align-items:center;gap:4px 7px;padding:9px 11px;border:1px solid rgba(115,217,232,.22);border-radius:11px;background:rgba(5,13,25,.78);backdrop-filter:blur(10px);pointer-events:none}.scene-hud-dot{width:7px;height:7px;border-radius:50%;background:#70e5b1;box-shadow:0 0 10px #70e5b1}.scene-hud b{font:8px monospace;letter-spacing:.1em;color:#dff7ff}.scene-hud small{grid-column:2;color:#a8bbd1;font-size:8px}.scene-interact{position:absolute;left:50%;bottom:15px;transform:translateX(-50%);z-index:4;display:flex;align-items:center;gap:12px;padding:8px 10px 8px 14px;border:1px solid rgba(115,217,232,.38);border-radius:13px;background:rgba(7,18,32,.9);box-shadow:0 8px 25px #0007;white-space:nowrap}.scene-interact[hidden]{display:none}.scene-interact b{font:9px monospace;color:#e6f5ff}.scene-interact button{border:1px solid rgba(115,217,232,.45);border-radius:8px;padding:8px 11px;background:rgba(115,217,232,.13);color:#a8f2fa;font:9px monospace}.scene-pad{position:absolute;right:12px;bottom:12px;z-index:4;display:grid;justify-items:center;gap:4px;opacity:.82;touch-action:none}.scene-pad>button,.scene-pad>div button{width:38px;height:34px;border:1px solid rgba(190,215,245,.3);border-radius:9px;background:rgba(9,20,36,.78);color:#e8f5ff;font-size:13px;backdrop-filter:blur(8px);touch-action:none;user-select:none}.scene-pad>div{display:flex;gap:4px}.scene-pad button:active{background:rgba(115,217,232,.35);border-color:var(--cyan)}.scene-hint{color:#b4c8df}
 @media(min-width:850px){.scene-pad{opacity:.5}.scene-pad:hover{opacity:1}}@media(max-width:520px){.scene-hud{top:8px;left:8px;padding:7px 8px}.scene-pad>button,.scene-pad>div button{width:34px;height:31px}.scene-interact{bottom:9px;left:9px;transform:none;max-width:calc(100% - 100px);white-space:normal}.scene-interact b{font-size:8px}}
+
+/* Child-first guided entry and friendly mission orientation */
+.kid-tour-backdrop{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:16px;background:rgba(2,8,18,.82);backdrop-filter:blur(9px);overflow:auto}
+.kid-tour{width:min(540px,100%);max-height:min(92dvh,760px);overflow:auto;position:relative;padding:clamp(20px,4vw,30px);border:1px solid rgba(121,224,239,.42);border-radius:26px;background:radial-gradient(ellipse at 50% 0%,rgba(84,155,217,.22),transparent 48%),linear-gradient(155deg,#172b45,#0b1729 72%);box-shadow:0 28px 100px #000b;text-align:center}
+.kid-tour-top{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#83e5f0;font:9px monospace;letter-spacing:.12em}
+.kid-tour-top button{width:32px;height:32px;border:1px solid rgba(180,210,235,.22);border-radius:50%;background:#ffffff0b;color:#d8eaff;font-size:20px}
+.kid-tour-illustration{width:94px;height:94px;margin:17px auto 12px;display:grid;place-items:center;border:1px solid rgba(126,220,240,.35);border-radius:30px;background:radial-gradient(circle at 35% 25%,#365f82,#172b49 72%);box-shadow:0 12px 35px #0005,0 0 28px rgba(102,214,238,.13);font-size:52px}
+.kid-tour-dots{display:flex;justify-content:center;gap:7px;margin:12px 0}
+.kid-tour-dots i{width:7px;height:7px;border-radius:50%;background:#51647d}
+.kid-tour-dots i.active{width:22px;border-radius:8px;background:#78dce9}
+.kid-tour h2{margin:10px 0;font-size:clamp(21px,4vw,29px);color:#f0f7ff}
+.kid-tour>p{max-width:440px;margin:0 auto;color:#c1d1e5;font-size:13px;line-height:1.9}
+.kid-tour-tip{display:grid;gap:7px;margin:18px 0;padding:13px 15px;border:1px solid rgba(116,217,232,.2);border-radius:15px;background:rgba(96,184,210,.08);text-align:start}
+.kid-tour-tip b{color:#83e5f0;font:9px monospace;letter-spacing:.1em}
+.kid-tour-tip span{color:#d4e2f2;font-size:11px;line-height:1.8}
+.kid-tour-actions{display:grid;gap:9px;margin-top:17px}
+.kid-tour-actions button{width:100%;min-height:46px}
+.kid-tour-progress{display:block;margin-top:14px;color:#8197b3;font:8px monospace;letter-spacing:.12em}
+@media(max-width:520px){.kid-tour-backdrop{padding:10px}.kid-tour{border-radius:21px}.kid-tour-illustration{width:78px;height:78px;font-size:43px;margin-top:12px}.kid-tour>p{font-size:12px}}
