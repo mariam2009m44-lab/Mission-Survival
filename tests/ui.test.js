@@ -13,6 +13,13 @@ async function action(name,data={}){await root.listeners.click({target:{closest:
 test("app completes junior commander onboarding, training, five mission decisions and science library",async()=>{
  assert.match(root.innerHTML,/اختاري شخصية رائدة الفضاء/);
  await action("create-profile");
+ assert.match(root.innerHTML,/أهلاً بك على القمر/);
+ await action("tour-next");
+ assert.match(root.innerHTML,/اتحرك جوه القاعدة/);
+ await action("tour-next");
+ assert.match(root.innerHTML,/خمس أماكن هتكتشفها/);
+ await action("tour-start");
+ assert.match(root.innerHTML,/MISSION DAY/);
  await action("language");
  assert.match(root.innerHTML,/A smarter outpost/);
  await nav("training");
