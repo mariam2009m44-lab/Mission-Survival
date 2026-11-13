@@ -318,3 +318,20 @@
 .rtl .fieldwork-heading{text-align:right}
 @media(max-width:600px){.fieldwork-panel{padding:14px}.fieldwork-stations{grid-template-columns:1fr}.fieldwork-heading h2{font-size:18px}.fieldwork-heading p:not(.eyebrow){font-size:11px}}
 @media(prefers-reduced-motion:reduce){.fieldwork-progress i{transition:none}}
+
+
+/* NOVA field assignments connect each mission decision to a real 3D discovery stop. */
+.field-guide{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;margin:0 0 18px;padding:17px;border:1px solid rgba(116,213,238,.28);border-radius:18px;background:linear-gradient(115deg,rgba(39,91,130,.22),rgba(25,35,69,.76));box-shadow:0 12px 30px rgba(2,8,25,.14)}
+.field-guide-done{border-color:rgba(105,224,172,.38);background:linear-gradient(115deg,rgba(35,112,94,.2),rgba(25,35,69,.76))}
+.field-guide-icon{width:48px;height:48px;display:grid;place-items:center;border-radius:15px;background:rgba(125,213,235,.13);font-size:25px}
+.field-guide-copy{min-width:0}
+.field-guide-copy .eyebrow{margin:0 0 5px;color:#8bdfee;font-size:8px;letter-spacing:.1em}
+.field-guide-copy h3{margin:0 0 5px;color:#f4f8ff;font-size:15px}
+.field-guide-copy p{margin:0;color:#d4e2f4;font-size:11px;line-height:1.65}
+.field-guide-copy small{display:block;margin-top:7px;color:#9db3ce;font-size:10px;line-height:1.65}
+.field-guide-button{min-height:40px;padding:10px 13px;border:1px solid rgba(130,220,236,.42);border-radius:12px;background:linear-gradient(110deg,#286b87,#5550a1);color:#fff;font-size:9px;font-weight:900;white-space:nowrap}
+.field-guide-button:hover{filter:brightness(1.13);transform:translateY(-1px)}
+.field-guide-button:focus-visible{outline:3px solid #ffe28b;outline-offset:3px}
+.rtl .field-guide{text-align:right}
+@media(max-width:680px){.field-guide{grid-template-columns:auto minmax(0,1fr);gap:10px;padding:13px}.field-guide-icon{width:42px;height:42px}.field-guide-button{grid-column:1/-1;width:100%;min-height:43px}.field-guide-copy h3{font-size:14px}.field-guide-copy p{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.field-guide-button{transition:none!important}}
