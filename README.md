@@ -7,6 +7,8 @@ The app teaches young learners to command a lunar South Pole training outpost, u
 ## Rebuild highlights
 - Modular ES modules for mission data, simulation, persistence and UI.
 - Mobile-first app shell, desktop navigation and touch-friendly mobile navigation.
+- Interactive Three.js lunar outpost scene with orbit/zoom controls and focus points for the habitat, solar farm, rover and lander.
+- Lightweight visual fallback if the 3D renderer cannot load; the Three.js module is cached after first successful load for offline use.
 - English and Arabic interface modes.
 - Four science-training modules.
 - Three-day simulation with guided, standard and expert difficulty.
