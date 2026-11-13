@@ -27,9 +27,22 @@ test("station tasks reward learning and update only their declared resources onc
  assert.equal(result.xp,25);assert.equal(m.xp,25);assert.equal(m.resources.oxygen,Math.min(100,before.oxygen+10));assert.equal(m.resources.power,before.power-8);
  assert.deepEqual(completeStationTask(m,"oxygen"),null);assert.equal(m.stationTasks.length,1);
 });
-test("station tasks reject unknown stations and inactive missions",()=>{
+test("station tasks can be completed during the decision-review pause",()=>{
+ const m=startMission(createMission("standard"));
+ m.site="malapert";
+ choose(m,1);
+ assert.equal(m.phase,"debrief");
+ const beforePower=m.resources.power;
+ const result=completeStationTask(m,"solar");
+ assert.ok(result);
+ assert.equal(result.xp,25);
+ assert.equal(m.xp,75);
+ assert.equal(m.resources.power,Math.min(100,beforePower+12));
+ assert.equal(completeStationTask(m,"solar"),null);
+});
+test("station tasks reject unknown stations and missions that have not started or are complete",()=>{
  const m=createMission();assert.equal(completeStationTask(m,"oxygen"),null);
- startMission(m);m.phase="debrief";assert.equal(completeStationTask(m,"solar"),null);
+ startMission(m);m.phase="complete";assert.equal(completeStationTask(m,"solar"),null);
  m.phase="active";assert.equal(completeStationTask(m,"moon-base"),null);
 });
 test("all five station tasks preserve resource bounds",()=>{
