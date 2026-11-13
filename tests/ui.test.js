@@ -24,6 +24,9 @@ test("app completes junior commander onboarding, training, five mission decision
  assert.match(root.innerHTML,/خمس أماكن هتكتشفها/);
  await action("tour-start");
  assert.match(root.innerHTML,/MISSION DAY/);
+ assert.match(root.innerHTML,/sound-toggle/);
+ await action("sound");
+ assert.match(root.innerHTML,/sound-toggle/);
  await action("language");
  await nav("overview");
  assert.match(root.innerHTML,/A smarter outpost/);
