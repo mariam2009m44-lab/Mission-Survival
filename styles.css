@@ -89,3 +89,27 @@
 .scene-pad>button,.scene-pad>div button{border-radius:13px;background:rgba(21,42,72,.84);border-color:rgba(172,218,255,.38)}
 .scene-focus button{border-radius:999px}
 @media(max-width:700px){.cloud-status{font-size:7px;padding:5px 7px}.scene-topline{font-size:8px}.scene-viewport{height:320px}}
+
+/* Immersive 3D mission world */
+.lunar-3d-stage.mission-world{margin:18px 0 24px;border-radius:26px;border-color:rgba(119,215,246,.38);box-shadow:0 26px 90px rgba(0,0,0,.42),0 0 42px rgba(80,176,235,.08)}
+.lunar-3d-stage.mission-world .scene-viewport{height:min(72vh,760px);min-height:560px;background:radial-gradient(ellipse at 50% 80%,#526787,#1a2b49 58%,#081321)}
+.lunar-3d-stage.mission-world .scene-topline{padding:14px 18px}
+.scene-camera-switch{position:absolute;z-index:5;right:14px;top:14px;display:flex;gap:5px;padding:5px;border:1px solid rgba(151,211,245,.22);border-radius:999px;background:rgba(5,14,28,.76);backdrop-filter:blur(12px)}
+.scene-camera-switch button{border:1px solid transparent;border-radius:999px;padding:8px 12px;background:transparent;color:#b6cde4;font:800 8px monospace;letter-spacing:.08em}
+.scene-camera-switch button.active,.scene-camera-switch button:hover{border-color:rgba(119,222,241,.4);background:rgba(90,194,225,.18);color:#e8fbff}
+.lunar-3d-stage.mission-world .scene-hud{top:16px;left:16px;padding:12px 14px}
+.lunar-3d-stage.mission-world .scene-pad{right:18px;bottom:18px;opacity:.94}
+.lunar-3d-stage.mission-world .scene-pad>button,.lunar-3d-stage.mission-world .scene-pad>div button{width:48px;height:44px;border-radius:14px;font-size:16px}
+.lunar-3d-stage.mission-world .scene-interact{bottom:22px;padding:11px 14px 11px 18px}
+.lunar-3d-stage.mission-world .scene-interact button{padding:10px 15px}
+@media(max-width:700px){
+ .lunar-3d-stage.mission-world{margin:12px -4px 18px;border-radius:19px}
+ .lunar-3d-stage.mission-world .scene-viewport{height:68svh;min-height:440px;max-height:650px}
+ .lunar-3d-stage.mission-world .scene-topline{padding:10px}
+ .scene-camera-switch{top:9px;right:9px}
+ .scene-camera-switch button{padding:7px 9px;font-size:7px}
+ .lunar-3d-stage.mission-world .scene-hud{top:9px;left:9px;padding:8px 10px;max-width:48%}
+ .lunar-3d-stage.mission-world .scene-pad{right:9px;bottom:10px}
+ .lunar-3d-stage.mission-world .scene-pad>button,.lunar-3d-stage.mission-world .scene-pad>div button{width:40px;height:37px}
+ .lunar-3d-stage.mission-world .scene-interact{bottom:12px;left:10px;max-width:calc(100% - 125px)}
+}
