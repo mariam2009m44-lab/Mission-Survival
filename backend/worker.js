@@ -54,17 +54,20 @@ export function validateProgress(input) {
   if(input.mission && typeof input.mission==="object") {
     const m=input.mission;
     mission={
-      difficulty:["guided","standard","expert"].includes(m.difficulty)?m.difficulty:"standard",
+      difficulty:["training","standard","expert"].includes(m.difficulty)?m.difficulty:"standard",
       started:Boolean(m.started),
       phase:["briefing","active","debrief","complete"].includes(m.phase)?m.phase:"briefing",
       day:number(m.day,4),
       site:typeof m.site==="string"?m.site.slice(0,40):null,
       siteName:typeof m.siteName==="string"?m.siteName.slice(0,60):null,
+      xp:number(m.xp,1000000),result:["success","interrupted"].includes(m.result)?m.result:null,saved:Boolean(m.saved),
       resources:{}
     };
     for(const key of ["power","oxygen","water","food","shield"]) mission.resources[key]=number(m.resources?.[key],100);
     mission.history=Array.isArray(m.history)?m.history.slice(-5).map(row=>({
-      day:number(row.day,5),choiceId:typeof row.choiceId==="string"?row.choiceId.slice(0,50):"",
+      day:number(row.day,5),stageIndex:number(row.stageIndex,4),choiceIndex:number(row.choiceIndex,1),
+      choiceId:typeof row.choiceId==="string"?row.choiceId.slice(0,50):"",
+      title:typeof row.title==="string"?row.title.slice(0,120):"",why:typeof row.why==="string"?row.why.slice(0,500):"",
       site:typeof row.site==="string"?row.site.slice(0,40):null,
       delta:row.delta&&typeof row.delta==="object"?Object.fromEntries(Object.entries(row.delta).filter(([k,v])=>["power","oxygen","water","food","shield"].includes(k)&&Number.isFinite(Number(v))).map(([k,v])=>[k,Math.max(-100,Math.min(100,Number(v)))])): {}
     })): [];
