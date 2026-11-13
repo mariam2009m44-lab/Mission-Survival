@@ -1,48 +1,52 @@
 # LUNAR OUTPOST: Mission Survival
 
-A responsive, browser-based lunar outpost management simulation. Lead a five-day mission, make engineering decisions, and balance five essential habitat resources.
+A responsive, browser-based lunar outpost management simulation. Lead a three-day mission, make meaningful engineering decisions, and balance five essential habitat resources.
 
 ## Project structure
 
-```text
-Mission-Survival/
-├── index.html      # Page structure and metadata
-├── styles.css      # Responsive visual system and interface styles
-├── app.js          # Mission state, decisions, scoring, and debrief
-├── favicon.svg     # Browser tab icon
-├── manifest.webmanifest # App metadata
-├── service-worker.js # Offline asset cache
-├── README.md       # Project documentation
-└── .nojekyll       # Keep GitHub Pages from applying Jekyll processing
-```
+- `index.html` — page structure and metadata
+- `styles.css` — responsive visual system and interface styling
+- `app.js` — mission state, decisions, task tracking, rewards, and debrief
+- `favicon.svg` — browser tab icon
+- `manifest.webmanifest` — web app metadata
+- `service-worker.js` — offline asset cache
+- `.github/workflows/validate.yml` — automated project checks
 
-## Features
+## Gameplay
 
-- Five lunar mission days with distinct engineering scenarios.
-- Five resources to manage: oxygen, water, energy, food, and radiation shielding.
-- Three decision paths per day, with visible resource trade-offs.
-- Training, Standard, and Expert starting difficulty settings.
-- A randomly assigned side objective for each new mission.
-- Live telemetry, operational-risk indicators, and resource reserve tracking.
-- Final mission score, resource-by-resource debrief, decision log, and achievement badges.
-- Locally saved personal-best score and completed-mission count (stored only in the player's browser).
-- Responsive layout for desktop and mobile.
-- Offline caching of the core game files after the first successful online visit.
-- Live online/offline status indicator.
+The commander leads a three-day lunar expedition:
+
+1. **Power and oxygen:** choose between conserving energy, prioritizing oxygen generation, or running a balanced maintenance cycle.
+2. **Solar storm:** protect the crew in a shielded shelter, reinforce it with water stores, or limit activities while monitoring the alert.
+3. **Water and food:** activate water recovery and greenhouse support, ration supplies, or use stored emergency provisions.
+
+Each choice changes the five resource reserves: oxygen, water, energy, food, and radiation shielding. There is no universally perfect option; players must manage trade-offs.
+
+## Player experience
+
+- A live command task bar tracks oxygen, power, crew protection, and water/food goals.
+- Short illustrated-style crew comic panels introduce each daily challenge and connect the story.
+- NOVA is a mission companion that provides scientific context and hints without selecting a decision for the player.
+- Training, Standard, and Expert difficulty settings adjust starting reserves.
+- A randomized side objective adds replay variety.
+- Decisions award XP; completed missions, strong resource management, and hidden conditions unlock achievement badges.
+- The final mission report shows the score, remaining reserves, achievement badges, strongest and weakest systems, and the decision log.
+- Personal-best score, completed missions, and earned XP are stored locally in the player's browser.
+
+## Technical notes
+
+- Responsive desktop and mobile layout.
+- Offline caching of core game files after the first successful online visit.
 - No build step, package installation, API key, backend, or external runtime dependency.
-- GitHub Actions checks JavaScript syntax and verifies that the required front-end assets are present.
+- GitHub Actions checks JavaScript syntax, manifest validity, required assets, and key gameplay interface hooks.
 
 ## Offline support
 
 When hosted on HTTPS (including GitHub Pages), the service worker caches the core game files after the first successful visit. The simulation can then reopen offline on that browser and device. The first visit still requires an internet connection; Google Fonts may not be available offline.
 
-## Project checks
-
-A GitHub Actions workflow runs on pushes and pull requests. It checks the JavaScript syntax and confirms that the HTML references the required CSS, JavaScript, and favicon files. This automated check does not replace a full browser play-test.
-
 ## Run locally
 
-Download or clone the repository, then open `index.html` in a modern browser. The Google Fonts connection is optional; the page has local system-font fallbacks.
+Download or clone the repository and open `index.html` in a modern browser. The Google Fonts connection is optional; the page has local system-font fallbacks.
 
 ## Publish with GitHub Pages
 
