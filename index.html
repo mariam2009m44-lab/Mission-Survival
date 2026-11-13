@@ -1,57 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#070b12">
-<meta name="color-scheme" content="dark">
-<meta property="og:title" content="LUNAR OUTPOST: Mission Survival">
-<meta property="og:description" content="Command a lunar research outpost in a three-day educational survival simulation.">
-<meta property="og:type" content="website">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="manifest" href="manifest.webmanifest">
-<meta name="description" content="Command a lunar research outpost for three days. Balance life support, power, food and radiation protection in an interactive engineering survival simulation.">
-<title>LUNAR OUTPOST — Mission Control</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#09111f">
+<meta name="description" content="An installable junior astronaut mission trainer using verified lunar science sources.">
+<title>Lunar Outpost — Junior Astronaut Mission Trainer</title>
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./assets/icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="stylesheet" href="./styles.css">
+<script type="module" src="./src/main.js"></script>
 </head>
-<body>
-<div class="app">
-<header class="masthead">
- <div class="identity"><div class="insignia">◒</div><div class="agency">LUNAR RESEARCH AGENCY<small>FLIGHT OPERATIONS · CONTROL DIVISION</small></div></div>
- <div class="telemetry"><span class="mission-id">MISSION LRO-07</span><span class="live">SIMULATION READY</span><span class="connection-status" id="connectionStatus" aria-live="polite">LOCAL SYSTEM / ONLINE</span></div>
-</header>
-<section class="hero">
- <div><div class="kicker">FIELD OPERATIONS / SURVIVAL PROTOCOL</div><h1>LUNAR OUTPOST:<span>MISSION SURVIVAL</span></h1><p class="hero-copy">A quick commander briefing. A launch to the lunar South Pole. Three mission days of engineering decisions. Lead the crew, balance five critical resources, and prepare a safe handover.</p>
-  <div class="hero-actions" id="startActions"><button class="btn primary" id="startBtn">BEGIN COMMANDER TRAINING&nbsp; ↗</button><span class="hero-meta">3 LUNAR DAYS&nbsp; / &nbsp;5 VITAL SYSTEMS&nbsp; / &nbsp;YOUR COMMAND</span></div>
- </div>
- <div class="lunar-scene" aria-label="Illustration of a lunar research outpost"><div class="planet"></div><div class="ridge"></div><div class="horizon"></div><div class="solar"></div><div class="base"></div><div class="scene-label">LUNAR SURFACE · HABITAT 01</div></div>
-</section>
-<section class="section">
- <div class="section-heading"><h2>01 / OUTPOST VITALS</h2><span id="dayLabel">AWAITING INITIALIZATION</span></div>
- <div class="vitals" id="resources"></div><div class="progress-line"><i id="missionProgress" style="width:0%"></i></div>
-</section>
-<section class="section task-section" aria-labelledby="taskHeading"><div class="section-heading"><h2 id="taskHeading">02 / COMMAND TASK BAR</h2><span id="taskProgress">0 / 4 SECURED</span></div><div id="taskList" class="task-list" aria-live="polite"></div></section>
-<div class="workspace">
- <main class="section briefing" id="eventPanel" aria-live="polite">
-  <div class="section-heading"><h2>03 / FLIGHT DIRECTOR BRIEFING</h2><span>COMMAND CONSOLE</span></div>
-  <div class="event-code">SYSTEM STANDBY / 00</div><h3 class="event-title">The outpost is waiting for your command.</h3>
-  <p class="event-copy">Initialize the mission to receive your first operational briefing. Each lunar day presents a new engineering challenge. Review the situation, consider the trade-offs, and select one response.</p>
-  <div class="console-note"><b>MISSION OBJECTIVE</b><br>Complete three lunar days while maintaining essential life-support systems and preparing a safe crew handover.</div>
- </main>
- <aside class="section data-panel">
-  <div class="section-heading"><h2>04 / MISSION TELEMETRY</h2><span>SIMULATED DATA</span></div>
-  <div class="data-row"><span>Mission elapsed</span><strong id="sideDay">— / 3 DAYS</strong></div>
-  <div class="data-row"><span>Crew condition</span><strong id="crewStatus">STANDBY</strong></div>
-  <div class="data-row"><span>Commands issued</span><strong id="decisionCount">00</strong></div>
-  <div class="data-row"><span>System integrity</span><strong id="missionScore">—</strong></div><div class="data-row"><span>Operational risk</span><strong id="riskLevel">NOT ASSESSED</strong></div><div class="telemetry-grid"><div class="telemetry-tile"><small>LOWEST RESERVE</small><strong id="weakestSystem">—</strong></div><div class="telemetry-tile"><small>SAFE SYSTEMS</small><strong id="safeSystems">05 / 05</strong></div><div class="telemetry-tile"><small>PERSONAL BEST</small><strong id="bestScore">—</strong></div><div class="telemetry-tile"><small>MISSIONS LOGGED</small><strong id="missionsRun">00</strong></div><div class="telemetry-tile"><small>LIFETIME EXPERIENCE</small><strong id="xpTotal">0 XP</strong></div></div>
-  <div class="science" id="scienceNote"><b>MISSION SCIENCE</b><p>Mission science notes will appear with each daily briefing.</p></div><div class="science nova-panel" id="novaNote"><b>NOVA · MISSION COMPANION</b><p>Your virtual mission partner is standing by.</p></div>
- </aside>
-</div>
-<footer class="footer"><span>LUNAR OUTPOST SIMULATION · EDUCATION THROUGH ENGINEERING</span><span>CONCEPTUAL TRAINING ENVIRONMENT · NOT A REAL FLIGHT SYSTEM</span></footer>
-</div>
-<script src="app.js" defer></script>
-</body>
+<body><div id="app"><div class="boot">INITIALIZING MISSION CONTROL</div></div><noscript>This app needs JavaScript enabled.</noscript></body>
 </html>

@@ -1,29 +1,5 @@
-const CACHE_NAME='lunar-outpost-v10';
-const CORE_ASSETS=['./','./index.html','./styles.css','./app.js','./favicon.svg','./manifest.webmanifest','./data/lunar-2026-source.json'];
-self.addEventListener('install',event=>{
-  event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(CORE_ASSETS)).then(()=>self.skipWaiting()));
-});
-self.addEventListener('activate',event=>{
-  event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('lunar-outpost-')&&key!==CACHE_NAME).map(key=>caches.delete(key)))).then(()=>self.clients.claim()));
-});
-self.addEventListener('fetch',event=>{
-  const request=event.request;
-  if(request.method!=='GET')return;
-  const url=new URL(request.url);
-  if(url.origin!==self.location.origin)return;
-  if(request.mode==='navigate'){
-    event.respondWith(fetch(request).then(response=>{
-      const copy=response.clone();
-      caches.open(CACHE_NAME).then(cache=>cache.put('./index.html',copy));
-      return response;
-    }).catch(()=>caches.match('./index.html')));
-    return;
-  }
-  event.respondWith(caches.match(request).then(cached=>{
-    if(cached)return cached;
-    return fetch(request).then(response=>{
-      if(response.ok){const copy=response.clone();caches.open(CACHE_NAME).then(cache=>cache.put(request,copy))}
-      return response;
-    });
-  }));
-});
+const CACHE="lunar-outpost-app-v2";
+const CORE=["./","./index.html","./styles.css","./manifest.webmanifest","./favicon.svg","./src/main.js","./src/data.js","./src/engine.js","./src/storage.js","./assets/icons/icon-192.svg","./assets/icons/icon-512.svg","./assets/icons/icon-192.png","./assets/icons/icon-512.png","./data/mission-science.json"];
+self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
+self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith("lunar-outpost-")&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener("fetch",e=>{const r=e.request;if(r.method!=="GET")return;const u=new URL(r.url);if(u.origin!==self.location.origin)return;if(r.mode==="navigate"){e.respondWith(fetch(r).then(res=>{const copy=res.clone();caches.open(CACHE).then(c=>c.put("./index.html",copy));return res;}).catch(()=>caches.match("./index.html")));return;}e.respondWith(caches.match(r).then(hit=>hit||fetch(r).then(res=>{if(res.ok){const copy=res.clone();caches.open(CACHE).then(c=>c.put(r,copy));}return res;})));});
