@@ -1,0 +1,162 @@
+/* TECNOVA visual system — cohesive lunar-night palette */
+:root{
+  --bg:#080d1b;
+  --panel:#111b2d;
+  --line:rgba(167,190,225,.16);
+  --text:#f1f5ff;
+  --soft:#c4d0e3;
+  --muted:#8e9db7;
+  --cyan:#70dce2;
+  --blue:#8fa9ff;
+  --amber:#ffd18a;
+  --green:#83dfb7;
+  --violet:#b7a5ff;
+}
+body{
+  background:
+    radial-gradient(ellipse at 78% -12%,rgba(107,126,220,.18),transparent 38%),
+    radial-gradient(ellipse at 4% 72%,rgba(50,183,190,.10),transparent 34%),
+    #080d1b;
+}
+button{transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease,filter .18s ease}
+button:focus-visible,a:focus-visible{outline:3px solid rgba(112,220,226,.85);outline-offset:3px}
+
+/* Home screen: one visual language instead of mixing pale cards with dark space */
+.tecnova-home{color:#f3f6ff}
+.tecnova-header{border-color:rgba(157,185,225,.18)}
+.tecnova-orbit{
+  border-color:rgba(112,220,226,.48);
+  color:#a7f4f2;
+  background:radial-gradient(circle at 35% 25%,#315c79,#14243e 72%);
+  box-shadow:0 0 26px rgba(112,220,226,.15);
+}
+.tecnova-brand small{color:#9eacc6}
+.tecnova-day{
+  border-color:rgba(183,165,255,.32);
+  background:linear-gradient(120deg,rgba(112,220,226,.10),rgba(183,165,255,.12));
+  color:#e6eaff;
+}
+.tecnova-stage-grid{gap:clamp(12px,1.7vw,22px)}
+.tecnova-panel{
+  border:1px solid rgba(145,181,220,.24);
+  border-radius:20px;
+  background:linear-gradient(155deg,rgba(22,37,59,.96),rgba(12,23,40,.97));
+  color:#edf4ff;
+  box-shadow:0 18px 50px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.045);
+  backdrop-filter:blur(16px);
+}
+.tecnova-panel-title>span{
+  background:linear-gradient(145deg,rgba(112,220,226,.18),rgba(143,169,255,.15));
+  color:#8de9e9;
+  border:1px solid rgba(112,220,226,.18);
+}
+.tecnova-panel-title b{color:#f1f5ff}
+.tecnova-panel-title small{color:#91a5c2}
+.tecnova-meter>div{color:#d9e5f6}
+.tecnova-meter>div b{color:#eaf5ff}
+.tecnova-meter>i{background:rgba(142,165,199,.19)}
+.tecnova-disclaimer{color:#91a4bf}
+.tecnova-brief .eyebrow{color:#9d9bff}
+.tecnova-alert{
+  background:linear-gradient(145deg,rgba(255,209,138,.22),rgba(255,209,138,.08));
+  border:1px solid rgba(255,209,138,.28);
+  color:#ffd18a;
+}
+.tecnova-brief h2{color:#f2f6ff}
+.tecnova-brief>p:not(.eyebrow){color:#b7c6dc}
+.tecnova-brief-meta{border-color:rgba(157,185,225,.17);color:#a9b5ff}
+.tecnova-start{
+  border:1px solid rgba(160,236,235,.58);
+  background:linear-gradient(110deg,#168c9a 0%,#527fd0 58%,#7664c9 100%);
+  color:#fff;
+  box-shadow:0 12px 34px rgba(42,145,173,.23),inset 0 1px rgba(255,255,255,.24);
+}
+.tecnova-start:hover{filter:brightness(1.09);transform:translateY(-2px);box-shadow:0 16px 38px rgba(42,145,173,.30)}
+.tecnova-start-row>p{color:#a7b5cc}
+.tecnova-bottom-nav{
+  border-color:rgba(145,181,220,.22);
+  background:linear-gradient(120deg,rgba(19,33,54,.94),rgba(15,26,45,.94));
+  box-shadow:0 12px 38px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.04);
+}
+.tecnova-bottom-nav button{color:#c4d2e7}
+.tecnova-bottom-nav button:hover{background:rgba(112,220,226,.10);color:#a5f0ee}
+.tecnova-world .lunar-3d-stage{border:1px solid rgba(112,220,226,.18);border-radius:22px;box-shadow:0 18px 55px rgba(0,0,0,.25)}
+.tecnova-world-label{color:#a7e9ed}
+.tecnova-world-caption{color:#dce9fb;text-shadow:0 2px 14px #000}
+
+/* Mission selection: brighter destination cards with restrained color coding */
+.mission-gateway{
+  border-color:rgba(112,220,226,.22);
+  background:
+    radial-gradient(ellipse at 84% 42%,rgba(112,220,226,.14),transparent 42%),
+    radial-gradient(ellipse at 4% 100%,rgba(183,165,255,.10),transparent 38%),
+    linear-gradient(120deg,#172b43,#101a30);
+  box-shadow:inset 0 1px rgba(255,255,255,.04);
+}
+.gateway-meta{color:#9ce8e9}
+.island-card{
+  border-color:rgba(151,177,216,.17);
+  background:
+    radial-gradient(ellipse at 100% 0%,rgba(143,169,255,.09),transparent 50%),
+    linear-gradient(150deg,#172840,#101a2d 78%);
+  box-shadow:0 12px 30px rgba(0,0,0,.13),inset 0 1px rgba(255,255,255,.035);
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+.island-card:hover{transform:translateY(-3px);border-color:rgba(112,220,226,.38);box-shadow:0 18px 36px rgba(0,0,0,.2)}
+.island-ready{border-color:rgba(112,220,226,.48);background:radial-gradient(ellipse at 15% 0%,rgba(112,220,226,.13),transparent 55%),linear-gradient(150deg,#19334a,#101b30)}
+.island-planet{border:1px solid rgba(255,255,255,.18);box-shadow:0 10px 28px rgba(0,0,0,.28),0 0 24px rgba(112,220,226,.12)}
+.island-1{background:radial-gradient(circle at 30% 25%,#d4f4f0,#4c9db0 40%,#1b3152 76%)}
+.island-2{background:radial-gradient(circle at 30% 25%,#ffe4b1,#bb895b 42%,#34304c 78%)}
+.island-3{background:radial-gradient(circle at 30% 25%,#c7f3d8,#579b88 42%,#17384a 78%)}
+.island-kicker{color:#8ee4e5}
+.island-kicker small{color:#9ce5bf}
+.island-content h3{color:#f1f5ff}
+.island-content p{color:#b2c1d7}
+.island-sub{color:#9baecc}
+.island-foot{border-color:rgba(151,177,216,.16);color:#a7b5cc}
+
+/* Keep mission panels and NOVA visually connected to the same palette */
+.resource-tile,.task-panel,.active-station-guide,.fieldwork-stations,.field-guide{
+  border-color:rgba(112,220,226,.17);
+}
+.resource-tile{background:linear-gradient(145deg,rgba(23,42,65,.96),rgba(13,25,43,.96))}
+.resource-tile>span{background:rgba(112,220,226,.12);color:#8de8e8}
+.active-station-guide{
+  background:radial-gradient(ellipse at 12% 15%,rgba(112,220,226,.12),transparent 48%),linear-gradient(135deg,#1a3048,#17213a 75%);
+}
+.field-guide-button,.scene-focus button.active,.scene-focus button:hover{border-color:rgba(112,220,226,.62)}
+.scene-viewport{background:radial-gradient(ellipse at 50% 90%,#30485b,#08111e 72%)}
+.scene-hint{color:#8de8e8}
+
+/* A more balanced intro: deep indigo + teal, with violet as a supporting accent */
+.space-intro{
+  background:
+    radial-gradient(ellipse at 72% 34%,rgba(87,111,203,.25),transparent 39%),
+    radial-gradient(ellipse at 15% 78%,rgba(43,173,180,.18),transparent 36%),
+    linear-gradient(135deg,#080e25 0%,#101b38 50%,#080d20 100%);
+}
+.intro-skip{border-color:rgba(139,205,222,.38);background:rgba(11,27,49,.82);color:#c8e9f0}
+.intro-skip:hover{border-color:#83e7e6;background:#173a4b;color:#fff}
+.kid-tour,.station-modal{
+  border-color:rgba(112,220,226,.38);
+  background:radial-gradient(ellipse at 50% 0%,rgba(72,164,190,.18),transparent 48%),linear-gradient(155deg,#172e48,#0b1729 76%);
+}
+.kid-tour-top,.station-modal-top{color:#91e9e8}
+.kid-tour-illustration{border-color:rgba(112,220,226,.34);background:radial-gradient(circle at 35% 25%,#356c83,#172b49 72%)}
+.nova-fab{border-color:rgba(112,220,226,.48);background:linear-gradient(135deg,#1b4855,#1b2c4c)}
+.nova-panel{border-color:rgba(112,220,226,.28);background:#0c1728}
+.nova-head{background:linear-gradient(110deg,#17394a,#111f35)}
+.nova-avatar{border-color:rgba(112,220,226,.4);background:#1a3a4b;color:#9aeeee}
+.nova-compose button{background:linear-gradient(135deg,#70dce2,#8fa9ff);color:#081522}
+
+@media(max-width:700px){
+  .tecnova-panel{border-radius:17px}
+  .tecnova-world .scene-viewport{border-radius:15px}
+  .mission-islands{gap:9px}
+  .island-card{padding:13px}
+  .tecnova-bottom-nav{border-radius:14px}
+}
+@media(prefers-reduced-motion:reduce){
+  button,.island-card{transition:none!important}
+  .island-card:hover{transform:none}
+}
