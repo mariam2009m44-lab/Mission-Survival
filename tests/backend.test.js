@@ -36,3 +36,5 @@ test("backend preserves mission completion metadata for safe restoration",()=>{
 });
 
 test("backend keeps the minimum decision fields needed to resume a mission",()=>{const result=validateProgress({mission:{difficulty:"training",history:[{day:2,stageIndex:1,choiceIndex:0,choiceId:"isru",title:"Extract oxygen",why:"Use local resources"}]}});const row=result.mission.history[0];assert.equal(result.mission.difficulty,"training");assert.equal(row.stageIndex,1);assert.equal(row.choiceIndex,0);assert.equal(row.title,"Extract oxygen");assert.equal(row.why,"Use local resources");});
+
+test("backend preserves only known completed station tasks",()=>{const result=validateProgress({mission:{stationTasks:["oxygen","greenhouse","unknown","oxygen"]}});assert.deepEqual(result.mission.stationTasks,["oxygen","greenhouse","oxygen"]);});
