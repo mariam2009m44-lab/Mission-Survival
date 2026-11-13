@@ -1,0 +1,13 @@
+name = "lunar-outpost-api"
+main = "worker.js"
+compatibility_date = "2026-11-13"
+workers_dev = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "lunar-outpost"
+database_id = "REPLACE_WITH_YOUR_CLOUDFLARE_D1_DATABASE_ID"
+migrations_dir = "migrations"
+
+[vars]
+ALLOWED_ORIGINS = "https://mariam2009m44-lab.github.io,http://localhost:4173,http://127.0.0.1:4173,https://localhost"
