@@ -27,3 +27,10 @@ test("backend rejects non-object progress",()=>{
  assert.equal(validateProgress(null),null);
  assert.equal(validateProgress([]),null);
 });
+
+test("backend preserves mission completion metadata for safe restoration",()=>{
+ const result=validateProgress({mission:{difficulty:"guided",started:true,phase:"complete",day:4,resources:{power:80,oxygen:70,water:60,food:90,shield:95},history:[],xp:350,result:"success",saved:true}});
+ assert.equal(result.mission.xp,350);
+ assert.equal(result.mission.result,"success");
+ assert.equal(result.mission.saved,true);
+});
