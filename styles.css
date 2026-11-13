@@ -508,3 +508,22 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--amber);outline-offs
  .field-guide-button{grid-column:1/-1;width:100%;min-height:42px}
 }
 @media(max-width:380px){.fieldwork-stations{grid-template-columns:1fr 1fr;gap:7px}.fieldwork-icon{height:64px}}
+
+/* One clear next action for the child before every strategic decision */
+.active-station-guide{display:grid;grid-template-columns:116px minmax(0,1fr);gap:17px;align-items:center;margin:18px 0;padding:16px;border:1px solid rgba(120,226,232,.28);border-radius:22px;background:radial-gradient(ellipse at 12% 15%,rgba(120,226,232,.13),transparent 48%),linear-gradient(135deg,#1c2c4a,#18223c 75%);box-shadow:0 12px 28px rgba(0,0,0,.15)}
+.active-station-art{display:grid;place-items:center;width:116px;height:116px;border-radius:19px;background:radial-gradient(ellipse at 50% 75%,rgba(120,226,232,.2),transparent 72%),rgba(7,15,31,.55)}
+.active-station-art img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 8px 12px rgba(0,0,0,.22))}
+.active-station-copy{min-width:0}
+.active-station-copy h3{margin:5px 0;font-size:17px}
+.active-station-copy p{margin:5px 0 9px;color:var(--soft);font-size:12px;line-height:1.75}
+.active-station-copy ol{display:grid;gap:5px;margin:9px 0 12px;padding-inline-start:22px;color:#e2eafa;font-size:11px;line-height:1.65}
+.active-station-copy li::marker{color:var(--amber);font-weight:900}
+.active-station-copy .field-guide-button{min-height:39px;padding:9px 14px}
+@media(max-width:620px){
+ .active-station-guide{grid-template-columns:78px minmax(0,1fr);gap:11px;padding:12px;border-radius:18px}
+ .active-station-art{width:78px;height:78px;border-radius:15px}
+ .active-station-copy h3{font-size:14px}
+ .active-station-copy p{font-size:11px}
+ .active-station-copy ol{font-size:10px}
+ .active-station-copy .field-guide-button{grid-column:1/-1;width:100%}
+}
