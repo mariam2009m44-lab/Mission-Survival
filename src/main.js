@@ -43,5 +43,5 @@ app.addEventListener("submit",e=>{if(e.target.id==="nova-form"){e.preventDefault
 app.addEventListener("change",e=>{if(e.target.id==="difficulty"){s.difficulty=DIFFICULTIES[e.target.value]?e.target.value:"standard";persist();render();}});
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();installEvent=e;render();});
 render();
-if(isCloudEnabled())restoreProgress(s).then(result=>{if(result.status==="restored"){s=result.state;selectedAvatar=s.commander?.avatar||selectedAvatar;saveState(s);render();}else if(result.status==="local")scheduleSync(s);}).catch(()=>{});
+if(isCloudEnabled()){const restoreStartedAt=Number(s.localUpdatedAt)||0;restoreProgress(s).then(result=>{if(Number(s.localUpdatedAt||0)!==restoreStartedAt){scheduleSync(s);return;}if(result.status==="restored"){s=result.state;selectedAvatar=s.commander?.avatar||selectedAvatar;saveState(s);render();}else if(result.status==="local")scheduleSync(s);}).catch(()=>{});}
 if("serviceWorker"in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
