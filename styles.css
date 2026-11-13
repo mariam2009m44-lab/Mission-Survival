@@ -527,3 +527,22 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--amber);outline-offs
  .active-station-copy ol{font-size:10px}
  .active-station-copy .field-guide-button{grid-column:1/-1;width:100%}
 }
+
+/* TECNOVA mobile-app comfort, tactile feedback and safe-area support */
+.sound-toggle{width:36px;height:36px;display:grid;place-items:center;border:1px solid rgba(112,220,226,.25);border-radius:12px;background:rgba(112,220,226,.08);color:#a5f0ee;font-size:18px}
+.sound-toggle[aria-pressed="false"]{color:#8c9bb2;background:rgba(255,255,255,.035)}
+button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button:active{transform:scale(.97)}
+@keyframes app-content-arrive{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+.content{animation:app-content-arrive .32s cubic-bezier(.2,.7,.2,1) both}
+.station-feedback.success{animation:app-content-arrive .28s ease both}
+@media(max-width:700px){
+ .topbar{padding-top:env(safe-area-inset-top);height:calc(62px + env(safe-area-inset-top))}
+ .main{padding-bottom:calc(92px + env(safe-area-inset-bottom))}
+ .mobile-nav{padding-bottom:calc(8px + env(safe-area-inset-bottom));min-height:calc(58px + env(safe-area-inset-bottom))}
+ .top-actions{gap:7px}.sound-toggle{width:34px;height:34px;flex:none}
+ .commander-mini b{max-width:76px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .install{padding:9px 10px}
+}
+@media(max-width:380px){.main{padding-inline:11px}.topbar{gap:7px}.crumb{font-size:8px}.commander-mini{gap:5px}.commander-mini b{max-width:58px}}
+@media(prefers-reduced-motion:reduce){.content,.station-feedback.success{animation:none!important}button:active{transform:none}}
