@@ -71,3 +71,13 @@ test("mobile 3D cockpit keeps HUD actions in the content column and camera contr
 test("3D touch controls use separate non-overlapping zones and retain compact landscape sizing",async()=>{const {readFile}=await import("node:fs/promises");const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");assert.match(css,/3D control zoning: keep camera, guidance, movement and interaction in separate lanes/);assert.match(css,/\.lunar-3d-stage \.scene-pad\{left:10px;bottom:10px/);assert.match(css,/\.lunar-3d-stage \.scene-interact\{right:10px;bottom:10px/);assert.match(css,/orientation:landscape\) and \(max-height:520px/);assert.match(css,/grid-template-columns:repeat\(3,42px\)/);});
 
 test("final mobile 3D cascade separates camera bar, HUD, left movement pad and right action button",async()=>{const {readFile}=await import("node:fs/promises");const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");const i=css.lastIndexOf("Final cascade fix: override legacy");const finalCss=css.slice(i);assert.ok(i>0);assert.match(finalCss,/\.scene-camera-switch\{[\s\S]*?top:8px!important[\s\S]*?height:42px!important/);assert.match(finalCss,/\.scene-hud\{[\s\S]*?top:60px!important/);assert.match(finalCss,/\.scene-pad\{[\s\S]*?left:10px!important[\s\S]*?bottom:10px!important/);assert.match(finalCss,/\.scene-interact\{[\s\S]*?right:10px!important[\s\S]*?bottom:12px!important/);assert.match(finalCss,/@media\(orientation:landscape\) and \(max-height:520px\)/);});
+
+test("small landscape tablets keep the compact two-thumb cockpit after desktop rules",async()=>{
+ const worldCss=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");
+ const compact=worldCss.slice(worldCss.lastIndexOf("Small tablets in landscape"));
+ assert.match(compact,/min-width:761px/);
+ assert.match(compact,/max-width:900px/);
+ assert.match(compact,/\.scene-viewport\{height:100svh!important/);
+ assert.match(compact,/\.scene-pad\{left:7px!important[\s\S]*?width:130px!important/);
+ assert.match(compact,/\.scene-interact\{left:auto!important;right:7px!important[\s\S]*?width:108px!important/);
+});
