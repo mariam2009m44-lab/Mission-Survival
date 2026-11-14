@@ -43,7 +43,7 @@ test("station action reserves space for the side-mounted D-pad on narrow phones"
 
 test("mobile 3D controls use the same direct-child grid on narrow screens", async () => {
   const worldCss = await readFile(new URL("../styles/kids-world.css", import.meta.url), "utf8");
-  const unified = worldCss.slice(worldCss.lastIndexOf("TECNOVA unified four-direction movement pad"));
+  const unified = worldCss.slice(worldCss.lastIndexOf("TECNOVA four-way movement controls"));
   assert.match(unified, /@media\(max-width:760px\)/);
   assert.match(unified, /grid-template-areas:"\. forward \." "left back right"/);
   assert.match(unified, /grid-template-columns:42px minmax\(112px,132px\) 42px!important/);
@@ -72,7 +72,7 @@ test("mobile 3D cockpit keeps HUD actions in the content column and camera contr
 
 test("3D touch controls retain separate action zones and compact landscape grid sizing",async()=>{
  const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");
- const unified=css.slice(css.lastIndexOf("TECNOVA unified four-direction movement pad"));
+ const unified=css.slice(css.lastIndexOf("TECNOVA four-way movement controls"));
  assert.match(unified,/\.lunar-3d-stage \.scene-pad\{/);
  assert.match(css,/\.lunar-3d-stage \.scene-interact/);
  assert.match(unified,/orientation:landscape\) and \(max-height:520px/);
@@ -82,7 +82,7 @@ test("3D touch controls retain separate action zones and compact landscape grid 
 
 test("final 3D movement cascade consistently places all four direct-child controls",async()=>{
  const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");
- const finalCss=css.slice(css.lastIndexOf("TECNOVA unified four-direction movement pad"));
+ const finalCss=css.slice(css.lastIndexOf("TECNOVA four-way movement controls"));
  assert.match(finalCss,/grid-template-areas:"\. forward \." "left back right"/);
  assert.match(finalCss,/\[data-move="left"\]\{grid-area:left/);
  assert.match(finalCss,/\[data-move="back"\]\{grid-area:back/);
@@ -130,7 +130,7 @@ test("3D movement keys are cleared when the app loses focus or is backgrounded",
 
 test("landscape movement buttons retain 42px touch targets and visible keyboard focus",async()=>{
  const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");
- const unified=css.slice(css.lastIndexOf("TECNOVA unified four-direction movement pad"));
+ const unified=css.slice(css.lastIndexOf("TECNOVA four-way movement controls"));
  assert.match(unified,/grid-template-rows:46px 42px!important/);
  assert.match(unified,/grid-template-columns:42px minmax\(112px,124px\) 42px!important/);
  assert.match(unified,/focus-visible/);
