@@ -126,5 +126,5 @@ test("signing out preserves the local explorer profile and achievements",async()
  await action("select-profile",{profileId:savedProfiles[0].id});
  assert.match(root.innerHTML,/class="shell/);
  await nav("report");
- assert.match(root.innerHTML,/MISSION HISTORY/);
+ assert.match(root.innerHTML,/MISSION HISTORY|سجل المهمات/);
 });
