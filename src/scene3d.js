@@ -42,9 +42,10 @@ function makeScene(THREE,root){
  scene.add(new THREE.HemisphereLight(0x9eb9df,0x1c2430,1.65));
  const sun=new THREE.DirectionalLight(0xffe6bd,3.4);sun.position.set(-12,18,9);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-25;sun.shadow.camera.right=25;sun.shadow.camera.top=25;sun.shadow.camera.bottom=-25;sun.shadow.bias=-.00018;scene.add(sun);
  const fill=new THREE.PointLight(0x4aa9ff,38,45);fill.position.set(7,7,-8);scene.add(fill);
+ let sceneDisposed=false;
  const terrainMat=new THREE.MeshStandardMaterial({color:0xffffff,roughness:1,metalness:0});
  const lunarTextureLoader=new THREE.TextureLoader();lunarTextureLoader.setCrossOrigin("anonymous");
- lunarTextureLoader.load("https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004720/lroc_color_2k.jpg",texture=>{texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=Math.min(renderer.capabilities.getMaxAnisotropy(),4);terrainMat.map=texture;terrainMat.needsUpdate=true;},undefined,()=>{terrainMat.color.set(0x85869a);});
+ lunarTextureLoader.load("https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004720/lroc_color_2k.jpg",texture=>{if(sceneDisposed){texture.dispose();return;}texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=Math.min(renderer.capabilities.getMaxAnisotropy(),4);terrainMat.map=texture;terrainMat.needsUpdate=true;},undefined,()=>{terrainMat.color.set(0x85869a);});
  const geo=new THREE.PlaneGeometry(54,54,120,120);geo.rotateX(-Math.PI/2);
  const pos=geo.attributes.position;
  for(let i=0;i<pos.count;i++){const x=pos.getX(i),z=pos.getZ(i);let h=.16*Math.sin(x*.7)*Math.cos(z*.52)+.09*Math.sin(x*1.9+z*.8);for(const c of [[-8,-4,3],[7,5,4],[-2,10,2.5],[12,-9,3]]){const d=Math.hypot(x-c[0],z-c[1]);h-=.62*Math.exp(-Math.pow(d/c[2],2)*2);h+=.17*Math.exp(-Math.pow((d-c[2]*.78)/.42,2));}pos.setY(i,h);}
@@ -130,7 +131,7 @@ function makeScene(THREE,root){
   const saved=JSON.parse(localStorage.getItem("lunar-outpost-trainer-v2")||"{}");
   const mission=saved.mission;
   if(mission?.started&&mission.phase==="active"){
-   const route=["habitat","solar","oxygen","greenhouse","rover"];
+   const route=["habitat","oxygen","solar","greenhouse","rover"];
    waypointId=route[Math.max(0,Math.min(4,Number(mission.day)||0))];
    const destination=stations.find(st=>st.id===waypointId);
    if(destination){
@@ -269,6 +270,9 @@ function updateMovement(dt) {
 }
 
 const onKeyDown = e => {
+  const target = e.target;
+  if (target?.closest?.("input, textarea, select, button, a, [contenteditable='true'], [role='button']") || target?.isContentEditable) return;
+  if (document.activeElement !== canvas) return;
   const key = e.key.toLowerCase();
 
   if (["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright", " "].includes(key)) {
@@ -363,6 +367,7 @@ renderer.setAnimationLoop(() => {
 });
 
 return () => {
+  sceneDisposed = true;
   renderer.setAnimationLoop(null);
   ro.disconnect();
   window.removeEventListener("keydown", onKeyDown);
@@ -371,9 +376,29 @@ return () => {
 
   if (activeXRSession) activeXRSession.end().catch(() => {});
 
+  const geometries = new Set();
+  const materials = new Set();
+  const textures = new Set();
+  scene.traverse(object => {
+    if (object.geometry && !geometries.has(object.geometry)) {
+      geometries.add(object.geometry);
+      object.geometry.dispose();
+    }
+    const list = Array.isArray(object.material) ? object.material : [object.material];
+    for (const material of list) {
+      if (!material || materials.has(material)) continue;
+      materials.add(material);
+      for (const value of Object.values(material)) {
+        if (value?.isTexture && !textures.has(value)) {
+          textures.add(value);
+          value.dispose();
+        }
+      }
+      material.dispose();
+    }
+  });
+
   renderer.dispose();
-  geo.dispose();
-  starsGeo.dispose();
 };
 }
 
@@ -405,7 +430,7 @@ function mount() {
 
     root.innerHTML = '<div class="scene-topline"><span>LIVE 3D · LUNAR SOUTH POLE</span><span class="scene-hint">' +
       (uiAr ? "اسحب لتدوير المشهد · قرّب إصبعين للتكبير · أزرار الحركة للمشي" : "DRAG TO LOOK · PINCH TO ZOOM · HOLD PAD TO WALK") +
-      '</span></div><div class="scene-viewport"><canvas aria-label="Interactive three-dimensional lunar outpost scene"></canvas><div class="scene-loading">INITIALIZING 3D TERRAIN…</div><div class="scene-camera-switch"><button type="button" class="active" data-scene-camera="follow">' +
+      '</span></div><div class="scene-viewport"><canvas tabindex="0" aria-label="Interactive three-dimensional lunar outpost scene"></canvas><div class="scene-loading">INITIALIZING 3D TERRAIN…</div><div class="scene-camera-switch"><button type="button" class="active" data-scene-camera="follow">' +
       (uiAr ? "تتبع" : "FOLLOW") +
       '</button><button type="button" data-scene-camera="overview">' +
       (uiAr ? "نظرة عامة" : "OVERVIEW") +
