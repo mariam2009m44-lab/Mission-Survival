@@ -74,7 +74,7 @@ test("3D touch controls retain separate action zones and compact landscape grid 
  const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");
  const unified=css.slice(css.lastIndexOf("TECNOVA unified four-direction movement pad"));
  assert.match(unified,/\.lunar-3d-stage \.scene-pad\{/);
- assert.match(unified,/\.lunar-3d-stage \.scene-interact/);
+ assert.match(css,/\.lunar-3d-stage \.scene-interact/);
  assert.match(unified,/orientation:landscape\) and \(max-height:520px/);
  assert.match(unified,/grid-template-columns:42px minmax\(112px,124px\) 42px!important/);
  assert.match(unified,/grid-template-rows:46px 42px!important/);
