@@ -1,6 +1,15 @@
 const ITERATIONS=120000;
 const toHex=bytes=>Array.from(bytes,b=>b.toString(16).padStart(2,"0")).join("");
 const fromHex=value=>new Uint8Array((value.match(/.{1,2}/g)||[]).map(part=>parseInt(part,16)));
+
+// Mobile keyboards may emit Arabic-Indic or Persian digits. Store and verify
+// one canonical ASCII representation so the same visible code always works.
+export function normalizeAccessCode(value){
+ return String(value??"").trim().replace(/[٠-٩۰-۹]/g,d=>{
+  const code=d.codePointAt(0);
+  return String(code>=0x06f0?code-0x06f0:code-0x0660);
+ });
+}
 async function derive(pin,salt,cryptoApi){const material=await cryptoApi.subtle.importKey("raw",new TextEncoder().encode(pin),"PBKDF2",false,["deriveBits"]);const bits=await cryptoApi.subtle.deriveBits({name:"PBKDF2",salt,iterations:ITERATIONS,hash:"SHA-256"},material,256);return new Uint8Array(bits);}
-export async function createProfileCredential(pin,cryptoApi=globalThis.crypto){if(!/^\d{6}$/.test(String(pin)))throw new Error("A six-digit access code is required.");if(!cryptoApi?.subtle||!cryptoApi?.getRandomValues)throw new Error("Secure cryptography is unavailable.");const salt=cryptoApi.getRandomValues(new Uint8Array(16));const hash=await derive(String(pin),salt,cryptoApi);return{salt:toHex(salt),hash:toHex(hash),algorithm:"PBKDF2-SHA256",iterations:ITERATIONS};}
-export async function verifyProfileCredential(pin,credential,cryptoApi=globalThis.crypto){if(!/^\d{6}$/.test(String(pin))||!credential?.salt||!credential?.hash||!cryptoApi?.subtle)return false;try{const hash=await derive(String(pin),fromHex(credential.salt),cryptoApi);const actual=toHex(hash);if(actual.length!==credential.hash.length)return false;let diff=0;for(let i=0;i<actual.length;i++)diff|=actual.charCodeAt(i)^credential.hash.charCodeAt(i);return diff===0;}catch{return false;}}
+export async function createProfileCredential(pin,cryptoApi=globalThis.crypto){pin=normalizeAccessCode(pin);if(!/^\d{6}$/.test(pin))throw new Error("A six-digit access code is required.");if(!cryptoApi?.subtle||!cryptoApi?.getRandomValues)throw new Error("Secure cryptography is unavailable.");const salt=cryptoApi.getRandomValues(new Uint8Array(16));const hash=await derive(pin,salt,cryptoApi);return{salt:toHex(salt),hash:toHex(hash),algorithm:"PBKDF2-SHA256",iterations:ITERATIONS};}
+export async function verifyProfileCredential(pin,credential,cryptoApi=globalThis.crypto){pin=normalizeAccessCode(pin);if(!/^\d{6}$/.test(pin)||!credential?.salt||!credential?.hash||!cryptoApi?.subtle)return false;try{const hash=await derive(pin,fromHex(credential.salt),cryptoApi);const actual=toHex(hash);if(actual.length!==credential.hash.length)return false;let diff=0;for(let i=0;i<actual.length;i++)diff|=actual.charCodeAt(i)^credential.hash.charCodeAt(i);return diff===0;}catch{return false;}}
