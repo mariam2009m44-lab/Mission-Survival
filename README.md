@@ -4,9 +4,15 @@ An installable, mobile-first mission trainer for NASA Space Apps 2026 challenge 
 
 The app teaches young learners to command a lunar South Pole training outpost, understand connected life-support systems, and make five days of resource decisions. Its science library separates modeled illumination, lunar-orbit instrument measurements, space-weather event records and partner-agency learning resources.
 
-## TECNOVA experience\n- Cinematic first-launch planetarium with animated 3D planets, Saturn rings, Earth, lunar surface, stars and a floating astronaut illustration.\n- Browser-based 3D experience with a first-person astronaut view for phones and computers, plus an optional WebXR immersive-VR entry point for compatible headsets and secure browsers. Headset support is detected at runtime; unsupported devices retain the normal 3D experience.
+## TECNOVA experience
+- Cinematic first-launch planetarium with animated 3D planets, Saturn rings, Earth, lunar surface, stars and a floating astronaut illustration.
+- Browser-based 3D experience with a first-person astronaut view for phones and computers, plus an optional WebXR immersive-VR entry point for compatible headsets and secure browsers. Headset support is detected at runtime; unsupported devices retain the normal 3D experience.
 - In headset mode, tracked headset pose drives the camera and controller selection supports simple point-to-move exploration; keyboard/touch and first-person camera remain available as fallbacks.
-- Child-friendly station guidance explains how to follow glowing signs, approach a station and interact with NOVA.\n- Responsive child-friendly welcome screen with Arabic/English controls and a skip-intro option.\n- Interactive Three.js lunar outpost with a walkable astronaut, NOVA robot, habitat, rover, solar farm, greenhouse and oxygen lab.\n\n## VR and accessibility notes
+- Child-friendly station guidance explains how to follow glowing signs, approach a station and interact with NOVA.
+- Responsive child-friendly welcome screen with Arabic/English controls and a skip-intro option.
+- Interactive Three.js lunar outpost with a walkable astronaut, NOVA robot, habitat, rover, solar farm, greenhouse and oxygen lab.
+
+## VR and accessibility notes
 
 WebXR immersive VR is optional and depends on the headset, browser, permissions and secure-context support. The app does not claim that every phone or browser can launch headset VR. The first-person browser mode is separate from headset VR and works as a non-headset fallback. The lunar world remains a conceptual educational environment, not a flight simulator.
 
