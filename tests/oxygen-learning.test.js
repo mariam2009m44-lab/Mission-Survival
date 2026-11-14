@@ -23,3 +23,15 @@ test("oxygen knowledge check is styled for narrow mobile screens and feedback st
   assert.match(styles, /\.oxygen-quiz-option\.incorrect/);
   assert.match(styles, /@media\(max-width:560px\)/);
 });
+
+test("four-astronaut oxygen shortage scenario rewards the safe B choice in simulation", async () => {
+  assert.match(main, /A lunar habitat houses four astronauts/);
+  assert.match(main, /Review oxygen consumption, postpone non-essential activities/);
+  assert.match(main, /Reduce the cabin oxygen percentage without checking safety limits/);
+  assert.match(main, /index===2/);
+  assert.match(main, /applyResourceResponse\(s\.mission,"oxygen","backup"\)/);
+  assert.match(main, /Resource Management points/);
+  const engine = await readFile(new URL("../src/engine.js", import.meta.url), "utf8");
+  assert.match(engine, /postpone optional activities and activate the backup reserve/);
+  assert.match(engine, /not a real spacecraft procedure/);
+});
