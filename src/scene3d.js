@@ -1,4 +1,4 @@
-const THREE_URL="../vendor/three.module.js";
+const threeModuleUrl=()=>new URL("../vendor/three.module.js",import.meta.url).href;
 let mounted=false;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 function makeIntroScene(THREE,root){
@@ -26,19 +26,18 @@ function makeIntroScene(THREE,root){
 }
 function mountIntro(){
  const root=document.querySelector("#app .intro-3d-world");if(!root||root.dataset.ready)return;if(root.dataset.ready==="loading")return;root.dataset.ready="loading";
- import(THREE_URL).then(THREE=>{if(!root.isConnected)return;root.dataset.ready="true";root._dispose=makeIntroScene(THREE,root);}).catch(()=>{root.dataset.ready="fallback";});
+ import(threeModuleUrl()).then(THREE=>{if(!root.isConnected)return;root.dataset.ready="true";root._dispose=makeIntroScene(THREE,root);}).catch(()=>{root.dataset.ready="fallback";});
 }
-function addStylesFallback(root){
- root.classList.add("scene-fallback");
- const fallback=document.createElement("div");fallback.className="scene-fallback-art";fallback.innerHTML='<div class="fallback-earth"></div><div class="fallback-moon"></div><div class="fallback-habitat"></div><div class="fallback-rover"></div><div class="fallback-caption">LUNAR SOUTH POLE · 3D PREVIEW MODE</div>';
- root.append(fallback);
+function addStylesFallback(root,uiAr=false){
+ if(!root)return;root.classList.add("scene-fallback");const fallback=document.createElement("div");fallback.className="scene-fallback-art";fallback.innerHTML='<div class="fallback-earth"></div><div class="fallback-moon"></div><div class="fallback-habitat"></div><div class="fallback-rover"></div><div class="fallback-caption">LUNAR SOUTH POLE · 3D PREVIEW MODE</div><p class="scene-fallback-note">'+(uiAr?"تعذر تشغيل الرسومات ثلاثية الأبعاد على هذا الجهاز. يمكنك متابعة المهمة من أزرار المحطات والأنشطة.":"3D graphics are unavailable on this device. Continue the mission with the station and activity controls.")+'</p>';root.replaceChildren(fallback);
 }
 function makeScene(THREE,root){
  const uiAr=(()=>{try{return JSON.parse(localStorage.getItem("lunar-outpost-trainer-v2")||"{}").language==="ar";}catch{return false;}})();
  const canvas=root.querySelector("canvas");const scene=new THREE.Scene();scene.background=new THREE.Color(0x070d18);scene.fog=new THREE.FogExp2(0x070d18,.012);
  const camera=new THREE.PerspectiveCamera(43,1,.1,180);camera.position.set(15,12,19);
- const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
- const compactDevice=window.matchMedia("(max-width: 760px)").matches||(navigator.deviceMemory&&navigator.deviceMemory<=4);renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,compactDevice?1.05:1.45));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;renderer.shadowMap.enabled=!compactDevice;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+ const compactDevice=window.matchMedia("(max-width: 760px)").matches||(navigator.deviceMemory&&navigator.deviceMemory<=4);
+ const renderer=new THREE.WebGLRenderer({canvas,antialias:!compactDevice,alpha:false,powerPreference:"low-power",stencil:false,preserveDrawingBuffer:false});
+ renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,compactDevice?.9:1.2));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;renderer.shadowMap.enabled=!compactDevice;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
  scene.add(new THREE.HemisphereLight(0x9eb9df,0x1c2430,1.65));
  const sun=new THREE.DirectionalLight(0xffe6bd,3.4);sun.position.set(-12,18,9);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-25;sun.shadow.camera.right=25;sun.shadow.camera.top=25;sun.shadow.camera.bottom=-25;sun.shadow.bias=-.00018;scene.add(sun);
  const fill=new THREE.PointLight(0x4aa9ff,38,45);fill.position.set(7,7,-8);scene.add(fill);
@@ -46,7 +45,7 @@ function makeScene(THREE,root){
  const terrainMat=new THREE.MeshStandardMaterial({color:0xffffff,roughness:1,metalness:0});
  const lunarTextureLoader=new THREE.TextureLoader();lunarTextureLoader.setCrossOrigin("anonymous");
  lunarTextureLoader.load("https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004720/lroc_color_2k.jpg",texture=>{if(sceneDisposed){texture.dispose();return;}texture.colorSpace=THREE.SRGBColorSpace;texture.anisotropy=Math.min(renderer.capabilities.getMaxAnisotropy(),4);terrainMat.map=texture;terrainMat.needsUpdate=true;},undefined,()=>{terrainMat.color.set(0x85869a);});
- const geo=new THREE.PlaneGeometry(54,54,120,120);geo.rotateX(-Math.PI/2);
+ const geo=new THREE.PlaneGeometry(54,54,compactDevice?72:112,compactDevice?72:112);geo.rotateX(-Math.PI/2);
  const pos=geo.attributes.position;
  for(let i=0;i<pos.count;i++){const x=pos.getX(i),z=pos.getZ(i);let h=.16*Math.sin(x*.7)*Math.cos(z*.52)+.09*Math.sin(x*1.9+z*.8);for(const c of [[-8,-4,3],[7,5,4],[-2,10,2.5],[12,-9,3]]){const d=Math.hypot(x-c[0],z-c[1]);h-=.62*Math.exp(-Math.pow(d/c[2],2)*2);h+=.17*Math.exp(-Math.pow((d-c[2]*.78)/.42,2));}pos.setY(i,h);}
  geo.computeVertexNormals();const ground=new THREE.Mesh(geo,terrainMat);ground.receiveShadow=true;scene.add(ground);
@@ -177,7 +176,7 @@ function makeScene(THREE,root){
  const novaBadge=new THREE.Mesh(new THREE.TorusGeometry(.62,.035,8,40),novaGold);novaBadge.rotation.x=Math.PI/2;novaBadge.position.y=.18;nova.add(novaBadge);
  const novaLamp=new THREE.PointLight(0x53e9ff,5,5);novaLamp.position.set(0,1.8,0);nova.add(novaLamp);
  // Softly rounded lunar boulders and colorful mineral crystals make the terrain welcoming.
- for(let i=0;i<34;i++){
+ for(let i=0,rockLimit=compactDevice?20:34;i<rockLimit;i++){
   const x=Math.sin(i*12.37)*22,z=Math.cos(i*7.91)*22;
   if(Math.hypot(x,z)<8)continue;
   const rock=new THREE.Mesh(new THREE.IcosahedronGeometry(.22+(i%4)*.09,1),mat(i%3===0?0xaaa6b7:i%3===1?0x8e96aa:0xb8ad9c,0,.9));
@@ -188,11 +187,11 @@ function makeScene(THREE,root){
  const earthCloud=new THREE.Mesh(new THREE.SphereGeometry(2.13,32,24),new THREE.MeshBasicMaterial({color:0x91dcff,wireframe:true,transparent:true,opacity:.14}));earthCloud.position.copy(earth.position);scene.add(earthCloud);
  // Navigation beacon.
  const beacon=new THREE.PointLight(0x55dfff,22,8);beacon.position.set(-2,3.5,1);group.add(beacon);
- const starsGeo=new THREE.BufferGeometry(),stars=new Float32Array(900*3);for(let i=0;i<900;i++){stars[i*3]=(Math.random()-.5)*100;stars[i*3+1]=Math.random()*42+5;stars[i*3+2]=(Math.random()-.5)*100;}starsGeo.setAttribute("position",new THREE.BufferAttribute(stars,3));scene.add(new THREE.Points(starsGeo,new THREE.PointsMaterial({color:0xc8ddff,size:.12,transparent:true,opacity:.8})));
+ const starCount=compactDevice?420:760;const starsGeo=new THREE.BufferGeometry(),stars=new Float32Array(starCount*3);for(let i=0;i<starCount;i++){stars[i*3]=(Math.random()-.5)*100;stars[i*3+1]=Math.random()*42+5;stars[i*3+2]=(Math.random()-.5)*100;}starsGeo.setAttribute("position",new THREE.BufferAttribute(stars,3));scene.add(new THREE.Points(starsGeo,new THREE.PointsMaterial({color:0xc8ddff,size:.12,transparent:true,opacity:.8})));
  const target=new THREE.Vector3(1,.65,5);let radius=13.5,azimuth=.72,polar=1.08,drag=false,lastX=0,lastY=0,raf=0,cameraMode="follow",firstPerson=false;
  function cameraUpdate(){if(firstPerson){const px=astronaut.position.x,pz=astronaut.position.z;camera.position.set(px,1.62,pz);camera.lookAt(px+Math.sin(azimuth)*12,1.5,pz+Math.cos(azimuth)*12);return;}camera.position.set(target.x+radius*Math.sin(polar)*Math.sin(azimuth),target.y+radius*Math.cos(polar),target.z+radius*Math.sin(polar)*Math.cos(azimuth));camera.lookAt(target);}
- function resize(){const w=Math.max(1,root.clientWidth),h=Math.max(1,root.clientHeight);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
- const ro=new ResizeObserver(resize);ro.observe(root);resize();cameraUpdate();
+ function resize(){const rect=root.getBoundingClientRect();const w=Math.max(1,Math.floor(rect.width||root.clientWidth));const h=Math.max(1,Math.floor(rect.height||root.clientHeight));renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+ const ro=new ResizeObserver(resize);ro.observe(root);window.addEventListener("resize",resize,{passive:true});resize();cameraUpdate();
  const activePointers=new Map();let pinchDistance=0;canvas.style.touchAction="none";
  const pointerDistance=()=>{const points=[...activePointers.values()];return points.length<2?0:Math.hypot(points[0].x-points[1].x,points[0].y-points[1].y);};
  const releasePointer=e=>{activePointers.delete(e.pointerId);drag=activePointers.size===1;if(drag){const point=[...activePointers.values()][0];lastX=point.x;lastY=point.y;}pinchDistance=activePointers.size===2?pointerDistance():0;};
@@ -202,7 +201,7 @@ function makeScene(THREE,root){
  canvas.addEventListener("wheel",e=>{e.preventDefault();radius=clamp(radius+e.deltaY*.018,7,34);cameraUpdate();},{passive:false});
  root.querySelectorAll("[data-scene-camera]").forEach(button=>button.addEventListener("click",()=>{firstPerson=false;if(firstPersonButton){firstPersonButton.textContent=uiAr?"منظور رائدة الفضاء":"FIRST PERSON";firstPersonButton.setAttribute("aria-pressed","false");}cameraMode=button.dataset.sceneCamera;if(cameraMode==="follow"){followPlayer=true;radius=12.5;setStatus(uiAr?"الكاميرا تتبع رائد الفضاء":"Camera follows your astronaut");}else{followPlayer=false;target.set(0,.5,0);radius=27;setStatus(uiAr?"عرض القاعدة بالكامل":"Full outpost overview");}root.querySelectorAll("[data-scene-camera]").forEach(x=>x.classList.toggle("active",x===button));cameraUpdate();}));
  const focus={base:[0,.5,0],habitat:[-2,1,1],oxygen:[-5,1,-3],power:[4,1,-1],greenhouse:[-5,1,7],rover:[5,1,6],lander:[-8,1,-5]};
- let followPlayer=true,nearby=null,moveX=0,moveZ=0,lastPositionSave=0;const keys=new Set(),moveSpeed=4.2;
+ let followPlayer=true,nearby=null,autoWalkTarget=null,moveX=0,moveZ=0,lastPositionSave=0;const keys=new Set(),moveSpeed=4.2;
  const firstPersonButton=root.querySelector("[data-scene-first-person]"),vrButton=root.querySelector("[data-scene-vr]");
  const immersiveButton=root.querySelector("[data-scene-fullscreen]"),immersiveTarget=root.closest(".lunar-3d-stage")||root;
  immersiveButton?.addEventListener("click",async()=>{try{if(document.fullscreenElement===immersiveTarget){await document.exitFullscreen();}else if(immersiveTarget.requestFullscreen){await immersiveTarget.requestFullscreen();}else{immersiveTarget.classList.toggle("scene-immersive");}}catch{immersiveTarget.classList.toggle("scene-immersive");}setTimeout(resize,120);});
@@ -219,25 +218,16 @@ function makeScene(THREE,root){
  const waypointLabel=root.querySelector("[data-scene-waypoint]");
  if(waypointLabel&&waypointId){const labels={habitat:["NEXT STOP · HABITAT","المحطة التالية · السكن"],solar:["NEXT STOP · SOLAR FARM","المحطة التالية · الطاقة الشمسية"],oxygen:["NEXT STOP · OXYGEN LAB","المحطة التالية · مختبر الأكسجين"],greenhouse:["NEXT STOP · GREENHOUSE","المحطة التالية · الصوبة الزراعية"],rover:["NEXT STOP · ROVER GARAGE","المحطة التالية · مرآب المركبة"]};waypointLabel.textContent=uiAr?labels[waypointId][1]:labels[waypointId][0];waypointLabel.hidden=false;}else if(waypointLabel){waypointLabel.hidden=true;}
  function setStatus(text){if(status)status.textContent=text;}
+ const autoWalkButton=root.querySelector("[data-scene-auto-walk]");
+ autoWalkButton?.addEventListener("click",()=>{const destination=stations.find(st=>st.id===waypointId)||stations[0];if(!destination){setStatus(uiAr?"لا توجد محطة محددة الآن":"No station is selected yet");return;}autoWalkTarget=destination;followPlayer=true;setStatus((uiAr?"نتحرك إلى ":"Walking to ")+(uiAr?destination.ar:destination.name));});
+ canvas.addEventListener("webglcontextlost",event=>{event.preventDefault();setStatus(uiAr?"توقفت الرسومات مؤقتًا. حاولي إعادة فتح المشهد.":"3D graphics paused. Reopen the scene to try again.");});
+ canvas.addEventListener("webglcontextrestored",()=>{resize();setStatus(uiAr?"عاد تشغيل المشهد ثلاثي الأبعاد":"3D scene restored");});
  function interact(){if(!nearby)return;const st=nearby;root.dispatchEvent(new CustomEvent("lunar-station-interact",{bubbles:true,detail:{id:st.id,name:st.name,ar:st.ar,info:st.info,arInfo:st.arInfo}}));setStatus((uiAr?"تمت زيارة · ":"VISITED · ")+(uiAr?st.ar:st.name));}
  interactButton?.addEventListener("click",interact);
 
 function updateMovement(dt) {
-  let x = (keys.has("d") || keys.has("arrowright") ? 1 : 0)
-    - (keys.has("a") || keys.has("arrowleft") ? 1 : 0) + moveX;
-  let z = (keys.has("s") || keys.has("arrowdown") ? 1 : 0)
-    - (keys.has("w") || keys.has("arrowup") ? 1 : 0) + moveZ;
-  const length = Math.hypot(x, z);
-  if (length > 0.01) {
-    x /= length;
-    z /= length;
-    const dx = x * Math.cos(azimuth) + z * Math.sin(azimuth);
-    const dz = -x * Math.sin(azimuth) + z * Math.cos(azimuth);
-    astronaut.position.x = clamp(astronaut.position.x + dx * moveSpeed * dt, -21, 21);
-    astronaut.position.z = clamp(astronaut.position.z + dz * moveSpeed * dt, -21, 21);
-    astronaut.rotation.y = Math.atan2(dx, dz);
-    followPlayer = true;
-  }
+  if(autoWalkTarget){const dx=autoWalkTarget.position.x-astronaut.position.x,dz=autoWalkTarget.position.z-astronaut.position.z,distance=Math.hypot(dx,dz);if(distance<1.85){autoWalkTarget=null;setStatus(uiAr?"وصلنا للمحطة! اضغطي تفاعل لبدء التحدي":"Station reached! Press INTERACT to start the challenge");}else{const step=Math.min(moveSpeed*dt,distance-1.55),nx=dx/distance,nz=dz/distance;astronaut.position.x=clamp(astronaut.position.x+nx*step,-21,21);astronaut.position.z=clamp(astronaut.position.z+nz*step,-21,21);astronaut.rotation.y=Math.atan2(nx,nz);followPlayer=true;}}
+  else{let x=(keys.has("d")||keys.has("arrowright")?1:0)-(keys.has("a")||keys.has("arrowleft")?1:0)+moveX;let z=(keys.has("s")||keys.has("arrowdown")?1:0)-(keys.has("w")||keys.has("arrowup")?1:0)+moveZ;const length=Math.hypot(x,z);if(length>0.01){x/=length;z/=length;const dx=x*Math.cos(azimuth)+z*Math.sin(azimuth);const dz=-x*Math.sin(azimuth)+z*Math.cos(azimuth);astronaut.position.x=clamp(astronaut.position.x+dx*moveSpeed*dt,-21,21);astronaut.position.z=clamp(astronaut.position.z+dz*moveSpeed*dt,-21,21);astronaut.rotation.y=Math.atan2(dx,dz);followPlayer=true;}}
 
   const px = astronaut.position.x;
   const pz = astronaut.position.z;
@@ -370,6 +360,7 @@ return () => {
   sceneDisposed = true;
   renderer.setAnimationLoop(null);
   ro.disconnect();
+  window.removeEventListener("resize",resize);
   window.removeEventListener("keydown", onKeyDown);
   window.removeEventListener("keyup", onKeyUp);
   document.removeEventListener("fullscreenchange", resize);
@@ -444,7 +435,7 @@ function mount() {
       (uiAr ? "وضع الاستكشاف" : "EXPLORATION MODE") +
       '</b><small data-scene-status>' +
       (uiAr ? "اقتربي من محطة مضيئة" : "Move near a glowing station") +
-      '</small><small class="scene-waypoint" data-scene-waypoint></small><small class="scene-child-tip">' +
+      '</small><small class="scene-waypoint" data-scene-waypoint></small><button type="button" class="scene-auto-walk" data-scene-auto-walk>' + (uiAr ? "خديني للمحطة التالية ↗" : "WALK TO NEXT STATION ↗") + '</button><small class="scene-child-tip">' +
       (uiAr ? "امشي ناحية اللافتات المضيئة، ثم اضغطي تفاعل لتتعلمي مع NOVA" : "Follow the glowing signs, then interact to learn with NOVA") +
       '</small></div><div class="scene-interact" hidden><b data-scene-nearby>STATION</b><button type="button" data-scene-interact>' +
       (uiAr ? "تفاعل ↗" : "INTERACT ↗") +
@@ -477,15 +468,13 @@ function mount() {
   if (root.dataset.ready) return;
   root.dataset.ready = "loading";
 
-  import(THREE_URL).then(THREE => {
+  import(threeModuleUrl()).then(THREE => {
     if (!root.isConnected) return;
     root.dataset.ready = "true";
     root.querySelector(".scene-loading")?.remove();
     root._dispose = makeScene(THREE, root.querySelector(".scene-viewport"));
-  }).catch(() => {
-    root.dataset.ready = "fallback";
-    root.querySelector(".scene-loading")?.remove();
-    addStylesFallback(root.querySelector(".scene-viewport"));
+  }).catch((error) => {
+    root.dataset.ready = "fallback";root.dataset.error=String(error?.message||error||"3D initialization failed");root.querySelector(".scene-loading")?.remove();let isArabic=false;try{isArabic=JSON.parse(localStorage.getItem("lunar-outpost-trainer-v2")||"{}").language==="ar";}catch{}addStylesFallback(root.querySelector(".scene-viewport"),isArabic);
   });
 }
 
