@@ -110,3 +110,12 @@ test("shared stylesheet uses explicit four-direction grid areas",()=>{
  for(const direction of ["forward","left","back","right"]) assert.ok(baseCss.includes('[data-move="'+direction+'"]{grid-area:'+direction));
  assert.doesNotMatch(baseCss,/\.scene-pad\s*>\s*div/);
 });
+
+test("3D scene respects live reduced-motion preferences without disabling walking controls", () => {
+  assert.match(scene, /prefers-reduced-motion: reduce/);
+  assert.match(scene, /onMotionPreferenceChange=event=>\{reducedMotion=event\.matches;\}/);
+  assert.match(scene, /motionQuery\?\.removeEventListener\?\.\("change",onMotionPreferenceChange\)/);
+  assert.match(scene, /const stride=Math\.sin\(t\*10\.5\)\*walkBlend\*\(reducedMotion\?\.35:1\)/);
+  assert.match(scene, /astronaut\.position\.y=\.035\+\(reducedMotion\?0:/);
+  assert.match(scene, /const ambientMotion=reducedMotion\?0:1/);
+});
