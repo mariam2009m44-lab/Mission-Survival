@@ -26,6 +26,8 @@ for (const entry of entries) {
 }
 
 await mkdir(resolve(out, "vendor"), {recursive: true});
+// Three.js 0.180 uses a sibling core module; both files must ship together.
 await cp(resolve(root, "node_modules/three/build/three.module.js"), resolve(out, "vendor/three.module.js"));
+await cp(resolve(root, "node_modules/three/build/three.core.js"), resolve(out, "vendor/three.core.js"));
 
 console.log("Built TECNOVA web bundle in " + out);
