@@ -105,6 +105,27 @@ for(const side of [-1,1]){
 }
 const craftStripe=new THREE.Mesh(new THREE.BoxGeometry(.12,.045,2.2),craftAccent);craftStripe.position.set(0,1.59,-.05);craft.add(craftStripe);
 const craftLamp=new THREE.PointLight(craftStyle.accent,3,7);craftLamp.position.set(0,1.25,-2.1);craft.add(craftLamp);
+if(commander.vehicle==="luna"){
+ // LUNA EXPLORER: broad solar wings and twin side survey pods.
+ const solarWing=new THREE.Mesh(new THREE.BoxGeometry(4.4,.075,1.18),craftDark);solarWing.position.set(0,.72,-.05);craft.add(solarWing);
+ for(const side of [-1,1]){
+  const panel=new THREE.Mesh(new THREE.BoxGeometry(1.55,.045,.92),new THREE.MeshStandardMaterial({color:0x315b91,metalness:.62,roughness:.24}));panel.position.set(side*2.82,.76,-.05);craft.add(panel);
+  for(let line=0;line<4;line++){const gridLine=new THREE.Mesh(new THREE.BoxGeometry(.018,.012,.88),craftAccent);gridLine.position.set(side*(2.2+line*.39),.79,-.05);craft.add(gridLine);}
+  const pod=new THREE.Mesh(new THREE.CylinderGeometry(.2,.24,.9,20),craftBody);pod.rotation.x=Math.PI/2;pod.position.set(side*.83,1.02,-1.42);craft.add(pod);
+ }
+ const sensor=new THREE.Mesh(new THREE.SphereGeometry(.16,16,12),craftAccent);sensor.position.set(0,1.94,-.48);craft.add(sensor);
+}else if(commander.vehicle==="pioneer"){
+ // PIONEER: reinforced cargo carrier with a wider service bay and booster pods.
+ const cargo=new THREE.Mesh(new THREE.BoxGeometry(1.35,.82,1.12),craftBody);cargo.position.set(0,1.1,-.38);craft.add(cargo);
+ const cargoWindow=new THREE.Mesh(new THREE.BoxGeometry(.92,.42,.035),craftGlass);cargoWindow.position.set(0,1.12,.19);craft.add(cargoWindow);
+ for(const side of [-1,1]){
+  const pod=new THREE.Mesh(new THREE.CylinderGeometry(.28,.34,1.05,20),craftDark);pod.rotation.x=Math.PI/2;pod.position.set(side*.88,.93,-1.18);craft.add(pod);
+  const podGlow=new THREE.Mesh(new THREE.CylinderGeometry(.16,.2,.13,16),new THREE.MeshBasicMaterial({color:craftStyle.accent}));podGlow.rotation.x=Math.PI/2;podGlow.position.set(side*.88,.93,-1.77);craft.add(podGlow);
+  const cargoRail=new THREE.Mesh(new THREE.BoxGeometry(.12,.12,1.8),craftAccent);cargoRail.position.set(side*.72,1.62,-.35);craft.add(cargoRail);
+ }
+ const beaconAntenna=new THREE.Mesh(new THREE.CylinderGeometry(.025,.035,.75,10),craftAccent);beaconAntenna.position.set(0,1.92,-.25);craft.add(beaconAntenna);
+}
+
 const craftLabelCanvas=document.createElement("canvas");craftLabelCanvas.width=512;craftLabelCanvas.height=128;const craftLabelCtx=craftLabelCanvas.getContext("2d");craftLabelCtx.fillStyle="rgba(8,22,42,.88)";craftLabelCtx.strokeStyle="#"+craftStyle.accent.toString(16).padStart(6,"0");craftLabelCtx.lineWidth=6;craftLabelCtx.beginPath();craftLabelCtx.rect(8,8,496,112);craftLabelCtx.fill();craftLabelCtx.stroke();craftLabelCtx.fillStyle="#fff";craftLabelCtx.font="bold 34px Arial";craftLabelCtx.textAlign="center";craftLabelCtx.textBaseline="middle";craftLabelCtx.fillText(craftStyle.name,256,64,450);const craftLabelTexture=new THREE.CanvasTexture(craftLabelCanvas);craftLabelTexture.colorSpace=THREE.SRGBColorSpace;const craftLabel=new THREE.Sprite(new THREE.SpriteMaterial({map:craftLabelTexture,transparent:true,depthWrite:false}));craftLabel.position.set(10,3.2,10);craftLabel.scale.set(4.2,1.05,1);group.add(craftLabel);
 // Detailed outpost infrastructure: landing pad, communications mast, storage and service lights.
  const serviceMat=mat(0x9aaabd,.48,.42),warningMat=mat(0xffb95e,.25,.38),windowMat=new THREE.MeshStandardMaterial({color:0x79d8f1,emissive:0x17445b,emissiveIntensity:.8,metalness:.25,roughness:.22});
