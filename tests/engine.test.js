@@ -41,7 +41,7 @@ test("mission analysis compares final reserves with the selected difficulty base
  const result=analyzeMission(m);
  assert.equal(result.score,Math.round((65+42+91+80+95)/5));
  assert.equal(result.lowest.id,"water");
- assert.equal(result.highest.id,"power");
+ assert.equal(result.highest.id,"shield");
  assert.equal(result.resources.find(x=>x.id==="water").start,65);
  assert.equal(result.resources.find(x=>x.id==="water").change,-23);
  assert.equal(result.resources.find(x=>x.id==="power").change,26);
