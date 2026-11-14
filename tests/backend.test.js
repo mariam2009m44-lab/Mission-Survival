@@ -29,3 +29,5 @@ test("backend preserves report site labels and before/after resource snapshots",
  assert.deepEqual(row.before,{power:75,oxygen:80,water:70,food:65,shield:90});
  assert.deepEqual(row.after,{power:85,oxygen:80,water:70,food:65,shield:90});
 });
+
+test("backend preserves one-response-per-resource guard history",()=>{const row={key:"2:oxygen",day:3,resourceId:"oxygen",actionId:"backup",delta:{oxygen:14,power:-6},before:{oxygen:10,power:20},after:{oxygen:24,power:14}};const result=validateProgress({mission:{started:true,phase:"active",day:2,responseHistory:[row,{key:"bad:oxygen",resourceId:"oxygen",actionId:"backup"}]}});assert.deepEqual(result.mission.responseHistory,[row]);});
