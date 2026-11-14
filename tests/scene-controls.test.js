@@ -28,7 +28,7 @@ test("movement controls keep pointer capture, release handling and keyboard mapp
  assert.match(scene,/addEventListener\("pointercancel"/);
  assert.match(scene,/addEventListener\("lostpointercapture"/);
  assert.match(scene,/forward:\s*"w",\s*back:\s*"s",\s*left:\s*"a",\s*right:\s*"d"/);
- assert.match(scene,/movementButtons=root\.querySelectorAll\("\.scene-pad > button\[data-move\]"\)/);
+ assert.match(scene,/const movementButtons=root\.querySelectorAll\("\.scene-pad > button\[data-move\]"\)/);
 });
 
 test("both stylesheet layers use the same explicit four-way CSS grid areas",()=>{
