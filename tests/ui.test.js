@@ -3,7 +3,7 @@ import {webcrypto} from "node:crypto";
 import assert from "node:assert/strict";
 const root={innerHTML:"",listeners:{},addEventListener(type,handler){this.listeners[type]=handler;}};
 const storage=new Map();
-globalThis.crypto=webcrypto;
+Object.defineProperty(globalThis,"crypto",{configurable:true,value:webcrypto});
 let loginPin="123456";
 Object.defineProperty(globalThis,"document",{configurable:true,value:{querySelector:selector=>selector==="#app"?root:selector==="#commander-name"?{value:"Test Commander"}:selector==="#profile-pin"||selector==="#profile-pin-confirm"?{value:"123456"}:selector==="#login-pin"?{value:loginPin}:null,documentElement:{}}});
 Object.defineProperty(globalThis,"window",{configurable:true,value:{addEventListener(){},scrollTo(){},confirm:()=>true}});
