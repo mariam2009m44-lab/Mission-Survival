@@ -46,6 +46,7 @@ export function applyResourceResponse(m,resourceId,actionId){
  const before={...m.resources};
  for(const [id,delta] of Object.entries(action.delta))if(Object.hasOwn(m.resources,id))m.resources[id]=clamp(m.resources[id]+delta);
  m.responseHistory.push({key,day:m.day+1,resourceId,actionId,delta:{...action.delta},before,after:{...m.resources}});
+ if(Object.values(m.resources).some(value=>value<=0)){m.phase="complete";m.result="interrupted";m.xp=(m.xp||0)+25;}
  return {resourceId,actionId,delta:{...action.delta},before,after:{...m.resources},en:action.en,ar:action.ar,enWhy:action.enWhy,arWhy:action.arWhy};
 }
 
