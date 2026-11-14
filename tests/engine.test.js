@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {createMission,startMission,choose,nextDay,summary,completeStationTask,resourceAlerts,applyResourceResponse} from "../src/engine.js";
+import {createMission,startMission,choose,nextDay,summary,analyzeMission,completeStationTask,resourceAlerts,applyResourceResponse} from "../src/engine.js";
 import {DAYS,SOURCES,MODULES} from "../src/data.js";
 test("the challenge is implemented as five distinct mission days",()=>{const m=startMission(createMission());assert.equal(DAYS.length,5);assert.equal(new Set(DAYS.map(d=>d.dayNumber)).size,5);assert.deepEqual(DAYS.map(d=>d.dayNumber),[1,2,3,4,5]);assert.deepEqual(Object.keys(m.resources).sort(),["food","oxygen","power","shield","water"]);assert.deepEqual(DAYS.map(d=>d.id),["launch","isru","solar-safety","water-recovery","food-strategy"]);assert.ok(DAYS.every(d=>d.choices.length===2));assert.match(DAYS[3].title,/Day 4/);assert.match(DAYS[4].title,/Day 5/);});
 test("difficulty modes have different starting reserves",()=>{assert.ok(createMission("training").resources.oxygen>createMission("standard").resources.oxygen);assert.ok(createMission("standard").resources.oxygen>createMission("expert").resources.oxygen);});
@@ -33,3 +33,26 @@ test("station recovery that exhausts a critical reserve interrupts the mission",
 
 test("water shortage knowledge check is bilingual, includes the four-choice scenario and NASA hydration reference",async()=>{const {readFile}=await import("node:fs/promises");const source=await readFile(new URL("../src/main.js",import.meta.url),"utf8");assert.match(source,/const WATER_CHECK_QUESTIONS=/);assert.match(source,/Monitor potable water levels, inspect the recycling system, and postpone non-essential water use/);assert.match(source,/متابعة مستوى مياه الشرب، وفحص نظام الاستعادة/);assert.match(source,/2\.5 L \/ person \/ day/);assert.match(source,/NASA-STD-3001/);assert.match(source,/case"water-quiz"/);});
 test("water shortage quiz only applies the simulated recovery response after the correct scenario answer",()=>{const m=startMission(createMission("standard"));m.resources.water=12;const before={...m.resources};const result=applyResourceResponse(m,"water","recovery");assert.ok(result);assert.equal(m.resources.water,Math.min(100,before.water+14));assert.equal(m.resources.power,before.power-7);assert.equal(m.responseHistory.at(-1).resourceId,"water");});
+
+test("mission analysis compares final reserves with the selected difficulty baseline without mutating the mission",()=>{
+ const m=startMission(createMission("standard"));
+ m.resources.water=42;m.resources.power=91;m.stationTasks=["solar"];
+ const before=JSON.stringify(m);
+ const result=analyzeMission(m);
+ assert.equal(result.score,Math.round((65+42+91+80+95)/5));
+ assert.equal(result.lowest.id,"water");
+ assert.equal(result.highest.id,"power");
+ assert.equal(result.resources.find(x=>x.id==="water").start,65);
+ assert.equal(result.resources.find(x=>x.id==="water").change,-23);
+ assert.equal(result.resources.find(x=>x.id==="power").change,26);
+ assert.equal(result.stationTasks,1);
+ assert.deepEqual(result.critical,[]);
+ assert.equal(JSON.stringify(m),before);
+});
+test("mission analysis flags critical reserves while preserving all five systems",()=>{
+ const m=startMission(createMission("expert"));
+ m.resources.oxygen=12;m.resources.water=18;
+ const result=analyzeMission(m);
+ assert.deepEqual(result.critical,["oxygen","water"]);
+ assert.equal(result.resources.length,5);
+});
