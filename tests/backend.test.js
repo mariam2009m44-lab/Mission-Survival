@@ -20,3 +20,12 @@ test("backend keeps the minimum decision fields needed to resume a five-day miss
  const row=result.mission.history[0];assert.equal(result.mission.day,4);assert.equal(row.day,5);assert.equal(row.stageIndex,4);assert.equal(row.choiceIndex,0);assert.equal(row.title,"Food strategy");assert.equal(row.why,"Use the greenhouse");
 });
 test("backend preserves only known completed station tasks",()=>{const result=validateProgress({mission:{stationTasks:["oxygen","greenhouse","unknown","oxygen"]}});assert.deepEqual(result.mission.stationTasks,["oxygen","greenhouse","oxygen"]);});
+
+
+test("backend preserves report site labels and before/after resource snapshots",()=>{
+ const result=validateProgress({mission:{site:"malapert",siteName:"Malapert Massif",history:[{day:1,stageIndex:0,choiceIndex:1,choiceId:"payload",title:"Payload plan",why:"Protect the crew",site:"malapert",siteName:"Malapert Massif",before:{power:75,oxygen:80,water:70,food:65,shield:90,private:"x"},after:{power:85,oxygen:80,water:70,food:65,shield:90},delta:{power:10}}]}});
+ const mission=result.mission,row=mission.history[0];
+ assert.equal(mission.siteName,"Malapert Massif");assert.equal(row.siteName,"Malapert Massif");
+ assert.deepEqual(row.before,{power:75,oxygen:80,water:70,food:65,shield:90});
+ assert.deepEqual(row.after,{power:85,oxygen:80,water:70,food:65,shield:90});
+});
