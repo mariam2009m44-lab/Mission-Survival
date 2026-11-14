@@ -14,3 +14,11 @@ test("NOVA launcher and panel stay above the bottom navigation dock", () => {
   assert.match(css, /\.nova-launcher\{[\s\S]*?bottom:calc\(78px \+ env\(safe-area-inset-bottom\)\)!important/);
   assert.match(css, /\.nova-panel\{[\s\S]*?bottom:calc\(142px \+ env\(safe-area-inset-bottom\)\)!important/);
 });
+
+
+test("3D movement pad stays side-mounted with large touch targets", async () => {
+  const worldCss = await readFile(new URL("../styles/kids-world.css", import.meta.url), "utf8");
+  assert.match(worldCss, /\.lunar-3d-stage \.scene-pad\{[\s\S]*?left:12px!important[\s\S]*?top:50%!important[\s\S]*?transform:translateY\(-50%\)!important/);
+  assert.match(worldCss, /\.lunar-3d-stage \.scene-pad>button,[\s\S]*?width:52px!important[\s\S]*?height:52px!important/);
+  assert.match(worldCss, /\.lunar-3d-stage \.scene-interact\{[\s\S]*?right:14px!important/);
+});
