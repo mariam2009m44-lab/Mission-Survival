@@ -130,7 +130,7 @@ function makeScene(THREE,root){
  try{
   const saved=JSON.parse(localStorage.getItem("lunar-outpost-trainer-v2")||"{}");
   const mission=saved.mission;
-  if(mission?.started&&mission.phase==="active"){
+  if(mission?.started&&["active","debrief"].includes(mission.phase)){
    const route=["solar","oxygen","habitat","greenhouse","rover"];
    waypointId=route[Math.max(0,Math.min(4,Number(mission.day)||0))];
    const destination=stations.find(st=>st.id===waypointId);
