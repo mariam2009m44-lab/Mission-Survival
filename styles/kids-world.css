@@ -512,3 +512,22 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #9af1
   .lunar-3d-stage .scene-pad>button,
   .lunar-3d-stage .scene-pad>div button{width:44px!important;height:44px!important;min-width:44px;min-height:44px}
 }
+
+
+/* Make the movement pad self-explanatory for first-time junior players. */
+.lunar-3d-stage .scene-pad::before{
+  content:"MOVE";
+  display:block;
+  color:#d9f4ff;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.14em;
+  text-align:center;
+  padding:3px 8px 5px;
+  text-shadow:0 1px 5px rgba(0,0,0,.5);
+}
+html[dir="rtl"] .lunar-3d-stage .scene-pad::before{
+  content:"حركة";
+  letter-spacing:0;
+  font-size:10px;
+}
