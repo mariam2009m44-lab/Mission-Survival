@@ -80,7 +80,7 @@ export function analyzeMission(m){
    const name=stationNames[event.id]||{en:"Station task",ar:"مهمة محطة"};
    return {day:Number(event.day)||1,kind:"station",title:name.en,arTitle:name.ar,delta:{...(event.delta||{})},before:{...(event.before||{})},after:{...(event.after||{})}};
   })
- ].sort((a,b)=>a.day-b.day||(a.kind==="decision"?-1:1));
+ ].sort((a,b)=>a.day-b.day||(({decision:0,recovery:1,station:2}[a.kind]??9)-({decision:0,recovery:1,station:2}[b.kind]??9)));
  return {
   score:average,
   decisions:decisions.length,

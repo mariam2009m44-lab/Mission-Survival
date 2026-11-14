@@ -109,3 +109,13 @@ test("starting a fresh mission clears the previous station impact log",()=>{
  startMission(m);
  assert.deepEqual(m.stationHistory,[]);
 });
+
+test("mission impact timeline uses a stable event order within each mission day",()=>{
+ const m=startMission(createMission("standard"));
+ m.site="malapert";
+ choose(m,0);
+ m.resources.oxygen=18;
+ applyResourceResponse(m,"oxygen","backup");
+ completeStationTask(m,"solar");
+ assert.deepEqual(analyzeMission(m).timeline.map(event=>event.kind),["decision","recovery","station"]);
+});
