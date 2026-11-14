@@ -8,7 +8,7 @@ test("backend accepts a compact guest progress snapshot",()=>{
 });
 test("backend clamps values and strips unapproved personal fields",()=>{
  const result=validateProgress({name:"A child's full name",email:"private@example.com",language:"xx",stats:{missions:999999999,totalXp:-50,bestScore:500},trainingDone:["safe","bad value"],mission:{resources:{power:500,oxygen:-4},history:Array.from({length:8},(_,i)=>({day:i+1,choiceId:"x".repeat(90)}))}});
- assert.equal(result.language,"ar");assert.deepEqual(result.trainingDone,["safe"]);assert.equal(result.stats.missions,100000);assert.equal(result.stats.totalXp,0);assert.equal(result.stats.bestScore,100);assert.equal(result.mission.resources.power,100);assert.equal(result.mission.resources.oxygen,0);assert.equal(result.mission.history.length,5);assert.equal("name" in result,false);assert.equal("email" in result,false);
+ assert.equal(result.language,"en");assert.deepEqual(result.trainingDone,["safe"]);assert.equal(result.stats.missions,100000);assert.equal(result.stats.totalXp,0);assert.equal(result.stats.bestScore,100);assert.equal(result.mission.resources.power,100);assert.equal(result.mission.resources.oxygen,0);assert.equal(result.mission.history.length,5);assert.equal("name" in result,false);assert.equal("email" in result,false);
 });
 test("backend rejects non-object progress",()=>{assert.equal(validateProgress(null),null);assert.equal(validateProgress([]),null);});
 test("backend preserves mission completion metadata for safe restoration",()=>{
