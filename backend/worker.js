@@ -13,6 +13,13 @@ const fromBase64url = value => Uint8Array.from(atob(value.replace(/-/g,"+").repl
 const safeAvatar = value => ["blue","purple","gold","green"].includes(value) ? value : "blue";
 const safeLanguage = value => value === "en" ? "en" : "ar";
 
+async function readJsonBody(request, maxBytes) {
+  let raw;
+  try { raw = await request.text(); } catch { return { error: "invalid_json" }; }
+  if (encoder.encode(raw).byteLength > maxBytes) return { error: "payload_too_large" };
+  try { return { value: JSON.parse(raw) }; } catch { return { error: "invalid_json" }; }
+}
+
 function corsHeaders(request, env) {
   const origin = request.headers.get("Origin") || "";
   const allowed = (env.ALLOWED_ORIGINS || DEFAULT_ORIGINS.join(",")).split(",").map(x=>x.trim()).filter(Boolean);
@@ -91,7 +98,9 @@ async function handle(request, env) {
   if(!env.DB) return json({error:"database_not_configured"},503,cors);
   if(!env.SESSION_SECRET || env.SESSION_SECRET.length<32) return json({error:"server_secret_not_configured"},503,cors);
   if(path==="/v1/session"&&request.method==="POST"){
-    let body;try{body=await request.json();}catch{return json({error:"invalid_json"},400,cors);}
+    const parsed=await readJsonBody(request,4096);
+    if(parsed.error) return json({error:parsed.error},parsed.error==="payload_too_large"?413:400,cors);
+    const body=parsed.value;
     const id=crypto.randomUUID(),avatar=safeAvatar(body?.avatar),language=safeLanguage(body?.language),now=new Date().toISOString();
     await env.DB.prepare("INSERT INTO commanders (id, avatar, language, created_at, updated_at) VALUES (?, ?, ?, ?, ?)").bind(id,avatar,language,now,now).run();
     const token=await issueToken(id,env.SESSION_SECRET);
@@ -104,9 +113,9 @@ async function handle(request, env) {
     return json({state:row?JSON.parse(row.data_json):null,version:row?.version||0,updatedAt:row?.updated_at||null},200,cors);
   }
   if(path==="/v1/state"&&request.method==="PUT"){
-    const length=Number(request.headers.get("Content-Length")||0);
-    if(length>24000) return json({error:"payload_too_large"},413,cors);
-    let body;try{body=await request.json();}catch{return json({error:"invalid_json"},400,cors);}
+    const parsed=await readJsonBody(request,24000);
+    if(parsed.error) return json({error:parsed.error},parsed.error==="payload_too_large"?413:400,cors);
+    const body=parsed.value;
     const state=validateProgress(body?.state);
     if(!state) return json({error:"invalid_state"},400,cors);
     const data=JSON.stringify(state),now=new Date().toISOString();
