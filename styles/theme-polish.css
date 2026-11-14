@@ -347,3 +347,41 @@ button:focus-visible,a:focus-visible{outline:3px solid rgba(112,220,226,.85);out
 @media(prefers-reduced-motion:reduce){
  .lunar-3d-stage .scene-viewport canvas{scroll-behavior:auto}
 }
+
+
+/* Evidence-led final mission debrief */
+.mission-analysis{margin:20px 0;padding:20px;border:1px solid rgba(120,226,232,.24);border-radius:20px;background:linear-gradient(145deg,rgba(24,43,70,.78),rgba(13,22,43,.82));box-shadow:0 16px 40px rgba(0,0,0,.16)}
+.mission-analysis-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
+.mission-analysis-head h2{margin:5px 0 0;font-size:clamp(18px,2.5vw,23px);line-height:1.35}
+.mission-analysis-status{flex:0 0 auto;padding:7px 10px;border:1px solid rgba(120,226,232,.28);border-radius:999px;color:#a9edf0;font-size:10px;font-weight:800}
+.mission-analysis-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-bottom:18px}
+.mission-analysis-summary>div{min-width:0;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.035)}
+.mission-analysis-summary small{display:block;color:#9eabc5;font-size:9px;line-height:1.5}
+.mission-analysis-summary b{display:block;margin-top:5px;color:#f2f6ff;font-size:clamp(15px,2vw,21px);overflow-wrap:anywhere}
+.mission-analysis-summary b i{font-size:11px;color:#a5b2ca;font-style:normal}
+.mission-analysis-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.mission-analysis-row{min-width:0;padding:12px;border:1px solid rgba(255,255,255,.07);border-radius:13px;background:rgba(4,12,28,.25)}
+.mission-analysis-label{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.mission-analysis-label b{font-size:12px}
+.mission-analysis-label>span{white-space:nowrap;font-size:12px;font-weight:800}
+.mission-analysis-label em{margin-inline-start:5px;font-size:10px;font-style:normal}
+.mission-analysis-label em.positive{color:#7ee0bb}.mission-analysis-label em.negative{color:#ffb18d}.mission-analysis-label em.neutral{color:#a5b2ca}
+.mission-analysis-track{height:8px;margin:9px 0 6px;overflow:hidden;border-radius:99px;background:rgba(255,255,255,.1)}
+.mission-analysis-track i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#55cbbf,#8de3c5)}
+.mission-analysis-track i.warning{background:linear-gradient(90deg,#e5ad54,#f5d17a)}
+.mission-analysis-track i.critical{background:linear-gradient(90deg,#db6b73,#f59a8f)}
+.mission-analysis-row>small{color:#96a5c1;font-size:9px}
+.mission-analysis-insight{display:flex;flex-direction:column;gap:6px;margin:15px 0 9px;padding:13px;border-inline-start:3px solid #78e2e8;border-radius:10px;background:rgba(120,226,232,.07);font-size:12px;line-height:1.7}
+.mission-analysis-insight b{color:#a9edf0;font-size:10px;letter-spacing:.06em}
+.mission-analysis-note{display:block;color:#94a2bd;font-size:9px;line-height:1.7}
+@media(max-width:520px){
+ .mission-analysis{padding:14px;margin:15px 0;border-radius:16px}
+ .mission-analysis-summary{gap:6px}
+ .mission-analysis-summary>div{padding:9px 7px}
+ .mission-analysis-summary small{font-size:8px}
+ .mission-analysis-summary b{font-size:14px}
+ .mission-analysis-grid{grid-template-columns:minmax(0,1fr);gap:8px}
+ .mission-analysis-row{padding:11px}
+ .mission-analysis-head{gap:8px}
+ .mission-analysis-status{max-width:46%;white-space:normal;text-align:center;font-size:9px}
+}
