@@ -40,6 +40,8 @@ function makeScene(THREE,root){
  const canvas=root.querySelector("canvas");canvas?.setAttribute("tabindex","0");canvas?.setAttribute("aria-label",uiAr?"مشهد استكشاف القاعدة القمرية ثلاثي الأبعاد":"3D lunar outpost exploration scene");const scene=new THREE.Scene();scene.background=new THREE.Color(0x070d18);scene.fog=new THREE.FogExp2(0x070d18,.012);
  const camera=new THREE.PerspectiveCamera(43,1,.1,180);camera.position.set(15,12,19);
  const compactDevice=window.matchMedia("(max-width: 760px)").matches||(navigator.deviceMemory&&navigator.deviceMemory<=4);
+ const motionQuery=window.matchMedia?.("(prefers-reduced-motion: reduce)");let reducedMotion=Boolean(motionQuery?.matches);
+ const onMotionPreferenceChange=event=>{reducedMotion=event.matches;};motionQuery?.addEventListener?.("change",onMotionPreferenceChange);
  const renderer=new THREE.WebGLRenderer({canvas,antialias:!compactDevice,alpha:false,powerPreference:"low-power",stencil:false,preserveDrawingBuffer:false});
  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,compactDevice?.9:1.2));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.2;renderer.shadowMap.enabled=!compactDevice;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
  scene.add(new THREE.HemisphereLight(0x9eb9df,0x1c2430,1.65));
@@ -448,25 +450,26 @@ const animate = () => {
   lastWalkX=astronaut.position.x;lastWalkZ=astronaut.position.z;
   const moving=movedDistance>0.0008;
   walkBlend=THREE.MathUtils.damp(walkBlend,moving?1:0, moving?10:8,dt);
-  const stride=Math.sin(t*10.5)*walkBlend;
+  const stride=Math.sin(t*10.5)*walkBlend*(reducedMotion?.35:1);
+  const ambientMotion=reducedMotion?0:1;
   animatedLimbs.arms.forEach(({pivot,side})=>{pivot.rotation.x=stride*side*.72;pivot.rotation.z=side*.45;});
   animatedLimbs.legs.forEach(({pivot,side})=>{pivot.rotation.x=-stride*side*.82;pivot.rotation.z=-side*.12;});
-  astronaut.position.y = .035 + Math.sin(t * (moving?10.5:1.8)) * (moving?.055:.035);
+  astronaut.position.y=.035+(reducedMotion?0:Math.sin(t*(moving?10.5:1.8))*(moving?.055:.035));
   roverWheels.forEach((wheel,index)=>{wheel.rotation.x+=moving?0:0;});
-  mastPivot.rotation.y=Math.sin(t*.42)*.62;
-  roverLampMat.emissiveIntensity=.85+Math.sin(t*2.1)*.35;
-  lifeSupportStatus.material.emissiveIntensity=.8+Math.sin(t*3.4)*.55;
-  lifeSupportTanks.forEach(({tankCap,side})=>{tankCap.rotation.y=Math.sin(t*1.4+side)*.08;});
-  beacon.intensity = 17 + Math.sin(t * 2.4) * 5;
-  craftLamp.intensity = 2.4 + Math.sin(t * 2.8) * .8;
+  mastPivot.rotation.y=Math.sin(t*.42)*.62*ambientMotion;
+  roverLampMat.emissiveIntensity=.85+Math.sin(t*2.1)*.35*ambientMotion;
+  lifeSupportStatus.material.emissiveIntensity=.8+Math.sin(t*3.4)*.55*ambientMotion;
+  lifeSupportTanks.forEach(({tankCap,side})=>{tankCap.rotation.y=Math.sin(t*1.4+side)*.08*ambientMotion;});
+  beacon.intensity=17+Math.sin(t*2.4)*5*ambientMotion;
+  craftLamp.intensity=2.4+Math.sin(t*2.8)*.8*ambientMotion;
 
   if (waypointRing) {
-    const pulse = 1 + Math.sin(t * 3.2) * .12;
+    const pulse=1+Math.sin(t*3.2)*.12*ambientMotion;
     waypointRing.scale.setScalar(pulse);
-    waypointRing.material.opacity = .62 + Math.sin(t * 3.2) * .22;
+    waypointRing.material.opacity=.62+Math.sin(t*3.2)*.22*ambientMotion;
 
     if (waypointBeam) {
-      waypointBeam.material.opacity = .12 + Math.sin(t * 2.4) * .09;
+      waypointBeam.material.opacity=.12+Math.sin(t*2.4)*.09*ambientMotion;
     }
   }
 
@@ -491,6 +494,7 @@ return () => {
   window.removeEventListener("blur", clearMovementInput);
   document.removeEventListener("visibilitychange", clearMovementInput);
   document.removeEventListener("visibilitychange", handleVisibilityChange);
+  motionQuery?.removeEventListener?.("change",onMotionPreferenceChange);
   document.removeEventListener("fullscreenchange", resize);
 
   if (activeXRSession) activeXRSession.end().catch(() => {});
