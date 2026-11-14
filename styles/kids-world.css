@@ -381,3 +381,26 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #9af1
 /* Keep the WebGL surface above the viewport backdrop on mobile browsers. */
 .lunar-3d-stage .scene-viewport{position:relative!important;isolation:isolate;overflow:hidden;background:#070d18!important;}
 .lunar-3d-stage .scene-viewport>canvas{position:absolute!important;inset:0!important;display:block!important;max-width:none!important;max-height:none!important;opacity:1!important;visibility:visible!important;z-index:0!important;}
+
+/* Guaranteed touch access for station interaction on Android WebView. */
+.lunar-3d-stage .scene-interact{
+  position:absolute!important;
+  z-index:8!important;
+  pointer-events:auto!important;
+  isolation:isolate;
+}
+.lunar-3d-stage .scene-interact button{
+  position:relative!important;
+  z-index:9!important;
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+  -webkit-user-select:none;
+  user-select:none;
+}
+.lunar-3d-stage .scene-pad,
+.lunar-3d-stage .scene-camera-switch,
+.lunar-3d-stage .scene-hud{
+  z-index:7!important;
+  pointer-events:auto!important;
+}
+.lunar-3d-stage .scene-interact[hidden]{display:none!important}
