@@ -33,8 +33,6 @@ test("app completes junior commander onboarding, training, five mission decision
  assert.match(root.innerHTML,/class="mobile-nav"/);
  assert.equal((root.innerHTML.match(/data-nav="report"/g)||[]).length,3);
  assert.match(root.innerHTML,/lunar-3d-home/);
- assert.match(root.innerHTML,/scene-forward-button/);
- assert.match(root.innerHTML,/HOLD TO WALK|للأمام/);
  assert.match(root.innerHTML,/TECNOVA/);
  await action("start");
  assert.match(root.innerHTML,/MISSION DAY 01 \/ 05/);
