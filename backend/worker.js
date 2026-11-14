@@ -69,7 +69,8 @@ export function validateProgress(input) {
       siteName:typeof m.siteName==="string"?m.siteName.slice(0,60):null,
       xp:number(m.xp,1000000),result:["success","interrupted"].includes(m.result)?m.result:null,saved:Boolean(m.saved),
       resources:{},
-      stationTasks:Array.isArray(m.stationTasks)?m.stationTasks.filter(id=>["habitat","oxygen","solar","greenhouse","rover"].includes(id)).slice(0,5):[]
+      stationTasks:Array.isArray(m.stationTasks)?m.stationTasks.filter(id=>["habitat","oxygen","solar","greenhouse","rover"].includes(id)).slice(0,5):[],
+      responseHistory:Array.isArray(m.responseHistory)?m.responseHistory.slice(-25).filter(row=>row&&typeof row==="object"&&/^[0-4]:(oxygen|water|power|food|shield)$/.test(String(row.key||""))).map(row=>({key:String(row.key),day:number(row.day,5),resourceId:["oxygen","water","power","food","shield"].includes(row.resourceId)?row.resourceId:"",actionId:typeof row.actionId==="string"?row.actionId.slice(0,40):"",delta:row.delta&&typeof row.delta==="object"?Object.fromEntries(Object.entries(row.delta).filter(([k,v])=>["power","oxygen","water","food","shield"].includes(k)&&Number.isFinite(Number(v))).map(([k,v])=>[k,Math.max(-100,Math.min(100,Number(v)))])): {},before:row.before&&typeof row.before==="object"?Object.fromEntries(["power","oxygen","water","food","shield"].filter(k=>Number.isFinite(Number(row.before[k]))).map(k=>[k,number(row.before[k],100)])): {},after:row.after&&typeof row.after==="object"?Object.fromEntries(["power","oxygen","water","food","shield"].filter(k=>Number.isFinite(Number(row.after[k]))).map(k=>[k,number(row.after[k],100)])): {}})):[]
     };
     for(const key of ["power","oxygen","water","food","shield"]) mission.resources[key]=number(m.resources?.[key],100);
     mission.history=Array.isArray(m.history)?m.history.slice(-5).map(row=>({
