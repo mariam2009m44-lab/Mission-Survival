@@ -126,3 +126,18 @@
  .kid-astronaut{animation:none}
  .kid-quick-card:hover{transform:none}
 }
+
+
+/* Clear child-friendly astronaut picker */
+.onboard-step{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding:10px 12px;border:1px solid rgba(142,240,223,.2);border-radius:14px;background:rgba(142,240,223,.07)}
+.onboard-step>span{width:32px;height:32px;display:grid;place-items:center;border-radius:10px;background:rgba(142,240,223,.16);color:#aaf5e9;font-weight:900}
+.onboard-step>b{font-size:11px;letter-spacing:.06em;color:#e9fffb}
+.onboard-step>small{margin-inline-start:auto;color:#a9bdd7;font-size:10px}
+.avatar-choice{position:relative;min-height:158px}
+.avatar-choice small{max-width:100%;min-height:28px;line-height:1.35;text-align:center;letter-spacing:0}
+.avatar-selected-mark{position:absolute;top:8px;inset-inline-end:8px;width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:#8ef0df;color:#082b32;font-size:13px;font-weight:900;font-style:normal;opacity:0;transform:scale(.8);transition:opacity .18s ease,transform .18s ease}
+.avatar-choice.selected .avatar-selected-mark{opacity:1;transform:scale(1)}
+.onboard-name-block{display:grid;gap:7px;margin:3px 0 18px}
+.onboard-name-block .profile-label{margin:0}
+.onboard-name-block>small{color:#9db2ce;font-size:10px;line-height:1.55}
+@media(max-width:520px){.avatar-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.avatar-choice{min-height:148px}.onboard-card{border-radius:22px}.onboard-step{gap:8px}}
