@@ -69,6 +69,7 @@ test("science manifest records the NASA-IBM model and LROC 68B schedule",async()
  const manifest=JSON.parse(raw);
  assert.ok(manifest.datasets.some(d=>d.id==="nasa-ibm-lunar-foundation-model"));
  assert.ok(manifest.datasets.some(d=>d.id==="lro-lroc-release-68b"&&d.scheduled_public_release_date==="2026-11-13"));
+ assert.ok(manifest.datasets.some(d=>d.id==="nasa-iss-eclss-water-recovery"&&d.limitation.includes("not a lunar-base performance guarantee")));
 });
 
 test("commander onboarding and mission hub are available in the app shell",async()=>{const app=await readFile(new URL("../src/main.js",import.meta.url),"utf8");assert.match(app,/function onboarding\(\)/);assert.match(app,/function missionHub\(\)/);assert.match(app,/resourceSummary\(values\)/);assert.match(app,/NOVA COMIC/);});
