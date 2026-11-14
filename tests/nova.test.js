@@ -54,7 +54,7 @@ import {readFile} from "node:fs/promises";
 
 test("offline service worker precaches NOVA and rotates the cache",async()=>{
  const sw=await readFile(new URL("../service-worker.js",import.meta.url),"utf8");
- assert.match(sw,/lunar-outpost-app-v50/); 
+ assert.match(sw,/lunar-outpost-app-v51/); 
  assert.match(sw,/styles\/kids-comfort\.css/);
  assert.match(sw,/\.\/src\/nova\.js/);
  assert.match(sw,/\.\/src\/scene3d\.js/);
@@ -172,4 +172,14 @@ test("NOVA launcher exposes a valid expanded state without malformed HTML quotes
  const app=await readFile(new URL("../src/main.js",import.meta.url),"utf8");
  assert.ok(app.includes(`aria-expanded="'+String(novaOpen)+'"><img`));
  assert.ok(!app.includes(`aria-expanded="'+String(novaOpen)+'""><img`));
+});
+
+
+test("NOVA understands natural English and Egyptian Arabic descriptions of lunar craters",()=>{
+ const en=answerNova("Why does the Moon have so many holes?","en");
+ const ar=answerNova("ليه سطح القمر مليان حفر؟","ar");
+ assert.match(en.answer,/bowl-shaped mark/i);
+ assert.match(ar.answer,/الفوهة|فوهات/);
+ assert.ok(en.sources.some(source=>source[1].includes("science.nasa.gov")));
+ assert.ok(ar.sources.some(source=>source[1].includes("science.nasa.gov")));
 });
