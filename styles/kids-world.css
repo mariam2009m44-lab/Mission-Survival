@@ -1183,3 +1183,94 @@ html[dir="rtl"] .lunar-3d-stage .scene-pad::before{
  .lunar-3d-stage .scene-pad>button,.lunar-3d-stage .scene-pad>div button{min-width:48px;min-height:48px}
  .lunar-3d-stage .scene-interact{right:16px;bottom:16px;max-width:200px}
 }
+
+
+/* Final cascade fix: override legacy !important rules that stacked the 3D HUD and controls. */
+@media(max-width:760px){
+ .lunar-3d-stage .scene-viewport{
+  position:relative!important; height:clamp(430px,76svh,680px)!important;
+  min-height:430px!important; overflow:hidden!important;
+ }
+ .lunar-3d-stage .scene-camera-switch{
+  position:absolute!important;top:8px!important;left:8px!important;right:8px!important;
+  inset-inline-start:8px!important;inset-inline-end:8px!important;
+  width:auto!important;max-width:none!important;height:42px!important;
+  display:flex!important;flex-flow:row nowrap!important;gap:6px!important;
+  overflow-x:auto!important;overflow-y:hidden!important;
+  padding:2px!important;box-sizing:border-box!important;
+  background:rgba(5,14,28,.66)!important;border-radius:12px!important;
+  z-index:20!important;
+ }
+ .lunar-3d-stage .scene-camera-switch button{
+  flex:0 0 auto!important;min-width:max-content!important;min-height:36px!important;
+  white-space:nowrap!important;font-size:9px!important;padding:6px 9px!important;
+ }
+ .lunar-3d-stage .scene-hud{
+  position:absolute!important;top:60px!important;left:10px!important;right:auto!important;
+  inset-inline-start:10px!important;inset-inline-end:auto!important;
+  width:min(48%,210px)!important;max-width:min(48%,210px)!important;
+  max-height:calc(100% - 190px)!important;overflow:auto!important;
+  display:grid!important;grid-template-columns:8px minmax(0,1fr)!important;
+  padding:8px 9px!important;box-sizing:border-box!important;z-index:10!important;
+ }
+ .lunar-3d-stage .scene-hud .scene-child-tip{display:none!important}
+ .lunar-3d-stage .scene-hud b,.lunar-3d-stage .scene-hud small,
+ .lunar-3d-stage .scene-hud .scene-auto-walk{grid-column:2!important;min-width:0!important}
+ .lunar-3d-stage .scene-hud .scene-auto-walk{width:100%!important;max-width:100%!important;white-space:normal!important}
+ .lunar-3d-stage .scene-pad{
+  position:absolute!important;left:10px!important;right:auto!important;
+  inset-inline-start:10px!important;inset-inline-end:auto!important;
+  top:auto!important;bottom:10px!important;transform:none!important;
+  width:148px!important;max-width:148px!important;height:auto!important;
+  display:grid!important;grid-template-columns:repeat(3,42px)!important;
+  grid-template-rows:16px 42px 42px!important;gap:3px!important;
+  justify-content:center!important;align-content:center!important;
+  padding:6px!important;box-sizing:border-box!important;
+  border:1px solid rgba(165,218,245,.28)!important;border-radius:15px!important;
+  background:rgba(5,14,28,.78)!important;z-index:15!important;
+ }
+ .lunar-3d-stage .scene-pad::before{grid-column:1/-1!important;grid-row:1!important;display:block!important}
+ .lunar-3d-stage .scene-pad>button{grid-column:2!important;grid-row:2!important}
+ .lunar-3d-stage .scene-pad>div{display:contents!important}
+ .lunar-3d-stage .scene-pad>div button{width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important}
+ .lunar-3d-stage .scene-pad>div button:nth-child(1){grid-column:1!important;grid-row:3!important}
+ .lunar-3d-stage .scene-pad>div button:nth-child(2){grid-column:2!important;grid-row:3!important}
+ .lunar-3d-stage .scene-pad>div button:nth-child(3){grid-column:3!important;grid-row:3!important}
+ .lunar-3d-stage .scene-pad>button,.lunar-3d-stage .scene-pad>div button{margin:0!important}
+ .lunar-3d-stage .scene-interact{
+  position:absolute!important;left:auto!important;right:10px!important;
+  inset-inline-start:auto!important;inset-inline-end:10px!important;
+  top:auto!important;bottom:12px!important;transform:none!important;
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+  width:clamp(104px,31vw,142px)!important;max-width:clamp(104px,31vw,142px)!important;
+  min-width:0!important;box-sizing:border-box!important;
+  padding:7px!important;gap:5px!important;white-space:normal!important;
+  z-index:16!important;
+ }
+ .lunar-3d-stage .scene-interact b{display:block!important;font-size:9px!important;text-align:center!important}
+ .lunar-3d-stage .scene-interact button{width:100%!important;min-height:44px!important;white-space:normal!important}
+}
+@media(max-width:390px){
+ .lunar-3d-stage .scene-viewport{height:74svh!important;min-height:420px!important}
+ .lunar-3d-stage .scene-hud{width:min(46%,176px)!important;max-width:min(46%,176px)!important}
+ .lunar-3d-stage .scene-pad{left:7px!important;inset-inline-start:7px!important;width:142px!important;grid-template-columns:repeat(3,40px)!important;grid-template-rows:15px 40px 40px!important;gap:3px!important}
+ .lunar-3d-stage .scene-pad>div button{width:40px!important;height:40px!important;min-width:40px!important;min-height:40px!important}
+ .lunar-3d-stage .scene-interact{right:7px!important;inset-inline-end:7px!important;width:104px!important;max-width:104px!important}
+ .lunar-3d-stage .scene-interact b{display:none!important}
+}
+@media(orientation:landscape) and (max-height:520px) and (max-width:900px){
+ .lunar-3d-stage .scene-viewport{height:100svh!important;min-height:340px!important}
+ .lunar-3d-stage .scene-camera-switch{top:5px!important;height:36px!important}
+ .lunar-3d-stage .scene-camera-switch button{min-height:30px!important}
+ .lunar-3d-stage .scene-hud{top:48px!important;width: min(34%,200px)!important;max-width:min(34%,200px)!important;max-height:calc(100% - 145px)!important}
+ .lunar-3d-stage .scene-pad{left:7px!important;bottom:7px!important;width:130px!important;grid-template-columns:repeat(3,36px)!important;grid-template-rows:14px 36px 36px!important;gap:2px!important}
+ .lunar-3d-stage .scene-pad>div button{width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important}
+ .lunar-3d-stage .scene-interact{right:7px!important;bottom:7px!important;width:108px!important;max-width:108px!important}
+}
+@media(min-width:761px){
+ .lunar-3d-stage .scene-viewport{height:clamp(520px,52vw,720px)!important}
+ .lunar-3d-stage .scene-pad{left:auto!important;right:14px!important;inset-inline-start:auto!important;inset-inline-end:14px!important;top:auto!important;bottom:14px!important;transform:none!important}
+ .lunar-3d-stage .scene-interact{left:50%!important;right:auto!important;inset-inline-start:50%!important;inset-inline-end:auto!important;top:auto!important;bottom:14px!important;transform:translateX(-50%)!important}
+ .lunar-3d-stage .scene-camera-switch{top:12px!important;left:12px!important;right:12px!important;inset-inline-start:12px!important;inset-inline-end:12px!important;width:auto!important;max-width:none!important}
+ .lunar-3d-stage .scene-hud{top:68px!important;left:12px!important;right:auto!important;inset-inline-start:12px!important;inset-inline-end:auto!important}
+}
