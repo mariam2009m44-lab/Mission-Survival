@@ -103,3 +103,35 @@ button:disabled{cursor:not-allowed;opacity:.62}
   :root{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+/* Profile access and the live identity preview are first-class parts of onboarding. */
+.profile-switch-trigger,.profile-settings-trigger{
+  min-height:38px;display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:7px 11px;border:1px solid rgba(145,196,224,.25);border-radius:12px;
+  background:rgba(20,43,68,.76);color:#eaf6ff;font-size:11px;font-weight:800;
+}
+.profile-switch-trigger>span:first-child{font-size:17px;color:#8fe8e6}
+.profile-settings-trigger{width:38px;padding:0;font-size:17px}
+.profile-switch-trigger:hover,.profile-settings-trigger:hover{border-color:rgba(112,220,226,.65);background:rgba(38,76,102,.82)}
+.onboard-3d-preview{
+  position:relative;width:100%;height:clamp(205px,28vw,285px);min-height:205px;
+  margin:15px 0 20px;overflow:hidden;border:1px solid rgba(112,220,226,.28);
+  border-radius:20px;background:radial-gradient(ellipse at 50% 20%,rgba(51,93,139,.5),rgba(7,16,32,.98) 76%);
+  box-shadow:inset 0 1px rgba(255,255,255,.07),0 12px 28px rgba(0,0,0,.2);
+}
+.onboard-3d-preview .lunar-3d-stage{height:100%;min-height:0;margin:0;border:0;border-radius:inherit;background:transparent;box-shadow:none}
+.onboard-3d-preview .scene-topline{padding:9px 12px;font-size:8px;letter-spacing:.07em}
+.onboard-3d-preview .scene-viewport{height:calc(100% - 31px);min-height:174px;border:0;border-radius:0}
+.onboard-3d-preview .scene-camera-switch,
+.onboard-3d-preview .scene-hud,
+.onboard-3d-preview .scene-interact,
+.onboard-3d-preview .scene-pad,
+.onboard-3d-preview .scene-toolbar{display:none!important}
+.onboard-3d-preview .scene-loading{font-size:10px}
+@media(max-width:700px){
+  .profile-switch-trigger{width:37px;min-width:37px;padding:0}
+  .profile-switch-label{display:none}
+  .profile-settings-trigger{width:36px;min-width:36px}
+  .onboard-3d-preview{height:215px;min-height:215px;margin:12px 0 17px;border-radius:16px}
+  .onboard-3d-preview .scene-viewport{min-height:184px}
+}
