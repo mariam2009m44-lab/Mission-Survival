@@ -36,3 +36,22 @@ test("station action reserves space for the side-mounted D-pad on narrow phones"
   assert.match(worldCss, /@media\(max-width:760px\)\{[\s\S]*?\.scene-interact\{[\s\S]*?max-width:calc\(100% - 190px\)!important/);
   assert.match(worldCss, /@media\(max-width:360px\)\{[\s\S]*?\.scene-interact\{[\s\S]*?max-width:calc\(100% - 184px\)!important/);
 });
+
+
+test("mobile 3D controls use a compact left-hand D-pad and right-hand action area", async () => {
+  const worldCss = await readFile(new URL("../styles/kids-world.css", import.meta.url), "utf8");
+  const mobileLayout = worldCss.slice(worldCss.lastIndexOf("/* Mobile-only two-thumb layout"));
+  assert.match(mobileLayout, /@media\(max-width:760px\)/);
+  assert.match(mobileLayout, /grid-template-columns:repeat\(3,46px\)/);
+  assert.match(mobileLayout, /\.scene-pad>div\{\s*display:contents!important/);
+  assert.match(mobileLayout, /left:calc\(10px \+ env\(safe-area-inset-left,0px\)\)!important/);
+  assert.match(mobileLayout, /right:calc\(10px \+ env\(safe-area-inset-right,0px\)\)!important/);
+  assert.match(mobileLayout, /@media\(orientation:landscape\) and \(max-height:520px\)/);
+});
+
+test("mobile-only control overrides do not alter desktop layout", async () => {
+  const worldCss = await readFile(new URL("../styles/kids-world.css", import.meta.url), "utf8");
+  const mobileLayout = worldCss.slice(worldCss.lastIndexOf("/* Mobile-only two-thumb layout"));
+  assert.match(mobileLayout, /@media\(max-width:760px\)/);
+  assert.doesNotMatch(mobileLayout, /@media\(min-width:/);
+});
