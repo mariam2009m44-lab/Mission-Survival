@@ -49,5 +49,6 @@ test("identity preview and profile controls stay usable on narrow screens", () =
 });
 
 test("service worker advances the cache for the new player and 3D experience", () => {
-  assert.match(worker, /lunar-outpost-app-v56/);
+  assert.match(worker, /lunar-outpost-app-v57/);
+  assert.match(worker, /src\/profile-security\.js/);
 });

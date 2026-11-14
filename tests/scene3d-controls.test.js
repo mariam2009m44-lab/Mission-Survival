@@ -56,3 +56,15 @@ test("rover has detailed wheel hubs, tread lugs, and a scanning sensor mast", ()
   assert.match(scene, /const mastPivot=new THREE\.Group\(\)/);
   assert.match(scene, /mastPivot\.rotation\.y=Math\.sin\(t\*\.42\)\*\.62/);
 });
+
+test("mobile players get a large bilingual press-and-hold forward button", () => {
+  assert.match(scene, /class="scene-forward-button" data-move="forward"/);
+  assert.match(scene, /HOLD TO WALK/);
+  assert.match(scene, /aria-pressed="false"/);
+  assert.match(scene, /btn\.setAttribute\("aria-pressed", String\(on\)\)/);
+  assert.match(scene, /btn\.classList\.toggle\("is-moving", on\)/);
+});
+test("astronaut life-support pack has twin oxygen cylinders and a live status indicator", () => {
+  assert.match(scene, /const lifeSupportTanks=\[\]/);
+  assert.match(scene, /lifeSupportStatus\.material\.emissiveIntensity/);
+});

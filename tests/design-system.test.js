@@ -24,6 +24,6 @@ test("shared layout system keeps keyboard focus and reduced motion accessible", 
 });
 
 test("service worker caches the shared layout stylesheet and uses a new cache version", () => {
-  assert.match(worker, /lunar-outpost-app-v56/);
+  assert.match(worker, /lunar-outpost-app-v57/);
   assert.match(worker, /\.\/styles\/layout-system\.css/);
 });

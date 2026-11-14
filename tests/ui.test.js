@@ -3,6 +3,7 @@ import {webcrypto} from "node:crypto";
 import assert from "node:assert/strict";
 const root={innerHTML:"",listeners:{},addEventListener(type,handler){this.listeners[type]=handler;}};
 const storage=new Map();
+globalThis.crypto=webcrypto;
 let loginPin="123456";
 Object.defineProperty(globalThis,"document",{configurable:true,value:{querySelector:selector=>selector==="#app"?root:selector==="#commander-name"?{value:"Test Commander"}:selector==="#profile-pin"||selector==="#profile-pin-confirm"?{value:"123456"}:selector==="#login-pin"?{value:loginPin}:null,documentElement:{}}});
 Object.defineProperty(globalThis,"window",{configurable:true,value:{addEventListener(){},scrollTo(){},confirm:()=>true}});
@@ -32,6 +33,8 @@ test("app completes junior commander onboarding, training, five mission decision
  assert.match(root.innerHTML,/class="mobile-nav"/);
  assert.equal((root.innerHTML.match(/data-nav="report"/g)||[]).length,3);
  assert.match(root.innerHTML,/lunar-3d-home/);
+ assert.match(root.innerHTML,/scene-forward-button/);
+ assert.match(root.innerHTML,/HOLD TO WALK|للأمام/);
  assert.match(root.innerHTML,/TECNOVA/);
  await action("start");
  assert.match(root.innerHTML,/MISSION DAY 01 \/ 05/);
