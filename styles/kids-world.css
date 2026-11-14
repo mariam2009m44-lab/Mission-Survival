@@ -1102,3 +1102,26 @@ html[dir="rtl"] .lunar-3d-stage .scene-pad::before{
     transform:translateX(-50%)!important;
   }
 }
+
+/* Oxygen alert learning checkpoint */
+.oxygen-learning-card{margin:12px 0 4px;padding:13px;border:1px solid rgba(88,211,225,.28);border-radius:15px;background:linear-gradient(145deg,rgba(19,75,96,.28),rgba(8,19,37,.72))}
+.oxygen-learning-heading{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.oxygen-learning-heading>span{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:rgba(76,205,218,.14);font-size:19px}
+.oxygen-learning-heading b,.oxygen-learning-heading small{display:block}
+.oxygen-learning-heading b{font-size:.83rem;letter-spacing:.035em}
+.oxygen-learning-heading small,.oxygen-source-note{color:var(--muted,#aab7cc);font-size:.72rem;line-height:1.5}
+.oxygen-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:8px 0 12px}
+.oxygen-facts p{margin:0!important;padding:9px;border-radius:10px;background:rgba(4,12,26,.5);font-size:.75rem!important;line-height:1.5!important}
+.oxygen-facts b{display:block;color:#80e1e5;font-size:.82rem}
+.oxygen-quiz-question{padding:10px 0;border-top:1px solid rgba(255,255,255,.09)}
+.oxygen-quiz-question>b{display:block;font-size:.8rem;line-height:1.55;margin-bottom:8px}
+.oxygen-quiz-options{display:grid;grid-template-columns:1fr;gap:6px}
+.oxygen-quiz-option{width:100%;min-height:42px;padding:9px 11px;border-radius:10px;text-align:start;line-height:1.4;font-size:.76rem;color:inherit;background:rgba(37,68,104,.42);border:1px solid rgba(145,190,225,.2);touch-action:manipulation}
+.oxygen-quiz-option.correct{border-color:#5dd5a2;background:rgba(39,139,104,.2)}
+.oxygen-quiz-option.incorrect{border-color:#ef8b91;background:rgba(150,55,69,.18)}
+.oxygen-quiz-feedback{padding:8px 10px;border-radius:9px;font-size:.74rem!important;line-height:1.55!important;margin:7px 0 0!important}
+.oxygen-quiz-feedback.correct{background:rgba(39,139,104,.16);color:#8ce5ba}
+.oxygen-quiz-feedback.incorrect{background:rgba(150,55,69,.16);color:#ffb0b6}
+.oxygen-source-note{display:block;margin-top:8px}
+.oxygen-source-note a{color:#8edfe9;text-decoration:underline;text-underline-offset:2px}
+@media(max-width:560px){.oxygen-facts{grid-template-columns:1fr}.oxygen-learning-card{padding:10px}.oxygen-quiz-option{min-height:44px}}
