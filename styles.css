@@ -56,8 +56,8 @@
 .bar i.healthy{background:linear-gradient(90deg,#58d69b,#a5efc8)}.bar i.warning{background:linear-gradient(90deg,#f0b44f,#ffdb86)}.bar i.low{background:linear-gradient(90deg,#e56f75,#ff9a86)}
 
 /* Walkable 3D lunar exploration controls */
-.scene-viewport{position:relative}.scene-hud{position:absolute;left:13px;top:13px;z-index:3;display:grid;grid-template-columns:8px auto;align-items:center;gap:4px 7px;padding:9px 11px;border:1px solid rgba(115,217,232,.22);border-radius:11px;background:rgba(5,13,25,.78);backdrop-filter:blur(10px);pointer-events:none}.scene-hud-dot{width:7px;height:7px;border-radius:50%;background:#70e5b1;box-shadow:0 0 10px #70e5b1}.scene-hud b{font:8px monospace;letter-spacing:.1em;color:#dff7ff}.scene-hud small{grid-column:2;color:#a8bbd1;font-size:8px}.scene-interact{position:absolute;left:50%;bottom:15px;transform:translateX(-50%);z-index:4;display:flex;align-items:center;gap:12px;padding:8px 10px 8px 14px;border:1px solid rgba(115,217,232,.38);border-radius:13px;background:rgba(7,18,32,.9);box-shadow:0 8px 25px #0007;white-space:nowrap}.scene-interact[hidden]{display:none}.scene-interact b{font:9px monospace;color:#e6f5ff}.scene-interact button{border:1px solid rgba(115,217,232,.45);border-radius:8px;padding:8px 11px;background:rgba(115,217,232,.13);color:#a8f2fa;font:9px monospace}.scene-pad{position:absolute;right:12px;bottom:12px;z-index:4;display:grid;justify-items:center;gap:4px;opacity:.82;touch-action:none}.scene-pad>button,.scene-pad>div button{width:38px;height:34px;border:1px solid rgba(190,215,245,.3);border-radius:9px;background:rgba(9,20,36,.78);color:#e8f5ff;font-size:13px;backdrop-filter:blur(8px);touch-action:none;user-select:none}.scene-pad>div{display:flex;gap:4px}.scene-pad button:active{background:rgba(115,217,232,.35);border-color:var(--cyan)}.scene-hint{color:#b4c8df}
-@media(min-width:850px){.scene-pad{opacity:.5}.scene-pad:hover{opacity:1}}@media(max-width:520px){.scene-hud{top:8px;left:8px;padding:7px 8px}.scene-pad>button,.scene-pad>div button{width:34px;height:31px}.scene-interact{bottom:9px;left:9px;transform:none;max-width:calc(100% - 100px);white-space:normal}.scene-interact b{font-size:8px}}
+.scene-viewport{position:relative}.scene-hud{position:absolute;left:13px;top:13px;z-index:3;display:grid;grid-template-columns:8px auto;align-items:center;gap:4px 7px;padding:9px 11px;border:1px solid rgba(115,217,232,.22);border-radius:11px;background:rgba(5,13,25,.78);backdrop-filter:blur(10px);pointer-events:none}.scene-hud-dot{width:7px;height:7px;border-radius:50%;background:#70e5b1;box-shadow:0 0 10px #70e5b1}.scene-hud b{font:8px monospace;letter-spacing:.1em;color:#dff7ff}.scene-hud small{grid-column:2;color:#a8bbd1;font-size:8px}.scene-interact{position:absolute;left:50%;bottom:15px;transform:translateX(-50%);z-index:4;display:flex;align-items:center;gap:12px;padding:8px 10px 8px 14px;border:1px solid rgba(115,217,232,.38);border-radius:13px;background:rgba(7,18,32,.9);box-shadow:0 8px 25px #0007;white-space:nowrap}.scene-interact[hidden]{display:none}.scene-interact b{font:9px monospace;color:#e6f5ff}.scene-interact button{border:1px solid rgba(115,217,232,.45);border-radius:8px;padding:8px 11px;background:rgba(115,217,232,.13);color:#a8f2fa;font:9px monospace}.scene-pad{position:absolute;right:12px;bottom:12px;z-index:4;display:grid;justify-items:center;gap:4px;opacity:.82;touch-action:none}.scene-pad>[data-move]{width:38px;height:34px;border:1px solid rgba(190,215,245,.3);border-radius:9px;background:rgba(9,20,36,.78);color:#e8f5ff;font-size:13px;backdrop-filter:blur(8px);touch-action:none;user-select:none}.scene-pad button:active{background:rgba(115,217,232,.35);border-color:var(--cyan)}.scene-hint{color:#b4c8df}
+@media(min-width:850px){.scene-pad{opacity:.5}.scene-pad:hover{opacity:1}}@media(max-width:520px){.scene-hud{top:8px;left:8px;padding:7px 8px}.scene-pad>[data-move]{width:34px;height:31px}.scene-interact{bottom:9px;left:9px;transform:none;max-width:calc(100% - 100px);white-space:normal}.scene-interact b{font-size:8px}}
 
 /* Child-first guided entry and friendly mission orientation */
 .kid-tour-backdrop{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:16px;background:rgba(2,8,18,.82);backdrop-filter:blur(9px);overflow:auto}
@@ -86,7 +86,7 @@
 .scene-hud{border-color:rgba(116,224,239,.35);border-radius:15px;background:rgba(9,24,47,.82)}
 .scene-interact{border-radius:17px;border-color:rgba(127,229,242,.48);background:rgba(12,31,55,.94)}
 .scene-interact button{border-radius:12px;background:linear-gradient(135deg,rgba(87,214,227,.28),rgba(87,151,230,.2));font-weight:800}
-.scene-pad>button,.scene-pad>div button{border-radius:13px;background:rgba(21,42,72,.84);border-color:rgba(172,218,255,.38)}
+.scene-pad>[data-move]{border-radius:13px;background:rgba(21,42,72,.84);border-color:rgba(172,218,255,.38)}
 .scene-focus button{border-radius:999px}
 @media(max-width:700px){.cloud-status{font-size:7px;padding:5px 7px}.scene-topline{font-size:8px}.scene-viewport{height:320px}}
 
@@ -99,7 +99,7 @@
 .scene-camera-switch button.active,.scene-camera-switch button:hover{border-color:rgba(119,222,241,.4);background:rgba(90,194,225,.18);color:#e8fbff}
 .lunar-3d-stage.mission-world .scene-hud{top:16px;left:16px;padding:12px 14px}
 .lunar-3d-stage.mission-world .scene-pad{right:18px;bottom:18px;opacity:.94}
-.lunar-3d-stage.mission-world .scene-pad>button,.lunar-3d-stage.mission-world .scene-pad>div button{width:48px;height:44px;border-radius:14px;font-size:16px}
+.lunar-3d-stage.mission-world .scene-pad>[data-move]{width:48px;height:44px;border-radius:14px;font-size:16px}
 .lunar-3d-stage.mission-world .scene-interact{bottom:22px;padding:11px 14px 11px 18px}
 .lunar-3d-stage.mission-world .scene-interact button{padding:10px 15px}
 @media(max-width:700px){
@@ -110,7 +110,7 @@
  .scene-camera-switch button{padding:7px 9px;font-size:7px}
  .lunar-3d-stage.mission-world .scene-hud{top:9px;left:9px;padding:8px 10px;max-width:48%}
  .lunar-3d-stage.mission-world .scene-pad{right:9px;bottom:10px}
- .lunar-3d-stage.mission-world .scene-pad>button,.lunar-3d-stage.mission-world .scene-pad>div button{width:40px;height:37px}
+ .lunar-3d-stage.mission-world .scene-pad>[data-move]{width:40px;height:37px}
  .lunar-3d-stage.mission-world .scene-interact{bottom:12px;left:10px;max-width:calc(100% - 125px)}
 }
 
@@ -151,7 +151,7 @@
 .tecnova-world .scene-viewport{height:clamp(430px,58vh,650px);min-height:430px;background:radial-gradient(ellipse at 50% 78%,#6a6385,#27294d 58%,#0a1228)}
 .tecnova-world .scene-hud{top:13px;left:13px}
 .tecnova-world .scene-camera-switch{top:13px;right:13px}
-.tecnova-world .scene-pad>button,.tecnova-world .scene-pad>div button{width:39px;height:36px}
+.tecnova-world .scene-pad>[data-move]{width:39px;height:36px}
 .tecnova-world .scene-interact{bottom:12px}
 .tecnova-world .scene-toolbar{padding:9px 12px;gap:8px}
 .tecnova-world .scene-focus{display:flex;flex-wrap:wrap;gap:5px}
@@ -547,3 +547,17 @@ button:active{transform:scale(.97)}
 }
 @media(max-width:380px){.main{padding-inline:11px}.topbar{gap:7px}.crumb{font-size:8px}.commander-mini{gap:5px}.commander-mini b{max-width:58px}}
 @media(prefers-reduced-motion:reduce){.content,.station-feedback.success{animation:none!important}button:active{transform:none}}
+
+
+/* Shared four-way movement grid. All controls are direct children of .scene-pad. */
+.scene-pad{
+ display:grid;grid-template-columns:44px minmax(120px,140px) 44px;
+ grid-template-rows:48px 44px;grid-template-areas:". forward ." "left back right";
+ gap:4px;justify-items:stretch;align-items:stretch;touch-action:none;
+}
+.scene-pad>[data-move]{grid-area:auto;display:grid;place-items:center;min-width:0;min-height:0;width:100%;height:100%;touch-action:none;user-select:none;-webkit-user-select:none}
+.scene-pad>[data-move="forward"]{grid-area:forward}
+.scene-pad>[data-move="left"]{grid-area:left}
+.scene-pad>[data-move="back"]{grid-area:back}
+.scene-pad>[data-move="right"]{grid-area:right}
+.scene-pad>.scene-forward-button{position:static!important;inset:auto!important;transform:none!important;width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;max-height:none!important}

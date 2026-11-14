@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const scene = await readFile(new URL("../src/scene3d.js", import.meta.url), "utf8");
+const kidsWorld = await readFile(new URL("../styles/kids-world.css", import.meta.url), "utf8");
+const baseCss = await readFile(new URL("../styles.css", import.meta.url), "utf8");
 
 test("forward and backward movement follow the camera viewing direction", () => {
   assert.match(scene, /const dx=x\*Math\.cos\(azimuth\)-z\*Math\.sin\(azimuth\);const dz=-x\*Math\.sin\(azimuth\)-z\*Math\.cos\(azimuth\);/);
@@ -27,7 +29,10 @@ test("touch movement controls map all four directions to the expected keys", () 
 
 
 test("NOVA turns with the astronaut and stays beside the player relative to heading", () => {
-  assert.match(scene, /applyAxisAngle\(new THREE\.Vector3\(0, 1, 0\), astronaut\.rotation\.y\)/);
+  assert.match(scene, /novaRotatedOffset\.copy\(novaBaseOffset\)\.applyAxisAngle\(novaUpAxis, astronaut\.rotation\.y\)/);
+  assert.match(scene, /const novaPositionAlpha = 1 - Math\.exp\(-dt \* 6\.5\)/);
+  assert.match(scene, /nova\.position\.lerp\(novaTargetPosition, novaPositionAlpha\)/);
+  assert.match(scene, /nova\.rotation\.y \+= novaTurn \* \(1 - Math\.exp\(-dt \* 8\)\)/);
   assert.match(scene, /astronaut\.rotation\.y - nova\.rotation\.y/);
   assert.match(scene, /btn\.style\.touchAction = "none"/);
   assert.match(scene, /pointerleave/);
@@ -67,4 +72,25 @@ test("mobile players get a large bilingual press-and-hold forward button", () =>
 test("astronaut life-support pack has twin oxygen cylinders and a live status indicator", () => {
   assert.match(scene, /const lifeSupportTanks=\[\]/);
   assert.match(scene, /lifeSupportStatus\.material\.emissiveIntensity/);
+});
+
+
+test("movement controls render as exactly four direct grid children with explicit areas", () => {
+  const pad = scene.match(/<div class="scene-pad" role="group"[\\s\\S]*?<\\/div><\\/div><div class="scene-toolbar">/)?.[0] || "";
+  assert.ok(pad, "movement pad markup should exist");
+  assert.equal((pad.match(/data-move=/g) || []).length, 4);
+  assert.equal((pad.match(/<button\\b/g) || []).length, 4);
+  assert.equal((pad.match(/<div\\b/g) || []).length, 1, "no nested wrapper should remain inside .scene-pad");
+  for (const direction of ["forward", "left", "back", "right"]) assert.match(pad, new RegExp('data-move="' + direction + '"'));
+  assert.match(kidsWorld, /grid-template-areas:\\s*"\\. forward \\. " "left back right"/);
+  for (const direction of ["forward", "left", "back", "right"]) assert.match(kidsWorld, new RegExp('\\[data-move="' + direction + '"\\]\\{grid-area:' + direction));
+  assert.doesNotMatch(kidsWorld, /\\.scene-pad\\s*>\\s*div/);
+  assert.doesNotMatch(baseCss, /\\.scene-pad\\s*>\\s*div/);
+});
+
+test("movement buttons preserve pointer capture and clear on release or cancellation", () => {
+  assert.match(scene, /btn\\.setPointerCapture\\(e\\.pointerId\\)/);
+  assert.match(scene, /btn\\.addEventListener\\("pointerup", \\(\\) => set\\(false\\)\\)/);
+  assert.match(scene, /btn\\.addEventListener\\("pointercancel", \\(\\) => set\\(false\\)\\)/);
+  assert.match(scene, /btn\\.addEventListener\\("lostpointercapture", \\(\\) => set\\(false\\)\\)/);
 });

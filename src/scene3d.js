@@ -258,6 +258,9 @@ const craftLabelCanvas=document.createElement("canvas");craftLabelCanvas.width=5
  for(const x of [-.53,.53]){const ear=new THREE.Mesh(new THREE.SphereGeometry(.16,16,12),novaShell);ear.position.set(x,1.48,0);nova.add(ear);const arm=cyl(.085,.11,.48,novaShell,x*.9,.8,0,nova);arm.rotation.z=x*.7;}
  const novaBadge=new THREE.Mesh(new THREE.TorusGeometry(.62,.035,8,40),novaGold);novaBadge.rotation.x=Math.PI/2;novaBadge.position.y=.18;nova.add(novaBadge);
  const novaLamp=new THREE.PointLight(0x53e9ff,5,5);novaLamp.position.set(0,1.8,0);nova.add(novaLamp);
+ const novaBaseOffset=new THREE.Vector3(1.55,0,-1.15),novaUpAxis=new THREE.Vector3(0,1,0),novaTargetPosition=new THREE.Vector3(),novaRotatedOffset=new THREE.Vector3();
+ novaRotatedOffset.copy(novaBaseOffset).applyAxisAngle(novaUpAxis,astronaut.rotation.y);
+ nova.position.set(astronaut.position.x+novaRotatedOffset.x,.92,astronaut.position.z+novaRotatedOffset.z);
  // Softly rounded lunar boulders and colorful mineral crystals make the terrain welcoming.
  for(let i=0,rockLimit=compactDevice?20:34;i<rockLimit;i++){
   const x=Math.sin(i*12.37)*22,z=Math.cos(i*7.91)*22;
@@ -338,10 +341,12 @@ function updateMovement(dt) {
     marker.ring.scale.setScalar(pulse);
   }
   if (followPlayer) target.lerp(new THREE.Vector3(px, .5, pz), Math.min(1, dt * 3));
-  const novaOffset = new THREE.Vector3(1.55, 0, -1.15).applyAxisAngle(new THREE.Vector3(0, 1, 0), astronaut.rotation.y);
-  nova.position.set(px + novaOffset.x, Math.sin(clock.elapsedTime * 2.1) * .12 + .92, pz + novaOffset.z);
+  novaRotatedOffset.copy(novaBaseOffset).applyAxisAngle(novaUpAxis, astronaut.rotation.y);
+  novaTargetPosition.set(px + novaRotatedOffset.x, .92 + Math.sin(clock.elapsedTime * 2.1) * .12, pz + novaRotatedOffset.z);
+  const novaPositionAlpha = 1 - Math.exp(-dt * 6.5);
+  nova.position.lerp(novaTargetPosition, novaPositionAlpha);
   const novaTurn = Math.atan2(Math.sin(astronaut.rotation.y - nova.rotation.y), Math.cos(astronaut.rotation.y - nova.rotation.y));
-  nova.rotation.y += novaTurn * Math.min(1, dt * 8);
+  nova.rotation.y += novaTurn * (1 - Math.exp(-dt * 8));
 }
 
 const onKeyDown = e => {
@@ -555,7 +560,7 @@ function mount() {
       (uiAr ? "امشي ناحية اللافتات المضيئة، ثم اضغطي تفاعل لتتعلمي مع NOVA" : "Follow the glowing signs, then interact to learn with NOVA") +
       '</small></div><div class="scene-interact"><b data-scene-nearby>STATION</b><button type="button" data-scene-interact aria-label="Interact with lunar station">' +
       (uiAr ? "تفاعل ↗" : "INTERACT ↗") +
-      '</button></div><div class="scene-pad" aria-label="Movement controls"><button type="button" class="scene-forward-button" data-move="forward" aria-label="Move forward" aria-pressed="false"><span aria-hidden="true">▲</span><b>' + (uiAr ? "للأمام" : "FORWARD") + '</b><small>' + (uiAr ? "اضغطي مطولًا للتحرك" : "HOLD TO WALK") + '</small></button><div><button type="button" data-move="left" aria-label="Move left" aria-pressed="false">◀</button><button type="button" data-move="back" aria-label="Move backward" aria-pressed="false">▼</button><button type="button" data-move="right" aria-label="Move right" aria-pressed="false">▶</button></div></div></div><div class="scene-toolbar"><div class="scene-focus"><button class="active" data-scene-focus="base">' +
+      '</button></div><div class="scene-pad" role="group" aria-label="Movement controls"><button type="button" class="scene-forward-button" data-move="forward" aria-label="Move forward" aria-pressed="false"><span aria-hidden="true">▲</span><b>' + (uiAr ? "للأمام" : "FORWARD") + '</b><small>' + (uiAr ? "اضغطي مطولًا للتحرك" : "HOLD TO WALK") + '</small></button><button type="button" data-move="left" aria-label="Move left" aria-pressed="false">◀</button><button type="button" data-move="back" aria-label="Move backward" aria-pressed="false">▼</button><button type="button" data-move="right" aria-label="Move right" aria-pressed="false">▶</button></div></div><div class="scene-toolbar"><div class="scene-focus"><button class="active" data-scene-focus="base">' +
       (uiAr ? "القاعدة" : "BASE") +
       '</button><button data-scene-focus="habitat">' +
       (uiAr ? "السكن" : "HABITAT") +
