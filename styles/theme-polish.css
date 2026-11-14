@@ -405,3 +405,22 @@ button:focus-visible,a:focus-visible{outline:3px solid rgba(112,220,226,.85);out
  .mission-impact-delta{grid-column:2;text-align:start;font-size:10px}
  .mission-impact-day{font-size:9px}
 }
+
+
+/* NASA Space Apps 2026 challenge alignment panel */
+.challenge-fit{margin:18px 0 22px;padding:clamp(16px,2.5vw,24px);border:1px solid rgba(115,217,232,.2);border-radius:20px;background:linear-gradient(145deg,rgba(18,35,57,.92),rgba(10,20,36,.96))}
+.challenge-fit-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:16px}
+.challenge-fit-head h2{margin:7px 0 6px;font-size:clamp(18px,2.4vw,25px);letter-spacing:-.025em}
+.challenge-fit-head p{margin:0;color:#aab9d0;font-size:11px;line-height:1.65}
+.challenge-fit-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.challenge-fit-item{min-width:0;padding:14px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(4,12,26,.34)}
+.challenge-fit-item-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.challenge-fit-item-top>span{font-size:20px}
+.challenge-fit-item-top>small{font:8px monospace;letter-spacing:.08em;color:#8edce7;text-align:end}
+.challenge-fit-item h3{margin:11px 0 6px;font-size:12px;color:#edf5ff}
+.challenge-fit-item p{margin:0;color:#aab9d0;font-size:10px;line-height:1.7}
+.challenge-fit-integrity{margin-top:12px;padding:13px 14px;border-inline-start:3px solid #7bd9d4;border-radius:10px;background:rgba(115,217,232,.06)}
+.challenge-fit-integrity b{font-size:10px;color:#aee9e8;letter-spacing:.03em}
+.challenge-fit-integrity p{margin:6px 0 0;color:#b6c5da;font-size:10px;line-height:1.75}
+@media(max-width:760px){.challenge-fit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.challenge-fit{padding:14px;border-radius:16px}.challenge-fit-head{flex-direction:column}.challenge-fit-grid{grid-template-columns:minmax(0,1fr);gap:8px}.challenge-fit-item{padding:12px}}
