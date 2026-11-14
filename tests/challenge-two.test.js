@@ -13,6 +13,8 @@ test("a successful first campaign unlocks a distinct second systems challenge", 
   assert.match(main, /systems-integrator/);
   assert.match(main, /answerOrder\.splice/);
   assert.match(main, /lastExplanation/);
+  assert.match(main, /ADVANCED CHALLENGE/);
+  assert.match(main, /settingsOpen=false;break;}case"tour-next"/);
 });
 
 test("challenge two has responsive question cards and progress feedback", () => {
