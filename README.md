@@ -21,7 +21,7 @@ WebXR immersive VR is optional and depends on the headset, browser, permissions 
 - Four science-training modules and three NASA-studied candidate landing-region scenarios.
 - Five-day simulation with five sequential decisions, guided/standard/expert difficulty, comic story beats, a live task bar and hidden sustainability badge.
 - In-mission fieldwork guide listing all five walkable stations, showing discovery progress, and explaining how optional NOVA challenges award bonus XP and adjust illustrative game reserves.
-- Science library with source dates, data coverage and limitations.
+- Science library with source dates, data coverage and limitations, plus mission-day evidence cards that connect each decision to an official reference.
 - Optional DONKI event lookup using NASA CCMC's migrated 2026 API.
 - Local progress storage and offline caching.
 - PWA manifest and Capacitor Android build path.
@@ -34,6 +34,7 @@ WebXR immersive VR is optional and depends on the headset, browser, permissions 
 | LRO Diviner PDS Release 67 | Calibrated thermal-radiance data, 16 March–15 June 2026 | Surface measurements, not interior habitat temperature |
 | NASA CCMC DONKI | Optional recent event records | Research context, not lunar radiation forecasts |
 | Canadian Space Agency | Food-production and mini-greenhouse learning activities | Educational material, not measured lunar crop yields |
+| NASA ISS ECLSS | Water recovery and filtration learning reference; reported up to 98% total recovery on ISS in 2023 | ISS result, not a proven lunar-base recovery rate; game values remain illustrative |
 
 A sample CRaTER product linked in the app is a 31 March 2026 primary-science file with 2,310,946 records and a listed size of 257.86 MB. The primary file schema includes spacecraft time, detector amplitudes (ADU) and deposited energy (keV) across detectors D1–D6. The app links to the archive record rather than bundling the large raw data file.
 
