@@ -99,11 +99,6 @@ test("app completes junior commander onboarding, training, five mission decision
  assert.match(root.innerHTML,/2,310,946/);
  await action("language");
  assert.match(root.innerHTML,/مختبر العلوم|مكتبة العلوم الموثقة/);
- await action("switch-profile");
- assert.match(root.innerHTML,/اختاري رائدة الفضاء بتاعتك/);
- const savedState=JSON.parse([...storage.values()].at(-1));
- assert.deepEqual(savedState.missionArchive,[]);
- assert.deepEqual(savedState.stats,{missions:0,totalXp:0,bestScore:0});
 });
 test("walking to a lunar station opens a child-friendly discovery challenge",async()=>{
  const handler=root.listeners["lunar-station-interact"];
@@ -117,4 +112,12 @@ test("walking to a lunar station opens a child-friendly discovery challenge",asy
  assert.match(root.innerHTML,/تم تسجيل اكتشافك|اكتشافك/);
  await action("station-close");
  assert.doesNotMatch(root.innerHTML,/station-modal/);
+});
+
+test("switching explorer clears the previous profile achievement archive",async()=>{
+ await action("switch-profile");
+ assert.match(root.innerHTML,/اختاري رائدة الفضاء بتاعتك/);
+ const savedState=JSON.parse([...storage.values()].at(-1));
+ assert.deepEqual(savedState.missionArchive,[]);
+ assert.deepEqual(savedState.stats,{missions:0,totalXp:0,bestScore:0});
 });
