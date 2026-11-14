@@ -531,3 +531,23 @@ html[dir="rtl"] .lunar-3d-stage .scene-pad::before{
   letter-spacing:0;
   font-size:10px;
 }
+
+
+/* Keep the station action fully clear of the left-side D-pad on narrow phones. */
+@media(max-width:760px){
+  .lunar-3d-stage .scene-interact{
+    max-width:calc(100% - 190px)!important;
+  }
+}
+@media(max-width:360px){
+  .lunar-3d-stage .scene-interact{
+    max-width:calc(100% - 184px)!important;
+    padding:6px 7px;
+    gap:6px;
+  }
+  .lunar-3d-stage .scene-interact button{
+    min-height:38px;
+    padding:6px 9px;
+    font-size:10px;
+  }
+}
