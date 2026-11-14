@@ -404,3 +404,16 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #9af1
   pointer-events:auto!important;
 }
 .lunar-3d-stage .scene-interact[hidden]{display:none!important}
+
+/* Keep the interaction CTA clear of the right-side movement pad on narrow screens. */
+@media(max-width:760px){
+  .lunar-3d-stage .scene-interact{
+    left:10px!important;
+    right:auto!important;
+    inset-inline-start:auto!important;
+    inset-inline-end:auto!important;
+    transform:none!important;
+    width:max-content;
+    max-width:calc(100% - 174px)!important;
+  }
+}
