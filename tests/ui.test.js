@@ -62,10 +62,23 @@ test("app completes junior commander onboarding, training, five mission decision
  assert.match(root.innerHTML,/Find the glowing station/);
  for(const station of ["habitat","oxygen","solar","greenhouse","rover"])assert.match(root.innerHTML,new RegExp("assets/stations/"+station+"\\.svg"));
  await action("site-select",{site:"malapert","siteName":"Malapert Massif"});
- for(let day=0;day<5;day++){await action("choose",{choice:"0"});if(day<4)await action("next");}
+ for(let day=0;day<5;day++){
+  await action("choose",{choice:"0"});
+  if(day<4){
+   await action("next");
+   const evidenceUrls=[
+    "nasa.gov/centers-and-facilities/johnson/sunlight-extracts-oxygen-from-regolith-using-solar-chemistry/",
+    "pds.nasa.gov/datasearch/subscription-service/SS-20260915.shtml",
+    "nasa.gov/missions/station/iss-research/nasa-achieves-water-recovery-milestone-on-international-space-station/",
+    "asc-csa.gc.ca/eng/youth-educators/toolkits/food-production/"
+   ];
+   if(day>0)assert.ok(root.innerHTML.includes(evidenceUrls[day-1]));
+  }
+ }
  assert.match(root.innerHTML,/MISSION SCORE/);
  await nav("science");
  assert.match(root.innerHTML,/LRO CRaTER/);
+ assert.match(root.innerHTML,/9 SOURCES/);
  assert.match(root.innerHTML,/DONKI/);
  assert.match(root.innerHTML,/2,310,946/);
  await action("language");
