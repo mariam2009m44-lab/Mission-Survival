@@ -27,6 +27,9 @@ test("app completes junior commander onboarding, training, five mission decision
  assert.match(root.innerHTML,/اتعلم الأول، وبعدها قُد المهمة/);
  await action("guide-finish");
  assert.match(root.innerHTML,/اختاري رائدة الفضاء بتاعتك/);
+ assert.match(root.innerHTML,/onboard-3d-preview/);
+ assert.match(root.innerHTML,/data-avatar=/);
+ assert.match(root.innerHTML,/data-vehicle=/);
  await action("create-profile");
  assert.match(root.innerHTML,/tecnova-home/);
  assert.match(root.innerHTML,/class="sidebar"/);
@@ -50,6 +53,8 @@ test("app completes junior commander onboarding, training, five mission decision
  assert.match(root.innerHTML,/A smarter outpost/);
  assert.match(root.innerHTML,/class="sidebar"/);
  assert.match(root.innerHTML,/class="mobile-nav"/);
+ assert.match(root.innerHTML,/profile-switch-trigger/);
+ assert.match(root.innerHTML,/profile-settings-trigger/);
  assert.doesNotMatch(root.innerHTML,/tecnova-bottom-nav/);
  assert.match(root.innerHTML,/Radiation protection/i);
  assert.match(root.innerHTML,/5 DECISION STAGES/);
@@ -84,8 +89,14 @@ test("app completes junior commander onboarding, training, five mission decision
   }
  }
  assert.match(root.innerHTML,/MISSION SCORE/);
+ assert.match(root.innerHTML,/START CHALLENGE 2/);
+ await action("next-challenge");
+ assert.match(root.innerHTML,/CHALLENGE 02/);
+ for(let step=0;step<5;step++)await action("challenge-two-answer",{answer:"0"});
+ assert.match(root.innerHTML,/Systems Integrator/);
  await nav("report");
  assert.match(root.innerHTML,/MY BADGES/);
+ assert.match(root.innerHTML,/Systems Integrator|خبير تكامل الأنظمة/);
  assert.match(root.innerHTML,/MISSION HISTORY|سجل المهمات/);
  assert.match(root.innerHTML,/My achievements|إنجازاتي/);
  assert.match(root.innerHTML,/class="mobile-nav"/);
