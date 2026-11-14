@@ -141,3 +141,10 @@ test("NOVA responds safely to unsupported questions without pretending to be gen
  assert.match(result.answer,/couldn't match that wording/i);
  assert.ok(result.sources.length>0);
 });
+
+test("NOVA launcher is available during intro, guide and profile setup",async()=>{
+ const app=await readFile(new URL("../src/main.js",import.meta.url),"utf8");
+ assert.match(app,/if\(!s\.introSeen\)\{app\.innerHTML=spaceIntro\(\)\+novaWidget\(\)/);
+ assert.match(app,/if\(!s\.welcomeGuideDone\)\{app\.innerHTML=welcomeGuide\(\)\+novaWidget\(\)/);
+ assert.match(app,/if\(!s\.commander\)\{app\.innerHTML=onboarding\(\)\+novaWidget\(\)/);
+});
