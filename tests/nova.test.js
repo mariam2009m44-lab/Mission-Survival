@@ -59,7 +59,8 @@ test("offline service worker precaches NOVA and rotates the cache",async()=>{
  assert.match(sw,/\.\/src\/nova\.js/);
  assert.match(sw,/\.\/src\/scene3d\.js/);
  assert.match(sw,/\.\/src\/mission-days\.js/);
- assert.match(sw,/\.\/vendor\/three\.module\.js/);\n assert.match(sw,/\.\/vendor\/three\.core\.js/);
+ assert.match(sw,/\.\/vendor\/three\.module\.js/);
+ assert.match(sw,/\.\/vendor\/three\.core\.js/);
  assert.match(sw,/assets\/stations\/habitat\.svg/);
  assert.match(sw,/astronaut-kids\.svg/);
  assert.match(sw,/cdn\.jsdelivr\.net/);
