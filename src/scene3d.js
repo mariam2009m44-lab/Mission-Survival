@@ -258,7 +258,7 @@ const craftLabelCanvas=document.createElement("canvas");craftLabelCanvas.width=5
  for(const x of [-.53,.53]){const ear=new THREE.Mesh(new THREE.SphereGeometry(.16,16,12),novaShell);ear.position.set(x,1.48,0);nova.add(ear);const arm=cyl(.085,.11,.48,novaShell,x*.9,.8,0,nova);arm.rotation.z=x*.7;}
  const novaBadge=new THREE.Mesh(new THREE.TorusGeometry(.62,.035,8,40),novaGold);novaBadge.rotation.x=Math.PI/2;novaBadge.position.y=.18;nova.add(novaBadge);
  const novaLamp=new THREE.PointLight(0x53e9ff,5,5);novaLamp.position.set(0,1.8,0);nova.add(novaLamp);
- const novaBaseOffset=new THREE.Vector3(1.55,0,-1.15),novaUpAxis=new THREE.Vector3(0,1,0),novaTargetPosition=new THREE.Vector3(),novaRotatedOffset=new THREE.Vector3(),novaRelativePosition=new THREE.Vector3();
+ const novaBaseOffset=new THREE.Vector3(1.55,0,-1.15),novaUpAxis=new THREE.Vector3(0,1,0),novaTargetPosition=new THREE.Vector3(),novaRotatedOffset=new THREE.Vector3();
  let novaFollowYaw=astronaut.rotation.y;
  novaRotatedOffset.copy(novaBaseOffset).applyAxisAngle(novaUpAxis,novaFollowYaw);
  nova.position.set(astronaut.position.x+novaRotatedOffset.x,.92,astronaut.position.z+novaRotatedOffset.z);
@@ -348,9 +348,8 @@ function updateMovement(dt) {
   novaRotatedOffset.copy(novaBaseOffset).applyAxisAngle(novaUpAxis,novaFollowYaw);
   novaTargetPosition.set(px+novaRotatedOffset.x,.92+Math.sin(clock.elapsedTime*2.1)*.12,pz+novaRotatedOffset.z);
   nova.position.lerp(novaTargetPosition,1-Math.exp(-dt*9));
-  // Keep the original companion radius while its heading eases around the astronaut.
-  novaRelativePosition.set(nova.position.x-px,0,nova.position.z-pz);
-  if(novaRelativePosition.lengthSq()>1e-6){novaRelativePosition.setLength(novaBaseOffset.length());nova.position.x=px+novaRelativePosition.x;nova.position.z=pz+novaRelativePosition.z;}
+  // Do not snap the companion sideways: exponential interpolation eases its orbit
+  // while the target offset keeps the intended follow distance consistent.
   const novaTurn=Math.atan2(Math.sin(novaFollowYaw-nova.rotation.y),Math.cos(novaFollowYaw-nova.rotation.y));
   nova.rotation.y+=novaTurn*(1-Math.exp(-dt*8));
 }

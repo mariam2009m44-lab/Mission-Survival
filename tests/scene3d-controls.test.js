@@ -34,7 +34,8 @@ test("NOVA follows smoothly with its original relative offset and stable distanc
   assert.match(scene, /novaRotatedOffset\.copy\(novaBaseOffset\)\.applyAxisAngle\(novaUpAxis,novaFollowYaw\)/);
   assert.match(scene, /novaTargetPosition\.set\(px\+novaRotatedOffset\.x/);
   assert.match(scene, /nova\.position\.lerp\(novaTargetPosition,1-Math\.exp\(-dt\*9\)\)/);
-  assert.match(scene, /novaRelativePosition\.setLength\(novaBaseOffset\.length\(\)\)/);
+  assert.doesNotMatch(scene, /novaRelativePosition|setLength\(novaBaseOffset\.length\(\)\)/);
+  assert.match(scene, /nova\.position\.lerp\(novaTargetPosition,1-Math\.exp\(-dt\*9\)\)/);
   assert.match(scene, /nova\.rotation\.y\+=novaTurn\*\(1-Math\.exp\(-dt\*8\)\)/);
   assert.match(scene, /Math\.sin\(clock\.elapsedTime\*2\.1\)\*\.12/);
   assert.match(scene, /btn\.style\.touchAction = "none"/);
@@ -96,4 +97,16 @@ test("movement buttons preserve pointer capture and clear on release or cancella
   assert.match(scene, /btn\.addEventListener\("pointerup", \(\) => set\(false\)\)/);
   assert.match(scene, /btn\.addEventListener\("pointercancel", \(\) => set\(false\)\)/);
   assert.match(scene, /btn\.addEventListener\("lostpointercapture", \(\) => set\(false\)\)/);
+});
+
+
+test("NOVA does not snap sideways to force distance during a turn",()=>{
+ assert.doesNotMatch(scene,/novaRelativePosition|setLength\(novaBaseOffset\.length\(\)\)/);
+ assert.match(scene,/novaFollowYaw\+=followTurn\*\(1-Math\.exp\(-dt\*5\.5\)\)/);
+ assert.match(scene,/nova\.position\.lerp\(novaTargetPosition,1-Math\.exp\(-dt\*9\)\)/);
+});
+test("shared stylesheet uses explicit four-direction grid areas",()=>{
+ assert.match(baseCss,/grid-template-areas:\s*"\. forward \. " "left back right"/);
+ for(const direction of ["forward","left","back","right"]) assert.ok(baseCss.includes('[data-move="'+direction+'"]{grid-area:'+direction));
+ assert.doesNotMatch(baseCss,/\.scene-pad\s*>\s*div/);
 });
