@@ -1274,3 +1274,15 @@ html[dir="rtl"] .lunar-3d-stage .scene-pad::before{
  .lunar-3d-stage .scene-camera-switch{top:12px!important;left:12px!important;right:12px!important;inset-inline-start:12px!important;inset-inline-end:12px!important;width:auto!important;max-width:none!important}
  .lunar-3d-stage .scene-hud{top:68px!important;left:12px!important;right:auto!important;inset-inline-start:12px!important;inset-inline-end:auto!important}
 }
+
+
+/* Small tablets in landscape: the desktop breakpoint must not override the compact cockpit. */
+@media (orientation:landscape) and (max-height:520px) and (min-width:761px) and (max-width:900px){
+ .lunar-3d-stage .scene-viewport{height:100svh!important;min-height:340px!important}
+ .lunar-3d-stage .scene-camera-switch{top:5px!important;left:7px!important;right:7px!important;inset-inline-start:7px!important;inset-inline-end:7px!important;height:36px!important}
+ .lunar-3d-stage .scene-camera-switch button{min-height:30px!important;padding:5px 8px!important}
+ .lunar-3d-stage .scene-hud{top:48px!important;left:7px!important;right:auto!important;inset-inline-start:7px!important;inset-inline-end:auto!important;width:min(34%,200px)!important;max-width:min(34%,200px)!important;max-height:calc(100% - 135px)!important}
+ .lunar-3d-stage .scene-pad{left:7px!important;right:auto!important;inset-inline-start:7px!important;inset-inline-end:auto!important;top:auto!important;bottom:7px!important;width:130px!important;max-width:130px!important;grid-template-columns:repeat(3,36px)!important;grid-template-rows:14px 36px 36px!important;gap:2px!important}
+ .lunar-3d-stage .scene-pad>button,.lunar-3d-stage .scene-pad>div button{width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important}
+ .lunar-3d-stage .scene-interact{left:auto!important;right:7px!important;inset-inline-start:auto!important;inset-inline-end:7px!important;bottom:7px!important;transform:none!important;width:108px!important;max-width:108px!important}
+}
