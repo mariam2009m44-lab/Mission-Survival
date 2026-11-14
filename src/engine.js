@@ -34,7 +34,7 @@ export const RESOURCE_RESPONSES={
 };
 export function resourceAlerts(m){
  if(!m?.resources)return [];
- return RESOURCES.filter(r=>m.resources[r.id]<30).map(r=>({id:r.id,value:m.resources[r.id],severity:m.resources[r.id]<15?"critical":"warning",responses:RESOURCE_RESPONSES[r.id],handled:Array.isArray(m.responseHistory)&&m.responseHistory.some(x=>x.key===m.day+":"+r.id)}));
+ return RESOURCES.filter(r=>m.resources[r.id]<30).map(r=>({id:r.id,value:m.resources[r.id],severity:m.resources[r.id]<15?"critical":"warning",responses:RESOURCE_RESPONSES[r.id],handled:Array.isArray(m.responseHistory)&&m.responseHistory.some(x=>x.key===m.day+":"+r.id)})).sort((a,b)=>a.value-b.value);
 }
 export function applyResourceResponse(m,resourceId,actionId){
  if(!m?.started||!["active","debrief"].includes(m.phase)||!Object.hasOwn(RESOURCE_RESPONSES,resourceId))return null;
