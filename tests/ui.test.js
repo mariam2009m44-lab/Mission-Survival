@@ -147,6 +147,7 @@ test("signing out preserves the local explorer profile and achievements",async()
  assert.ok(savedProfiles[0].security?.salt);
  assert.ok(savedProfiles[0].security?.hash);
  assert.ok(savedProfiles[0].state.missionArchive.length>=1);
+ assert.equal(savedProfiles[0].state.missionArchive[0].sitePlan.id,"malapert");
  assert.ok(savedState.signedOut);
  await action("choose-profile",{profileId:savedProfiles[0].id});
  assert.match(root.innerHTML,/login-pin/);
