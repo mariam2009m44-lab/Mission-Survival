@@ -29,6 +29,9 @@ test("app completes junior commander onboarding, training, five mission decision
  assert.match(root.innerHTML,/اختاري رائدة الفضاء بتاعتك/);
  await action("create-profile");
  assert.match(root.innerHTML,/tecnova-home/);
+ assert.match(root.innerHTML,/class="sidebar"/);
+ assert.match(root.innerHTML,/class="mobile-nav"/);
+ assert.equal((root.innerHTML.match(/data-nav="report"/g)||[]).length,3);
  assert.match(root.innerHTML,/lunar-3d-home/);
  assert.match(root.innerHTML,/TECNOVA/);
  await action("start");
@@ -45,6 +48,9 @@ test("app completes junior commander onboarding, training, five mission decision
  await action("language");
  await nav("overview");
  assert.match(root.innerHTML,/A smarter outpost/);
+ assert.match(root.innerHTML,/class="sidebar"/);
+ assert.match(root.innerHTML,/class="mobile-nav"/);
+ assert.doesNotMatch(root.innerHTML,/tecnova-bottom-nav/);
  assert.match(root.innerHTML,/Radiation protection/i);
  assert.match(root.innerHTML,/5 DECISION STAGES/);
  assert.match(root.innerHTML,/NOVA SCIENCE GUIDE/);
@@ -79,7 +85,10 @@ test("app completes junior commander onboarding, training, five mission decision
  }
  assert.match(root.innerHTML,/MISSION SCORE/);
  await nav("report");
+ assert.match(root.innerHTML,/MY BADGES/);
  assert.match(root.innerHTML,/MISSION HISTORY/);
+ assert.match(root.innerHTML,/My achievements|إنجازاتي/);
+ assert.match(root.innerHTML,/class="mobile-nav"/);
  assert.match(root.innerHTML,/Completed missions|المهمات المكتملة/);
  assert.match(root.innerHTML,/View mission decisions|عرض قرارات المهمة/);
  assert.match(root.innerHTML,/MISSION ARCHIVE/);
