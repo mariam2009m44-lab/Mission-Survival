@@ -347,3 +347,26 @@ button:focus-visible,a:focus-visible{outline:3px solid rgba(112,220,226,.85);out
 @media(prefers-reduced-motion:reduce){
  .lunar-3d-stage .scene-viewport canvas{scroll-behavior:auto}
 }
+
+
+/* Mission 3D mobile controls: keep the HUD, camera selector and touch pad in separate zones. */
+@media(max-width:760px){
+  .lunar-3d-stage.mission-world .scene-viewport{position:relative;min-height:390px;height:64svh;max-height:610px}
+  .lunar-3d-stage.mission-world .scene-hud{top:8px;left:8px;right:8px;width:auto;max-width:none}
+  .lunar-3d-stage.mission-world .scene-camera-switch{top:126px;left:8px;right:8px;bottom:auto;width:calc(100% - 16px);max-width:none;justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;border-radius:12px}
+  .lunar-3d-stage.mission-world .scene-camera-switch::-webkit-scrollbar{display:none}
+  .lunar-3d-stage.mission-world .scene-camera-switch button{flex:0 0 auto}
+  .lunar-3d-stage.mission-world .scene-interact{left:8px;bottom:10px;max-width:calc(100% - 160px);gap:6px;padding:7px 8px}
+  .lunar-3d-stage.mission-world .scene-interact b{white-space:normal;line-height:1.25}
+  .lunar-3d-stage.mission-world .scene-pad{right:8px;bottom:10px;gap:4px}
+  .lunar-3d-stage.mission-world .scene-pad>button,.lunar-3d-stage.mission-world .scene-pad>div button{width:40px;height:40px;min-width:40px;min-height:40px;border-radius:11px}
+}
+@media(max-width:360px){
+  .lunar-3d-stage.mission-world .scene-viewport{min-height:370px}
+  .lunar-3d-stage.mission-world .scene-hud{padding:7px 8px}
+  .lunar-3d-stage.mission-world .scene-hud small{font-size:8px}
+  .lunar-3d-stage.mission-world .scene-camera-switch{top:122px}
+  .lunar-3d-stage.mission-world .scene-interact{max-width:calc(100% - 150px);padding:6px}
+  .lunar-3d-stage.mission-world .scene-interact button{min-height:34px;padding:6px 8px}
+  .lunar-3d-stage.mission-world .scene-pad>button,.lunar-3d-stage.mission-world .scene-pad>div button{width:36px;height:36px;min-width:36px;min-height:36px}
+}
