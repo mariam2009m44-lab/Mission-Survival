@@ -254,10 +254,7 @@ function updateMovement(dt) {
         astronaut.rotation.y = Math.atan2(dx, dz);
         followPlayer = true;
     }
-}
-  
-
-  const px = astronaut.position.x;
+const px = astronaut.position.x;
   const pz = astronaut.position.z;
 
   let nearest = null;
