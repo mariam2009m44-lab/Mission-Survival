@@ -106,7 +106,7 @@ test("NOVA does not snap sideways to force distance during a turn",()=>{
  assert.match(scene,/nova\.position\.lerp\(novaTargetPosition,1-Math\.exp\(-dt\*9\)\)/);
 });
 test("shared stylesheet uses explicit four-direction grid areas",()=>{
- assert.match(baseCss,/grid-template-areas:\s*"\. forward \. " "left back right"/);
+ assert.match(baseCss,/grid-template-areas:\s*"\. forward \." "left back right"/);
  for(const direction of ["forward","left","back","right"]) assert.ok(baseCss.includes('[data-move="'+direction+'"]{grid-area:'+direction));
  assert.doesNotMatch(baseCss,/\.scene-pad\s*>\s*div/);
 });
