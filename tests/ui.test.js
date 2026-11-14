@@ -24,7 +24,7 @@ test("app completes junior commander onboarding, training, five mission decision
  await action("guide-next");
  assert.match(root.innerHTML,/اتعلم الأول، وبعدها قُد المهمة/);
  await action("guide-finish");
- assert.match(root.innerHTML,/اختاري شخصية رائدة الفضاء/);
+ assert.match(root.innerHTML,/اختاري رائدة الفضاء بتاعتك/);
  await action("create-profile");
  assert.match(root.innerHTML,/أهلاً بك على القمر/);
  await action("tour-next");
