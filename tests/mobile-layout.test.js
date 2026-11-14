@@ -55,3 +55,14 @@ test("mobile-only control overrides do not alter desktop layout", async () => {
   assert.match(mobileLayout, /@media\(max-width:760px\)/);
   assert.doesNotMatch(mobileLayout, /@media\(min-width:/);
 });
+
+
+test("mobile 3D cockpit keeps HUD actions in the content column and camera controls separate", async () => {
+  const worldCss = await readFile(new URL("../styles/kids-world.css", import.meta.url), "utf8");
+  const responsive = worldCss.slice(worldCss.lastIndexOf("/* Responsive cockpit pass"));
+  assert.match(responsive, /grid-template-columns:8px minmax\(0,1fr\)!important/);
+  assert.match(responsive, /\.scene-auto-walk\{[\s\S]*?grid-column:2!important/);
+  assert.match(responsive, /\.scene-camera-switch\{[\s\S]*?grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+  assert.match(responsive, /\.scene-child-tip\{display:none\}/);
+  assert.match(responsive, /\.scene-focus\{[\s\S]*?flex-wrap:nowrap/);
+});
