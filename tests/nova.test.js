@@ -210,3 +210,16 @@ test("Science library lists OSDR and RadLab with explicit data limitations",asyn
  assert.ok(manifest.datasets.some(x=>x.id==="nasa-osdr"&&x.limitation.includes("not live astronaut health telemetry")));
  assert.ok(manifest.datasets.some(x=>x.id==="nasa-radlab"&&x.limitation.includes("not direct radiation readings")));
 });
+
+test("NOVA can explain the current simulated resource state without presenting it as telemetry",()=>{
+ const mission={started:true,phase:"active",day:2,resources:{oxygen:42,water:60,power:30,food:80,shield:95}};
+ const en=answerNova("What is my oxygen level?","en",mission);
+ assert.match(en.answer,/Day 3/);assert.match(en.answer,/42\/100/);assert.match(en.answer,/not a sensor reading/i);
+ const ar=answerNova("مستوى المياه عندي كام؟","ar",mission);
+ assert.match(ar.answer,/اليوم 3/);assert.match(ar.answer,/60 من 100/);assert.match(ar.answer,/ليست قراءة حساس/);
+});
+test("NOVA does not expose mission meters when the mission is not active",()=>{
+ const mission={started:false,phase:"briefing",day:0,resources:{oxygen:42}};
+ const r=answerNova("What is my oxygen level?","en",mission);
+ assert.doesNotMatch(r.answer,/42\/100/);
+});
