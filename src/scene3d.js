@@ -279,9 +279,12 @@ const onKeyDown = e => {
 };
 
 const onKeyUp = e => keys.delete(e.key.toLowerCase());
+const clearMovementInput = () => keys.clear();
 
 window.addEventListener("keydown", onKeyDown);
 window.addEventListener("keyup", onKeyUp);
+window.addEventListener("blur", clearMovementInput);
+document.addEventListener("visibilitychange", clearMovementInput);
 
 root.querySelectorAll("[data-move]").forEach(btn => {
   const set = (on) => {
@@ -369,6 +372,8 @@ return () => {
   window.visualViewport?.removeEventListener("resize",resize);
   window.removeEventListener("keydown", onKeyDown);
   window.removeEventListener("keyup", onKeyUp);
+  window.removeEventListener("blur", clearMovementInput);
+  document.removeEventListener("visibilitychange", clearMovementInput);
   document.removeEventListener("fullscreenchange", resize);
 
   if (activeXRSession) activeXRSession.end().catch(() => {});
