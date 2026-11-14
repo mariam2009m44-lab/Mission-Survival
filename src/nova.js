@@ -22,9 +22,27 @@ const KNOWLEDGE=[
 const normalize=value=>String(value||"").toLowerCase().normalize("NFKD").replace(/[\u064B-\u065F\u0670]/g,"").replace(/[أإآ]/g,"ا").replace(/ى/g,"ي").replace(/[\u200f\u200e]/g,"").replace(/[^\p{L}\p{N}\s-]/gu," ").replace(/\s+/g," ").trim();
 const STOPWORDS=new Set(["what","is","the","a","an","of","on","in","to","for","and","or","how","why","does","do","can","could","would","should","tell","me","about","explain","please","هل","ايه","إيه","ما","هو","هي","عن","على","في","من","ازاي","إزاي","ليه","كيف","ماذا","هل","ممكن","اشرح","لي","عايز","عاوزه","عاوز","اعرف","اعرفي","القمر","قمري","moon","lunar"]);
 const tokens=value=>normalize(value).split(" ").filter(token=>token.length>1&&!STOPWORDS.has(token));
-export function answerNova(question,language="en"){
+const MISSION_RESOURCE_TERMS={
+ oxygen:["oxygen","air","أكسجين","الأكسجين","هواء"],
+ water:["water","مياه","المياه"],
+ power:["power","energy","battery","طاقة","كهرباء","بطارية"],
+ food:["food","meal","greenhouse","غذاء","طعام","وجبات","صوبة"],
+ shield:["radiation","shield","protection","إشعاع","حماية","مأوى"]
+};
+function missionResourceContext(q,language,mission){
+ if(!mission?.started||!["active","debrief"].includes(mission.phase)||!mission.resources)return null;
+ const id=Object.entries(MISSION_RESOURCE_TERMS).find(([,terms])=>terms.some(term=>q.includes(normalize(term))))?.[0];
+ if(!id||!Number.isFinite(Number(mission.resources[id])))return null;
+ const value=Math.max(0,Math.min(100,Math.round(Number(mission.resources[id]))));
+ const day=Math.max(1,Math.min(5,Number(mission.day||0)+1));
+ const resourceNames={en:{oxygen:"oxygen",water:"water",power:"power",food:"food",shield:"crew-protection"},ar:{oxygen:"الأكسجين",water:"المياه",power:"الطاقة",food:"الغذاء",shield:"حماية الطاقم"}};
+ if(language==="ar")return "حالة المهمة الحالية — اليوم "+day+": مؤشر "+resourceNames.ar[id]+" داخل اللعبة هو "+value+" من 100. دي قيمة محاكاة تعليمية وليست قراءة حساس أو قياسًا حقيقيًا لقاعدة أو صحة أي شخص. قارني تأثير كل اختيار على باقي الموارد قبل اتخاذ القرار؛ NOVA تعرض حالة اللعبة فقط ولا تتحكم في أنظمة حقيقية.";
+ return "Current mission context — Day "+day+": the "+resourceNames.en[id]+" game meter is "+value+"/100. This is an illustrative simulation value, not a sensor reading, real habitat measurement or anyone's health data. Compare each option's effect on the other reserves before choosing; NOVA only reads the game state and does not control real systems.";
+}
+export function answerNova(question,language="en",mission=null){
  const q=normalize(question);
  if(!q)return null;
+ const missionContext=missionResourceContext(q,language,mission);
  const queryTokens=new Set(tokens(q));
  const ranked=KNOWLEDGE.map(item=>{
   let score=0;
@@ -39,6 +57,7 @@ export function answerNova(question,language="en"){
   return{item,score};
  }).sort((a,b)=>b.score-a.score);
  if(!ranked[0]||ranked[0].score<3){
+  if(missionContext)return{answer:missionContext,sources:[]};
   return{
    answer:language==="ar"
     ?"أنا NOVA، مساعد علوم القمر. أقدر أشرح القمر والجاذبية والفوهات والجليد المائي والأكسجين والطاقة الشمسية والإشعاع ومهمة القاعدة. مش لاقي إجابة موثقة لسؤالك بصيغته دي؛ جرّبي تقسيمه لسؤال أقصر أو اختاري سؤالًا من الاقتراحات. مش هخترع إجابة أو أخمن معلومة علمية من غير مصدر."
@@ -48,7 +67,7 @@ export function answerNova(question,language="en"){
  }
  const best=ranked[0];
  const sources=ranked.filter(x=>x.score>=Math.max(3,best.score-3)).flatMap(x=>x.item.sources).filter((x,i,a)=>a.findIndex(y=>y[1]===x[1])===i).slice(0,4);
- return{answer:best.item[language==="ar"?"ar":"en"],sources};
+ return{answer:missionContext?missionContext+"\\n\\n"+best.item[language==="ar"?"ar":"en"]:best.item[language==="ar"?"ar":"en"],sources};
 }
 export const NOVA_PROMPTS=[
 {en:"What is the Moon?",ar:"إيه هو القمر؟"},
