@@ -29,7 +29,7 @@ test("touch movement controls map all four directions to the expected keys", () 
 
 
 test("NOVA follows smoothly with its original relative offset and stable distance", () => {
-  assert.match(scene, /novaBaseOffset=new THREE\\.Vector3\\(1\\.55,0,-1\\.15\\)/);
+  assert.ok(scene.includes("novaBaseOffset=new THREE.Vector3(1.55,0,-1.15)"));
   assert.match(scene, /novaFollowYaw\+=followTurn/);
   assert.match(scene, /novaRotatedOffset\.copy\(novaBaseOffset\)\.applyAxisAngle\(novaUpAxis,novaFollowYaw\)/);
   assert.match(scene, /novaTargetPosition\.set\(px\+novaRotatedOffset\.x/);
