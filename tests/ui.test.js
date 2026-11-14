@@ -69,10 +69,16 @@ test("app completes junior commander onboarding, training, five mission decision
  assert.match(root.innerHTML,/Solar-support package/);
  assert.match(root.innerHTML,/Polar-science package/);
  assert.match(root.innerHTML,/Balanced mobility package/);
- assert.match(root.innerHTML,/Practice mode: answers are saved/);
+ assert.match(root.innerHTML,/Answer the final scenario correctly to apply one mission decision/);
  await action("oxygen-quiz",{question:"0",answer:"0"});
  assert.match(root.innerHTML,/Correct\. This is a planning value/);
+ await action("oxygen-quiz",{question:"2",answer:"1"});
+ assert.match(root.innerHTML,/Correct! The backup-reserve training decision was applied/);
+ assert.match(root.innerHTML,/\+14 Oxygen/);
  await action("water-quiz",{question:"0",answer:"0"});
+ await action("water-quiz",{question:"2",answer:"1"});
+ assert.match(root.innerHTML,/Correct! The training decision improved the simulated water reserve/);
+ assert.match(root.innerHTML,/\+14 Water/);
  assert.match(root.innerHTML,/Correct\. This hydration allocation/);
  assert.match(root.innerHTML,/SCIENCE BEHIND THIS DAY/);
  assert.match(root.innerHTML,/svs\.gsfc\.nasa\.gov\/4930/);
