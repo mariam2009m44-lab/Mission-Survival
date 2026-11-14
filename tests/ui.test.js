@@ -124,6 +124,7 @@ test("signing out preserves the local explorer profile and achievements",async()
  assert.ok(savedProfiles[0].state.missionArchive.length>=1);
  assert.ok(savedState.signedOut);
  await action("select-profile",{profileId:savedProfiles[0].id});
- assert.match(root.innerHTML,/tecnova-home/);
+ assert.match(root.innerHTML,/class="shell/);
+ await nav("report");
  assert.match(root.innerHTML,/MISSION HISTORY/);
 });
