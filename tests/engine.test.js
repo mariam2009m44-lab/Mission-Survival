@@ -1,24 +1,24 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {createMission,startMission,selectLandingSite,choose,nextDay,summary,analyzeMission,completeStationTask,resourceAlerts,applyResourceResponse,applyScenarioResponse} from "../src/engine.js";
+import {createMission,startMission,choose,nextDay,summary,analyzeMission,completeStationTask,resourceAlerts,applyResourceResponse,applyScenarioResponse} from "../src/engine.js";
 import {DAYS,SOURCES,MODULES} from "../src/data.js";
 test("the challenge is implemented as five distinct mission days",()=>{const m=startMission(createMission());assert.equal(DAYS.length,5);assert.equal(new Set(DAYS.map(d=>d.dayNumber)).size,5);assert.deepEqual(DAYS.map(d=>d.dayNumber),[1,2,3,4,5]);assert.deepEqual(Object.keys(m.resources).sort(),["food","oxygen","power","shield","water"]);assert.deepEqual(DAYS.map(d=>d.id),["launch","isru","solar-safety","water-recovery","food-strategy"]);assert.ok(DAYS.every(d=>d.choices.length===2));assert.match(DAYS[3].title,/Day 4/);assert.match(DAYS[4].title,/Day 5/);});
 test("difficulty modes have different starting reserves",()=>{assert.ok(createMission("training").resources.oxygen>createMission("standard").resources.oxygen);assert.ok(createMission("standard").resources.oxygen>createMission("expert").resources.oxygen);});
-test("a choice applies declared changes and moves to debrief",()=>{const m=startMission(createMission());m.site="malapert";m.siteName="Malapert Massif";const before={...m.resources};const r=choose(m,0);assert.equal(r.day,1);assert.equal(m.phase,"debrief");assert.equal(m.resources.power,before.power+30);assert.equal(m.resources.oxygen,before.oxygen);});
-test("a second choice is blocked until the next day",()=>{const m=startMission(createMission());m.site="malapert";choose(m,0);const after={...m.resources};assert.equal(choose(m,1),null);assert.deepEqual(m.resources,after);});
-test("a complete run generates a five-day report with one decision per day",()=>{const m=startMission(createMission());m.site="malapert";m.siteName="Malapert Massif";for(let d=0;d<DAYS.length;d++){const record=choose(m,0);assert.ok(record);assert.equal(record.day,d+1);if(d<DAYS.length-1)assert.equal(nextDay(m),true);}assert.equal(m.phase,"complete");assert.equal(m.result,"success");assert.equal(summary(m).decisions,5);assert.equal(summary(m).history[4].day,5);assert.equal(summary(m).xp,350);});
-test("critical resource failure interrupts the mission",()=>{const m=startMission(createMission("expert"));m.site="malapert";m.resources.oxygen=0;choose(m,0);assert.equal(m.phase,"complete");assert.equal(m.result,"interrupted");});
-test("all game resources remain between zero and one hundred",()=>{const m=startMission(createMission("training"));m.site="malapert";m.resources.power=98;choose(m,0);for(const v of Object.values(m.resources))assert.ok(v>=0&&v<=100);});
+test("a choice applies declared changes and moves to debrief",()=>{const m=startMission(createMission());const before={...m.resources};const r=choose(m,0);assert.equal(r.day,1);assert.equal(m.phase,"debrief");assert.equal(m.resources.power,before.power+30);assert.equal(m.resources.oxygen,before.oxygen);});
+test("a second choice is blocked until the next day",()=>{const m=startMission(createMission());choose(m,0);const after={...m.resources};assert.equal(choose(m,1),null);assert.deepEqual(m.resources,after);});
+test("a complete run generates a five-day report with one decision per day",()=>{const m=startMission(createMission());for(let d=0;d<DAYS.length;d++){const record=choose(m,0);assert.ok(record);assert.equal(record.day,d+1);if(d<DAYS.length-1)assert.equal(nextDay(m),true);}assert.equal(m.phase,"complete");assert.equal(m.result,"success");assert.equal(summary(m).decisions,5);assert.equal(summary(m).history[4].day,5);assert.equal(summary(m).xp,350);});
+test("critical resource failure interrupts the mission",()=>{const m=startMission(createMission("expert"));m.resources.oxygen=0;choose(m,0);assert.equal(m.phase,"complete");assert.equal(m.result,"interrupted");});
+test("all game resources remain between zero and one hundred",()=>{const m=startMission(createMission("training"));m.resources.power=98;choose(m,0);for(const v of Object.values(m.resources))assert.ok(v>=0&&v<=100);});
 test("illumination source is explicitly a model",()=>{const x=SOURCES.find(v=>v.id==="illumination");assert.match(x.limit,/model/i);assert.match(x.date,/2022/);});
 test("CRaTER coverage is correctly dated and qualified",()=>{const x=SOURCES.find(v=>v.id==="crater");assert.match(x.date,/30 Jun 2026/);assert.match(x.limit,/not direct readings/i);});
 test("Diviner coverage is the verified 2026 interval",()=>{const x=SOURCES.find(v=>v.id==="diviner");assert.match(x.date,/16 Mar–15 Jun 2026/);});
 test("the CRaTER primary file exposes verified detector-energy fields",()=>{const x=SOURCES.find(v=>v.id==="crater");assert.match(x.fields,/ENERGY.*keV/);assert.match(x.fields,/AMPL.*ADU/);});
 test("each training module has a three-choice knowledge check",()=>{assert.equal(MODULES.length,4);for(const module of MODULES){assert.equal(module.options.length,3);assert.equal(module.arOptions.length,3);assert.ok(module.answer>=0&&module.answer<3);assert.ok(module.question&&module.explain);}});
-test("sustainable commander badge requires all three sustainability actions",()=>{const m=startMission(createMission("training"));m.site="malapert";for(let i=0;i<DAYS.length;i++){const idx=DAYS[i].choices.findIndex(c=>c.id==="isru"||c.id==="water-recovery"||c.id==="greenhouse");choose(m,idx<0?0:idx);if(i<DAYS.length-1)nextDay(m);}assert.ok(summary(m).badges.some(b=>b.id==="sustainable-commander"));});
-test("launch payload cannot be selected before a landing region",()=>{const m=startMission(createMission());assert.equal(choose(m,0),null);m.site="nobile";assert.ok(choose(m,0));});
-test("final report preserves the selected candidate landing region",()=>{const m=startMission(createMission());m.site="malapert";m.siteName="Malapert Massif";for(let i=0;i<DAYS.length;i++){choose(m,0);if(i<DAYS.length-1)nextDay(m);}assert.equal(summary(m).siteName,"Malapert Massif");});
+test("sustainable commander badge requires all three sustainability actions",()=>{const m=startMission(createMission("training"));for(let i=0;i<DAYS.length;i++){const idx=DAYS[i].choices.findIndex(c=>c.id==="isru"||c.id==="water-recovery"||c.id==="greenhouse");choose(m,idx<0?0:idx);if(i<DAYS.length-1)nextDay(m);}assert.ok(summary(m).badges.some(b=>b.id==="sustainable-commander"));});
+test("the first mission decision is available immediately without a landing-site step",()=>{const m=startMission(createMission());assert.ok(choose(m,0));assert.equal(m.history.length,1);assert.equal(m.phase,"debrief");});
+test("final report records mission decisions without requiring a landing-site selection",()=>{const m=startMission(createMission());for(let i=0;i<DAYS.length;i++){assert.ok(choose(m,0));if(i<DAYS.length-1)nextDay(m);}assert.equal(summary(m).decisions,5);assert.equal(analyzeMission(m).timeline.filter(x=>x.kind==="decision").length,5);});
 test("station tasks reward learning and update only their declared resources once",()=>{const m=startMission(createMission("standard")),before={...m.resources};const result=completeStationTask(m,"oxygen");assert.equal(result.xp,25);assert.equal(m.xp,25);assert.equal(m.resources.oxygen,Math.min(100,before.oxygen+10));assert.equal(m.resources.power,before.power-8);assert.deepEqual(completeStationTask(m,"oxygen"),null);assert.equal(m.stationTasks.length,1);});
-test("station tasks can be completed during the decision-review pause",()=>{const m=startMission(createMission("standard"));m.site="malapert";choose(m,1);assert.equal(m.phase,"debrief");const beforePower=m.resources.power;const result=completeStationTask(m,"solar");assert.ok(result);assert.equal(result.xp,25);assert.equal(m.xp,75);assert.equal(m.resources.power,Math.min(100,beforePower+12));assert.equal(completeStationTask(m,"solar"),null);});
+test("station tasks can be completed during the decision-review pause",()=>{const m=startMission(createMission("standard"));choose(m,1);assert.equal(m.phase,"debrief");const beforePower=m.resources.power;const result=completeStationTask(m,"solar");assert.ok(result);assert.equal(result.xp,25);assert.equal(m.xp,75);assert.equal(m.resources.power,Math.min(100,beforePower+12));assert.equal(completeStationTask(m,"solar"),null);});
 test("station tasks reject unknown stations and missions that have not started or are complete",()=>{const m=createMission();assert.equal(completeStationTask(m,"oxygen"),null);startMission(m);m.phase="complete";assert.equal(completeStationTask(m,"solar"),null);m.phase="active";assert.equal(completeStationTask(m,"moon-base"),null);});
 test("all five station tasks preserve resource bounds",()=>{const m=startMission(createMission("training"));for(const id of ["habitat","oxygen","solar","greenhouse","rover"])assert.ok(completeStationTask(m,id));for(const value of Object.values(m.resources))assert.ok(value>=0&&value<=100);assert.equal(m.xp,125);});
 
@@ -59,7 +59,7 @@ test("mission analysis flags critical reserves while preserving all five systems
 
 test("mission analysis builds a chronological, transparent decision and recovery impact log",()=>{
  const m=startMission(createMission("standard"));
- m.site="malapert";
+ 
  choose(m,0);
  m.resources.oxygen=18;
  const response=applyResourceResponse(m,"oxygen","backup");
@@ -77,7 +77,7 @@ test("mission analysis builds a chronological, transparent decision and recovery
 });
 test("mission analysis keeps decision history usable when older saves lack recovery history",()=>{
  const m=startMission(createMission("standard"));
- m.site="malapert";
+ 
  choose(m,0);
  delete m.responseHistory;
  const result=analyzeMission(m);
@@ -112,7 +112,7 @@ test("starting a fresh mission clears the previous station impact log",()=>{
 
 test("mission impact timeline uses a stable event order within each mission day",()=>{
  const m=startMission(createMission("standard"));
- m.site="malapert";
+ 
  choose(m,0);
  m.resources.oxygen=18;
  applyResourceResponse(m,"oxygen","backup");
@@ -143,7 +143,6 @@ test("systems resilience rubric remains compatible with older or incomplete miss
 
 test("every listed science source has an explicit A–E provenance classification",()=>{assert.ok(SOURCES.length>=10);for(const source of SOURCES)assert.ok(["A","B","C","D","E"].includes(source.classification),source.id+" missing classification");assert.equal(SOURCES.find(x=>x.id==="donki").classification,"A");assert.equal(SOURCES.find(x=>x.id==="crater").classification,"B");assert.equal(SOURCES.find(x=>x.id==="diviner").classification,"B");assert.equal(SOURCES.find(x=>x.id==="illumination").classification,"C");assert.equal(SOURCES.find(x=>x.id==="card").classification,"C");});
 
-test("each landing-region strategy applies a distinct, reversible training cargo plan",()=>{
  const malapert=startMission(createMission("standard"));
  const nobile=startMission(createMission("standard"));
  const gerlache=startMission(createMission("standard"));
@@ -153,26 +152,22 @@ test("each landing-region strategy applies a distinct, reversible training cargo
  assert.equal(gerlache.resources.power,70);assert.equal(gerlache.resources.shield,100);assert.equal(gerlache.resources.food,75);
  assert.notDeepEqual(malapert.resources,nobile.resources);assert.notDeepEqual(nobile.resources,gerlache.resources);
 });
-test("landing plan can change before Day 1 and locks after the first decision",()=>{
  const m=startMission(createMission("standard"));
  assert.equal(selectLandingSite(m,"unknown"),null);
  assert.ok(selectLandingSite(m,"malapert"));assert.ok(selectLandingSite(m,"nobile"));
  assert.equal(m.site,"nobile");assert.equal(m.resources.power,57);assert.equal(m.resources.water,75);
  assert.ok(choose(m,0));assert.equal(selectLandingSite(m,"de-gerlache"),null);assert.equal(m.site,"nobile");
 });
-test("landing plan is included in report baseline and decision impact timeline",()=>{
  const m=startMission(createMission("standard"));selectLandingSite(m,"malapert");
  const report=analyzeMission(m);
  assert.equal(report.resources.find(x=>x.id==="power").start,77);assert.equal(report.resources.find(x=>x.id==="water").start,59);
  assert.equal(report.timeline[0].kind,"site");assert.equal(report.timeline[0].delta.power,12);assert.equal(report.timeline[0].delta.water,-6);
  assert.equal(summary(m).sitePlan.id,"malapert");
 });
-test("a new mission clears the selected landing plan and restores difficulty reserves",()=>{
  const m=startMission(createMission("standard"));selectLandingSite(m,"nobile");startMission(m);
  assert.equal(m.site,null);assert.equal(m.sitePlan,null);assert.equal(m.resources.water,65);assert.equal(m.resources.power,65);
 });
 
-test("switching a capped strategy restores the exact baseline and preserves station gains",()=>{
  const m=startMission(createMission("standard"));
  selectLandingSite(m,"de-gerlache");
  assert.equal(m.resources.shield,100);
