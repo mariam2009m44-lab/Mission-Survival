@@ -533,6 +533,9 @@ function mount() {
     }
   }
 
+  if (missionWorld) root.classList.add("mission-world");
+  else root.classList.remove("mission-world");
+
   if (root.dataset.ready) return;
   root.dataset.ready = "loading";
 
