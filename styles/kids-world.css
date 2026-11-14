@@ -551,3 +551,168 @@ html[dir="rtl"] .lunar-3d-stage .scene-pad::before{
     font-size:10px;
   }
 }
+
+
+/* Mobile-only two-thumb layout: movement on the physical left, camera/action on the right.
+   Desktop and laptop layouts intentionally keep their existing presentation. */
+@media(max-width:760px){
+  .lunar-3d-stage .scene-viewport{
+    --mobile-control-gap:8px;
+    min-height:390px;
+  }
+  .lunar-3d-stage .scene-pad{
+    left:calc(10px + env(safe-area-inset-left,0px))!important;
+    right:auto!important;
+    top:auto!important;
+    bottom:calc(12px + env(safe-area-inset-bottom,0px))!important;
+    transform:none!important;
+    width:max-content;
+    display:grid!important;
+    grid-template-columns:repeat(3,46px);
+    grid-template-rows:16px repeat(2,46px);
+    justify-items:center;
+    align-items:center;
+    gap:4px;
+    padding:7px;
+    border-radius:18px;
+    background:rgba(5,14,28,.72);
+    border:1px solid rgba(165,218,245,.3);
+  }
+  .lunar-3d-stage .scene-pad::before{
+    grid-column:1/-1;
+    grid-row:1;
+    width:100%;
+    padding:0;
+    font-size:9px;
+    line-height:16px;
+    letter-spacing:.12em;
+  }
+  .lunar-3d-stage .scene-pad>button{
+    grid-column:2;
+    grid-row:2;
+  }
+  .lunar-3d-stage .scene-pad>div{
+    display:contents!important;
+  }
+  .lunar-3d-stage .scene-pad>div button{
+    width:46px!important;
+    height:46px!important;
+    min-width:46px!important;
+    min-height:46px!important;
+  }
+  .lunar-3d-stage .scene-pad>div button:nth-child(1){grid-column:1;grid-row:3}
+  .lunar-3d-stage .scene-pad>div button:nth-child(2){grid-column:2;grid-row:3}
+  .lunar-3d-stage .scene-pad>div button:nth-child(3){grid-column:3;grid-row:3}
+
+  .lunar-3d-stage .scene-interact{
+    left:auto!important;
+    right:calc(10px + env(safe-area-inset-right,0px))!important;
+    inset-inline-start:auto!important;
+    inset-inline-end:calc(10px + env(safe-area-inset-right,0px))!important;
+    bottom:calc(16px + env(safe-area-inset-bottom,0px))!important;
+    transform:none!important;
+    width:auto;
+    max-width:calc(100% - 190px)!important;
+    min-height:54px;
+    gap:7px;
+    padding:6px 8px;
+    border-radius:16px;
+    justify-content:center;
+  }
+  .lunar-3d-stage .scene-interact button{
+    min-height:46px!important;
+    min-width:88px;
+    padding:9px 12px!important;
+    font-size:12px!important;
+    border-radius:12px!important;
+    touch-action:manipulation;
+  }
+  .lunar-3d-stage .scene-pad button,
+  .lunar-3d-stage .scene-interact button{
+    -webkit-tap-highlight-color:transparent;
+  }
+  .lunar-3d-stage .scene-pad button:active,
+  .lunar-3d-stage .scene-interact button:active{
+    filter:brightness(1.22);
+  }
+}
+@media(max-width:420px){
+  .lunar-3d-stage .scene-pad{
+    left:calc(7px + env(safe-area-inset-left,0px))!important;
+    bottom:calc(9px + env(safe-area-inset-bottom,0px))!important;
+    grid-template-columns:repeat(3,42px);
+    grid-template-rows:15px repeat(2,42px);
+    gap:3px;
+    padding:6px;
+  }
+  .lunar-3d-stage .scene-pad>div button{
+    width:42px!important;
+    height:42px!important;
+    min-width:42px!important;
+    min-height:42px!important;
+    font-size:18px!important;
+  }
+  .lunar-3d-stage .scene-interact{
+    right:calc(7px + env(safe-area-inset-right,0px))!important;
+    inset-inline-end:calc(7px + env(safe-area-inset-right,0px))!important;
+    bottom:calc(12px + env(safe-area-inset-bottom,0px))!important;
+    max-width:calc(100% - 166px)!important;
+    min-height:48px;
+    padding:4px;
+  }
+  .lunar-3d-stage .scene-interact b{display:none}
+  .lunar-3d-stage .scene-interact button{
+    min-width:78px;
+    min-height:42px!important;
+    padding:7px 9px!important;
+    font-size:11px!important;
+  }
+}
+@media(orientation:landscape) and (max-height:520px) and (max-width:900px){
+  .lunar-3d-stage .scene-viewport{
+    height:min(100svh,520px)!important;
+    min-height:320px!important;
+  }
+  .lunar-3d-stage .scene-pad{
+    left:calc(10px + env(safe-area-inset-left,0px))!important;
+    bottom:calc(8px + env(safe-area-inset-bottom,0px))!important;
+    grid-template-columns:repeat(3,40px);
+    grid-template-rows:14px repeat(2,40px);
+    gap:3px;
+    padding:5px;
+  }
+  .lunar-3d-stage .scene-pad>div button{
+    width:40px!important;
+    height:40px!important;
+    min-width:40px!important;
+    min-height:40px!important;
+  }
+  .lunar-3d-stage .scene-interact{
+    right:calc(10px + env(safe-area-inset-right,0px))!important;
+    inset-inline-end:calc(10px + env(safe-area-inset-right,0px))!important;
+    bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;
+    max-width:180px!important;
+  }
+}
+@media(max-width:760px){
+  .lunar-3d-stage:fullscreen .scene-pad,
+  .lunar-3d-stage.scene-immersive .scene-pad{
+    left:calc(10px + env(safe-area-inset-left,0px))!important;
+    right:auto!important;
+    top:auto!important;
+    bottom:calc(12px + env(safe-area-inset-bottom,0px))!important;
+    transform:none!important;
+    grid-template-columns:repeat(3,46px);
+    grid-template-rows:16px repeat(2,46px);
+  }
+  .lunar-3d-stage:fullscreen .scene-interact,
+  .lunar-3d-stage.scene-immersive .scene-interact{
+    left:auto!important;
+    right:calc(10px + env(safe-area-inset-right,0px))!important;
+    inset-inline-start:auto!important;
+    inset-inline-end:calc(10px + env(safe-area-inset-right,0px))!important;
+    bottom:calc(12px + env(safe-area-inset-bottom,0px))!important;
+    transform:none!important;
+    max-width:calc(100% - 190px)!important;
+  }
+}
