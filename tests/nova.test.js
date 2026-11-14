@@ -54,12 +54,12 @@ import {readFile} from "node:fs/promises";
 
 test("offline service worker precaches NOVA and rotates the cache",async()=>{
  const sw=await readFile(new URL("../service-worker.js",import.meta.url),"utf8");
- assert.match(sw,/lunar-outpost-app-v27/); 
+ assert.match(sw,/lunar-outpost-app-v28/); 
  assert.match(sw,/styles\/kids-comfort\.css/);
  assert.match(sw,/\.\/src\/nova\.js/);
  assert.match(sw,/\.\/src\/scene3d\.js/);
  assert.match(sw,/\.\/src\/mission-days\.js/);
- assert.match(sw,/\.\/vendor\/three\.module\.js/);
+ assert.match(sw,/\.\/vendor\/three\.module\.js/);\n assert.match(sw,/\.\/vendor\/three\.core\.js/);
  assert.match(sw,/assets\/stations\/habitat\.svg/);
  assert.match(sw,/astronaut-kids\.svg/);
  assert.match(sw,/cdn\.jsdelivr\.net/);
