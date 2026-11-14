@@ -162,7 +162,7 @@ function shell(content){
    <div class="crumb">${t("commander")} / <b>${esc(title).toUpperCase()}</b></div>
    <div class="top-actions">
     <span class="commander-mini"><span class="commander-mini-avatar avatar-${esc(s.commander?.avatar||"blue")}"></span><b>${esc(s.commander?.name||"Commander")}</b></span>
-    <button type="button" class="profile-switch-trigger" data-action="switch-profile" aria-label="${local("Sign out and switch explorer","تسجيل الخروج وتبديل المستكشف")}" title="${local("Switch explorer","تبديل المستكشف")}"><span aria-hidden="true">↪</span><span class="profile-switch-label">${local("Switch explorer","تبديل المستكشف")}</span></button>
+    <button type="button" class="profile-switch-trigger" data-action="switch-profile" aria-label="${local("Sign out and switch explorer","تسجيل الخروج وتبديل المستكشف")}" title="${local("Switch explorer","تبديل المستكشف")}"><span aria-hidden="true">↪</span><span class="profile-switch-label">${local("Sign out","تسجيل الخروج")}</span></button>
     <button type="button" class="profile-settings-trigger" data-action="settings" aria-label="${local("Settings","الإعدادات")}" title="${local("Settings","الإعدادات")}">⚙</button>
     <button class="sound-toggle" data-action="sound" aria-label="${local("Toggle sound effects","تشغيل أو إيقاف المؤثرات الصوتية")}" aria-pressed="${s.soundEnabled!==false}" title="${local("Sound effects","المؤثرات الصوتية")}">${s.soundEnabled===false?"♪̸":"♫"}</button>
     <button class="music-toggle" data-action="music" aria-label="${local("Toggle background music","تشغيل أو إيقاف الموسيقى الخلفية")}" aria-pressed="${s.musicEnabled!==false}" title="${local("Ambient space music","موسيقى فضائية هادئة")}">${s.musicEnabled===false?"♫̸":"♫"}</button>
