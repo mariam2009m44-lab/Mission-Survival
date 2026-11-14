@@ -1441,3 +1441,29 @@ html[dir="rtl"] .lunar-3d-stage .scene-pad::before{
  .lunar-3d-stage .scene-pad::before{height:14px!important;min-height:14px!important;line-height:14px!important}
  .lunar-3d-stage .scene-pad>button,.lunar-3d-stage .scene-pad>div button{width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important;max-height:42px!important}
 }
+
+/* TECNOVA 3D: clear, accessible forward control with press-and-hold movement */
+.scene-pad{position:relative!important;isolation:isolate!important}
+.scene-pad>button.scene-forward-button{
+ position:absolute!important;right:0!important;inset-inline-end:0!important;left:auto!important;inset-inline-start:auto!important;
+ bottom:calc(100% + 10px)!important;top:auto!important;transform:none!important;
+ display:grid!important;grid-template-columns:30px minmax(0,1fr)!important;grid-template-rows:1fr 1fr!important;
+ align-items:center!important;justify-items:start!important;gap:0 8px!important;
+ width:clamp(128px,38vw,154px)!important;max-width:calc(100vw - 28px)!important;
+ min-width:0!important;height:48px!important;min-height:48px!important;max-height:48px!important;
+ margin:0!important;padding:5px 10px!important;border:1px solid rgba(117,231,248,.78)!important;
+ border-radius:15px!important;background:linear-gradient(135deg,rgba(14,65,91,.97),rgba(19,39,76,.97))!important;
+ color:#f4fcff!important;box-shadow:0 8px 26px rgba(0,0,0,.42),0 0 18px rgba(72,211,242,.2)!important;
+ font:inherit!important;touch-action:none!important;user-select:none!important;z-index:35!important;
+}
+.scene-pad>button.scene-forward-button span{grid-column:1!important;grid-row:1/3!important;font-size:25px!important;line-height:1!important;color:#8df3ff!important}
+.scene-pad>button.scene-forward-button b{grid-column:2!important;grid-row:1!important;font:800 10px/1.1 system-ui,sans-serif!important;letter-spacing:.08em!important}
+.scene-pad>button.scene-forward-button small{grid-column:2!important;grid-row:2!important;font:8px/1.1 system-ui,sans-serif!important;color:#b9dce9!important}
+.scene-pad>button.scene-forward-button.is-moving,.scene-pad>button.scene-forward-button:active{background:linear-gradient(135deg,#146b88,#354a91)!important;border-color:#c1fbff!important;box-shadow:0 0 0 3px rgba(104,226,247,.22),0 0 25px rgba(70,210,245,.38)!important}
+.scene-pad>div button.is-moving{background:rgba(32,126,153,.92)!important;border-color:#a6f3ff!important}
+.scene-pad button:focus-visible{outline:3px solid #ffe28b!important;outline-offset:3px!important}
+@media(max-width:520px){
+ .scene-pad>button.scene-forward-button{width:132px!important;height:45px!important;min-height:45px!important;max-height:45px!important;bottom:calc(100% + 8px)!important;padding:4px 8px!important}
+ .scene-pad>button.scene-forward-button b{font-size:9px!important}
+ .scene-pad>button.scene-forward-button small{font-size:7px!important}
+}

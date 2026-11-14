@@ -177,6 +177,14 @@ const craftLabelCanvas=document.createElement("canvas");craftLabelCanvas.width=5
  const helmetRing=new THREE.Mesh(new THREE.TorusGeometry(.395,.035,10,48),accentMat);helmetRing.position.set(0,1.57,0);astronaut.add(helmetRing);
  const backpack=box(.62,.78,.3,dark,0,.9,-.42,astronaut);
  box(.38,.22,.09,accentMat,0,1.05,-.59,astronaut);
+ const lifeSupportTanks=[];
+ for(const side of [-1,1]){
+  const tank=cyl(.135,.135,.72,white,side*.22,.96,-.64,astronaut);
+  const tankCap=cyl(.145,.145,.09,accentMat,side*.22,1.36,-.64,astronaut);
+  lifeSupportTanks.push({tank,tankCap,side});
+ }
+ const lifeSupportStatus=new THREE.Mesh(new THREE.SphereGeometry(.055,12,10),new THREE.MeshStandardMaterial({color:0x79edbd,emissive:0x2fbd83,emissiveIntensity:1.1}));
+ lifeSupportStatus.position.set(.23,1.18,.31);astronaut.add(lifeSupportStatus);
  const animatedLimbs={arms:[],legs:[]};
  for(const x of [-.43,.43]){
   const armPivot=new THREE.Group();armPivot.position.set(x,1.13,0);armPivot.rotation.z=x*.45;astronaut.add(armPivot);
@@ -366,9 +374,10 @@ root.querySelectorAll("[data-move]").forEach(btn => {
   const set = (on) => {
     const dir = btn.dataset.move;
     const key = { forward: "w", back: "s", left: "a", right: "d" }[dir];
-
     if (on) keys.add(key);
     else keys.delete(key);
+    btn.setAttribute("aria-pressed", String(on));
+    btn.classList.toggle("is-moving", on);
   };
 
   btn.addEventListener("pointerdown", e => {
@@ -434,6 +443,8 @@ const animate = () => {
   roverWheels.forEach((wheel,index)=>{wheel.rotation.x+=moving?0:0;});
   mastPivot.rotation.y=Math.sin(t*.42)*.62;
   roverLampMat.emissiveIntensity=.85+Math.sin(t*2.1)*.35;
+  lifeSupportStatus.material.emissiveIntensity=.8+Math.sin(t*3.4)*.55;
+  lifeSupportTanks.forEach(({tankCap,side})=>{tankCap.rotation.y=Math.sin(t*1.4+side)*.08;});
   beacon.intensity = 17 + Math.sin(t * 2.4) * 5;
   craftLamp.intensity = 2.4 + Math.sin(t * 2.8) * .8;
 
@@ -544,7 +555,7 @@ function mount() {
       (uiAr ? "امشي ناحية اللافتات المضيئة، ثم اضغطي تفاعل لتتعلمي مع NOVA" : "Follow the glowing signs, then interact to learn with NOVA") +
       '</small></div><div class="scene-interact"><b data-scene-nearby>STATION</b><button type="button" data-scene-interact aria-label="Interact with lunar station">' +
       (uiAr ? "تفاعل ↗" : "INTERACT ↗") +
-      '</button></div><div class="scene-pad" aria-label="Movement controls"><button data-move="forward" aria-label="Move forward">▲</button><div><button data-move="left" aria-label="Move left">◀</button><button data-move="back" aria-label="Move back">▼</button><button data-move="right" aria-label="Move right">▶</button></div></div></div><div class="scene-toolbar"><div class="scene-focus"><button class="active" data-scene-focus="base">' +
+      '</button></div><div class="scene-pad" aria-label="Movement controls"><button type="button" class="scene-forward-button" data-move="forward" aria-label="Move forward" aria-pressed="false"><span aria-hidden="true">▲</span><b>' + (uiAr ? "للأمام" : "FORWARD") + '</b><small>' + (uiAr ? "اضغطي مطولًا للتحرك" : "HOLD TO WALK") + '</small></button><div><button type="button" data-move="left" aria-label="Move left" aria-pressed="false">◀</button><button type="button" data-move="back" aria-label="Move backward" aria-pressed="false">▼</button><button type="button" data-move="right" aria-label="Move right" aria-pressed="false">▶</button></div></div></div><div class="scene-toolbar"><div class="scene-focus"><button class="active" data-scene-focus="base">' +
       (uiAr ? "القاعدة" : "BASE") +
       '</button><button data-scene-focus="habitat">' +
       (uiAr ? "السكن" : "HABITAT") +
