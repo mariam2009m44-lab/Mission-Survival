@@ -37,7 +37,7 @@ function addStylesFallback(root,uiAr=false){
 }
 function makeScene(THREE,root){
  const uiAr=(()=>{try{return JSON.parse(localStorage.getItem("lunar-outpost-trainer-v2")||"{}").language==="ar";}catch{return false;}})();
- const canvas=root.querySelector("canvas");const scene=new THREE.Scene();scene.background=new THREE.Color(0x070d18);scene.fog=new THREE.FogExp2(0x070d18,.012);
+ const canvas=root.querySelector("canvas");canvas?.setAttribute("tabindex","0");canvas?.setAttribute("aria-label",uiAr?"مشهد استكشاف القاعدة القمرية ثلاثي الأبعاد":"3D lunar outpost exploration scene");const scene=new THREE.Scene();scene.background=new THREE.Color(0x070d18);scene.fog=new THREE.FogExp2(0x070d18,.012);
  const camera=new THREE.PerspectiveCamera(43,1,.1,180);camera.position.set(15,12,19);
  const compactDevice=window.matchMedia("(max-width: 760px)").matches||(navigator.deviceMemory&&navigator.deviceMemory<=4);
  const renderer=new THREE.WebGLRenderer({canvas,antialias:!compactDevice,alpha:false,powerPreference:"low-power",stencil:false,preserveDrawingBuffer:false});
@@ -199,7 +199,7 @@ function makeScene(THREE,root){
  const activePointers=new Map();let pinchDistance=0;canvas.style.touchAction="none";
  const pointerDistance=()=>{const points=[...activePointers.values()];return points.length<2?0:Math.hypot(points[0].x-points[1].x,points[0].y-points[1].y);};
  const releasePointer=e=>{activePointers.delete(e.pointerId);drag=activePointers.size===1;if(drag){const point=[...activePointers.values()][0];lastX=point.x;lastY=point.y;}pinchDistance=activePointers.size===2?pointerDistance():0;};
- canvas.addEventListener("pointerdown",e=>{activePointers.set(e.pointerId,{x:e.clientX,y:e.clientY});try{canvas.setPointerCapture(e.pointerId);}catch{}if(activePointers.size===1){drag=true;lastX=e.clientX;lastY=e.clientY;}else{drag=false;pinchDistance=pointerDistance();}});
+ canvas.addEventListener("pointerdown",e=>{canvas.focus({preventScroll:true});activePointers.set(e.pointerId,{x:e.clientX,y:e.clientY});try{canvas.setPointerCapture(e.pointerId);}catch{}if(activePointers.size===1){drag=true;lastX=e.clientX;lastY=e.clientY;}else{drag=false;pinchDistance=pointerDistance();}});
  canvas.addEventListener("pointermove",e=>{if(!activePointers.has(e.pointerId))return;activePointers.set(e.pointerId,{x:e.clientX,y:e.clientY});if(activePointers.size>=2){const next=pointerDistance();if(pinchDistance)radius=clamp(radius+(pinchDistance-next)*.025,7,34);pinchDistance=next;cameraUpdate();return;}if(!drag)return;azimuth-=(e.clientX-lastX)*.006;polar=clamp(polar+(e.clientY-lastY)*.005,.38,1.48);lastX=e.clientX;lastY=e.clientY;cameraUpdate();});
  canvas.addEventListener("pointerup",releasePointer);canvas.addEventListener("pointercancel",releasePointer);canvas.addEventListener("lostpointercapture",releasePointer);
  canvas.addEventListener("wheel",e=>{e.preventDefault();radius=clamp(radius+e.deltaY*.018,7,34);cameraUpdate();},{passive:false});
@@ -231,7 +231,7 @@ function makeScene(THREE,root){
 
 function updateMovement(dt) {
   if(autoWalkTarget){const dx=autoWalkTarget.position.x-astronaut.position.x,dz=autoWalkTarget.position.z-astronaut.position.z,distance=Math.hypot(dx,dz);if(distance<1.85){const reached=autoWalkTarget;autoWalkTarget=null;if(interactWhenArrived){nearby=reached;interactWhenArrived=false;if(interactWrap)interactWrap.hidden=false;const nearbyLabel=root.querySelector("[data-scene-nearby]");if(nearbyLabel)nearbyLabel.textContent=uiAr?reached.ar:reached.name;interact();}else setStatus(uiAr?"وصلنا للمحطة! اضغطي تفاعل لبدء التحدي":"Station reached! Press INTERACT to start the challenge");}else{const step=Math.min(moveSpeed*dt,distance-1.55),nx=dx/distance,nz=dz/distance;astronaut.position.x=clamp(astronaut.position.x+nx*step,-21,21);astronaut.position.z=clamp(astronaut.position.z+nz*step,-21,21);astronaut.rotation.y=Math.atan2(nx,nz);followPlayer=true;}}
-  else{let x=(keys.has("d")||keys.has("arrowright")?1:0)-(keys.has("a")||keys.has("arrowleft")?1:0)+moveX;let z=(keys.has("w")||keys.has("arrowup")?1:0)-(keys.has("s")||keys.has("arrowdown")?1:0)+moveZ;const length=Math.hypot(x,z);if(length>0.01){x/=length;z/=length;const dx=x*Math.cos(azimuth)+z*Math.sin(azimuth);const dz=-x*Math.sin(azimuth)+z*Math.cos(azimuth);astronaut.position.x=clamp(astronaut.position.x+dx*moveSpeed*dt,-21,21);astronaut.position.z=clamp(astronaut.position.z+dz*moveSpeed*dt,-21,21);astronaut.rotation.y=Math.atan2(dx,dz);followPlayer=true;}}
+  else{let x=(keys.has("d")||keys.has("arrowright")?1:0)-(keys.has("a")||keys.has("arrowleft")?1:0)+moveX;let z=(keys.has("w")||keys.has("arrowup")?1:0)-(keys.has("s")||keys.has("arrowdown")?1:0)+moveZ;const length=Math.hypot(x,z);if(length>0.01){x/=length;z/=length;const dx=x*Math.cos(azimuth)-z*Math.sin(azimuth);const dz=-x*Math.sin(azimuth)-z*Math.cos(azimuth);astronaut.position.x=clamp(astronaut.position.x+dx*moveSpeed*dt,-21,21);astronaut.position.z=clamp(astronaut.position.z+dz*moveSpeed*dt,-21,21);astronaut.rotation.y=Math.atan2(dx,dz);followPlayer=true;}}
 
   const px = astronaut.position.x;
   const pz = astronaut.position.z;
