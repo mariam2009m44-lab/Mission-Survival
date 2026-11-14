@@ -165,3 +165,9 @@ test("NOVA explains water recovery and distinguishes ISS results from lunar guar
  assert.match(en.answer,/never drink untreated wastewater/i);
  assert.match(ar.answer,/مش ضمان لقاعدة على القمر/);
 });
+
+test("NOVA launcher exposes a valid expanded state without malformed HTML quotes",async()=>{
+ const app=await readFile(new URL("../src/main.js",import.meta.url),"utf8");
+ assert.ok(app.includes(`aria-expanded="'+String(novaOpen)+'"><img`));
+ assert.ok(!app.includes(`aria-expanded="'+String(novaOpen)+'""><img`));
+});
