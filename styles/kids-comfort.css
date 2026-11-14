@@ -1,0 +1,128 @@
+/* TECNOVA — Junior Explorer comfort layer
+   A calmer, clearer and more playful interface for younger learners. */
+:root{
+  --junior-ink:#f7f9ff;
+  --junior-muted:#c0cde2;
+  --junior-line:rgba(190,218,248,.22);
+  --junior-mint:#8ef0df;
+  --junior-gold:#ffe09a;
+}
+.kid-home{
+  width:min(100%,1440px);
+  margin-inline:auto;
+  padding:clamp(14px,2.4vw,30px) clamp(12px,2.2vw,28px) 28px;
+  min-height:100svh;
+}
+.kid-header{gap:12px;flex-wrap:wrap;margin-bottom:clamp(16px,2vw,24px)}
+.tecnova-brand b{font-size:clamp(15px,2vw,19px);letter-spacing:.08em}
+.tecnova-brand small{font-size:10px;letter-spacing:.08em}
+.tecnova-day{min-height:38px;padding:9px 14px;font-size:11px;font-weight:800}
+.kid-hero{
+  display:grid;
+  grid-template-columns:minmax(0,1.25fr) minmax(190px,.75fr);
+  align-items:center;
+  gap:12px;
+  min-height:clamp(270px,30vw,350px);
+  padding:clamp(22px,4vw,46px)!important;
+}
+.kid-hero-copy h1{font-size:clamp(27px,4.2vw,48px);line-height:1.16;margin:10px 0 14px}
+.kid-hero-copy>p:not(.eyebrow){max-width:650px;color:#d4e2f5;font-size:clamp(14px,1.4vw,17px);line-height:1.85}
+.kid-hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.kid-hero-actions button{min-height:52px;padding:12px 18px;font-size:13px}
+.kid-secondary{
+  border:1px solid rgba(190,218,248,.32);
+  background:rgba(255,255,255,.075);
+  color:#f5f8ff;
+  box-shadow:inset 0 1px rgba(255,255,255,.08);
+}
+.kid-safe-note{display:block;margin-top:16px;color:#b6c8df;font-size:11px;line-height:1.6}
+.kid-hero-art{min-height:210px;position:relative;display:grid;place-items:center}
+.kid-astronaut{font-size:clamp(76px,10vw,124px);filter:drop-shadow(0 12px 20px rgba(0,0,0,.28));animation:kid-float 4.5s ease-in-out infinite}
+.kid-planet{width:clamp(105px,13vw,165px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 32% 25%,#f5fbff,#8ac6dc 34%,#5276a7 68%,#253d68 100%);box-shadow:inset -18px -16px 28px rgba(5,18,43,.48),0 0 48px rgba(122,203,233,.24)}
+.kid-quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin:18px 0}
+.kid-quick-card{
+  position:relative;min-width:0;min-height:150px;padding:17px 16px;
+  display:flex;flex-direction:column;align-items:flex-start;gap:8px;
+  text-align:start;border:1px solid var(--junior-line);border-radius:20px;
+  background:linear-gradient(150deg,rgba(29,53,82,.97),rgba(16,31,53,.98));
+  color:var(--junior-ink);box-shadow:0 12px 28px rgba(0,0,0,.16),inset 0 1px rgba(255,255,255,.06);
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.kid-quick-card:hover{transform:translateY(-3px);border-color:rgba(142,240,223,.55);box-shadow:0 16px 32px rgba(0,0,0,.22)}
+.kid-quick-icon{width:46px;height:46px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(145deg,rgba(112,220,226,.2),rgba(183,165,255,.18));font-size:25px}
+.kid-quick-card b{font-size:14px;line-height:1.45}
+.kid-quick-card small{font-size:11px;line-height:1.55;color:var(--junior-muted)}
+.kid-quick-card em{position:absolute;inset-inline-end:15px;top:15px;color:#a8f0e7;font-size:18px;font-style:normal}
+.kid-progress-panel,.kid-resource-panel{
+  padding:clamp(17px,2.3vw,25px);border:1px solid var(--junior-line);border-radius:21px;
+  background:linear-gradient(150deg,rgba(23,43,68,.96),rgba(13,27,47,.98));
+  box-shadow:0 14px 34px rgba(0,0,0,.15),inset 0 1px rgba(255,255,255,.05);
+  margin-top:16px;
+}
+.kid-progress-heading,.kid-section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.kid-progress-heading h2,.kid-section-heading h2{font-size:clamp(17px,2vw,22px);line-height:1.4;margin:5px 0;color:#f6f8ff}
+.kid-progress-count{min-width:48px;height:48px;display:grid;place-items:center;border-radius:15px;background:rgba(142,240,223,.13);border:1px solid rgba(142,240,223,.28);color:#a7f3e7;font-weight:900}
+.kid-progress-track{height:12px;border-radius:99px;background:rgba(188,208,238,.16);overflow:hidden;margin:17px 0 9px}
+.kid-progress-track i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#69ded5,#8fa9ff,#c0a4ff);box-shadow:0 0 16px rgba(112,220,226,.25)}
+.kid-progress-foot{display:flex;justify-content:space-between;gap:10px;color:var(--junior-muted);font-size:11px}
+.kid-resource-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px;margin-top:15px}
+.kid-resource{padding:13px;border:1px solid rgba(190,218,248,.14);border-radius:15px;background:rgba(255,255,255,.045)}
+.kid-resource>div{display:flex;justify-content:space-between;align-items:center;gap:6px;color:#dbe6f5;font-size:11px}
+.kid-resource b{color:#fff;font-size:13px}
+.kid-resource>i{display:block;height:8px;margin-top:11px;border-radius:99px;background:rgba(188,208,238,.16);overflow:hidden}
+.kid-resource>i>span{display:block;height:100%;border-radius:inherit}
+.kid-nova-hint{display:flex;align-items:center;gap:14px;margin:17px 0;padding:15px 18px;border:1px solid rgba(142,240,223,.25);border-radius:19px;background:linear-gradient(110deg,rgba(29,83,91,.42),rgba(39,48,91,.46))}
+.kid-nova-hint img{width:58px;height:58px;object-fit:contain;flex:0 0 auto}
+.kid-nova-hint>div{min-width:0;flex:1}
+.kid-nova-hint b{font-size:13px;color:#eafffb}
+.kid-nova-hint p{margin:5px 0 0;color:#c4d5e6;font-size:11px;line-height:1.6}
+.kid-nova-hint button{min-height:44px;padding:10px 14px;border:1px solid rgba(142,240,223,.35);border-radius:13px;background:rgba(112,220,226,.14);color:#c9fff5;font-size:11px;font-weight:900}
+.tecnova-bottom-nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin-top:18px;padding:9px;border:1px solid var(--junior-line);border-radius:19px}
+.tecnova-bottom-nav button{min-height:58px;display:grid;place-items:center;gap:3px;border-radius:13px;color:#dce8f7}
+.tecnova-bottom-nav button span{font-size:19px}
+.tecnova-bottom-nav button b{font-size:10px}
+.tecnova-bottom-nav button:active,.kid-quick-card:active,.kid-hero-actions button:active{transform:scale(.98)}
+.kid-home button{touch-action:manipulation}
+.kid-home button:focus-visible{outline:3px solid #ffe09a!important;outline-offset:3px!important}
+@keyframes kid-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@media(max-width:850px){
+ .kid-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .kid-resource-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:620px){
+ .kid-home{padding:12px 12px max(20px,env(safe-area-inset-bottom))}
+ .kid-header{align-items:flex-start}
+ .tecnova-day{font-size:10px;padding:8px 10px}
+ .kid-hero{grid-template-columns:minmax(0,1fr);padding:21px 18px!important;gap:0;min-height:0}
+ .kid-hero-copy h1{font-size:clamp(26px,8vw,34px);max-width:13ch}
+ .kid-hero-copy>p:not(.eyebrow){font-size:14px;line-height:1.8}
+ .kid-hero-art{min-height:125px;grid-row:1}
+ .kid-astronaut{font-size:76px}
+ .kid-planet{width:105px}
+ .kid-hero-actions{display:grid;grid-template-columns:1fr 1fr}
+ .kid-hero-actions button{padding:10px 9px;font-size:11px}
+ .kid-quick-grid{gap:9px;margin:12px 0}
+ .kid-quick-card{min-height:140px;padding:13px;border-radius:17px}
+ .kid-quick-card b{font-size:12px}
+ .kid-quick-card small{font-size:10px}
+ .kid-progress-panel,.kid-resource-panel{padding:15px;border-radius:17px}
+ .kid-resource-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .kid-resource{padding:11px}
+ .kid-nova-hint{align-items:flex-start;gap:10px;padding:12px}
+ .kid-nova-hint img{width:44px;height:44px}
+ .kid-nova-hint button{align-self:center;padding:9px;font-size:10px}
+ .tecnova-bottom-nav{position:sticky;bottom:max(8px,env(safe-area-inset-bottom));z-index:10;gap:3px;padding:6px;background:rgba(10,22,39,.94);backdrop-filter:blur(18px);box-shadow:0 8px 28px rgba(0,0,0,.32)}
+ .tecnova-bottom-nav button{min-height:52px}
+ .tecnova-bottom-nav button span{font-size:17px}
+ .tecnova-bottom-nav button b{font-size:9px}
+}
+@media(max-width:360px){
+ .kid-hero-actions{grid-template-columns:1fr}
+ .kid-nova-hint{flex-wrap:wrap}
+ .kid-nova-hint button{width:100%}
+ .tecnova-bottom-nav button b{font-size:8px}
+}
+@media(prefers-reduced-motion:reduce){
+ .kid-astronaut{animation:none}
+ .kid-quick-card:hover{transform:none}
+}
