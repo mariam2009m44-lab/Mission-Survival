@@ -98,3 +98,21 @@ test("mobile cockpit v2 has dedicated compact rules for narrow phones and landsc
  assert.match(cockpit,/@media\(max-width:360px\)/);
  assert.match(cockpit,/@media\(orientation:landscape\) and \(max-height:520px\) and \(max-width:900px\)/);
 });
+
+
+test("3D movement keys are cleared when the app loses focus or is backgrounded",async()=>{
+ const scene=await readFile(new URL("../src/scene3d.js",import.meta.url),"utf8");
+ assert.match(scene,/const clearMovementInput = \(\) => keys\.clear\(\)/);
+ assert.match(scene,/window\.addEventListener\("blur", clearMovementInput\)/);
+ assert.match(scene,/document\.addEventListener\("visibilitychange", clearMovementInput\)/);
+ assert.match(scene,/window\.removeEventListener\("blur", clearMovementInput\)/);
+ assert.match(scene,/document\.removeEventListener\("visibilitychange", clearMovementInput\)/);
+});
+
+test("landscape movement buttons retain larger touch targets and visible keyboard focus",async()=>{
+ const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");
+ const refinement=css.slice(css.lastIndexOf("Landscape touch refinement"));
+ assert.match(refinement,/grid-template-columns:repeat\(3,42px\)!important/);
+ assert.match(refinement,/min-height:42px!important/);
+ assert.match(refinement,/focus-visible/);
+});
