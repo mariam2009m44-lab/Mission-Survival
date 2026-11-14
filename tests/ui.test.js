@@ -1,8 +1,11 @@
 import test from "node:test";
+import {webcrypto} from "node:crypto";
 import assert from "node:assert/strict";
 const root={innerHTML:"",listeners:{},addEventListener(type,handler){this.listeners[type]=handler;}};
 const storage=new Map();
-Object.defineProperty(globalThis,"document",{configurable:true,value:{querySelector:selector=>selector==="#app"?root:selector==="#commander-name"?{value:"Test Commander"}:null,documentElement:{}}});
+let loginPin="123456";
+globalThis.crypto=webcrypto;
+Object.defineProperty(globalThis,"document",{configurable:true,value:{querySelector:selector=>selector==="#app"?root:selector==="#commander-name"?{value:"Test Commander"}:selector==="#profile-pin"||selector==="#profile-pin-confirm"?{value:"123456"}:selector==="#login-pin"?{value:loginPin}:null,documentElement:{}}});
 Object.defineProperty(globalThis,"window",{configurable:true,value:{addEventListener(){},scrollTo(){},confirm:()=>true}});
 Object.defineProperty(globalThis,"navigator",{configurable:true,value:{serviceWorker:{register:async()=>({})}}});
 Object.defineProperty(globalThis,"location",{configurable:true,value:{protocol:"file:"}});
@@ -126,7 +129,7 @@ test("signing out preserves the local explorer profile and achievements",async()
  const savedState=JSON.parse(storage.get("lunar-outpost-trainer-v2"));
  const savedProfiles=JSON.parse(storage.get("tecnova-local-profiles-v1"));
  assert.ok(savedProfiles.length>=1);
- assert.ok(savedProfiles[0].state.commander);
+ assert.ok(savedProfiles[0].state.commander);\n assert.ok(savedProfiles[0].security?.salt);\n assert.ok(savedProfiles[0].security?.hash);
  assert.ok(savedProfiles[0].state.missionArchive.length>=1);
  assert.ok(savedState.signedOut);
  await action("select-profile",{profileId:savedProfiles[0].id});

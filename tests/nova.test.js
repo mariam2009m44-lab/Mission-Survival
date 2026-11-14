@@ -142,7 +142,7 @@ test("NOVA responds safely to unsupported questions without pretending to be gen
  assert.ok(result.sources.length>0);
 });
 
-test("TECNOVA includes a device-local profile portal, spacecraft selection and install help",async()=>{const app=await readFile(new URL("../src/main.js",import.meta.url),"utf8");const storage=await readFile(new URL("../src/storage.js",import.meta.url),"utf8");assert.match(app,/function accountGate\(\)/);assert.match(app,/function vehiclePicker\(\)/);assert.match(app,/data-action="select-profile"/);assert.match(app,/data-action="new-journey"/);assert.match(app,/function installHelpOverlay\(\)/);assert.match(storage,/tecnova-local-profiles-v1/);});
+test("TECNOVA includes a device-local profile portal, spacecraft selection and install help",async()=>{const app=await readFile(new URL("../src/main.js",import.meta.url),"utf8");const storage=await readFile(new URL("../src/storage.js",import.meta.url),"utf8");assert.match(app,/function accountGate\(\)/);assert.match(app,/function vehiclePicker\(\)/);assert.match(app,/data-action="choose-profile"/);assert.match(app,/data-action="new-journey"/);assert.match(app,/function installHelpOverlay\(\)/);assert.match(storage,/tecnova-local-profiles-v1/);});
 test("NOVA launcher is available during intro, guide and profile setup",async()=>{
  const app=await readFile(new URL("../src/main.js",import.meta.url),"utf8");
  assert.match(app,/if\(!s\.introSeen\)\{app\.innerHTML=spaceIntro\(\)\+installHelpOverlay\(\)\+novaWidget\(\)/);

@@ -11,7 +11,9 @@ test("player can reach sign-out and settings from the main application header", 
   assert.match(main, /class="profile-switch-trigger" data-action="switch-profile"/);
   assert.match(main, /class="profile-settings-trigger" data-action="settings"/);
   assert.match(main, /case"switch-profile"/);
-  assert.match(main, /case"select-profile"/);
+  assert.match(main, /case"choose-profile"/);
+  assert.match(main, /case"unlock-profile"/);
+  assert.match(main, /verifyProfileCredential/);
 });
 
 test("new explorers can sign in to the local profile portal and choose an astronaut and vehicle", () => {
