@@ -10,7 +10,7 @@ export function completeStationTask(m,id){if(!m||!m.started||!["active","debrief
 export function nextDay(m){if(!m||m.phase!=="debrief"||m.day>=DAYS.length-1)return false;m.day++;m.phase="active";return true;}
 export function badges(m){const ids=m.history.map(x=>x.choiceId);const earned=[];if(m.resources.shield>90)earned.push({id:"crew-guardian",en:"Crew Guardian",ar:"حارس الطاقم",icon:"🛡️"});if(m.history.every(x=>Math.min(x.before.power,x.after.power)>=30))earned.push({id:"energy-engineer",en:"Energy Engineer",ar:"مهندس الطاقة",icon:"⚡"});if(ids.includes("isru")&&ids.includes("water-recovery")&&ids.includes("greenhouse"))earned.push({id:"sustainable-commander",en:"Sustainable Commander",ar:"القائد المستدام",icon:"🌱",hidden:true});return earned;}
 
-const RESOURCE_RESPONSES={
+export const RESOURCE_RESPONSES={
  oxygen:{
   backup:{delta:{oxygen:14,power:-6},en:"Switch to the backup oxygen reserve",ar:"التحويل إلى احتياطي الأكسجين",enWhy:"The simulation uses stored backup oxygen. Power is consumed by the life-support system.",arWhy:"تستخدم المحاكاة احتياطي الأكسجين المخزن، مع استهلاك طاقة لتشغيل نظام دعم الحياة."},
   inspect:{delta:{oxygen:8,power:-3},en:"Inspect the habitat life-support loop",ar:"فحص دورة دعم الحياة في السكن",enWhy:"The crew checks the simulated air loop and isolates the issue. This is a game action, not a real operating procedure.",arWhy:"يفحص الطاقم دورة الهواء داخل المحاكاة ويعزل المشكلة. ده إجراء داخل اللعبة وليس تعليمات تشغيل حقيقية."}
@@ -34,7 +34,7 @@ const RESOURCE_RESPONSES={
 };
 export function resourceAlerts(m){
  if(!m?.resources)return [];
- return RESOURCES.filter(r=>m.resources[r.id]<30).map(r=>({id:r.id,value:m.resources[r.id],severity:m.resources[r.id]<15?"critical":"warning",responses:RESOURCE_RESPONSES[r.id]}));
+ return RESOURCES.filter(r=>m.resources[r.id]<30).map(r=>({id:r.id,value:m.resources[r.id],severity:m.resources[r.id]<15?"critical":"warning",responses:RESOURCE_RESPONSES[r.id],handled:Array.isArray(m.responseHistory)&&m.responseHistory.some(x=>x.key===m.day+":"+r.id)}));
 }
 export function applyResourceResponse(m,resourceId,actionId){
  if(!m?.started||!["active","debrief"].includes(m.phase)||!Object.hasOwn(RESOURCE_RESPONSES,resourceId))return null;
