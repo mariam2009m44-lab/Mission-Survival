@@ -24,3 +24,11 @@ test("touch movement controls map all four directions to the expected keys", () 
   assert.match(scene, /btn\.addEventListener\("pointercancel", \(\) => set\(false\)\)/);
   assert.match(scene, /btn\.addEventListener\("lostpointercapture", \(\) => set\(false\)\)/);
 });
+
+
+test("NOVA turns with the astronaut and stays beside the player relative to heading", () => {
+  assert.match(scene, /applyAxisAngle\(new THREE\.Vector3\(0, 1, 0\), astronaut\.rotation\.y\)/);
+  assert.match(scene, /astronaut\.rotation\.y - nova\.rotation\.y/);
+  assert.match(scene, /btn\.style\.touchAction = "none"/);
+  assert.match(scene, /pointerleave/);
+});
