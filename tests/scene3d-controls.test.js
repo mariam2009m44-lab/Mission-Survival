@@ -119,3 +119,15 @@ test("3D scene respects live reduced-motion preferences without disabling walkin
   assert.match(scene, /astronaut\.position\.y=\.035\+\(reducedMotion\?0:/);
   assert.match(scene, /const ambientMotion=reducedMotion\?0:1/);
 });
+
+
+test("3D movement pad and station interaction occupy opposite corners at every viewport size",()=>{
+  const finalRules=baseCss.slice(baseCss.lastIndexOf("/* Final 3D control layout:"));
+  assert.ok(finalRules.includes("right:calc(14px + env(safe-area-inset-right,0px))!important"));
+  assert.ok(finalRules.includes("left:calc(14px + env(safe-area-inset-left,0px))!important"));
+  assert.match(finalRules,/grid-template-areas:"\. forward \." "left back right"!important/);
+  assert.match(finalRules,/@media\(max-width:760px\)/);
+  assert.match(finalRules,/@media\(max-width:360px\)/);
+  assert.match(finalRules,/orientation:landscape/);
+  assert.match(finalRules,/\.scene-forward-button b,[\s\S]*?display:none!important/);
+});
