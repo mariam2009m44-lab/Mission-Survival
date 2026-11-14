@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {createMission,startMission,choose,nextDay,summary,analyzeMission,completeStationTask,resourceAlerts,applyResourceResponse} from "../src/engine.js";
+import {createMission,startMission,selectLandingSite,choose,nextDay,summary,analyzeMission,completeStationTask,resourceAlerts,applyResourceResponse} from "../src/engine.js";
 import {DAYS,SOURCES,MODULES} from "../src/data.js";
 test("the challenge is implemented as five distinct mission days",()=>{const m=startMission(createMission());assert.equal(DAYS.length,5);assert.equal(new Set(DAYS.map(d=>d.dayNumber)).size,5);assert.deepEqual(DAYS.map(d=>d.dayNumber),[1,2,3,4,5]);assert.deepEqual(Object.keys(m.resources).sort(),["food","oxygen","power","shield","water"]);assert.deepEqual(DAYS.map(d=>d.id),["launch","isru","solar-safety","water-recovery","food-strategy"]);assert.ok(DAYS.every(d=>d.choices.length===2));assert.match(DAYS[3].title,/Day 4/);assert.match(DAYS[4].title,/Day 5/);});
 test("difficulty modes have different starting reserves",()=>{assert.ok(createMission("training").resources.oxygen>createMission("standard").resources.oxygen);assert.ok(createMission("standard").resources.oxygen>createMission("expert").resources.oxygen);});
@@ -142,3 +142,32 @@ test("systems resilience rubric remains compatible with older or incomplete miss
 });
 
 test("every listed science source has an explicit A–E provenance classification",()=>{assert.ok(SOURCES.length>=10);for(const source of SOURCES)assert.ok(["A","B","C","D","E"].includes(source.classification),source.id+" missing classification");assert.equal(SOURCES.find(x=>x.id==="donki").classification,"A");assert.equal(SOURCES.find(x=>x.id==="crater").classification,"B");assert.equal(SOURCES.find(x=>x.id==="diviner").classification,"B");assert.equal(SOURCES.find(x=>x.id==="illumination").classification,"C");assert.equal(SOURCES.find(x=>x.id==="card").classification,"C");});
+
+test("each landing-region strategy applies a distinct, reversible training cargo plan",()=>{
+ const malapert=startMission(createMission("standard"));
+ const nobile=startMission(createMission("standard"));
+ const gerlache=startMission(createMission("standard"));
+ assert.ok(selectLandingSite(malapert,"malapert"));assert.ok(selectLandingSite(nobile,"nobile"));assert.ok(selectLandingSite(gerlache,"de-gerlache"));
+ assert.equal(malapert.resources.power,77);assert.equal(malapert.resources.water,59);
+ assert.equal(nobile.resources.water,75);assert.equal(nobile.resources.power,57);
+ assert.equal(gerlache.resources.power,70);assert.equal(gerlache.resources.shield,100);assert.equal(gerlache.resources.food,75);
+ assert.notDeepEqual(malapert.resources,nobile.resources);assert.notDeepEqual(nobile.resources,gerlache.resources);
+});
+test("landing plan can change before Day 1 and locks after the first decision",()=>{
+ const m=startMission(createMission("standard"));
+ assert.equal(selectLandingSite(m,"unknown"),null);
+ assert.ok(selectLandingSite(m,"malapert"));assert.ok(selectLandingSite(m,"nobile"));
+ assert.equal(m.site,"nobile");assert.equal(m.resources.power,57);assert.equal(m.resources.water,75);
+ assert.ok(choose(m,0));assert.equal(selectLandingSite(m,"de-gerlache"),null);assert.equal(m.site,"nobile");
+});
+test("landing plan is included in report baseline and decision impact timeline",()=>{
+ const m=startMission(createMission("standard"));selectLandingSite(m,"malapert");
+ const report=analyzeMission(m);
+ assert.equal(report.resources.find(x=>x.id==="power").start,77);assert.equal(report.resources.find(x=>x.id==="water").start,59);
+ assert.equal(report.timeline[0].kind,"site");assert.equal(report.timeline[0].delta.power,12);assert.equal(report.timeline[0].delta.water,-6);
+ assert.equal(summary(m).sitePlan.id,"malapert");
+});
+test("a new mission clears the selected landing plan and restores difficulty reserves",()=>{
+ const m=startMission(createMission("standard"));selectLandingSite(m,"nobile");startMission(m);
+ assert.equal(m.site,null);assert.equal(m.sitePlan,null);assert.equal(m.resources.water,65);assert.equal(m.resources.power,65);
+});
