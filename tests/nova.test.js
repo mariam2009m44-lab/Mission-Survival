@@ -54,7 +54,8 @@ import {readFile} from "node:fs/promises";
 
 test("offline service worker precaches NOVA and rotates the cache",async()=>{
  const sw=await readFile(new URL("../service-worker.js",import.meta.url),"utf8");
- assert.match(sw,/lunar-outpost-app-v21/);\n assert.match(sw,/styles\\/kids-comfort\\.css/);
+ assert.match(sw,/lunar-outpost-app-v21/); 
+ assert.match(sw,/styles\/kids-comfort\.css/);
  assert.match(sw,/\.\/src\/nova\.js/);
  assert.match(sw,/\.\/src\/scene3d\.js/);
  assert.match(sw,/astronaut-kids\.svg/);
@@ -103,9 +104,9 @@ test("junior comfort layer is linked and cached for mobile and offline use",asyn
  const html=await readFile(new URL("../index.html",import.meta.url),"utf8");
  const sw=await readFile(new URL("../service-worker.js",import.meta.url),"utf8");
  const css=await readFile(new URL("../styles/kids-comfort.css",import.meta.url),"utf8");
- assert.match(html,/styles\\/kids-comfort\\.css/);
- assert.match(sw,/styles\\/kids-comfort\\.css/);
+ assert.match(html,/styles\/kids-comfort\.css/);
+ assert.match(sw,/styles\/kids-comfort\.css/);
  assert.match(css,/\.kid-quick-grid/);
  assert.match(css,/prefers-reduced-motion/);
- assert.match(css,/env\\(safe-area-inset-bottom\\)/);
+ assert.match(css,/env\(safe-area-inset-bottom\)/);
 });
