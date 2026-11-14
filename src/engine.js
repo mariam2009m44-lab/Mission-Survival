@@ -55,6 +55,18 @@ export function resourceAlerts(m){
  if(!m?.resources)return [];
  return RESOURCES.filter(r=>m.resources[r.id]<30).map(r=>({id:r.id,value:m.resources[r.id],severity:m.resources[r.id]<15?"critical":"warning",responses:RESOURCE_RESPONSES[r.id],handled:Array.isArray(m.responseHistory)&&m.responseHistory.some(x=>x.key===m.day+":"+r.id)})).sort((a,b)=>a.value-b.value);
 }
+export function applyScenarioResponse(m,resourceId,actionId){
+ if(!m?.started||m.phase!=="active"||!Object.hasOwn(RESOURCE_RESPONSES,resourceId))return null;
+ if(!m.resources||!Array.isArray(m.responseHistory))m.responseHistory??=[];
+ const key="scenario:"+resourceId;
+ if(m.responseHistory.some(x=>x.key===key))return null;
+ const action=RESOURCE_RESPONSES[resourceId][actionId];if(!action)return null;
+ const before={...m.resources};
+ for(const [id,delta] of Object.entries(action.delta))if(Object.hasOwn(m.resources,id))m.resources[id]=clamp(m.resources[id]+delta);
+ m.responseHistory.push({key,day:m.day+1,resourceId,actionId,delta:{...action.delta},before,after:{...m.resources},kind:"scenario"});
+ if(Object.values(m.resources).some(value=>value<=0)){m.phase="complete";m.result="interrupted";m.xp=(m.xp||0)+25;}
+ return {resourceId,actionId,delta:{...action.delta},before,after:{...m.resources},en:action.en,ar:action.ar,enWhy:action.enWhy,arWhy:action.arWhy};
+}
 export function applyResourceResponse(m,resourceId,actionId){
  if(!m?.started||!["active","debrief"].includes(m.phase)||!Object.hasOwn(RESOURCE_RESPONSES,resourceId))return null;
  if(!m.resources||m.resources[resourceId]>=30)return null;
@@ -108,13 +120,13 @@ export function analyzeMission(m){
   ...responses.map(event=>{
    const action=RESOURCE_RESPONSES[event.resourceId]?.[event.actionId];
    const resource=RESOURCES.find(item=>item.id===event.resourceId);
-   return {day:Number(event.day)||1,kind:"recovery",title:action?(action.en||action.ar):(resource?.name||"Resource recovery"),arTitle:action?(action.ar||action.en):(resource?.ar||"استعادة مورد"),delta:{...(event.delta||{})},before:{...(event.before||{})},after:{...(event.after||{})}};
+   return {day:Number(event.day)||1,kind:event.kind==="scenario"?"scenario":"recovery",title:action?(action.en||action.ar):(resource?.name||"Resource recovery"),arTitle:action?(action.ar||action.en):(resource?.ar||"استعادة مورد"),delta:{...(event.delta||{})},before:{...(event.before||{})},after:{...(event.after||{})}};
   }),
   ...stationEvents.map(event=>{
    const name=stationNames[event.id]||{en:"Station task",ar:"مهمة محطة"};
    return {day:Number(event.day)||1,kind:"station",title:name.en,arTitle:name.ar,delta:{...(event.delta||{})},before:{...(event.before||{})},after:{...(event.after||{})}};
   })
- ].sort((a,b)=>a.day-b.day||(({site:0,decision:1,recovery:2,station:3}[a.kind]??9)-({site:0,decision:1,recovery:2,station:3}[b.kind]??9)));
+ ].sort((a,b)=>a.day-b.day||(({site:0,decision:1,scenario:2,recovery:3,station:4}[a.kind]??9)-({site:0,decision:1,scenario:2,recovery:3,station:4}[b.kind]??9)));
  return {
   score:average,
   resilience,
