@@ -65,7 +65,7 @@ test("app completes junior commander onboarding, training, five mission decision
  await action("start");
  assert.match(root.innerHTML,/fieldwork-panel/);
  assert.match(root.innerHTML,/OXYGEN KNOWLEDGE CHECK/);
- assert.match(root.innerHTML,/WATER KNOWLEDGE CHECK/);
+ assert.match(root.innerHTML,/WATER KNOWLEDGE CHECK/);\n assert.match(root.innerHTML,/Solar-support package/);\n assert.match(root.innerHTML,/Polar-science package/);\n assert.match(root.innerHTML,/Balanced mobility package/);
  assert.match(root.innerHTML,/Practice mode: answers are saved/);
  await action("oxygen-quiz",{question:"0",answer:"0"});
  assert.match(root.innerHTML,/Correct\. This is a planning value/);
@@ -78,7 +78,7 @@ test("app completes junior commander onboarding, training, five mission decision
  assert.match(root.innerHTML,/Visit the five stations/);
  assert.match(root.innerHTML,/Find the glowing station/);
  for(const station of ["habitat","oxygen","solar","greenhouse","rover"])assert.match(root.innerHTML,new RegExp("assets/stations/"+station+"\\.svg"));
- await action("site-select",{site:"malapert","siteName":"Malapert Massif"});
+ await action("site-select",{site:"malapert"});\n assert.match(root.innerHTML,/ACTIVE MISSION LOADOUT/);\n assert.match(root.innerHTML,/SELECTED · PLAN ACTIVE/);
  for(let day=0;day<5;day++){
   await action("choose",{choice:"0"});
   if(day<4){
@@ -92,7 +92,7 @@ test("app completes junior commander onboarding, training, five mission decision
    if(day>0)assert.ok(root.innerHTML.includes(evidenceUrls[day]));
   }
  }
- assert.match(root.innerHTML,/MISSION SCORE/);
+ assert.match(root.innerHTML,/MISSION SCORE/);\n assert.match(root.innerHTML,/Solar-support package/);\n assert.match(root.innerHTML,/Landing strategy/);
  assert.match(root.innerHTML,/START CHALLENGE 2/);
  await action("next-challenge");
  assert.match(root.innerHTML,/CHALLENGE 02/);
