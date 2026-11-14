@@ -114,10 +114,16 @@ test("walking to a lunar station opens a child-friendly discovery challenge",asy
  assert.doesNotMatch(root.innerHTML,/station-modal/);
 });
 
-test("switching explorer clears the previous profile achievement archive",async()=>{
+test("signing out preserves the local explorer profile and achievements",async()=>{
  await action("switch-profile");
- assert.match(root.innerHTML,/اختاري رائدة الفضاء بتاعتك/);
- const savedState=JSON.parse([...storage.values()].at(-1));
- assert.deepEqual(savedState.missionArchive,[]);
- assert.deepEqual(savedState.stats,{missions:0,totalXp:0,bestScore:0});
+ assert.match(root.innerHTML,/account-portal/);
+ const savedState=JSON.parse(storage.get("lunar-outpost-trainer-v2"));
+ const savedProfiles=JSON.parse(storage.get("tecnova-local-profiles-v1"));
+ assert.ok(savedProfiles.length>=1);
+ assert.ok(savedProfiles[0].state.commander);
+ assert.ok(savedProfiles[0].state.missionArchive.length>=1);
+ assert.ok(savedState.signedOut);
+ await action("select-profile",{profileId:savedProfiles[0].id});
+ assert.match(root.innerHTML,/tecnova-home/);
+ assert.match(root.innerHTML,/MISSION HISTORY/);
 });
