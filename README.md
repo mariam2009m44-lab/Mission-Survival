@@ -40,11 +40,11 @@ WebXR immersive VR is optional and depends on the headset, browser, permissions 
 | LRO Diviner PDS Release 67 | Calibrated thermal-radiance data, 16 March–15 June 2026 | Surface measurements, not interior habitat temperature |
 | NASA CCMC DONKI | Optional recent event records | Research context, not lunar radiation forecasts |
 | Canadian Space Agency | Food-production and mini-greenhouse learning activities | Educational material, not measured lunar crop yields |
-| NASA ISS ECLSS | Water recovery and filtration learning reference; reported up to 98% total recovery on ISS in 2023 | ISS result, not a proven lunar-base recovery rate; game values remain illustrative |
+| NASA OSDR | Searchable space-biology and astronaut-health research metadata and study files | Research datasets, not live astronaut-health telemetry or individual diagnosis |\n| NASA RadLab | Instrument radiation records including dose-rate fields and instrument/time context | Many records are from ISS instruments, not direct lunar surface-habitat readings |\n| NASA ISS ECLSS | Water recovery and filtration learning reference; reported up to 98% total recovery on ISS in 2023 | ISS result, not a proven lunar-base recovery rate; game values remain illustrative |
 
 A sample CRaTER product linked in the app is a 31 March 2026 primary-science file with 2,310,946 records and a listed size of 257.86 MB. The primary file schema includes spacecraft time, detector amplitudes (ADU) and deposited energy (keV) across detectors D1–D6. The app links to the archive record rather than bundling the large raw data file.
 
-See docs/RESEARCH.md and data/mission-science.json for provenance.
+See docs/RESEARCH.md and data/mission-science.json for provenance. The OSDR and RadLab public API documentation is linked from the Science Lab and NOVA knowledge cards.
 
 ## Cloud backend
 
@@ -88,7 +88,7 @@ The 2026 hackathon takes place on 14–15 November 2026. As of 13 November, 2026
 AI assistance was used to help draft and refactor code, interface text, tests and documentation. Scientific claims and data limitations are tied to the cited official sources. No NASA logo or mission insignia was generated or modified.
 
 ## NOVA lunar-science copilot
-The floating NOVA assistant is a bilingual, source-grounded educational retrieval interface. It matches questions to a small curated knowledge library and attaches official source links. It does not call a hosted generative model, does not claim to be NASA-GPT, and explicitly identifies itself as a project feature rather than an official NASA service.
+The floating NOVA assistant is a bilingual, source-grounded educational retrieval interface. It matches questions to a small curated knowledge library and attaches official source links. It does not call a hosted generative model, does not claim to be NASA-GPT, and explicitly identifies itself as a project feature rather than an official NASA service. The NOVA panel also offers a clearly labeled external hand-off to Google Gemini at gemini.google.com; Gemini opens separately and is not embedded in NOVA. An in-app Gemini API connection would require a deployed secure server-side proxy and a private API key.
 
 NASA-GPT is described by NASA Ames as an internally hosted tool for NASA staff. Separately, NASA and IBM announced a public open-source Lunar Foundation Model on 10 September 2026. That model is for lunar imagery/geospatial analysis (e.g. crater mapping and polar-ice prospectivity), not conversational chat. See the NASA research announcement and model/code links in the Science Lab.
 

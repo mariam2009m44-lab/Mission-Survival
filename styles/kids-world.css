@@ -1354,3 +1354,19 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #9af1
 @media(min-width:761px){
  .lunar-3d-stage .scene-pad{right:14px!important;inset-inline-end:14px!important;left:auto!important;inset-inline-start:auto!important}
 }
+
+
+/* External Google Gemini hand-off inside NOVA — clearly separated from NOVA answers. */
+.nova-google-link{
+ display:flex;align-items:center;justify-content:center;gap:8px;
+ width:calc(100% - 24px);min-height:40px;margin:0 12px 12px;padding:9px 12px;
+ border:1px solid rgba(119,210,255,.48);border-radius:12px;
+ background:linear-gradient(120deg,rgba(30,91,145,.26),rgba(56,65,133,.28));
+ color:#d9f4ff!important;font:800 12px/1.2 system-ui,sans-serif;
+ text-decoration:none!important;text-align:center;transition:background .18s ease,border-color .18s ease,transform .18s ease;
+}
+.nova-google-link:hover,.nova-google-link:focus-visible{
+ background:linear-gradient(120deg,rgba(30,120,170,.45),rgba(74,83,166,.42));
+ border-color:#9cecff;transform:translateY(-1px);outline:2px solid transparent;
+}
+.nova-google-link:focus-visible{outline:3px solid #ffe28b;outline-offset:2px}
