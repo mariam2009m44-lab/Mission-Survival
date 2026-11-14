@@ -17,7 +17,7 @@ function startMusic(){
   if(musicMaster)return;
   const filter=musicContext.createBiquadFilter();filter.type="lowpass";filter.frequency.value=1450;filter.Q.value=.35;
   const master=musicContext.createGain();master.gain.setValueAtTime(.0001,musicContext.currentTime);master.gain.exponentialRampToValueAtTime(.24,musicContext.currentTime+2.4);filter.connect(master);master.connect(musicContext.destination);musicMaster=master;
-  const pad=[.105,.075,.055,.035].map((level,index)=>{
+  const pad=[.052,.038,.027,.018].map((level,index)=>{
    const osc=musicContext.createOscillator(),gain=musicContext.createGain();osc.type=index===0?"sine":"triangle";osc.detune.value=index===3?3:0;gain.gain.value=level;osc.connect(gain);gain.connect(filter);osc.start();musicNodes.push(osc);return osc;
   });
   const updateChord=()=>{const chord=MUSIC_CHORDS[musicStep%MUSIC_CHORDS.length];pad.forEach((osc,index)=>osc.frequency.setTargetAtTime(chord[index],musicContext.currentTime,1.25));};
@@ -27,7 +27,7 @@ function startMusic(){
    if(!musicContext||musicContext.state!=="running")return;
    const osc=musicContext.createOscillator(),gain=musicContext.createGain(),at=musicContext.currentTime;
    osc.type="sine";osc.frequency.setValueAtTime(melody[musicStep*4+(Math.floor(at/2.2)%4)]||melody[0],at);
-   gain.gain.setValueAtTime(.0001,at);gain.gain.exponentialRampToValueAtTime(.075,at+.16);gain.gain.exponentialRampToValueAtTime(.0001,at+1.65);
+   gain.gain.setValueAtTime(.0001,at);gain.gain.exponentialRampToValueAtTime(.035,at+.16);gain.gain.exponentialRampToValueAtTime(.0001,at+1.65);
    osc.connect(gain);gain.connect(filter);osc.start(at);osc.stop(at+1.7);
   },2200);
  }catch{}
@@ -43,12 +43,12 @@ function playSfx(kind="tap"){
   const Engine=window.AudioContext||window.webkitAudioContext;if(!Engine)return;
   sfxContext??=new Engine();if(sfxContext.state==="suspended")sfxContext.resume();
   const now=sfxContext.currentTime;
-  const notes=kind==="success"?[523.25,659.25,783.99]:kind==="wrong"?[220,196]:kind==="launch"?[196,261.63,329.63,392]:kind==="station"?[392,523.25,659.25]:[kind==="open"?440:360];
+  const notes=kind==="success"?[659.25,783.99,987.77]:kind==="wrong"?[293.66,246.94]:kind==="launch"?[261.63,392,523.25,659.25]:kind==="station"?[523.25,659.25,783.99]:[kind==="open"?493.88:392];
   notes.forEach((hz,index)=>{
-   const osc=sfxContext.createOscillator(),gain=sfxContext.createGain(),at=now+index*.075;
-   osc.type=kind==="success"?"sine":"triangle";osc.frequency.setValueAtTime(hz,at);
-   gain.gain.setValueAtTime(.0001,at);gain.gain.exponentialRampToValueAtTime(kind==="success"?.045:.018,at+.018);gain.gain.exponentialRampToValueAtTime(.0001,at+.16);
-   osc.connect(gain);gain.connect(sfxContext.destination);osc.start(at);osc.stop(at+.17);
+   const osc=sfxContext.createOscillator(),gain=sfxContext.createGain(),at=now+index*.095;
+   osc.type="sine";osc.frequency.setValueAtTime(hz,at);
+   gain.gain.setValueAtTime(.0001,at);gain.gain.exponentialRampToValueAtTime(kind==="success"?.026:.012,at+.035);gain.gain.exponentialRampToValueAtTime(.0001,at+.24);
+   osc.connect(gain);gain.connect(sfxContext.destination);osc.start(at);osc.stop(at+.25);
   });
  }catch{}
 }
