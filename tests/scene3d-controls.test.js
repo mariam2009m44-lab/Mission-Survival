@@ -76,21 +76,21 @@ test("astronaut life-support pack has twin oxygen cylinders and a live status in
 
 
 test("movement controls render as exactly four direct grid children with explicit areas", () => {
-  const pad = scene.match(/<div class="scene-pad" role="group"[\\s\\S]*?<\\/div><\\/div><div class="scene-toolbar">/)?.[0] || "";
+  const pad = scene.match(/<div class="scene-pad" role="group"[\s\S]*?<\/div><\/div><div class="scene-toolbar">/)?.[0] || "";
   assert.ok(pad, "movement pad markup should exist");
   assert.equal((pad.match(/data-move=/g) || []).length, 4);
-  assert.equal((pad.match(/<button\\b/g) || []).length, 4);
-  assert.equal((pad.match(/<div\\b/g) || []).length, 1, "no nested wrapper should remain inside .scene-pad");
+  assert.equal((pad.match(/<button\b/g) || []).length, 4);
+  assert.equal((pad.match(/<div\b/g) || []).length, 1, "no nested wrapper should remain inside .scene-pad");
   for (const direction of ["forward", "left", "back", "right"]) assert.match(pad, new RegExp('data-move="' + direction + '"'));
-  assert.match(kidsWorld, /grid-template-areas:\\s*"\\. forward \\. " "left back right"/);
-  for (const direction of ["forward", "left", "back", "right"]) assert.match(kidsWorld, new RegExp('\\[data-move="' + direction + '"\\]\\{grid-area:' + direction));
-  assert.doesNotMatch(kidsWorld, /\\.scene-pad\\s*>\\s*div/);
-  assert.doesNotMatch(baseCss, /\\.scene-pad\\s*>\\s*div/);
+  assert.match(kidsWorld, /grid-template-areas:\s*"\. forward \. " "left back right"/);
+  for (const direction of ["forward", "left", "back", "right"]) assert.match(kidsWorld, new RegExp('\[data-move="' + direction + '"\]\{grid-area:' + direction));
+  assert.doesNotMatch(kidsWorld, /\.scene-pad\s*>\s*div/);
+  assert.doesNotMatch(baseCss, /\.scene-pad\s*>\s*div/);
 });
 
 test("movement buttons preserve pointer capture and clear on release or cancellation", () => {
-  assert.match(scene, /btn\\.setPointerCapture\\(e\\.pointerId\\)/);
-  assert.match(scene, /btn\\.addEventListener\\("pointerup", \\(\\) => set\\(false\\)\\)/);
-  assert.match(scene, /btn\\.addEventListener\\("pointercancel", \\(\\) => set\\(false\\)\\)/);
-  assert.match(scene, /btn\\.addEventListener\\("lostpointercapture", \\(\\) => set\\(false\\)\\)/);
+  assert.match(scene, /btn\.setPointerCapture\(e\.pointerId\)/);
+  assert.match(scene, /btn\.addEventListener\("pointerup", \(\) => set\(false\)\)/);
+  assert.match(scene, /btn\.addEventListener\("pointercancel", \(\) => set\(false\)\)/);
+  assert.match(scene, /btn\.addEventListener\("lostpointercapture", \(\) => set\(false\)\)/);
 });
