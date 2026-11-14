@@ -22,3 +22,10 @@ test("3D movement pad stays side-mounted with large touch targets", async () => 
   assert.match(worldCss, /\.lunar-3d-stage \.scene-pad>button,[\s\S]*?width:52px!important[\s\S]*?height:52px!important/);
   assert.match(worldCss, /\.lunar-3d-stage \.scene-interact\{[\s\S]*?right:14px!important/);
 });
+
+
+test("movement pad includes a clear label for first-time players", async () => {
+  const worldCss = await readFile(new URL("../styles/kids-world.css", import.meta.url), "utf8");
+  assert.match(worldCss, /\.lunar-3d-stage \.scene-pad::before\{[\s\S]*?content:"MOVE"/);
+  assert.match(worldCss, /html\[dir="rtl"\] \.lunar-3d-stage \.scene-pad::before\{[\s\S]*?content:"حركة"/);
+});
