@@ -116,3 +116,15 @@ test("landscape movement buttons retain larger touch targets and visible keyboar
  assert.match(refinement,/min-height:42px!important/);
  assert.match(refinement,/focus-visible/);
 });
+
+
+test("final D-pad spacing reserves a full lower arrow row without clipping",async()=>{
+ const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");
+ const fix=css.slice(css.lastIndexOf("FINAL D-PAD SPACING FIX"));
+ assert.match(fix,/height:122px!important;min-height:122px!important/);
+ assert.match(fix,/grid-template-rows:16px 42px 42px!important/);
+ assert.match(fix,/bottom:calc\(14px \+ env\(safe-area-inset-bottom,0px\)\)!important/);
+ assert.match(fix,/overflow:visible!important/);
+ assert.match(fix,/@media\(max-width:360px\)[\s\S]*?height:112px!important/);
+ assert.match(fix,/@media\(orientation:landscape\) and \(max-height:520px\)[\s\S]*?height:116px!important/);
+});
