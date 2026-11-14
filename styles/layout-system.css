@@ -223,11 +223,11 @@ button:disabled{cursor:not-allowed;opacity:.62}
 @media(max-width:360px){
   .lunar-3d-stage .scene-pad{
     right:6px!important;inset-inline-end:6px!important;
-    grid-template-columns:repeat(3,39px)!important;grid-template-rows:repeat(2,39px)!important;
+    grid-template-columns:repeat(3,44px)!important;grid-template-rows:repeat(2,44px)!important;
     gap:3px!important;padding:5px!important;
   }
   .lunar-3d-stage .scene-pad>[data-move]{
-    width:39px!important;height:39px!important;min-width:39px!important;min-height:39px!important;
+    width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;
   }
   .lunar-3d-stage .scene-interact{left:6px!important;max-width:calc(100% - 146px)!important;padding:5px!important}
   .lunar-3d-stage .scene-interact b{display:none}
