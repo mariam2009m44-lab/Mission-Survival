@@ -1,8 +1,8 @@
 import "./mission-days.js";
 import {DIFFICULTIES,DAYS,RESOURCES} from "./data.js";
 export const clamp=n=>Math.max(0,Math.min(100,Math.round(n)));
-export function createMission(difficulty="standard"){return{difficulty,started:false,phase:"briefing",day:0,site:null,siteName:null,sitePlan:null,resources:{...DIFFICULTIES[difficulty].values},history:[],stationTasks:[],stationHistory:[],responseHistory:[],xp:0,result:null,saved:false};}
-export function startMission(m){m.started=true;m.phase="active";m.day=0;m.site=null;m.siteName=null;m.sitePlan=null;m.resources={...DIFFICULTIES[m.difficulty].values};m.history=[];m.stationTasks=[];m.stationHistory=[];m.responseHistory=[];m.xp=0;m.result=null;m.saved=false;return m;}
+export function createMission(difficulty="standard"){return{difficulty,started:false,phase:"briefing",day:0,resources:{...DIFFICULTIES[difficulty].values},history:[],stationTasks:[],stationHistory:[],responseHistory:[],xp:0,result:null,saved:false};}
+export function startMission(m){m.started=true;m.phase="active";m.day=0;m.resources={...DIFFICULTIES[m.difficulty].values};m.history=[];m.stationTasks=[];m.stationHistory=[];m.responseHistory=[];m.xp=0;m.result=null;m.saved=false;return m;}
 export function score(m){return Math.round(RESOURCES.reduce((sum,r)=>sum+m.resources[r.id],0)/RESOURCES.length);}
 export function choose(m,index){if(!m||!m.started||m.phase!=="active")return null;const stage=DAYS[m.day],choice=stage?.choices[index];if(!choice)return null;const before={...m.resources};for(const [key,delta] of Object.entries(choice.delta))if(Object.hasOwn(m.resources,key))m.resources[key]=clamp(m.resources[key]+delta);const record={day:stage.dayNumber||m.day+1,stageIndex:m.day,choiceIndex:index,choiceId:choice.id,title:choice.title,why:choice.why,delta:{...choice.delta},before,after:{...m.resources}};m.history.push(record);m.xp+=50;if(Object.values(m.resources).some(v=>v<=0)){m.phase="complete";m.result="interrupted";m.xp+=25;}else if(m.day===DAYS.length-1){m.phase="complete";m.result="success";m.xp+=100;}else m.phase="debrief";return record;}
 const STATION_TASKS={habitat:{delta:{shield:6,oxygen:2}},oxygen:{delta:{oxygen:10,power:-8}},solar:{delta:{power:12}},greenhouse:{delta:{water:8,food:8,power:-4}},rover:{delta:{shield:4,power:-4}}};
@@ -97,7 +97,6 @@ export function analyzeMission(m){
  const stationEvents=Array.isArray(m?.stationHistory)?m.stationHistory:[];
  const stationNames={habitat:{en:"Habitat station task",ar:"مهمة محطة السكن"},oxygen:{en:"Oxygen lab task",ar:"مهمة معمل الأكسجين"},solar:{en:"Solar farm task",ar:"مهمة مزرعة الطاقة"},greenhouse:{en:"Greenhouse task",ar:"مهمة الصوبة الزراعية"},rover:{en:"Rover garage task",ar:"مهمة مرآب المركبة"}};
  const timeline=[
-  ...(m?.sitePlan?[{day:1,kind:"site",title:m.sitePlan.strategy||m.sitePlan.name,arTitle:m.sitePlan.arStrategy||m.sitePlan.ar,delta:{...(m.sitePlan.delta||{})},before:{...(m.sitePlan.before||base)},after:{...(m.sitePlan.after||initial)}}]:[]),
   ...decisions.map(event=>({day:Number(event.day)||1,kind:"decision",title:event.title||"Mission decision",delta:{...(event.delta||{})},before:{...(event.before||{})},after:{...(event.after||{})}})),
   ...responses.map(event=>{
    const action=RESOURCE_RESPONSES[event.resourceId]?.[event.actionId];
