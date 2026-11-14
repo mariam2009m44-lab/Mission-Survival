@@ -44,7 +44,7 @@ WebXR immersive VR is optional and depends on the headset, browser, permissions 
 
 A sample CRaTER product linked in the app is a 31 March 2026 primary-science file with 2,310,946 records and a listed size of 257.86 MB. The primary file schema includes spacecraft time, detector amplitudes (ADU) and deposited energy (keV) across detectors D1–D6. The app links to the archive record rather than bundling the large raw data file.
 
-See docs/RESEARCH.md and data/mission-science.json for provenance. The OSDR and RadLab public API documentation is linked from the Science Lab and NOVA knowledge cards.
+See [the complete scientific and technical audit](docs/COMPLETE-AUDIT.md), docs/RESEARCH.md and data/mission-science.json for provenance. The Science Lab classifies each evidence item A–E and distinguishes the live DONKI feed from archived datasets, research references and simulated game values. The OSDR and RadLab public API documentation is linked from the Science Lab and NOVA knowledge cards.
 
 ## Cloud backend
 
