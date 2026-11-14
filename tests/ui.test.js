@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 const root={innerHTML:"",listeners:{},addEventListener(type,handler){this.listeners[type]=handler;}};
 const storage=new Map();
 Object.defineProperty(globalThis,"document",{configurable:true,value:{querySelector:selector=>selector==="#app"?root:selector==="#commander-name"?{value:"Test Commander"}:null,documentElement:{}}});
-Object.defineProperty(globalThis,"window",{configurable:true,value:{addEventListener(){},scrollTo(){}}});
+Object.defineProperty(globalThis,"window",{configurable:true,value:{addEventListener(){},scrollTo(){},confirm:()=>true}});
 Object.defineProperty(globalThis,"navigator",{configurable:true,value:{serviceWorker:{register:async()=>({})}}});
 Object.defineProperty(globalThis,"location",{configurable:true,value:{protocol:"file:"}});
 Object.defineProperty(globalThis,"localStorage",{configurable:true,value:{getItem:key=>storage.get(key)||null,setItem:(key,value)=>storage.set(key,String(value))}});
@@ -99,6 +99,11 @@ test("app completes junior commander onboarding, training, five mission decision
  assert.match(root.innerHTML,/2,310,946/);
  await action("language");
  assert.match(root.innerHTML,/مختبر العلوم|مكتبة العلوم الموثقة/);
+ await action("switch-profile");
+ assert.match(root.innerHTML,/اختاري رائدة الفضاء بتاعتك/);
+ const savedState=JSON.parse([...storage.values()].at(-1));
+ assert.deepEqual(savedState.missionArchive,[]);
+ assert.deepEqual(savedState.stats,{missions:0,totalXp:0,bestScore:0});
 });
 test("walking to a lunar station opens a child-friendly discovery challenge",async()=>{
  const handler=root.listeners["lunar-station-interact"];
