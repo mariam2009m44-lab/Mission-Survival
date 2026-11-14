@@ -41,7 +41,7 @@ The resource engine uses illustrative game units to teach trade-offs. These are 
 - Explorer profiles and progress are saved locally on the device. Cloud accounts and cross-device sync are not enabled in the current public configuration.
 - The optional WebXR entry point depends on a compatible headset, browser and secure context. The normal 3D experience is not the same as tested headset VR; no headset validation is claimed.
 - The Android workflow produces a **debug APK** for testing, not a signed Play Store release.
-- Automated validation passed 105 tests on commit e8e7c6c. The current changes must pass their own workflow before being described as validated. Automated tests do not replace testing on a physical Android device.
+- The previous baseline passed 105 tests on commit e8e7c6c; this submission update adds three regression tests and is revalidated by CI. The current changes must pass their own workflow before being described as validated. Automated tests do not replace testing on a physical Android device.
 
 ## 4. Final judging-strength checklist
 

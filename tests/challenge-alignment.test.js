@@ -25,7 +25,7 @@ test("the five-day mission keeps its science evidence distinct from illustrative
   assert.match(data, /id:"crater"/);
   assert.match(data, /id:"card"/);
   assert.match(data, /id:"eclss"/);
-  assert.match(science, /NASA MODEL/);
+  assert.match(science, /"data_type": "modeled illumination"/);
   assert.match(science, /not direct readings inside a lunar surface habitat/);
 });
 
