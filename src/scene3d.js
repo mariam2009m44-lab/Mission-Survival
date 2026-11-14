@@ -79,7 +79,33 @@ function makeScene(THREE,root){
  box(1.7,.65,1.25,white,0,.85,0,rover);box(.65,.5,.6,gold,-.15,1.42,-.1,rover);
  for(const x of [-.72,.72])for(const z of [-.72,.72]){const wheel=new THREE.Mesh(new THREE.CylinderGeometry(.38,.38,.2,20),dark);wheel.rotation.z=Math.PI/2;wheel.position.set(x,.45,z);rover.add(wheel);}
  const mast=cyl(.045,.045,1.5,white,.45,1.8,0,rover);mast.rotation.z=-.15;
- // Detailed outpost infrastructure: landing pad, communications mast, storage and service lights.
+// Selected explorer spacecraft: a complete procedural 3D vehicle, with a different livery for each choice.
+const craftStyles={
+ astra:{body:0xdce8f4,accent:0x43d9f1,glass:0x225b80,name:"ASTRA ONE"},
+ luna:{body:0xd9d5f0,accent:0xb18cff,glass:0x34466e,name:"LUNA EXPLORER"},
+ pioneer:{body:0xe8d5ad,accent:0xffb65f,glass:0x315d76,name:"PIONEER"}
+};
+const craftStyle=craftStyles[commander.vehicle]||craftStyles.astra;
+const craftBody=mat(craftStyle.body,.62,.34),craftAccent=mat(craftStyle.accent,.48,.3),craftDark=mat(0x263b53,.55,.38),craftGlass=new THREE.MeshPhysicalMaterial({color:craftStyle.glass,metalness:.3,roughness:.12,transparent:true,opacity:.82});
+const craftPad=new THREE.Group();craftPad.position.set(10,0,10);group.add(craftPad);
+const craftPadBase=new THREE.Mesh(new THREE.CylinderGeometry(2.5,2.65,.18,48),mat(0x566274,.2,.86));craftPadBase.position.y=.08;craftPad.add(craftPadBase);
+const craftPadRing=new THREE.Mesh(new THREE.TorusGeometry(2.08,.045,8,64),craftAccent);craftPadRing.rotation.x=Math.PI/2;craftPadRing.position.y=.19;craftPad.add(craftPadRing);
+for(let i=0;i<4;i++){const a=i*Math.PI/2,light=new THREE.Mesh(new THREE.SphereGeometry(.085,12,10),new THREE.MeshBasicMaterial({color:craftStyle.accent}));light.position.set(Math.cos(a)*2.25,.22,Math.sin(a)*2.25);craftPad.add(light);}
+const craft=new THREE.Group();craft.position.set(10,.18,10);craft.rotation.y=-.55;group.add(craft);
+const fuselage=new THREE.Mesh(new THREE.CylinderGeometry(.48,.62,2.9,32),craftBody);fuselage.rotation.x=Math.PI/2;fuselage.position.set(0,1.12,0);craft.add(fuselage);
+const nose=new THREE.Mesh(new THREE.ConeGeometry(.49,1.08,32),craftAccent);nose.rotation.x=Math.PI/2;nose.position.set(0,1.12,1.96);craft.add(nose);
+const cockpit=new THREE.Mesh(new THREE.SphereGeometry(.43,28,20),craftGlass);cockpit.scale.set(.88,.55,1.1);cockpit.position.set(0,1.55,.42);craft.add(cockpit);
+const wing=new THREE.Mesh(new THREE.BoxGeometry(2.9,.13,.82),craftAccent);wing.position.set(0,.84,-.22);craft.add(wing);
+for(const side of [-1,1]){
+ const fin=new THREE.Mesh(new THREE.BoxGeometry(.16,.72,.86),craftBody);fin.position.set(side*1.12,1.02,-.94);fin.rotation.z=side*.12;craft.add(fin);
+ const engine=new THREE.Mesh(new THREE.CylinderGeometry(.17,.26,.58,20),craftDark);engine.rotation.x=Math.PI/2;engine.position.set(side*.22,1.1,-1.58);craft.add(engine);
+ const engineGlow=new THREE.Mesh(new THREE.CylinderGeometry(.09,.14,.12,16),new THREE.MeshStandardMaterial({color:craftStyle.accent,emissive:craftStyle.accent,emissiveIntensity:.8}));engineGlow.rotation.x=Math.PI/2;engineGlow.position.set(side*.22,1.1,-1.9);craft.add(engineGlow);
+ const gear=new THREE.Mesh(new THREE.CylinderGeometry(.045,.06,.55,12),craftDark);gear.position.set(side*.72,.34,-.25);gear.rotation.z=side*.18;craft.add(gear);
+}
+const craftStripe=new THREE.Mesh(new THREE.BoxGeometry(.12,.045,2.2),craftAccent);craftStripe.position.set(0,1.59,-.05);craft.add(craftStripe);
+const craftLamp=new THREE.PointLight(craftStyle.accent,3,7);craftLamp.position.set(0,1.25,-2.1);craft.add(craftLamp);
+const craftLabelCanvas=document.createElement("canvas");craftLabelCanvas.width=512;craftLabelCanvas.height=128;const craftLabelCtx=craftLabelCanvas.getContext("2d");craftLabelCtx.fillStyle="rgba(8,22,42,.88)";craftLabelCtx.strokeStyle="#"+craftStyle.accent.toString(16).padStart(6,"0");craftLabelCtx.lineWidth=6;craftLabelCtx.beginPath();craftLabelCtx.roundRect(8,8,496,112,20);craftLabelCtx.fill();craftLabelCtx.stroke();craftLabelCtx.fillStyle="#fff";craftLabelCtx.font="bold 34px Arial";craftLabelCtx.textAlign="center";craftLabelCtx.textBaseline="middle";craftLabelCtx.fillText(craftStyle.name,256,64,450);const craftLabelTexture=new THREE.CanvasTexture(craftLabelCanvas);craftLabelTexture.colorSpace=THREE.SRGBColorSpace;const craftLabel=new THREE.Sprite(new THREE.SpriteMaterial({map:craftLabelTexture,transparent:true,depthWrite:false}));craftLabel.position.set(10,3.2,10);craftLabel.scale.set(4.2,1.05,1);group.add(craftLabel);
+// Detailed outpost infrastructure: landing pad, communications mast, storage and service lights.
  const serviceMat=mat(0x9aaabd,.48,.42),warningMat=mat(0xffb95e,.25,.38),windowMat=new THREE.MeshStandardMaterial({color:0x79d8f1,emissive:0x17445b,emissiveIntensity:.8,metalness:.25,roughness:.22});
  const landingPad=new THREE.Group();landingPad.position.set(-8,0,-5);group.add(landingPad);
  const pad=new THREE.Mesh(new THREE.CylinderGeometry(2.35,2.55,.16,48),mat(0x515d70,.25,.9));pad.position.y=.05;landingPad.add(pad);
@@ -99,7 +125,7 @@ function makeScene(THREE,root){
  box(.55,.45,.12,windowMat,0,1.15,.91,storageModule);
  for(const x of [-.55,.55]){const foot=box(.14,.65,.14,dark,x,.32,0,storageModule);foot.rotation.z=x*.12;}
  // Junior commander avatar: a child-proportioned astronaut in a clear helmet.
- let commander={avatar:"blue",name:"Commander"};try{commander={...commander,...(JSON.parse(localStorage.getItem("lunar-outpost-trainer-v2")||"{}").commander||{})};}catch{}
+ let profileState={};try{profileState=JSON.parse(localStorage.getItem("lunar-outpost-trainer-v2")||"{}")||{};}catch{}const commander={avatar:profileState.commander?.avatar||localStorage.getItem("tecnova-preview-avatar")||"blue",name:profileState.commander?.name||"Commander",vehicle:profileState.commander?.vehicle||localStorage.getItem("tecnova-preview-vehicle")||"astra"};
  const avatarPalette={blue:{accent:0x42dfff,hair:0x56382d,skin:0xe7ae88},purple:{accent:0xc28cff,hair:0x49302c,skin:0xe6ae88},gold:{accent:0xffbf59,hair:0x211b18,skin:0xd99570},green:{accent:0x62e2b2,hair:0x3e2a24,skin:0xe8b28f}};
  const chosen=avatarPalette[commander.avatar]||avatarPalette.blue,accentMat=mat(chosen.accent,.35,.28),skinMat=mat(chosen.skin,0,.72),hairMat=mat(chosen.hair,0,.8);
  const astronaut=new THREE.Group();astronaut.position.set(1,0,5);try{const saved=JSON.parse(sessionStorage.getItem("lunar-outpost-player-position")||"null");if(saved&&Number.isFinite(saved.x)&&Number.isFinite(saved.z))astronaut.position.set(clamp(saved.x,-21,21),0,clamp(saved.z,-21,21));}catch{}group.add(astronaut);
@@ -204,7 +230,7 @@ function makeScene(THREE,root){
  canvas.addEventListener("pointerup",releasePointer);canvas.addEventListener("pointercancel",releasePointer);canvas.addEventListener("lostpointercapture",releasePointer);
  canvas.addEventListener("wheel",e=>{e.preventDefault();radius=clamp(radius+e.deltaY*.018,7,34);cameraUpdate();},{passive:false});
  root.querySelectorAll("[data-scene-camera]").forEach(button=>button.addEventListener("click",()=>{firstPerson=false;if(firstPersonButton){firstPersonButton.textContent=uiAr?"منظور رائدة الفضاء":"FIRST PERSON";firstPersonButton.setAttribute("aria-pressed","false");}cameraMode=button.dataset.sceneCamera;if(cameraMode==="follow"){followPlayer=true;radius=12.5;setStatus(uiAr?"الكاميرا تتبع رائد الفضاء":"Camera follows your astronaut");}else{followPlayer=false;target.set(0,.5,0);radius=27;setStatus(uiAr?"عرض القاعدة بالكامل":"Full outpost overview");}root.querySelectorAll("[data-scene-camera]").forEach(x=>x.classList.toggle("active",x===button));cameraUpdate();}));
- const focus={base:[0,.5,0],habitat:[-2,1,1],oxygen:[-5,1,-3],power:[4,1,-1],greenhouse:[-5,1,7],rover:[5,1,6],lander:[-8,1,-5]};
+ const focus={base:[0,.5,0],craft:[10,1,10],habitat:[-2,1,1],oxygen:[-5,1,-3],power:[4,1,-1],greenhouse:[-5,1,7],rover:[5,1,6],lander:[-8,1,-5]};
  let followPlayer=true,nearby=null,autoWalkTarget=null,interactWhenArrived=false,moveX=0,moveZ=0,lastPositionSave=0;const keys=new Set(),moveSpeed=4.2;
  const firstPersonButton=root.querySelector("[data-scene-first-person]"),vrButton=root.querySelector("[data-scene-vr]");
  const immersiveButton=root.querySelector("[data-scene-fullscreen]"),immersiveTarget=root.closest(".lunar-3d-stage")||root;
@@ -259,7 +285,7 @@ function updateMovement(dt) {
     marker.ring.scale.setScalar(pulse);
   }
   if (followPlayer) target.lerp(new THREE.Vector3(px, .5, pz), Math.min(1, dt * 3));
-  const novaOffset = new THREE.Vector3(1.55, 0, 1.15).applyAxisAngle(new THREE.Vector3(0, 1, 0), astronaut.rotation.y);
+  const novaOffset = new THREE.Vector3(1.55, 0, -1.15).applyAxisAngle(new THREE.Vector3(0, 1, 0), astronaut.rotation.y);
   nova.position.set(px + novaOffset.x, Math.sin(clock.elapsedTime * 2.1) * .12 + .92, pz + novaOffset.z);
   const novaTurn = Math.atan2(Math.sin(astronaut.rotation.y - nova.rotation.y), Math.cos(astronaut.rotation.y - nova.rotation.y));
   nova.rotation.y += novaTurn * Math.min(1, dt * 8);
@@ -353,7 +379,7 @@ renderer.setAnimationLoop(() => {
   updateMovement(dt);
 
   astronaut.position.y = .035 + Math.sin(t * 1.8) * .035;
-  beacon.intensity = 17 + Math.sin(t * 2.4) * 5;
+  beacon.intensity = 17 + Math.sin(t * 2.4) * 5;\n  craftLamp.intensity = 2.4 + Math.sin(t * 2.8) * .8;
 
   if (waypointRing) {
     const pulse = 1 + Math.sin(t * 3.2) * .12;
@@ -414,7 +440,7 @@ function mount() {
   const app = document.querySelector("#app");
   if (!app) return;
 
-  const hero = app.querySelector(".moon-wrap, .lunar-3d-home");
+  const hero = app.querySelector(".moon-wrap, .lunar-3d-home, .onboard-3d-preview");
   const heading = app.querySelector(".heading");
   const label = heading?.querySelector(".eyebrow")?.textContent || "";
   const missionWorld = /MISSION DAY|MISSION CONTROL \/\ FINAL DEBRIEF/i.test(label);
@@ -470,6 +496,8 @@ function mount() {
       (uiAr ? "المركبة" : "ROVER") +
       '</button><button data-scene-focus="lander">' +
       (uiAr ? "المركبة الهابطة" : "LANDER") +
+      '</button><button data-scene-focus="craft">' +
+      (uiAr ? "مركبتي الفضائية" : "MY SPACECRAFT") +
       '</button></div><span class="scene-caption">' +
       (uiAr ? "بيئة تدريب تصورية · ليست معدات طيران" : "CONCEPTUAL TRAINING ENVIRONMENT · NOT FLIGHT HARDWARE") +
       '</span></div>';
@@ -517,6 +545,7 @@ observer.observe(document.querySelector("#app"), {
 mount();
 
 const appRoot = document.querySelector("#app");
+window.addEventListener("tecnova-preview-change",()=>{const preview=appRoot.querySelector(".onboard-3d-preview");if(!preview)return;const old=preview.querySelector(".lunar-3d-stage");if(old){old._dispose?.();if(activeRoot===old)activeRoot=null;old.remove();}mount();});
 
 const capture = new MutationObserver(() => {
   const next = appRoot.querySelector(".lunar-3d-stage");
