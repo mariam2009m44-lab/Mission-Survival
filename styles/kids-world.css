@@ -417,3 +417,28 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #9af1
     max-width:calc(100% - 174px)!important;
   }
 }
+
+
+/* Mission-control resource shortage guidance */
+.resource-alert-panel{margin:16px 0;padding:16px;border:1px solid rgba(255,177,82,.38);border-radius:18px;background:linear-gradient(145deg,rgba(73,42,20,.38),rgba(14,24,43,.94));box-shadow:0 12px 30px rgba(0,0,0,.16)}
+.resource-alert-title{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.resource-alert-title>span{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:rgba(255,177,82,.16);font-size:22px;color:#ffc16b}
+.resource-alert-title b,.resource-alert-title small{display:block}
+.resource-alert-title b{font-size:.9rem;letter-spacing:.04em}
+.resource-alert-title small,.resource-alert-foot{color:var(--muted,#aab7cc);font-size:.78rem;line-height:1.55}
+.resource-alert-item{padding:13px;margin-top:10px;border-radius:13px;background:rgba(5,12,25,.52);border:1px solid rgba(255,255,255,.08)}
+.resource-alert-item.critical{border-color:rgba(255,92,105,.55);box-shadow:inset 3px 0 #ff6876}
+.resource-alert-item.warning{border-color:rgba(255,190,92,.32)}
+.resource-alert-heading{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.resource-alert-heading strong{font-size:.8rem;color:#ffc16b}
+.resource-alert-item.critical .resource-alert-heading strong{color:#ff8791}
+.resource-alert-item p{font-size:.84rem;line-height:1.6;color:#d5deed;margin:8px 0 11px}
+.resource-response-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.resource-response{min-width:0;text-align:start;padding:10px;border-radius:11px;border:1px solid rgba(120,190,255,.22);background:rgba(45,91,137,.16);color:inherit;cursor:pointer;touch-action:manipulation}
+.resource-response b,.resource-response small{display:block}
+.resource-response b{font-size:.78rem;line-height:1.4}
+.resource-response small{font-size:.7rem;color:#9ed8ff;margin-top:5px}
+.resource-response:focus-visible{outline:2px solid #8bd3ff;outline-offset:2px}
+.resource-response-done{display:block;color:#a9d9bb;font-size:.78rem;line-height:1.5}
+.resource-alert-foot{margin:12px 0 0}
+@media(max-width:620px){.resource-alert-panel{padding:12px}.resource-response-options{grid-template-columns:1fr}.resource-alert-heading{align-items:flex-start;flex-direction:column;gap:4px}}
