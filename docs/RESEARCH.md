@@ -30,6 +30,13 @@ NASA PDS Release 67 includes LRO-L-DLRE-4-RDR-V1.0 calibrated radiance products 
 https://pds.nasa.gov/datasearch/subscription-service/data_product_information.cfm?dsid=LRO-L-DLRE-4-RDR-V1.0&releaseid=0067
 Diviner measures thermal emission from the lunar surface. Surface observations are not habitat interior temperatures.
 
+### Water recovery and life support (ECLSS)
+NASA reported on 20 June 2023 that the International Space Station's Environmental Control and Life Support System demonstrated up to 98% total water recovery after the Brine Processor Assembly was added.
+- NASA report: https://www.nasa.gov/missions/station/iss-research/nasa-achieves-water-recovery-milestone-on-international-space-station/
+- This is an ISS technology milestone, not a lunar-base performance guarantee. A lunar outpost would require mission-specific hardware, maintenance, power and water-quality verification.
+- TECNOVA uses this source to explain why recovery and filtration matter. The game's water-meter changes are illustrative and are not calculated using the 98% figure.
+
+
 ### LRO instruments
 NASA instrument overview: https://science.nasa.gov/mission/lro/spacecraft-and-instruments/
 
