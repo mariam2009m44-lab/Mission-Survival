@@ -1125,3 +1125,61 @@ html[dir="rtl"] .lunar-3d-stage .scene-pad::before{
 .oxygen-source-note{display:block;margin-top:8px}
 .oxygen-source-note a{color:#8edfe9;text-decoration:underline;text-underline-offset:2px}
 @media(max-width:560px){.oxygen-facts{grid-template-columns:1fr}.oxygen-learning-card{padding:10px}.oxygen-quiz-option{min-height:44px}}
+
+
+/* 3D control zoning: keep camera, guidance, movement and interaction in separate lanes. */
+.lunar-3d-stage .scene-viewport{isolation:isolate;position:relative;overflow:hidden;min-width:0}
+.lunar-3d-stage .scene-camera-switch{z-index:8;inset-inline-start:10px;inset-inline-end:10px;top:10px;max-width:none;display:flex;flex-wrap:nowrap;gap:6px;overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:none;padding:2px}
+.lunar-3d-stage .scene-camera-switch::-webkit-scrollbar{display:none}
+.lunar-3d-stage .scene-camera-switch button{flex:0 0 auto;min-height:40px;white-space:nowrap}
+.lunar-3d-stage .scene-hud{z-index:5;top:62px;inset-inline-start:10px;max-width:min(230px,48%);max-height:calc(100% - 190px);overflow:auto}
+.lunar-3d-stage .scene-hud .scene-auto-walk{max-width:100%;white-space:normal;line-height:1.35}
+.lunar-3d-stage .scene-interact{z-index:9;left:auto;right:12px;inset-inline-start:auto;inset-inline-end:auto;bottom:14px;transform:none;max-width:min(190px,38%);white-space:normal;display:grid;justify-items:stretch;gap:5px;padding:8px;border-radius:14px}
+.lunar-3d-stage .scene-interact b{font-size:9px;overflow-wrap:anywhere;text-align:center}
+.lunar-3d-stage .scene-interact button{min-height:46px;width:100%;padding:8px 10px;white-space:normal}
+.lunar-3d-stage .scene-pad{z-index:10;left:12px;right:auto;inset-inline-start:auto;inset-inline-end:auto;bottom:12px;display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(2,44px);gap:5px;justify-items:stretch;align-items:stretch;padding:7px;border:1px solid rgba(166,210,235,.2);border-radius:17px;background:rgba(5,15,30,.48);backdrop-filter:blur(9px)}
+.lunar-3d-stage .scene-pad>button{grid-column:2;grid-row:1}
+.lunar-3d-stage .scene-pad>div{display:contents}
+.lunar-3d-stage .scene-pad>div button{width:44px;height:44px}
+.lunar-3d-stage .scene-pad>div button:nth-child(1){grid-column:1;grid-row:2}
+.lunar-3d-stage .scene-pad>div button:nth-child(2){grid-column:2;grid-row:2}
+.lunar-3d-stage .scene-pad>div button:nth-child(3){grid-column:3;grid-row:2}
+.lunar-3d-stage .scene-pad>button,.lunar-3d-stage .scene-pad>div button{min-width:44px;min-height:44px;margin:0;padding:0}
+.lunar-3d-stage .scene-toolbar{min-width:0}
+.lunar-3d-stage .scene-focus{min-width:0;max-width:100%;overscroll-behavior-inline:contain}
+@media(max-width:760px){
+ .lunar-3d-stage .scene-viewport{height:clamp(420px,72svh,650px);min-height:420px}
+ .lunar-3d-stage .scene-hud{top:62px;max-width:calc(100% - 20px);width:max-content;max-width:min(300px,calc(100% - 20px));padding:8px 10px}
+ .lunar-3d-stage .scene-hud .scene-child-tip{display:none}
+ .lunar-3d-stage .scene-hud .scene-auto-walk{min-height:38px;margin-top:6px}
+ .lunar-3d-stage .scene-pad{left:10px;bottom:10px;grid-template-columns:repeat(3,42px);grid-template-rows:repeat(2,42px);gap:4px;padding:6px}
+ .lunar-3d-stage .scene-pad>div button{width:42px;height:42px}
+ .lunar-3d-stage .scene-pad>button,.lunar-3d-stage .scene-pad>div button{min-width:42px;min-height:42px}
+ .lunar-3d-stage .scene-interact{right:10px;bottom:10px;max-width:clamp(112px,34vw,160px)}
+ .lunar-3d-stage .scene-camera-switch button{min-height:38px;padding:7px 9px;font-size:9px}
+}
+@media(max-width:390px){
+ .lunar-3d-stage .scene-viewport{height:68svh;min-height:400px}
+ .lunar-3d-stage .scene-camera-switch{gap:4px}
+ .lunar-3d-stage .scene-camera-switch button{font-size:8px;padding:6px 7px}
+ .lunar-3d-stage .scene-hud{max-width:calc(100% - 20px)}
+ .lunar-3d-stage .scene-interact{max-width:116px}
+ .lunar-3d-stage .scene-interact b{display:none}
+}
+@media(orientation:landscape) and (max-height:520px) and (max-width:900px){
+ .lunar-3d-stage .scene-viewport{height:100svh;min-height:320px}
+ .lunar-3d-stage .scene-camera-switch{top:6px;inset-inline-start:8px;inset-inline-end:8px}
+ .lunar-3d-stage .scene-camera-switch button{min-height:34px}
+ .lunar-3d-stage .scene-hud{top:48px;max-width:210px;max-height:calc(100% - 125px);padding:7px 9px}
+ .lunar-3d-stage .scene-pad{left:8px;bottom:8px;grid-template-columns:repeat(3,38px);grid-template-rows:repeat(2,38px);gap:3px}
+ .lunar-3d-stage .scene-pad>div button{width:38px;height:38px}
+ .lunar-3d-stage .scene-pad>button,.lunar-3d-stage .scene-pad>div button{min-width:38px;min-height:38px}
+ .lunar-3d-stage .scene-interact{right:8px;bottom:8px;max-width:145px}
+}
+@media(min-width:761px){
+ .lunar-3d-stage .scene-viewport{min-height:520px}
+ .lunar-3d-stage .scene-pad{left:16px;right:auto;bottom:16px;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,48px)}
+ .lunar-3d-stage .scene-pad>div button{width:48px;height:48px}
+ .lunar-3d-stage .scene-pad>button,.lunar-3d-stage .scene-pad>div button{min-width:48px;min-height:48px}
+ .lunar-3d-stage .scene-interact{right:16px;bottom:16px;max-width:200px}
+}
