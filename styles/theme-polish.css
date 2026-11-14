@@ -424,3 +424,13 @@ button:focus-visible,a:focus-visible{outline:3px solid rgba(112,220,226,.85);out
 .challenge-fit-integrity p{margin:6px 0 0;color:#b6c5da;font-size:10px;line-height:1.75}
 @media(max-width:760px){.challenge-fit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:480px){.challenge-fit{padding:14px;border-radius:16px}.challenge-fit-head{flex-direction:column}.challenge-fit-grid{grid-template-columns:minmax(0,1fr);gap:8px}.challenge-fit-item{padding:12px}}
+
+
+/* Transparent systems-resilience learning rubric */
+.mission-resilience{margin:0 0 18px;padding:15px;border:1px solid rgba(120,226,232,.2);border-radius:15px;background:linear-gradient(120deg,rgba(36,81,103,.22),rgba(40,48,87,.22))}
+.mission-resilience-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.mission-resilience-top>div{display:grid;gap:4px}.mission-resilience-top small{color:#a9c5d8;font-size:9px;letter-spacing:.08em}.mission-resilience-top b{font-size:27px;color:#f2f8ff}.mission-resilience-top b i{font-size:11px;color:#9fb4ca;font-style:normal;margin-inline-start:3px}
+.mission-resilience-risk{padding:6px 9px;border:1px solid rgba(126,224,187,.28);border-radius:99px;color:#9ce8c7;font-size:9px;font-weight:800}.mission-resilience-risk.watch{border-color:rgba(245,209,122,.35);color:#f5d17a}.mission-resilience-risk.critical{border-color:rgba(255,145,145,.4);color:#ffaaaa}
+.mission-resilience-track{height:8px;margin:10px 0 12px;border-radius:99px;overflow:hidden;background:rgba(255,255,255,.1)}.mission-resilience-track i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#54c9c1,#9ce8c7)}
+.mission-resilience>p{display:grid;gap:4px;margin:0;color:#eaf3ff;font-size:11px;line-height:1.65}.mission-resilience>p b{color:#a9edf0;font-size:9px;letter-spacing:.06em}.mission-resilience>small{display:block;margin-top:9px;color:#92a8c2;font-size:9px;line-height:1.6}
+@media(max-width:520px){.mission-resilience{padding:12px}.mission-resilience-top b{font-size:24px}.mission-resilience-risk{max-width:48%;text-align:center;white-space:normal}}
