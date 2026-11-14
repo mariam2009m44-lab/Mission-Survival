@@ -231,7 +231,7 @@ function makeScene(THREE,root){
 
 function updateMovement(dt) {
   if(autoWalkTarget){const dx=autoWalkTarget.position.x-astronaut.position.x,dz=autoWalkTarget.position.z-astronaut.position.z,distance=Math.hypot(dx,dz);if(distance<1.85){autoWalkTarget=null;setStatus(uiAr?"وصلنا للمحطة! اضغطي تفاعل لبدء التحدي":"Station reached! Press INTERACT to start the challenge");}else{const step=Math.min(moveSpeed*dt,distance-1.55),nx=dx/distance,nz=dz/distance;astronaut.position.x=clamp(astronaut.position.x+nx*step,-21,21);astronaut.position.z=clamp(astronaut.position.z+nz*step,-21,21);astronaut.rotation.y=Math.atan2(nx,nz);followPlayer=true;}}
-  else{let x=(keys.has("d")||keys.has("arrowright")?1:0)-(keys.has("a")||keys.has("arrowleft")?1:0)+moveX;let z=(keys.has("s")||keys.has("arrowdown")?1:0)-(keys.has("w")||keys.has("arrowup")?1:0)+moveZ;const length=Math.hypot(x,z);if(length>0.01){x/=length;z/=length;const dx=x*Math.cos(azimuth)+z*Math.sin(azimuth);const dz=-x*Math.sin(azimuth)+z*Math.cos(azimuth);astronaut.position.x=clamp(astronaut.position.x+dx*moveSpeed*dt,-21,21);astronaut.position.z=clamp(astronaut.position.z+dz*moveSpeed*dt,-21,21);astronaut.rotation.y=Math.atan2(dx,dz);followPlayer=true;}}
+  else{let x=(keys.has("d")||keys.has("arrowright")?1:0)-(keys.has("a")||keys.has("arrowleft")?1:0)+moveX;let z=(keys.has("w")||keys.has("arrowup")?1:0)-(keys.has("s")||keys.has("arrowdown")?1:0)+moveZ;const length=Math.hypot(x,z);if(length>0.01){x/=length;z/=length;const dx=x*Math.cos(azimuth)+z*Math.sin(azimuth);const dz=-x*Math.sin(azimuth)+z*Math.cos(azimuth);astronaut.position.x=clamp(astronaut.position.x+dx*moveSpeed*dt,-21,21);astronaut.position.z=clamp(astronaut.position.z+dz*moveSpeed*dt,-21,21);astronaut.rotation.y=Math.atan2(dx,dz);followPlayer=true;}}
 
   const px = astronaut.position.x;
   const pz = astronaut.position.z;
@@ -303,7 +303,8 @@ root.querySelectorAll("[data-move]").forEach(btn => {
   btn.addEventListener("lostpointercapture", () => set(false));
 });
 
-root.querySelectorAll("[data-scene-focus]").forEach(b => {
+const focusRoot = root.closest(".lunar-3d-stage") || root;
+focusRoot.querySelectorAll("[data-scene-focus]").forEach(b => {
   b.addEventListener("click", () => {
     const v = focus[b.dataset.sceneFocus];
 
@@ -319,7 +320,7 @@ root.querySelectorAll("[data-scene-focus]").forEach(b => {
 
       cameraUpdate();
 
-      root.querySelectorAll("[data-scene-focus]").forEach(x =>
+      focusRoot.querySelectorAll("[data-scene-focus]").forEach(x =>
         x.classList.toggle("active", x === b)
       );
     }
