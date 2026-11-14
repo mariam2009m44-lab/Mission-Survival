@@ -827,3 +827,155 @@ html[dir="rtl"] .lunar-3d-stage .scene-pad::before{
     min-height:42px;
   }
 }
+
+
+/* Responsive cockpit pass: prevent the HUD grid from collapsing its
+   auto-walk action into the narrow icon column, and separate top controls. */
+.lunar-3d-stage .scene-hud{
+  grid-template-columns:8px minmax(0,1fr)!important;
+  align-content:start;
+  min-width:0;
+  box-sizing:border-box;
+}
+.lunar-3d-stage .scene-hud b,
+.lunar-3d-stage .scene-hud small,
+.lunar-3d-stage .scene-hud .scene-auto-walk{
+  grid-column:2!important;
+  min-width:0;
+}
+.lunar-3d-stage .scene-hud .scene-auto-walk{
+  width:100%;
+  max-width:100%;
+  box-sizing:border-box;
+  white-space:normal;
+  overflow-wrap:normal;
+  line-height:1.35;
+  text-align:center;
+}
+.lunar-3d-stage .scene-hud .scene-child-tip{
+  line-height:1.4;
+}
+.lunar-3d-stage .scene-camera-switch{
+  min-width:0;
+  z-index:8!important;
+}
+.lunar-3d-stage .scene-toolbar{
+  min-width:0;
+}
+.lunar-3d-stage .scene-focus{
+  flex:1 1 100%;
+  width:100%;
+  min-width:0;
+  flex-wrap:nowrap;
+  overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch;
+  scroll-snap-type:x proximity;
+}
+.lunar-3d-stage .scene-focus button{
+  flex:0 0 auto;
+  scroll-snap-align:start;
+}
+@media(max-width:760px){
+  .lunar-3d-stage .scene-camera-switch{
+    top:10px!important;
+    right:10px!important;
+    left:auto!important;
+    inset-inline-start:auto!important;
+    inset-inline-end:10px!important;
+    width:min(42%,190px);
+    max-width:42%;
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:5px;
+    align-content:start;
+  }
+  .lunar-3d-stage .scene-camera-switch button{
+    min-width:0;
+    min-height:36px;
+    padding:6px 5px;
+    font-size:clamp(8px,2.1vw,10px)!important;
+    line-height:1.2;
+    white-space:normal;
+    overflow-wrap:anywhere;
+  }
+  .lunar-3d-stage .scene-hud{
+    top:10px!important;
+    left:10px!important;
+    inset-inline-start:10px!important;
+    width:min(54%,230px);
+    max-width:54%!important;
+    padding:9px 10px;
+  }
+  .lunar-3d-stage .scene-hud b{font-size:9px}
+  .lunar-3d-stage .scene-hud small{font-size:9px;line-height:1.4}
+  .lunar-3d-stage .scene-hud .scene-waypoint{
+    margin-top:7px;
+    padding:7px 8px;
+    border-radius:10px;
+    font-size:10px;
+    line-height:1.35;
+  }
+  .lunar-3d-stage .scene-hud .scene-auto-walk{
+    min-height:36px;
+    margin-top:7px;
+    padding:7px 8px;
+    font-size:9px;
+  }
+  .lunar-3d-stage .scene-hud .scene-child-tip{display:none}
+  .lunar-3d-stage .scene-pad{
+    left:calc(10px + env(safe-area-inset-left,0px))!important;
+    right:auto!important;
+    bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;
+  }
+  .lunar-3d-stage .scene-interact{
+    left:auto!important;
+    right:calc(10px + env(safe-area-inset-right,0px))!important;
+    inset-inline-start:auto!important;
+    inset-inline-end:calc(10px + env(safe-area-inset-right,0px))!important;
+    bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;
+  }
+}
+@media(max-width:420px){
+  .lunar-3d-stage .scene-hud{
+    width:53%;
+    max-width:53%!important;
+    padding:8px;
+  }
+  .lunar-3d-stage .scene-hud .scene-waypoint{font-size:9px}
+  .lunar-3d-stage .scene-camera-switch{
+    width:41%;
+    max-width:41%;
+    right:7px!important;
+    inset-inline-end:7px!important;
+    gap:4px;
+  }
+  .lunar-3d-stage .scene-camera-switch button{
+    min-height:34px;
+    font-size:8px!important;
+    padding:5px 3px;
+  }
+  .lunar-3d-stage .scene-focus{gap:6px}
+  .lunar-3d-stage .scene-focus button{
+    min-height:42px;
+    padding:9px 11px;
+    font-size:10px!important;
+  }
+}
+@media(orientation:landscape) and (max-height:520px) and (max-width:900px){
+  .lunar-3d-stage .scene-hud{
+    top:8px!important;left:8px!important;
+    width: min(34%,250px);max-width:34%!important;
+  }
+  .lunar-3d-stage .scene-camera-switch{
+    top:8px!important;right:8px!important;
+    width:min(48%,360px);max-width:48%;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+  .lunar-3d-stage .scene-hud .scene-child-tip{display:none}
+}
+@media(min-width:761px){
+  .lunar-3d-stage .scene-camera-switch{
+    display:flex;
+    flex-wrap:wrap;
+  }
+}
