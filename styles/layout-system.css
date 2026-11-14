@@ -161,3 +161,6 @@ button:disabled{cursor:not-allowed;opacity:.62}
 .challenge-two-finish{display:grid;gap:15px;text-align:center}
 .challenge-two-finish .badge-card{max-width:240px;margin-inline:auto}
 @media(max-width:640px){.challenge-two-options{grid-template-columns:1fr}.challenge-two-panel{padding:15px}.challenge-two-option{min-height:52px;font-size:12px}.challenge-two-station{padding:12px}}
+
+.report-header-actions{display:flex;align-items:center;justify-content:flex-end;gap:9px;flex-wrap:wrap}
+@media(max-width:620px){.report-header-actions{width:100%;justify-content:stretch}.report-header-actions button{flex:1;min-width:0}}
