@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0",
-  "verified_on": "2026-11-13",
+  "verified_on": "2026-11-14",
   "challenge": {
     "title": "Build a Junior Astronaut Mission Trainer",
     "official_url": "https://www.spaceappschallenge.org/2026/challenges/junior-astronaut-mission-trainer/"
@@ -102,6 +102,26 @@
       "measurement": "Up to 98% total water recovery demonstrated on the International Space Station after addition of the Brine Processor Assembly",
       "url": "https://www.nasa.gov/missions/station/iss-research/nasa-achieves-water-recovery-milestone-on-international-space-station/",
       "limitation": "ISS technology demonstration, not a lunar-base performance guarantee; TECNOVA's game resource changes are illustrative and are not calculated from this percentage."
+    },
+    {
+      "id": "nasa-osdr",
+      "publisher": "NASA Open Science Data Repository",
+      "product": "OSDR Biological Data API",
+      "api": "https://osdr.nasa.gov/osdr/data/search?term=spaceflight&from=0&size=10",
+      "documentation": "https://www.nasa.gov/osdr-api/",
+      "coverage": "Study search · metadata · study data files",
+      "data_type": "space biology research datasets",
+      "limitation": "Research studies are not live astronaut health telemetry or individual medical diagnosis."
+    },
+    {
+      "id": "nasa-radlab",
+      "publisher": "NASA RadLab / Open Science Data Repository",
+      "product": "RadLab radiation dosimetry Data API",
+      "api": "https://visualization.osdr.nasa.gov/radlab/api/?spacecraft=ISS&absorbed_dose_rate&timestamp",
+      "documentation": "https://visualization.osdr.nasa.gov/radlab/gui/data-api/",
+      "coverage": "Instrument timestamp, absorbed dose rate, dose-equivalent rate, flux and spacecraft context",
+      "data_type": "radiation instrument records",
+      "limitation": "Many records are from ISS instruments and are not direct radiation readings inside a lunar surface habitat."
     }
   ],
   "partner_resources": [

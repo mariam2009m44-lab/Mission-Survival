@@ -54,7 +54,7 @@ import {readFile} from "node:fs/promises";
 
 test("offline service worker precaches NOVA and rotates the cache",async()=>{
  const sw=await readFile(new URL("../service-worker.js",import.meta.url),"utf8");
- assert.match(sw,/lunar-outpost-app-v58/); 
+ assert.match(sw,/lunar-outpost-app-v59/); 
  assert.match(sw,/styles\/kids-comfort\.css/);
  assert.match(sw,/\.\/src\/nova\.js/);
  assert.match(sw,/\.\/src\/scene3d\.js/);
@@ -182,4 +182,31 @@ test("NOVA understands natural English and Egyptian Arabic descriptions of lunar
  assert.match(ar.answer,/الفوهة|فوهات/);
  assert.ok(en.sources.some(source=>source[1].includes("science.nasa.gov")));
  assert.ok(ar.sources.some(source=>source[1].includes("science.nasa.gov")));
+});
+
+
+test("NOVA explains NASA OSDR research API and its limits",()=>{
+ const result=answerNova("What is the NASA OSDR API?","en");
+ assert.match(result.answer,/public API/i);
+ assert.match(result.answer,/not live health readings/i);
+ assert.ok(result.sources.some(x=>x[1].includes("nasa.gov/osdr-api")));
+});
+test("NOVA explains RadLab dose-rate units and ISS-to-Moon limitation",()=>{
+ const result=answerNova("What is the RadLab dose rate?","en");
+ assert.match(result.answer,/µGy\/hour/);
+ assert.match(result.answer,/not a direct radiation reading inside a lunar surface habitat/i);
+ assert.ok(result.sources.some(x=>x[1].includes("radlab")));
+});
+test("NOVA links Google Gemini as a separate external chat, not an embedded API",async()=>{
+ const app=await readFile(new URL("../src/main.js",import.meta.url),"utf8");
+ assert.match(app,/https:\/\/gemini\.google\.com\/app/);
+ assert.match(app,/Google Gemini opens separately/);
+});
+test("Science library lists OSDR and RadLab with explicit data limitations",async()=>{
+ const data=await readFile(new URL("../src/data.js",import.meta.url),"utf8");
+ const manifest=JSON.parse(await readFile(new URL("../data/mission-science.json",import.meta.url),"utf8"));
+ assert.match(data,/id:"osdr"/);
+ assert.match(data,/id:"radlab"/);
+ assert.ok(manifest.datasets.some(x=>x.id==="nasa-osdr"&&x.limitation.includes("not live astronaut health telemetry")));
+ assert.ok(manifest.datasets.some(x=>x.id==="nasa-radlab"&&x.limitation.includes("not direct radiation readings")));
 });
