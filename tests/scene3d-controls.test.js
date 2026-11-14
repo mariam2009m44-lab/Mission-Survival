@@ -28,12 +28,15 @@ test("touch movement controls map all four directions to the expected keys", () 
 });
 
 
-test("NOVA turns with the astronaut and stays beside the player relative to heading", () => {
-  assert.match(scene, /novaRotatedOffset\.copy\(novaBaseOffset\)\.applyAxisAngle\(novaUpAxis, astronaut\.rotation\.y\)/);
-  assert.match(scene, /const novaPositionAlpha = 1 - Math\.exp\(-dt \* 6\.5\)/);
-  assert.match(scene, /nova\.position\.lerp\(novaTargetPosition, novaPositionAlpha\)/);
-  assert.match(scene, /nova\.rotation\.y \+= novaTurn \* \(1 - Math\.exp\(-dt \* 8\)\)/);
-  assert.match(scene, /astronaut\.rotation\.y - nova\.rotation\.y/);
+test("NOVA follows smoothly with its original relative offset and stable distance", () => {
+  assert.match(scene, /novaBaseOffset=new THREE\\.Vector3\\(1\\.55,0,-1\\.15\\)/);
+  assert.match(scene, /novaFollowYaw\+=followTurn/);
+  assert.match(scene, /novaRotatedOffset\.copy\(novaBaseOffset\)\.applyAxisAngle\(novaUpAxis,novaFollowYaw\)/);
+  assert.match(scene, /novaTargetPosition\.set\(px\+novaRotatedOffset\.x/);
+  assert.match(scene, /nova\.position\.lerp\(novaTargetPosition,1-Math\.exp\(-dt\*9\)\)/);
+  assert.match(scene, /novaRelativePosition\.setLength\(novaBaseOffset\.length\(\)\)/);
+  assert.match(scene, /nova\.rotation\.y\+=novaTurn\*\(1-Math\.exp\(-dt\*8\)\)/);
+  assert.match(scene, /Math\.sin\(clock\.elapsedTime\*2\.1\)\*\.12/);
   assert.match(scene, /btn\.style\.touchAction = "none"/);
   assert.match(scene, /pointerleave/);
 });
