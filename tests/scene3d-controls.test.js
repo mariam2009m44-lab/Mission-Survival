@@ -83,7 +83,7 @@ test("movement controls render as exactly four direct grid children with explici
   assert.equal((pad.match(/<div\b/g) || []).length, 1, "no nested wrapper should remain inside .scene-pad");
   for (const direction of ["forward", "left", "back", "right"]) assert.match(pad, new RegExp('data-move="' + direction + '"'));
   assert.match(kidsWorld, /grid-template-areas:\s*"\. forward \." "left back right"/);
-  for (const direction of ["forward", "left", "back", "right"]) assert.match(kidsWorld, new RegExp('\[data-move="' + direction + '"\]\{grid-area:' + direction));
+  for (const direction of ["forward", "left", "back", "right"]) assert.ok(kidsWorld.includes(`[data-move="${direction}"]{grid-area:${direction}`));
   assert.doesNotMatch(kidsWorld, /\.scene-pad\s*>\s*div/);
   assert.doesNotMatch(baseCss, /\.scene-pad\s*>\s*div/);
 });
