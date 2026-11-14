@@ -222,87 +222,50 @@ function makeScene(THREE,root){
  interactButton?.addEventListener("click",interact);
 
 function updateMovement(dt) {
-    let x =
-        (keys.has("d") || keys.has("arrowright") ? 1 : 0) -
-        (keys.has("a") || keys.has("arrowleft") ? 1 : 0) + moveX;
-
-    let z =
-        (keys.has("s") || keys.has("arrowdown") ? 1 : 0) -
-        (keys.has("w") || keys.has("arrowup") ? 1 : 0) + moveZ;
-
-    const length = Math.hypot(x, z);
-
-    if (length > 0.01) {
-        x /= length;
-        z /= length;
-
-        const dx = x * Math.cos(azimuth) + z * Math.sin(azimuth);
-        const dz = -x * Math.sin(azimuth) + z * Math.cos(azimuth);
-
-        astronaut.position.x = clamp(
-            astronaut.position.x + dx * moveSpeed * dt,
-            -21,
-            21
-        );
-
-        astronaut.position.z = clamp(
-            astronaut.position.z + dz * moveSpeed * dt,
-            -21,
-            21
-        );
-
-        astronaut.rotation.y = Math.atan2(dx, dz);
-        followPlayer = true;
-    }
-}
-  
+  let x = (keys.has("d") || keys.has("arrowright") ? 1 : 0)
+    - (keys.has("a") || keys.has("arrowleft") ? 1 : 0) + moveX;
+  let z = (keys.has("s") || keys.has("arrowdown") ? 1 : 0)
+    - (keys.has("w") || keys.has("arrowup") ? 1 : 0) + moveZ;
+  const length = Math.hypot(x, z);
+  if (length > 0.01) {
+    x /= length;
+    z /= length;
+    const dx = x * Math.cos(azimuth) + z * Math.sin(azimuth);
+    const dz = -x * Math.sin(azimuth) + z * Math.cos(azimuth);
+    astronaut.position.x = clamp(astronaut.position.x + dx * moveSpeed * dt, -21, 21);
+    astronaut.position.z = clamp(astronaut.position.z + dz * moveSpeed * dt, -21, 21);
+    astronaut.rotation.y = Math.atan2(dx, dz);
+    followPlayer = true;
+  }
 
   const px = astronaut.position.x;
   const pz = astronaut.position.z;
-
   let nearest = null;
   let dist = Infinity;
-
   for (const st of stations) {
-    const d = Math.hypot(px - st.position.x, pz - st.position.z);
-    if (d < dist) {
-      dist = d;
+    const distance = Math.hypot(px - st.position.x, pz - st.position.z);
+    if (distance < dist) {
+      dist = distance;
       nearest = st;
     }
   }
-
   const next = nearest && dist < nearest.radius ? nearest : null;
-
   if (next !== nearby) {
     nearby = next;
-
     if (interactWrap) interactWrap.hidden = !nearby;
-
-    if (nearby) {
-      root.querySelector("[data-scene-nearby]").textContent = nearby.name;
-      setStatus((uiAr ? "في النطاق · " : "IN RANGE · ") + (uiAr ? nearby.ar : nearby.name));
-    } else {
-      setStatus(uiAr ? "استكشفي القاعدة وابحثي عن محطة مضيئة" : "Explore the outpost and find a glowing station");
-    }
+    const nearbyLabel = root.querySelector("[data-scene-nearby]");
+    if (nearbyLabel && nearby) nearbyLabel.textContent = uiAr ? nearby.ar : nearby.name;
+    if (nearby) setStatus((uiAr ? "في النطاق · " : "IN RANGE · ") + (uiAr ? nearby.ar : nearby.name));
+    else setStatus(uiAr ? "استكشفي القاعدة وابحثي عن محطة مضيئة" : "Explore the outpost and find a glowing station");
   }
 
   for (const marker of stationMarkers) {
     const pulse = 1 + Math.sin(clock.elapsedTime * 2.5 + marker.station.position.x) * .09;
     marker.ring.scale.setScalar(pulse);
   }
-
-  if (followPlayer) {
-    target.lerp(new THREE.Vector3(px, .5, pz), Math.min(1, dt * 3));
-  }
-
-  nova.position.set(
-    px + 1.55,
-    Math.sin(clock.elapsedTime * 2.1) * .12,
-    pz + 1.15
-  );
-
+  if (followPlayer) target.lerp(new THREE.Vector3(px, .5, pz), Math.min(1, dt * 3));
+  nova.position.set(px + 1.55, Math.sin(clock.elapsedTime * 2.1) * .12 + .92, pz + 1.15);
   nova.rotation.y = Math.sin(clock.elapsedTime * .8) * .16;
-  nova.position.y += .92;
 }
 
 const onKeyDown = e => {
