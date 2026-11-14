@@ -74,11 +74,27 @@ function makeScene(THREE,root){
  const lander=new THREE.Group();lander.position.set(-8,0,-5);group.add(lander);
  cyl(1.05,1.35,1.45,gold,0,2,0,lander);cyl(.55,.55,.5,dark,0,2.95,0,lander);
  for(let i=0;i<4;i++){const a=i*Math.PI/2+.4,x=Math.cos(a)*1.5,z=Math.sin(a)*1.5;box(.12,1.65,.12,white,x,1.05,z,lander);box(.72,.12,.72,dark,x,.22,z,lander);}
- // Rover.
+ // Rover: detailed six-wheel-style educational explorer with animated sensor mast.
  const rover=new THREE.Group();rover.position.set(5,0,6);group.add(rover);
- box(1.7,.65,1.25,white,0,.85,0,rover);box(.65,.5,.6,gold,-.15,1.42,-.1,rover);
- for(const x of [-.72,.72])for(const z of [-.72,.72]){const wheel=new THREE.Mesh(new THREE.CylinderGeometry(.38,.38,.2,20),dark);wheel.rotation.z=Math.PI/2;wheel.position.set(x,.45,z);rover.add(wheel);}
- const mast=cyl(.045,.045,1.5,white,.45,1.8,0,rover);mast.rotation.z=-.15;
+ box(1.7,.65,1.25,white,0,.85,0,rover);
+ const roverDeck=box(1.12,.12,.86,dark,0,1.23,0,rover);
+ box(.65,.5,.6,gold,-.15,1.42,-.1,rover);
+ const roverWheels=[];
+ for(const x of [-.72,.72])for(const z of [-.72,0,.72]){
+  const wheelPivot=new THREE.Group();wheelPivot.position.set(x,.45,z);rover.add(wheelPivot);
+  const wheel=new THREE.Mesh(new THREE.CylinderGeometry(.38,.38,.22,24),dark);wheel.rotation.z=Math.PI/2;wheelPivot.add(wheel);
+  const hub=new THREE.Mesh(new THREE.CylinderGeometry(.15,.15,.235,20),gold);hub.rotation.z=Math.PI/2;wheelPivot.add(hub);
+  const treadMat=mat(0x718198,.35,.62);
+  for(let tread=0;tread<12;tread++){const a=tread*Math.PI/6;const lug=box(.245,.075,.09,treadMat,Math.cos(a)*.36,Math.sin(a)*.36,0,wheelPivot);lug.rotation.z=a;}
+  roverWheels.push(wheelPivot);
+ }
+ const roverLampMat=new THREE.MeshStandardMaterial({color:0x8deaff,emissive:0x2b9fc9,emissiveIntensity:1.2});
+ for(const x of [-.48,.48]){const lamp=new THREE.Mesh(new THREE.SphereGeometry(.09,14,10),roverLampMat);lamp.position.set(x,1.05,.66);rover.add(lamp);}
+ const mastPivot=new THREE.Group();mastPivot.position.set(.45,1.35,0);rover.add(mastPivot);
+ const mast=cyl(.045,.045,1.5,white,0,.45,0,mastPivot);mast.rotation.z=-.15;
+ const mastHead=new THREE.Mesh(new THREE.BoxGeometry(.42,.24,.3),dark);mastHead.position.set(0,1.18,0);mastPivot.add(mastHead);
+ const mastLens=new THREE.Mesh(new THREE.SphereGeometry(.105,16,12),roverLampMat);mastLens.position.set(0,1.18,.17);mastPivot.add(mastLens);
+ const mastDish=new THREE.Mesh(new THREE.TorusGeometry(.2,.025,8,24),gold);mastDish.position.set(0,1.38,-.08);mastDish.rotation.x=.35;mastPivot.add(mastDish);
 let profileState={};try{profileState=JSON.parse(localStorage.getItem("lunar-outpost-trainer-v2")||"{}")||{};}catch{}const commander={avatar:profileState.commander?.avatar||localStorage.getItem("tecnova-preview-avatar")||"blue",name:profileState.commander?.name||"Commander",vehicle:profileState.commander?.vehicle||localStorage.getItem("tecnova-preview-vehicle")||"astra"};
 // Selected explorer spacecraft: a complete procedural 3D vehicle, with a different livery for each choice.
 const craftStyles={
@@ -161,7 +177,14 @@ const craftLabelCanvas=document.createElement("canvas");craftLabelCanvas.width=5
  const helmetRing=new THREE.Mesh(new THREE.TorusGeometry(.395,.035,10,48),accentMat);helmetRing.position.set(0,1.57,0);astronaut.add(helmetRing);
  const backpack=box(.62,.78,.3,dark,0,.9,-.42,astronaut);
  box(.38,.22,.09,accentMat,0,1.05,-.59,astronaut);
- for(const x of [-.43,.43]){const arm=cyl(.13,.16,.62,white,x,.92,0,astronaut);arm.rotation.z=x*.45;const glove=new THREE.Mesh(new THREE.SphereGeometry(.14,14,12),white);glove.position.set(x*1.22,.64,.08);astronaut.add(glove);const leg=box(.2,.58,.22,white,x*.55,.27,0,astronaut);leg.rotation.z=-x*.12;box(.25,.13,.34,dark,x*.55,.02,.04,astronaut);}
+ const animatedLimbs={arms:[],legs:[]};
+ for(const x of [-.43,.43]){
+  const armPivot=new THREE.Group();armPivot.position.set(x,1.13,0);armPivot.rotation.z=x*.45;astronaut.add(armPivot);
+  const arm=cyl(.13,.16,.62,white,0,-.21,0,armPivot);
+  const glove=new THREE.Mesh(new THREE.SphereGeometry(.14,14,12),white);glove.position.set(0,-.49,.08);armPivot.add(glove);animatedLimbs.arms.push({pivot:armPivot,side:Math.sign(x)});
+  const legPivot=new THREE.Group();legPivot.position.set(x*.55,.56,0);legPivot.rotation.z=-x*.12;astronaut.add(legPivot);
+  box(.2,.58,.22,white,0,-.29,0,legPivot);box(.25,.13,.34,dark,0,-.54,.04,legPivot);animatedLimbs.legs.push({pivot:legPivot,side:Math.sign(x)});
+ }
  const chestBadge=box(.24,.18,.035,accentMat,.12,1.02,.29,astronaut);
  // Interactive lunar stations. These are educational props, not engineering hardware.
  const greenhouse=new THREE.Group();greenhouse.position.set(-5,0,7);group.add(greenhouse);
@@ -253,7 +276,7 @@ const craftLabelCanvas=document.createElement("canvas");craftLabelCanvas.width=5
  canvas.addEventListener("wheel",e=>{e.preventDefault();radius=clamp(radius+e.deltaY*.018,7,34);cameraUpdate();},{passive:false});
  root.querySelectorAll("[data-scene-camera]").forEach(button=>button.addEventListener("click",()=>{firstPerson=false;if(firstPersonButton){firstPersonButton.textContent=uiAr?"منظور رائدة الفضاء":"FIRST PERSON";firstPersonButton.setAttribute("aria-pressed","false");}cameraMode=button.dataset.sceneCamera;if(cameraMode==="follow"){followPlayer=true;radius=12.5;setStatus(uiAr?"الكاميرا تتبع رائد الفضاء":"Camera follows your astronaut");}else{followPlayer=false;target.set(0,.5,0);radius=27;setStatus(uiAr?"عرض القاعدة بالكامل":"Full outpost overview");}root.querySelectorAll("[data-scene-camera]").forEach(x=>x.classList.toggle("active",x===button));cameraUpdate();}));
  const focus={base:[0,.5,0],craft:[10,1,10],habitat:[-2,1,1],oxygen:[-5,1,-3],power:[4,1,-1],greenhouse:[-5,1,7],rover:[5,1,6],lander:[-8,1,-5]};
- let followPlayer=!previewMode,nearby=null,autoWalkTarget=null,interactWhenArrived=false,moveX=0,moveZ=0,lastPositionSave=0;const keys=new Set(),moveSpeed=4.2;
+ let followPlayer=!previewMode,nearby=null,autoWalkTarget=null,interactWhenArrived=false,moveX=0,moveZ=0,lastPositionSave=0,walkBlend=0,lastWalkX=astronaut.position.x,lastWalkZ=astronaut.position.z;const keys=new Set(),moveSpeed=4.2;
  const firstPersonButton=root.querySelector("[data-scene-first-person]"),vrButton=root.querySelector("[data-scene-vr]");
  const immersiveButton=root.querySelector("[data-scene-fullscreen]"),immersiveTarget=root.closest(".lunar-3d-stage")||root;
  immersiveButton?.addEventListener("click",async()=>{try{if(document.fullscreenElement===immersiveTarget){await document.exitFullscreen();}else if(immersiveTarget.requestFullscreen){await immersiveTarget.requestFullscreen();}else{immersiveTarget.classList.toggle("scene-immersive");}}catch{immersiveTarget.classList.toggle("scene-immersive");}setTimeout(resize,120);});
@@ -400,7 +423,17 @@ const animate = () => {
 
   updateMovement(dt);
 
-  astronaut.position.y = .035 + Math.sin(t * 1.8) * .035;
+  const movedDistance=Math.hypot(astronaut.position.x-lastWalkX,astronaut.position.z-lastWalkZ);
+  lastWalkX=astronaut.position.x;lastWalkZ=astronaut.position.z;
+  const moving=movedDistance>0.0008;
+  walkBlend=THREE.MathUtils.damp(walkBlend,moving?1:0, moving?10:8,dt);
+  const stride=Math.sin(t*10.5)*walkBlend;
+  animatedLimbs.arms.forEach(({pivot,side})=>{pivot.rotation.x=stride*side*.72;pivot.rotation.z=side*.45;});
+  animatedLimbs.legs.forEach(({pivot,side})=>{pivot.rotation.x=-stride*side*.82;pivot.rotation.z=-side*.12;});
+  astronaut.position.y = .035 + Math.sin(t * (moving?10.5:1.8)) * (moving?.055:.035);
+  roverWheels.forEach((wheel,index)=>{wheel.rotation.x+=moving?0:0;});
+  mastPivot.rotation.y=Math.sin(t*.42)*.62;
+  roverLampMat.emissiveIntensity=.85+Math.sin(t*2.1)*.35;
   beacon.intensity = 17 + Math.sin(t * 2.4) * 5;
   craftLamp.intensity = 2.4 + Math.sin(t * 2.8) * .8;
 

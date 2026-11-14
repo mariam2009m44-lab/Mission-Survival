@@ -41,3 +41,18 @@ test("3D rendering pauses in the background and resumes when the app is visible"
   assert.match(scene, /document\.addEventListener\("visibilitychange", handleVisibilityChange\)/);
   assert.match(scene, /document\.removeEventListener\("visibilitychange", handleVisibilityChange\)/);
 });
+
+\ntest("astronaut has articulated arm and leg pivots with a movement-driven walk cycle", () => {
+  assert.match(scene, /const animatedLimbs=\{arms:\[\],legs:\[\]\}/);
+  assert.match(scene, /walkBlend=THREE\.MathUtils\.damp/);
+  assert.match(scene, /animatedLimbs\.arms\.forEach/);
+  assert.match(scene, /animatedLimbs\.legs\.forEach/);
+  assert.match(scene, /const stride=Math\.sin\(t\*10\.5\)\*walkBlend/);
+});
+
+test("rover has detailed wheel hubs, tread lugs, and a scanning sensor mast", () => {
+  assert.match(scene, /const roverWheels=\[\]/);
+  assert.match(scene, /const treadMat=mat\(0x718198/);
+  assert.match(scene, /const mastPivot=new THREE\.Group\(\)/);
+  assert.match(scene, /mastPivot\.rotation\.y=Math\.sin\(t\*\.42\)\*\.62/);
+});
