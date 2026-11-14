@@ -77,6 +77,9 @@ export function validateProgress(input) {
       choiceId:typeof row.choiceId==="string"?row.choiceId.slice(0,50):"",
       title:typeof row.title==="string"?row.title.slice(0,120):"",why:typeof row.why==="string"?row.why.slice(0,500):"",
       site:typeof row.site==="string"?row.site.slice(0,40):null,
+      siteName:typeof row.siteName==="string"?row.siteName.slice(0,60):null,
+      before:row.before&&typeof row.before==="object"?Object.fromEntries(["power","oxygen","water","food","shield"].filter(k=>Number.isFinite(Number(row.before[k]))).map(k=>[k,number(row.before[k],100)])): {},
+      after:row.after&&typeof row.after==="object"?Object.fromEntries(["power","oxygen","water","food","shield"].filter(k=>Number.isFinite(Number(row.after[k]))).map(k=>[k,number(row.after[k],100)])): {},
       delta:row.delta&&typeof row.delta==="object"?Object.fromEntries(Object.entries(row.delta).filter(([k,v])=>["power","oxygen","water","food","shield"].includes(k)&&Number.isFinite(Number(v))).map(([k,v])=>[k,Math.max(-100,Math.min(100,Number(v)))])): {}
     })): [];
   }
