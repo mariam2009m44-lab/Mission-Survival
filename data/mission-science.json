@@ -93,6 +93,15 @@
       "measurement": "Lunar Reconnaissance Orbiter Camera imagery",
       "schedule_url": "https://pds-geosciences.wustl.edu/missions/lro/",
       "limitation": "The archive schedule lists the planned public-release date. Check the archive for actual product availability; this is not a CRaTER or Diviner release."
+    },
+    {
+      "id": "nasa-iss-eclss-water-recovery",
+      "publisher": "NASA",
+      "product": "ISS Environmental Control and Life Support System water recovery milestone",
+      "report_date": "2023-06-20",
+      "measurement": "Up to 98% total water recovery demonstrated on the International Space Station after addition of the Brine Processor Assembly",
+      "url": "https://www.nasa.gov/missions/station/iss-research/nasa-achieves-water-recovery-milestone-on-international-space-station/",
+      "limitation": "ISS technology demonstration, not a lunar-base performance guarantee; TECNOVA's game resource changes are illustrative and are not calculated from this percentage."
     }
   ],
   "partner_resources": [
