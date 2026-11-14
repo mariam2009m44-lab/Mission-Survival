@@ -72,8 +72,7 @@ test("app completes junior commander onboarding, training, five mission decision
     "nasa.gov/missions/station/iss-research/nasa-achieves-water-recovery-milestone-on-international-space-station/",
     "asc-csa.gc.ca/eng/youth-educators/toolkits/food-production/"
    ];
-   if(day>0)assert.ok(root.innerHTML.includes(evidenceUrls[day-1]));
-   if(day===3)assert.ok(root.innerHTML.includes(evidenceUrls[3]));
+   if(day>0)assert.ok(root.innerHTML.includes(evidenceUrls[day]));
   }
  }
  assert.match(root.innerHTML,/MISSION SCORE/);
