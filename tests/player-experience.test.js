@@ -26,6 +26,10 @@ test("3D preview follows the selected identity and renders a selectable spacecra
   assert.match(scene, /onboard-3d-preview/);
   assert.match(scene, /tecnova-preview-change/);
   assert.match(scene, /craftStyles/);
+  assert.match(scene, /LUNA EXPLORER: broad solar wings/);
+  assert.match(scene, /PIONEER: reinforced cargo carrier/);
+  assert.match(scene, /new THREE.BoxGeometry\(4\.4/);
+  assert.match(scene, /new THREE.BoxGeometry\(1\.35/);
   assert.match(scene, /MY SPACECRAFT/);
   assert.match(scene, /novaOffset/);
 });
