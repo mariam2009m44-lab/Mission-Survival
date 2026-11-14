@@ -381,7 +381,7 @@ function mount() {
   const app = document.querySelector("#app");
   if (!app) return;
 
-  const hero = app.querySelector(".moon-wrap");
+  const hero = app.querySelector(".moon-wrap, .lunar-3d-home");
   const heading = app.querySelector(".heading");
   const label = heading?.querySelector(".eyebrow")?.textContent || "";
   const missionWorld = /MISSION DAY|MISSION CONTROL \/\ FINAL DEBRIEF/i.test(label);
@@ -473,6 +473,10 @@ const observer = new MutationObserver(() => {
   }
   mount();
 });
+
+const introObserver = new MutationObserver(() => mountIntro());
+introObserver.observe(document.querySelector("#app"), { childList: true, subtree: true });
+mountIntro();
 
 observer.observe(document.querySelector("#app"), {
   childList: true,
