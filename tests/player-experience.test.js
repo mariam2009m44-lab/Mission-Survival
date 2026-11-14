@@ -40,6 +40,8 @@ test("identity preview and profile controls stay usable on narrow screens", () =
   assert.match(css, /profile-switch-trigger/);
   assert.match(css, /onboard-3d-preview/);
   assert.match(css, /Mission 3D mobile controls/);
+  assert.match(css, /\.scene-auto-walk/);
+  assert.match(css, /pointer-events:auto/);
   assert.match(css, /max-width:calc\(100% - 160px\)/);
   assert.match(css, /@media\(max-width:700px\)/);
 });
