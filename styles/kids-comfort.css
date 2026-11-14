@@ -149,3 +149,5 @@
 .profile-switch{width:100%;margin-top:12px}
 .tecnova-settings .profile-switch+small{display:block;margin-top:8px;color:#b9c7da;line-height:1.6}
 @media(max-width:620px){.lunar-3d-home{min-height:390px;margin:12px 0;border-radius:18px}.lunar-3d-home .scene-viewport{min-height:330px}}
+
+.kid-header-controls{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.kid-header-controls .sound-toggle,.kid-header-controls .music-toggle{min-width:38px;min-height:38px;border-radius:12px}@media(max-width:620px){.kid-header-controls{gap:5px}.kid-header-controls .sound-toggle,.kid-header-controls .music-toggle{min-width:34px;min-height:34px}}
