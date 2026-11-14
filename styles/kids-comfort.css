@@ -246,3 +246,31 @@
   .nova-launcher{right:9px!important}
   .rtl .nova-launcher{right:auto!important;left:9px!important}
 }
+
+
+/* Water shortage learning card — responsive, bilingual and touch friendly. */
+.water-learning-card{display:grid;gap:12px;min-width:0;margin:12px 0;padding:clamp(12px,2.2vw,18px);border:1px solid rgba(92,205,224,.25);border-radius:18px;background:linear-gradient(145deg,rgba(12,48,67,.88),rgba(11,29,49,.94));box-shadow:0 10px 28px rgba(0,0,0,.16);color:#eefaff}
+.water-learning-heading{display:flex;align-items:center;gap:11px;min-width:0}
+.water-learning-heading>span{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;border-radius:13px;background:rgba(79,198,220,.14);font-size:23px}
+.water-learning-heading>div{display:grid;gap:4px;min-width:0}
+.water-learning-heading b{font-size:clamp(11px,1.5vw,13px);letter-spacing:.045em;overflow-wrap:anywhere}
+.water-learning-heading small,.water-source-note{color:#b6cddd;font-size:10px;line-height:1.65}
+.water-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.water-facts p{min-width:0;margin:0;padding:11px;border:1px solid rgba(113,201,221,.14);border-radius:12px;background:rgba(5,20,36,.48);font-size:11px;line-height:1.65;color:#c8deea;overflow-wrap:anywhere}
+.water-facts b{color:#8fe8e6}
+.water-quiz-question{display:grid;gap:9px;min-width:0;padding:12px;border:1px solid rgba(145,194,221,.16);border-radius:14px;background:rgba(5,19,34,.42)}
+.water-quiz-question>b{font-size:12px;line-height:1.7;overflow-wrap:anywhere}
+.water-quiz-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.water-quiz-option{min-width:0;min-height:46px;padding:10px 12px;border:1px solid rgba(155,196,220,.2);border-radius:11px;background:rgba(28,53,76,.72);color:#eaf6ff;text-align:start;font:inherit;font-size:11px;line-height:1.55;white-space:normal;overflow-wrap:anywhere;cursor:pointer}
+.water-quiz-option:hover{border-color:rgba(112,225,223,.65);background:rgba(38,85,103,.78)}
+.water-quiz-option.correct{border-color:#4bc69a;background:rgba(36,133,101,.2)}
+.water-quiz-option.incorrect{border-color:#e39b76;background:rgba(153,77,59,.2)}
+.water-quiz-feedback{margin:0;padding:10px 11px;border-radius:10px;font-size:11px;line-height:1.7;overflow-wrap:anywhere}
+.water-quiz-feedback.correct{background:rgba(44,145,108,.15);color:#a9f0d2}
+.water-quiz-feedback.incorrect{background:rgba(164,94,65,.15);color:#ffd1b6}
+.water-source-note{display:block;overflow-wrap:anywhere}
+.water-source-note a{color:#8fe8e6;text-decoration:underline;text-underline-offset:3px}
+.water-quiz-option:focus-visible{outline:3px solid #ffe09a;outline-offset:2px}
+@media(max-width:640px){.water-facts{grid-template-columns:1fr}.water-quiz-options{grid-template-columns:1fr}.water-quiz-option{min-height:48px;font-size:12px}.water-learning-card{border-radius:15px}.water-quiz-question{padding:10px}}
+@media(min-width:641px) and (max-width:1024px){.water-quiz-options{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.water-quiz-option{transition:none}}
