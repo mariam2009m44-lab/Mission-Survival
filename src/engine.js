@@ -57,7 +57,8 @@ export function resourceAlerts(m){
 }
 export function applyScenarioResponse(m,resourceId,actionId){
  if(!m?.started||m.phase!=="active"||!Object.hasOwn(RESOURCE_RESPONSES,resourceId))return null;
- if(!m.resources||!Array.isArray(m.responseHistory))m.responseHistory??=[];
+ if(!m.resources)return null;
+ if(!Array.isArray(m.responseHistory))m.responseHistory=[];
  const key="scenario:"+resourceId;
  if(m.responseHistory.some(x=>x.key===key))return null;
  const action=RESOURCE_RESPONSES[resourceId][actionId];if(!action)return null;
