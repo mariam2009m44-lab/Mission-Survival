@@ -141,3 +141,11 @@
 .onboard-name-block .profile-label{margin:0}
 .onboard-name-block>small{color:#9db2ce;font-size:10px;line-height:1.55}
 @media(max-width:520px){.avatar-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.avatar-choice{min-height:148px}.onboard-card{border-radius:22px}.onboard-step{gap:8px}}
+
+/* A real exploration scene is part of the home journey, not hidden behind a tab. */
+.lunar-3d-home{width:100%;min-height:clamp(360px,52vw,590px);margin:18px 0;overflow:hidden;border:1px solid rgba(151,196,239,.24);border-radius:24px;background:radial-gradient(ellipse at 50% 15%,rgba(58,92,139,.42),rgba(8,17,34,.98) 72%);box-shadow:0 18px 42px rgba(0,0,0,.22)}
+.lunar-3d-home .lunar-3d-stage{margin:0;border:0;border-radius:inherit;min-height:inherit}
+.lunar-3d-home .scene-viewport{min-height:clamp(300px,44vw,520px)}
+.profile-switch{width:100%;margin-top:12px}
+.tecnova-settings .profile-switch+small{display:block;margin-top:8px;color:#b9c7da;line-height:1.6}
+@media(max-width:620px){.lunar-3d-home{min-height:390px;margin:12px 0;border-radius:18px}.lunar-3d-home .scene-viewport{min-height:330px}}
