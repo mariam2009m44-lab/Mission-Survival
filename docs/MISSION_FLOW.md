@@ -15,7 +15,7 @@ TECNOVA is an Artemis-inspired educational game for the NASA Space Apps 2026 cha
 - The game has five distinct decision days and one strategic decision per day.
 - Resource values are illustrative game units from 0 to 100, not spacecraft telemetry, engineering safety thresholds, medical readings or real sensor measurements.
 - Oxygen, water, power, food and crew protection are connected game resources. Improving one can consume another.
-- Crew protection is a simplified game resource, not a medical measure of astronaut health.
+- Radiation protection is a simplified game resource, not a measured radiation dose, a physical shield specification or a medical measure of astronaut health.
 - DONKI event records are optional research context only. They do not change game values or predict radiation at a lunar habitat.
 - CRaTER measurements are from lunar orbit, not from inside a surface habitat.
 - NASA's lunar illumination sequence is a terrain-based model, not live sunlight or power telemetry.
