@@ -1,4 +1,4 @@
-const THREE_URL="https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
+const THREE_URL="../vendor/three.module.js";
 let mounted=false;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 function makeIntroScene(THREE,root){
