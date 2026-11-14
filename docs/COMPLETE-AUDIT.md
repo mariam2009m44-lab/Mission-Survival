@@ -122,3 +122,16 @@ The Science Lab now displays the A–E key and each listed source card has a pro
 - NASA–IBM Lunar Foundation Model: https://science.nasa.gov/science-research/artificial-intelligence-lunar-foundation-model/
 - Canadian Space Agency food toolkit: https://www.asc-csa.gc.ca/eng/youth-educators/toolkits/food-production/
 - Canadian Space Agency mini-greenhouse: https://www.asc-csa.gc.ca/eng/youth-educators/activities/mini-greenhouse-experiment.asp
+
+
+## Final landing-region decision upgrade — 14 Nov 2026
+
+The landing-region selector is now a functional first mission decision. It uses three names from NASA's Artemis III candidate-region study list, but the game does **not** claim any candidate is approved, safe, or proven to contain accessible ice. Each selection applies a distinct fictional cargo-priority package to the five illustrative game reserves:
+
+- **Malapert Massif — Solar-support package:** +12 power, −6 water.
+- **Nobile Rim 1 — Polar-science package:** +10 water, −8 power. This is a water-logistics allocation, not evidence of water ice at the site.
+- **de Gerlache Rim 2 — Balanced mobility package:** +5 power, +6 crew-protection reserve, −5 food.
+
+These are game-only loadout trade-offs, not measured properties of the named regions. The player can change the package before making the Day 1 payload decision. Once a mission decision is recorded, the landing package is locked. The Day 1 payload choice then stacks with the chosen package and affects the five-day resource state. The final report records the selected region, its package, the package's resource deltas, and the adjusted starting baseline; the impact timeline displays the landing strategy before later decisions.
+
+Automated coverage added for all three profiles, distinct resource effects, re-selection before lock, lock after the first decision, fresh-mission reset, baseline/report consistency, and the full UI path. These tests verify deterministic game logic and rendered markup; they do not replace a physical-device walkthrough or validate actual lunar landing feasibility.
