@@ -205,7 +205,7 @@ function makeScene(THREE,root){
  canvas.addEventListener("wheel",e=>{e.preventDefault();radius=clamp(radius+e.deltaY*.018,7,34);cameraUpdate();},{passive:false});
  root.querySelectorAll("[data-scene-camera]").forEach(button=>button.addEventListener("click",()=>{firstPerson=false;if(firstPersonButton){firstPersonButton.textContent=uiAr?"منظور رائدة الفضاء":"FIRST PERSON";firstPersonButton.setAttribute("aria-pressed","false");}cameraMode=button.dataset.sceneCamera;if(cameraMode==="follow"){followPlayer=true;radius=12.5;setStatus(uiAr?"الكاميرا تتبع رائد الفضاء":"Camera follows your astronaut");}else{followPlayer=false;target.set(0,.5,0);radius=27;setStatus(uiAr?"عرض القاعدة بالكامل":"Full outpost overview");}root.querySelectorAll("[data-scene-camera]").forEach(x=>x.classList.toggle("active",x===button));cameraUpdate();}));
  const focus={base:[0,.5,0],habitat:[-2,1,1],oxygen:[-5,1,-3],power:[4,1,-1],greenhouse:[-5,1,7],rover:[5,1,6],lander:[-8,1,-5]};
- let followPlayer=true,nearby=null,autoWalkTarget=null,moveX=0,moveZ=0,lastPositionSave=0;const keys=new Set(),moveSpeed=4.2;
+ let followPlayer=true,nearby=null,autoWalkTarget=null,interactWhenArrived=false,moveX=0,moveZ=0,lastPositionSave=0;const keys=new Set(),moveSpeed=4.2;
  const firstPersonButton=root.querySelector("[data-scene-first-person]"),vrButton=root.querySelector("[data-scene-vr]");
  const immersiveButton=root.querySelector("[data-scene-fullscreen]"),immersiveTarget=root.closest(".lunar-3d-stage")||root;
  immersiveButton?.addEventListener("click",async()=>{try{if(document.fullscreenElement===immersiveTarget){await document.exitFullscreen();}else if(immersiveTarget.requestFullscreen){await immersiveTarget.requestFullscreen();}else{immersiveTarget.classList.toggle("scene-immersive");}}catch{immersiveTarget.classList.toggle("scene-immersive");}setTimeout(resize,120);});
@@ -226,11 +226,11 @@ function makeScene(THREE,root){
  autoWalkButton?.addEventListener("click",()=>{const destination=stations.find(st=>st.id===waypointId)||stations[0];if(!destination){setStatus(uiAr?"لا توجد محطة محددة الآن":"No station is selected yet");return;}autoWalkTarget=destination;followPlayer=true;setStatus((uiAr?"نتحرك إلى ":"Walking to ")+(uiAr?destination.ar:destination.name));});
  canvas.addEventListener("webglcontextlost",event=>{event.preventDefault();setStatus(uiAr?"توقفت الرسومات مؤقتًا. حاولي إعادة فتح المشهد.":"3D graphics paused. Reopen the scene to try again.");});
  canvas.addEventListener("webglcontextrestored",()=>{resize();setStatus(uiAr?"عاد تشغيل المشهد ثلاثي الأبعاد":"3D scene restored");});
- function interact(){if(!nearby)return;const st=nearby;root.dispatchEvent(new CustomEvent("lunar-station-interact",{bubbles:true,detail:{id:st.id,name:st.name,ar:st.ar,info:st.info,arInfo:st.arInfo}}));setStatus((uiAr?"تمت زيارة · ":"VISITED · ")+(uiAr?st.ar:st.name));}
+ function interact(){if(!nearby){const destination=stations.find(st=>st.id===waypointId)||stations.reduce((best,st)=>{const distance=Math.hypot(astronaut.position.x-st.position.x,astronaut.position.z-st.position.z);return !best||distance<best.distance?{station:st,distance}:best;},null)?.station;if(!destination){setStatus(uiAr?"لا توجد محطة متاحة الآن":"No station is available right now");return;}autoWalkTarget=destination;interactWhenArrived=true;followPlayer=true;setStatus((uiAr?"نتحرك إلى المحطة: ":"Walking to station: ")+(uiAr?destination.ar:destination.name));return;}interactWhenArrived=false;const st=nearby;root.dispatchEvent(new CustomEvent("lunar-station-interact",{bubbles:true,detail:{id:st.id,name:st.name,ar:st.ar,info:st.info,arInfo:st.arInfo}}));setStatus((uiAr?"تمت زيارة · ":"VISITED · ")+(uiAr?st.ar:st.name));}
  interactButton?.addEventListener("click",interact);
 
 function updateMovement(dt) {
-  if(autoWalkTarget){const dx=autoWalkTarget.position.x-astronaut.position.x,dz=autoWalkTarget.position.z-astronaut.position.z,distance=Math.hypot(dx,dz);if(distance<1.85){autoWalkTarget=null;setStatus(uiAr?"وصلنا للمحطة! اضغطي تفاعل لبدء التحدي":"Station reached! Press INTERACT to start the challenge");}else{const step=Math.min(moveSpeed*dt,distance-1.55),nx=dx/distance,nz=dz/distance;astronaut.position.x=clamp(astronaut.position.x+nx*step,-21,21);astronaut.position.z=clamp(astronaut.position.z+nz*step,-21,21);astronaut.rotation.y=Math.atan2(nx,nz);followPlayer=true;}}
+  if(autoWalkTarget){const dx=autoWalkTarget.position.x-astronaut.position.x,dz=autoWalkTarget.position.z-astronaut.position.z,distance=Math.hypot(dx,dz);if(distance<1.85){const reached=autoWalkTarget;autoWalkTarget=null;if(interactWhenArrived){nearby=reached;interactWhenArrived=false;if(interactWrap)interactWrap.hidden=false;const nearbyLabel=root.querySelector("[data-scene-nearby]");if(nearbyLabel)nearbyLabel.textContent=uiAr?reached.ar:reached.name;interact();}else setStatus(uiAr?"وصلنا للمحطة! اضغطي تفاعل لبدء التحدي":"Station reached! Press INTERACT to start the challenge");}else{const step=Math.min(moveSpeed*dt,distance-1.55),nx=dx/distance,nz=dz/distance;astronaut.position.x=clamp(astronaut.position.x+nx*step,-21,21);astronaut.position.z=clamp(astronaut.position.z+nz*step,-21,21);astronaut.rotation.y=Math.atan2(nx,nz);followPlayer=true;}}
   else{let x=(keys.has("d")||keys.has("arrowright")?1:0)-(keys.has("a")||keys.has("arrowleft")?1:0)+moveX;let z=(keys.has("w")||keys.has("arrowup")?1:0)-(keys.has("s")||keys.has("arrowdown")?1:0)+moveZ;const length=Math.hypot(x,z);if(length>0.01){x/=length;z/=length;const dx=x*Math.cos(azimuth)+z*Math.sin(azimuth);const dz=-x*Math.sin(azimuth)+z*Math.cos(azimuth);astronaut.position.x=clamp(astronaut.position.x+dx*moveSpeed*dt,-21,21);astronaut.position.z=clamp(astronaut.position.z+dz*moveSpeed*dt,-21,21);astronaut.rotation.y=Math.atan2(dx,dz);followPlayer=true;}}
 
   const px = astronaut.position.x;
@@ -247,9 +247,9 @@ function updateMovement(dt) {
   const next = nearest && dist < nearest.radius ? nearest : null;
   if (next !== nearby) {
     nearby = next;
-    if (interactWrap) interactWrap.hidden = !nearby;
+    if (interactWrap) interactWrap.hidden = false;
     const nearbyLabel = root.querySelector("[data-scene-nearby]");
-    if (nearbyLabel && nearby) nearbyLabel.textContent = uiAr ? nearby.ar : nearby.name;
+    if (nearbyLabel) { const destination = nearby || stations.find(st => st.id === waypointId) || stations[0]; nearbyLabel.textContent = destination ? (uiAr ? destination.ar : destination.name) : (uiAr ? "محطة الاستكشاف" : "EXPLORATION STATION"); }
     if (nearby) setStatus((uiAr ? "في النطاق · " : "IN RANGE · ") + (uiAr ? nearby.ar : nearby.name));
     else setStatus(uiAr ? "استكشفي القاعدة وابحثي عن محطة مضيئة" : "Explore the outpost and find a glowing station");
   }
@@ -443,7 +443,7 @@ function mount() {
       (uiAr ? "اقتربي من محطة مضيئة" : "Move near a glowing station") +
       '</small><small class="scene-waypoint" data-scene-waypoint></small><button type="button" class="scene-auto-walk" data-scene-auto-walk>' + (uiAr ? "خديني للمحطة التالية ↗" : "WALK TO NEXT STATION ↗") + '</button><small class="scene-child-tip">' +
       (uiAr ? "امشي ناحية اللافتات المضيئة، ثم اضغطي تفاعل لتتعلمي مع NOVA" : "Follow the glowing signs, then interact to learn with NOVA") +
-      '</small></div><div class="scene-interact" hidden><b data-scene-nearby>STATION</b><button type="button" data-scene-interact>' +
+      '</small></div><div class="scene-interact"><b data-scene-nearby>STATION</b><button type="button" data-scene-interact aria-label="Interact with lunar station">' +
       (uiAr ? "تفاعل ↗" : "INTERACT ↗") +
       '</button></div><div class="scene-pad" aria-label="Movement controls"><button data-move="forward" aria-label="Move forward">▲</button><div><button data-move="left" aria-label="Move left">◀</button><button data-move="back" aria-label="Move back">▼</button><button data-move="right" aria-label="Move right">▶</button></div></div></div><div class="scene-toolbar"><div class="scene-focus"><button class="active" data-scene-focus="base">' +
       (uiAr ? "القاعدة" : "BASE") +
