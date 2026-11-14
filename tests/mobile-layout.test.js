@@ -67,3 +67,5 @@ test("mobile 3D cockpit keeps HUD actions in the content column and camera contr
   assert.match(responsive, /\.scene-child-tip\{display:none\}/);
   assert.match(responsive, /\.scene-focus\{[\s\S]*?flex-wrap:nowrap/);
 });
+
+test("3D touch controls use separate non-overlapping zones and retain compact landscape sizing",async()=>{const {readFile}=await import("node:fs/promises");const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");assert.match(css,/3D control zoning: keep camera, guidance, movement and interaction in separate lanes/);assert.match(css,/\.lunar-3d-stage \.scene-pad\{left:10px;bottom:10px/);assert.match(css,/\.lunar-3d-stage \.scene-interact\{right:10px;bottom:10px/);assert.match(css,/orientation:landscape\) and \(max-height:520px/);assert.match(css,/grid-template-columns:repeat\(3,42px\)/);});
