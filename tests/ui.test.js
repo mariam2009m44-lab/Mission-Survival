@@ -11,6 +11,8 @@ await import("../src/main.js?ui-smoke");
 async function nav(id){await root.listeners.click({target:{closest:selector=>selector==="[data-nav]"?{dataset:{nav:id}}:null}});}
 async function action(name,data={}){await root.listeners.click({target:{closest:selector=>selector==="[data-action]"?{dataset:{action:name,...data}}:null}});}
 test("app completes junior commander onboarding, training, five mission decisions and science library",async()=>{
+ assert.match(root.innerHTML,/YOUR NEXT ADVENTURE STARTS HERE/);
+ await action("language");
  assert.match(root.innerHTML,/JUNIOR SPACE EXPLORERS/);
  assert.match(root.innerHTML,/intro-3d-world/);
  assert.match(root.innerHTML,/مغامرتك الجديدة/);
