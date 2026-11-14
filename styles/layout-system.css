@@ -135,3 +135,29 @@ button:disabled{cursor:not-allowed;opacity:.62}
   .onboard-3d-preview{height:215px;min-height:215px;margin:12px 0 17px;border-radius:16px}
   .onboard-3d-preview .scene-viewport{min-height:184px}
 }
+
+/* Challenge 02 — clear progression, readable questions and consistent feedback. */
+.challenge-two-panel{display:grid;gap:18px;max-width:860px;margin-inline:auto}
+.challenge-two-progress{display:grid;gap:9px}
+.challenge-two-progress>div{display:flex;justify-content:space-between;gap:12px;color:#dcecff;font-size:11px}
+.challenge-two-progress>div span{color:#8fe8e6;font-weight:900}
+.challenge-two-progress>i{height:10px;display:block;overflow:hidden;border-radius:99px;background:rgba(180,205,235,.15)}
+.challenge-two-progress>i>span{height:100%;display:block;border-radius:inherit;background:linear-gradient(90deg,#62d9d3,#8eafff,#c2a1ff);transition:width .25s ease}
+.challenge-two-station{display:flex;align-items:center;gap:13px;padding:15px;border:1px solid rgba(140,200,228,.2);border-radius:17px;background:rgba(100,160,200,.07)}
+.challenge-two-station>span{width:48px;height:48px;display:grid;place-items:center;flex:0 0 48px;border-radius:15px;background:rgba(120,205,226,.14);font-size:25px}
+.challenge-two-station small{color:#8fe8e6;font-size:9px;font-weight:900;letter-spacing:.08em}
+.challenge-two-station h2{margin:4px 0 0;font-size:clamp(17px,2.4vw,23px);line-height:1.35}
+.challenge-two-question{font-size:clamp(14px,1.7vw,17px);line-height:1.8;color:#f3f7ff}
+.challenge-two-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.challenge-two-option{display:flex;align-items:center;gap:10px;min-width:0;min-height:58px;padding:12px;border:1px solid rgba(150,192,222,.22);border-radius:14px;background:rgba(22,43,67,.8);color:#eef7ff;text-align:start;line-height:1.6;font-size:12px;white-space:normal;overflow-wrap:anywhere}
+.challenge-two-option>span{width:27px;height:27px;display:grid;place-items:center;flex:0 0 27px;border-radius:9px;background:rgba(111,211,218,.15);color:#a7f4ed;font-weight:900}
+.challenge-two-option:hover{border-color:#78dce2;background:rgba(36,77,98,.82)}
+.challenge-two-feedback{margin:0;padding:12px 14px;border-radius:12px;font-size:12px;line-height:1.7}
+.challenge-two-feedback.wrong{background:rgba(185,105,73,.14);color:#ffd1b8}
+.challenge-two-feedback.correct{background:rgba(52,150,119,.14);color:#aaf1d3}
+.challenge-two-nova{display:flex;gap:10px;align-items:flex-start;padding:13px;border:1px solid rgba(120,220,215,.2);border-radius:14px;background:rgba(30,87,91,.18);font-size:11px;line-height:1.7}
+.challenge-two-nova b{color:#9df0e8;white-space:nowrap}
+.challenge-two-nova span{color:#d1e4ed}
+.challenge-two-finish{display:grid;gap:15px;text-align:center}
+.challenge-two-finish .badge-card{max-width:240px;margin-inline:auto}
+@media(max-width:640px){.challenge-two-options{grid-template-columns:1fr}.challenge-two-panel{padding:15px}.challenge-two-option{min-height:52px;font-size:12px}.challenge-two-station{padding:12px}}
