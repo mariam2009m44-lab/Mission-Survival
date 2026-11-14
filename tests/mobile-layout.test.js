@@ -29,3 +29,10 @@ test("movement pad includes a clear label for first-time players", async () => {
   assert.match(worldCss, /\.lunar-3d-stage \.scene-pad::before\{[\s\S]*?content:"MOVE"/);
   assert.match(worldCss, /html\[dir="rtl"\] \.lunar-3d-stage \.scene-pad::before\{[\s\S]*?content:"حركة"/);
 });
+
+
+test("station action reserves space for the side-mounted D-pad on narrow phones", async () => {
+  const worldCss = await readFile(new URL("../styles/kids-world.css", import.meta.url), "utf8");
+  assert.match(worldCss, /@media\(max-width:760px\)\{[\s\S]*?\.scene-interact\{[\s\S]*?max-width:calc\(100% - 190px\)!important/);
+  assert.match(worldCss, /@media\(max-width:360px\)\{[\s\S]*?\.scene-interact\{[\s\S]*?max-width:calc\(100% - 184px\)!important/);
+});
