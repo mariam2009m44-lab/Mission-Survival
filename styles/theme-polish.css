@@ -370,3 +370,15 @@ button:focus-visible,a:focus-visible{outline:3px solid rgba(112,220,226,.85);out
   .lunar-3d-stage.mission-world .scene-interact button{min-height:34px;padding:6px 8px}
   .lunar-3d-stage.mission-world .scene-pad>button,.lunar-3d-stage.mission-world .scene-pad>div button{width:36px;height:36px;min-width:36px;min-height:36px}
 }
+
+
+/* The route-to-station action sits inside a non-interactive HUD; explicitly restore its hit target. */
+.scene-auto-walk{
+  position:relative;z-index:6;pointer-events:auto;justify-self:start;min-height:34px;
+  margin:5px 0 0 15px;padding:7px 10px;border:1px solid rgba(112,220,226,.42);
+  border-radius:9px;background:rgba(30,105,124,.34);color:#baf7f2;
+  font:800 9px/1.35 system-ui,sans-serif;letter-spacing:.02em;cursor:pointer;
+}
+.scene-auto-walk:focus-visible{outline:2px solid #8ff2ed;outline-offset:2px}
+.scene-auto-walk:hover{background:rgba(42,133,151,.5);border-color:#8fe8e6}
+@media(max-width:520px){.scene-auto-walk{min-height:32px;margin-top:3px;font-size:8px;padding:6px 8px}}
