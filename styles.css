@@ -575,3 +575,6 @@ button:active{transform:scale(.97)}
 @media(orientation:landscape) and (max-height:520px) and (max-width:900px){
  .scene-pad{grid-template-columns:42px minmax(112px,124px) 42px!important;grid-template-rows:46px 42px!important;gap:3px!important}
 }
+
+/* Evidence provenance classes A–E */
+.science-classification{margin:18px 0;padding:16px;border:1px solid rgba(140,175,255,.2);border-radius:18px;background:rgba(20,31,67,.55)}.science-classification h3{margin:0 0 12px}.science-classification-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px}.science-classification-grid>div{display:flex;gap:9px;align-items:center;min-height:42px;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.045)}.science-classification-grid b{display:grid;place-items:center;flex:0 0 27px;height:27px;border-radius:8px;background:rgba(112,153,255,.2)}.science-classification-grid span{font-size:.82rem;line-height:1.35}.science-classification>p{margin:12px 0 0;color:var(--muted,#aab7d3);font-size:.82rem;line-height:1.55}.source-class{white-space:normal}.source-class-A{border-color:rgba(73,205,155,.35)}.source-class-B{border-color:rgba(102,169,255,.35)}.source-class-C{border-color:rgba(190,154,255,.35)}.source-class-D{border-color:rgba(255,190,100,.35)}.source-class-E{border-color:rgba(255,125,125,.35)}
