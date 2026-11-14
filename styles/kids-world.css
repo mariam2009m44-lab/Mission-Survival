@@ -1398,3 +1398,11 @@ html[dir="rtl"] .lunar-3d-stage .scene-pad::before{
  .lunar-3d-stage .scene-camera-switch{top:12px!important;left:12px!important;right:12px!important;inset-inline-start:12px!important;inset-inline-end:12px!important}
  .lunar-3d-stage .scene-hud{top:68px!important;left:12px!important;right:auto!important;inset-inline-start:12px!important;inset-inline-end:auto!important}
 }
+
+
+/* Landscape touch refinement: keep directional buttons comfortably tappable. */
+@media(orientation:landscape) and (max-height:520px) and (max-width:900px){
+ .lunar-3d-stage .scene-pad{width:146px!important;max-width:146px!important;grid-template-columns:repeat(3,42px)!important;grid-template-rows:13px 42px 42px!important;gap:2px!important}
+ .lunar-3d-stage .scene-pad>button,.lunar-3d-stage .scene-pad>div button{width:42px!important;height:42px!important;min-width:42px!important;min-height:42px!important}
+}
+.lunar-3d-stage .scene-pad button:focus-visible,.lunar-3d-stage .scene-interact button:focus-visible,.lunar-3d-stage .scene-camera-switch button:focus-visible,.lunar-3d-stage .scene-focus button:focus-visible{outline:3px solid #8de3ff!important;outline-offset:2px!important}
