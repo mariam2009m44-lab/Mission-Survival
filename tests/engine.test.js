@@ -56,3 +56,31 @@ test("mission analysis flags critical reserves while preserving all five systems
  assert.deepEqual(result.critical,["oxygen","water"]);
  assert.equal(result.resources.length,5);
 });
+
+test("mission analysis builds a chronological, transparent decision and recovery impact log",()=>{
+ const m=startMission(createMission("standard"));
+ m.site="malapert";
+ choose(m,0);
+ m.resources.oxygen=18;
+ const response=applyResourceResponse(m,"oxygen","backup");
+ assert.ok(response);
+ const result=analyzeMission(m);
+ assert.equal(result.timeline.length,2);
+ assert.equal(result.timeline[0].kind,"decision");
+ assert.equal(result.timeline[0].day,1);
+ assert.equal(result.timeline[1].kind,"recovery");
+ assert.equal(result.timeline[1].day,1);
+ assert.equal(result.timeline[1].delta.oxygen,14);
+ assert.equal(result.timeline[1].delta.power,-6);
+ assert.equal(result.timeline[1].before.oxygen,18);
+ assert.equal(result.timeline[1].after.oxygen,32);
+});
+test("mission analysis keeps decision history usable when older saves lack recovery history",()=>{
+ const m=startMission(createMission("standard"));
+ m.site="malapert";
+ choose(m,0);
+ delete m.responseHistory;
+ const result=analyzeMission(m);
+ assert.equal(result.timeline.length,1);
+ assert.equal(result.timeline[0].kind,"decision");
+});
