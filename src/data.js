@@ -5,7 +5,7 @@ export const RESOURCES=[
 {id:"water",name:"Water",ar:"المياه"},
 {id:"power",name:"Power",ar:"الطاقة"},
 {id:"food",name:"Food",ar:"الغذاء"},
-{id:"shield",name:"Crew protection",ar:"حماية الطاقم"}
+{id:"shield",name:"Radiation protection",ar:"الحماية من الإشعاع"}
 ];
 export const DIFFICULTIES={
 training:{en:"Guided",ar:"تدريبي",values:{oxygen:70,water:70,power:70,food:85,shield:100}},
