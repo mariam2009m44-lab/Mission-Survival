@@ -1,6 +1,10 @@
 const threeModuleUrl=()=>new URL("../vendor/three.module.js",import.meta.url).href;
 let mounted=false;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function observeElementSize(element,callback){
+ if(typeof ResizeObserver==="function"){const observer=new ResizeObserver(callback);observer.observe(element);return observer;}
+ return{disconnect(){}};
+}
 function makeIntroScene(THREE,root){
  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(38,1,.1,100);camera.position.set(0,0,9);
  const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:"low-power"});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));renderer.setSize(Math.max(1,root.clientWidth),Math.max(1,root.clientHeight));renderer.setClearColor(0x000000,0);renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.18;root.append(renderer.domElement);
@@ -20,9 +24,9 @@ function makeIntroScene(THREE,root){
  const orbitMat=new THREE.MeshBasicMaterial({color:0x9bb8ff,transparent:true,opacity:.2});
  for(const [radius,scale,rotation] of [[2.5, .5,.35],[3.2,.42,-.45]]){const orbit=new THREE.Mesh(new THREE.TorusGeometry(radius,.008,6,140),orbitMat);orbit.scale.y=scale;orbit.rotation.z=rotation;orbit.position.z=-1.8;universe.add(orbit);}
  const starGeo=new THREE.BufferGeometry(),positions=new Float32Array(650*3);for(let i=0;i<650;i++){positions[i*3]=(Math.random()-.5)*18;positions[i*3+1]=(Math.random()-.5)*10;positions[i*3+2]=-4-Math.random()*12;}starGeo.setAttribute("position",new THREE.BufferAttribute(positions,3));const stars=new THREE.Points(starGeo,new THREE.PointsMaterial({color:0xe1eaff,size:.035,transparent:true,opacity:.85}));scene.add(stars);
- const clock=new THREE.Clock(),reducedMotion=window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches||false;let raf=0;const resize=()=>{const w=Math.max(1,root.clientWidth),h=Math.max(1,root.clientHeight);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();};const ro=new ResizeObserver(resize);ro.observe(root);resize();
+ const clock=new THREE.Clock(),reducedMotion=window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches||false;let raf=0;const resize=()=>{const w=Math.max(1,root.clientWidth),h=Math.max(1,root.clientHeight);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();};const ro=observeElementSize(root,resize);window.addEventListener("resize",resize,{passive:true});resize();
  function animate(){raf=requestAnimationFrame(animate);const t=clock.getElapsedTime();if(!reducedMotion){earth.rotation.y=t*.08;cloud.rotation.y=-t*.055;saturn.rotation.y=t*.1;little.rotation.y=-t*.13;universe.rotation.y=Math.sin(t*.16)*.035;universe.position.y=Math.sin(t*.3)*.035;stars.rotation.y=t*.003;}renderer.render(scene,camera);}animate();
- return()=>{cancelAnimationFrame(raf);ro.disconnect();scene.traverse(o=>{o.geometry?.dispose();if(o.material){if(Array.isArray(o.material))o.material.forEach(m=>m.dispose());else o.material.dispose();}});renderer.dispose();renderer.domElement.remove();};
+ return()=>{cancelAnimationFrame(raf);ro.disconnect();window.removeEventListener("resize",resize);scene.traverse(o=>{o.geometry?.dispose();if(o.material){if(Array.isArray(o.material))o.material.forEach(m=>m.dispose());else o.material.dispose();}});renderer.dispose();renderer.domElement.remove();};
 }
 function mountIntro(){
  const root=document.querySelector("#app .intro-3d-world");if(!root||root.dataset.ready)return;if(root.dataset.ready==="loading")return;root.dataset.ready="loading";
@@ -149,7 +153,7 @@ function makeScene(THREE,root){
   const canvasLabel=document.createElement("canvas");canvasLabel.width=640;canvasLabel.height=160;
   const ctx=canvasLabel.getContext("2d");ctx.clearRect(0,0,640,160);
   ctx.fillStyle="rgba(8,22,42,.88)";ctx.strokeStyle="#"+stationColors[st.id].toString(16).padStart(6,"0");ctx.lineWidth=8;
-  ctx.beginPath();ctx.roundRect(12,12,616,136,34);ctx.fill();ctx.stroke();
+  ctx.beginPath();ctx.rect(12,12,616,136);ctx.fill();ctx.stroke();
   ctx.direction=uiAr?"rtl":"ltr";ctx.textAlign="center";ctx.textBaseline="middle";
   ctx.fillStyle="#ffffff";ctx.font="bold 37px Arial";ctx.fillText(uiAr?st.ar:st.name,320,80,560);
   const texture=new THREE.CanvasTexture(canvasLabel);texture.colorSpace=THREE.SRGBColorSpace;
@@ -191,7 +195,7 @@ function makeScene(THREE,root){
  const target=new THREE.Vector3(1,.65,5);let radius=13.5,azimuth=.72,polar=1.08,drag=false,lastX=0,lastY=0,raf=0,cameraMode="follow",firstPerson=false;
  function cameraUpdate(){if(firstPerson){const px=astronaut.position.x,pz=astronaut.position.z;camera.position.set(px,1.62,pz);camera.lookAt(px+Math.sin(azimuth)*12,1.5,pz+Math.cos(azimuth)*12);return;}camera.position.set(target.x+radius*Math.sin(polar)*Math.sin(azimuth),target.y+radius*Math.cos(polar),target.z+radius*Math.sin(polar)*Math.cos(azimuth));camera.lookAt(target);}
  function resize(){const rect=root.getBoundingClientRect();const w=Math.max(1,Math.floor(rect.width||root.clientWidth));const h=Math.max(1,Math.floor(rect.height||root.clientHeight));renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
- const ro=new ResizeObserver(resize);ro.observe(root);window.addEventListener("resize",resize,{passive:true});resize();cameraUpdate();
+ const ro=observeElementSize(root,resize);window.addEventListener("resize",resize,{passive:true});window.visualViewport?.addEventListener("resize",resize);resize();requestAnimationFrame(resize);cameraUpdate();
  const activePointers=new Map();let pinchDistance=0;canvas.style.touchAction="none";
  const pointerDistance=()=>{const points=[...activePointers.values()];return points.length<2?0:Math.hypot(points[0].x-points[1].x,points[0].y-points[1].y);};
  const releasePointer=e=>{activePointers.delete(e.pointerId);drag=activePointers.size===1;if(drag){const point=[...activePointers.values()][0];lastX=point.x;lastY=point.y;}pinchDistance=activePointers.size===2?pointerDistance():0;};
@@ -361,6 +365,7 @@ return () => {
   renderer.setAnimationLoop(null);
   ro.disconnect();
   window.removeEventListener("resize",resize);
+  window.visualViewport?.removeEventListener("resize",resize);
   window.removeEventListener("keydown", onKeyDown);
   window.removeEventListener("keyup", onKeyUp);
   document.removeEventListener("fullscreenchange", resize);
