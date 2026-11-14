@@ -132,9 +132,9 @@ The landing-region selector is now a functional first mission decision. It uses 
 - **Nobile Rim 1 — Polar-science package:** +10 water, −8 power. This is a water-logistics allocation, not evidence of water ice at the site.
 - **de Gerlache Rim 2 — Balanced mobility package:** +5 power, +6 crew-protection reserve, −5 food.
 
-These are game-only loadout trade-offs, not measured properties of the named regions. The player can change the package before making the Day 1 payload decision. Once a mission decision is recorded, the landing package is locked. The Day 1 payload choice then stacks with the chosen package and affects the five-day resource state. The final report records the selected region, its package, the package's resource deltas, and the adjusted starting baseline; the impact timeline displays the landing strategy before later decisions.
+These are game-only loadout trade-offs, not measured properties of the named regions. The player can change the package before making the Day 1 payload decision. Once a mission decision is recorded, the landing package is locked. The Day 1 payload choice then stacks with the chosen package and affects the five-day resource state. The final report focuses on the five mission decisions, their resource deltas, station activities, and simulated starting/ending reserves. The landing-region selector was removed so players can begin with the Day 1 payload decision immediately.
 
-Automated coverage added for all three profiles, distinct resource effects, re-selection before lock, lock after the first decision, fresh-mission reset, baseline/report consistency, and the full UI path. These tests verify deterministic game logic and rendered markup; they do not replace a physical-device walkthrough or validate actual lunar landing feasibility.
+Automated coverage verifies that the first decision is available without a location-selection step, along with resource bounds, decision effects and report consistency. These tests verify deterministic game logic and rendered markup; they do not replace a physical-device walkthrough or validate actual lunar landing feasibility.
 
 
 ## Resource-scenario decisions restored — 14 Nov 2026
