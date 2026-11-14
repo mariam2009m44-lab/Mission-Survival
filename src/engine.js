@@ -5,12 +5,17 @@ export function createMission(difficulty="standard"){return{difficulty,started:f
 export function selectLandingSite(m,siteId){
  if(!m||!m.started||m.phase!=="active"||m.day!==0||m.history?.length)return null;
  const option=SITE_OPTIONS.find(site=>site.id===siteId);if(!option)return null;
- const before={...((DIFFICULTIES[m.difficulty]||DIFFICULTIES.standard).values)};
- const after={...before};
+ const difficultyBase={...((DIFFICULTIES[m.difficulty]||DIFFICULTIES.standard).values)};
+ const before={...difficultyBase};
+ const after={...difficultyBase};
  for(const [key,delta] of Object.entries(option.delta))if(Object.hasOwn(after,key))after[key]=clamp(after[key]+delta);
+ const currentBase={...m.resources};
+ if(m.sitePlan?.delta)for(const [key,delta] of Object.entries(m.sitePlan.delta))if(Object.hasOwn(currentBase,key))currentBase[key]=clamp(currentBase[key]-delta);
+ const currentAfter={...currentBase};
+ for(const [key,delta] of Object.entries(option.delta))if(Object.hasOwn(currentAfter,key))currentAfter[key]=clamp(currentAfter[key]+delta);
  m.site=option.id;m.siteName=option.name;
  m.sitePlan={id:option.id,name:option.name,ar:option.ar,strategy:option.strategy,arStrategy:option.arStrategy,detail:option.detail,arDetail:option.arDetail,delta:{...option.delta},before,after:{...after}};
- m.resources=after;
+ m.resources=currentAfter;
  return m.sitePlan;
 }
 export function startMission(m){m.started=true;m.phase="active";m.day=0;m.site=null;m.siteName=null;m.sitePlan=null;m.resources={...DIFFICULTIES[m.difficulty].values};m.history=[];m.stationTasks=[];m.stationHistory=[];m.responseHistory=[];m.xp=0;m.result=null;m.saved=false;return m;}
