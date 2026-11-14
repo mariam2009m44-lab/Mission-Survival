@@ -65,6 +65,18 @@ export function analyzeMission(m){
  });
  const ranked=[...resources].sort((a,b)=>a.value-b.value);
  const average=resources.length?Math.round(resources.reduce((sum,item)=>sum+item.value,0)/resources.length):0;
+ const spread=ranked.length?ranked.at(-1).value-ranked[0].value:0;
+ const resilience=clamp(Math.round(average*.55+(ranked[0]?.value??0)*.30+(100-spread)*.15));
+ const weakestId=ranked[0]?.id||"oxygen";
+ const priorities={
+  oxygen:{en:"Review oxygen reserve and the power cost of life-support recovery options.",ar:"راجعي احتياطي الأكسجين وتأثير خيارات استعادة دعم الحياة على الطاقة."},
+  water:{en:"Review water recovery, storage and the energy needed to keep the loop running.",ar:"راجعي استعادة المياه وتخزينها والطاقة اللازمة لاستمرار دورة المعالجة."},
+  power:{en:"Review sunlight availability, battery reserve and non-essential power demand.",ar:"راجعي توفر ضوء الشمس واحتياطي البطاريات والأحمال الكهربائية غير الضرورية."},
+  food:{en:"Review stored meals and the water and power needs of the greenhouse plan.",ar:"راجعي مخزون الوجبات واحتياجات خطة الصوبة من المياه والطاقة."},
+  shield:{en:"Review shelter planning and how surface activities affect crew protection.",ar:"راجعي تخطيط المأوى وتأثير الأنشطة خارج القاعدة على حماية الطاقم."}
+ };
+ const priority=priorities[weakestId];
+ const risk=ranked[0]?.value<20?"critical":ranked[0]?.value<40?"watch":"stable";
  const decisions=Array.isArray(m?.history)?m.history:[];
  const responses=Array.isArray(m?.responseHistory)?m.responseHistory:[];
  const stationEvents=Array.isArray(m?.stationHistory)?m.stationHistory:[];
@@ -83,6 +95,10 @@ export function analyzeMission(m){
  ].sort((a,b)=>a.day-b.day||(({decision:0,recovery:1,station:2}[a.kind]??9)-({decision:0,recovery:1,station:2}[b.kind]??9)));
  return {
   score:average,
+  resilience,
+  balance:100-spread,
+  risk,
+  priority:{resource:weakestId,en:priority.en,ar:priority.ar},
   decisions:decisions.length,
   stationTasks:Array.isArray(m?.stationTasks)?m.stationTasks.length:0,
   lowest:ranked[0]||null,
