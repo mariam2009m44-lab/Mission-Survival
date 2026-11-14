@@ -147,7 +147,8 @@ test("NOVA launcher is available during intro, guide and profile setup",async()=
  const app=await readFile(new URL("../src/main.js",import.meta.url),"utf8");
  assert.match(app,/if\(!s\.introSeen\)\{app\.innerHTML=spaceIntro\(\)\+installHelpOverlay\(\)\+novaWidget\(\)/);
  assert.match(app,/if\(!s\.welcomeGuideDone\)\{app\.innerHTML=welcomeGuide\(\)\+installHelpOverlay\(\)\+novaWidget\(\)/);
- assert.match(app,/if\(s\.signedOut\)\{app\.innerHTML=accountGate\(\)\+installHelpOverlay\(\)\+novaWidget\(\)/);\n  assert.match(app,/if\(!s\.commander\)\{app\.innerHTML=onboarding\(\)\+installHelpOverlay\(\)\+novaWidget\(\)/);
+ assert.match(app,/if\(s\.signedOut\)\{app\.innerHTML=accountGate\(\)\+installHelpOverlay\(\)\+novaWidget\(\)/);
+  assert.match(app,/if\(!s\.commander\)\{app\.innerHTML=onboarding\(\)\+installHelpOverlay\(\)\+novaWidget\(\)/);
 });
 
 test("NOVA explains oxygen contingency safely without inventing operational instructions",()=>{
