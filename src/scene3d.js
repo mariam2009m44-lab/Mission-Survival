@@ -393,11 +393,11 @@ group.traverse(object => {
   }
 });
 
-renderer.setAnimationLoop(() => {
+const animate = () => {
+  if (document.hidden && !renderer.xr.isPresenting) return;
   const dt = Math.min(clock.getDelta(), .05);
   const t = clock.elapsedTime;
 
-  // تم إيقاف دوران الكاميرا التلقائي مؤقتًا لاختبار اتجاه الحركة
   updateMovement(dt);
 
   astronaut.position.y = .035 + Math.sin(t * 1.8) * .035;
@@ -415,9 +415,14 @@ renderer.setAnimationLoop(() => {
   }
 
   if (!renderer.xr.isPresenting) cameraUpdate();
-
   renderer.render(scene, camera);
-});
+};
+const handleVisibilityChange = () => {
+  if (document.hidden && !renderer.xr.isPresenting) renderer.setAnimationLoop(null);
+  else renderer.setAnimationLoop(animate);
+};
+document.addEventListener("visibilitychange", handleVisibilityChange);
+if (!document.hidden || renderer.xr.isPresenting) renderer.setAnimationLoop(animate);
 
 return () => {
   sceneDisposed = true;
@@ -429,6 +434,7 @@ return () => {
   window.removeEventListener("keyup", onKeyUp);
   window.removeEventListener("blur", clearMovementInput);
   document.removeEventListener("visibilitychange", clearMovementInput);
+  document.removeEventListener("visibilitychange", handleVisibilityChange);
   document.removeEventListener("fullscreenchange", resize);
 
   if (activeXRSession) activeXRSession.end().catch(() => {});

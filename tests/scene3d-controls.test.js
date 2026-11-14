@@ -32,3 +32,12 @@ test("NOVA turns with the astronaut and stays beside the player relative to head
   assert.match(scene, /btn\.style\.touchAction = "none"/);
   assert.match(scene, /pointerleave/);
 });
+
+
+test("3D rendering pauses in the background and resumes when the app is visible", () => {
+  assert.match(scene, /const handleVisibilityChange = \(\) => \{/);
+  assert.match(scene, /if \(document\.hidden && !renderer\.xr\.isPresenting\) renderer\.setAnimationLoop\(null\)/);
+  assert.match(scene, /else renderer\.setAnimationLoop\(animate\)/);
+  assert.match(scene, /document\.addEventListener\("visibilitychange", handleVisibilityChange\)/);
+  assert.match(scene, /document\.removeEventListener\("visibilitychange", handleVisibilityChange\)/);
+});
