@@ -80,7 +80,7 @@ test("3D exploration supports movement, nearby station interaction and NOVA even
 
 test("3D experience includes first-person mode and optional immersive WebXR",async()=>{
  const scene=await readFile(new URL("../src/scene3d.js",import.meta.url),"utf8");
- assert.match(scene,/renderer\.xr\.enabled=true/);
+ assert.match(scene,/renderer\\.xr\\.enabled=xrSupported/);
  assert.match(scene,/requestSession\("immersive-vr"/);
  assert.match(scene,/data-scene-vr/);
  assert.match(scene,/data-scene-first-person/);
