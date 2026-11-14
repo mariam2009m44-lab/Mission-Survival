@@ -274,3 +274,18 @@
 @media(max-width:640px){.water-facts{grid-template-columns:1fr}.water-quiz-options{grid-template-columns:1fr}.water-quiz-option{min-height:48px;font-size:12px}.water-learning-card{border-radius:15px}.water-quiz-question{padding:10px}}
 @media(min-width:641px) and (max-width:1024px){.water-quiz-options{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(prefers-reduced-motion:reduce){.water-quiz-option{transition:none}}
+
+
+/* Shared app shell: keep the header compact and prevent navigation collisions on phones. */
+@media(max-width:700px){
+ .topbar{justify-content:flex-end;gap:8px}
+ .topbar>.crumb{display:none}
+ .top-actions{min-width:0;gap:7px}
+ .top-actions .commander-mini,
+ .top-actions .cloud-status,
+ .top-actions .status,
+ .top-actions .tecnova-day{display:none!important}
+ .top-actions .sound-toggle,
+ .top-actions .music-toggle{min-width:36px;min-height:36px}
+ .home-shell .content{padding-top:12px}
+}
