@@ -41,9 +41,9 @@ test("both stylesheet layers use the same explicit four-way CSS grid areas",()=>
 });
 
 test("NOVA eases its existing relative offset and preserves companion distance",()=>{
- assert.match(scene,/novaBaseOffset=new THREE\.Vector3\(1\.55,0,-1\.15\)/);
- assert.match(scene,/novaFollowYaw\+=followTurn\*(1-Math\.exp\(-dt\*5\.5\)\)/);
- assert.match(scene,/nova\.position\.lerp\(novaTargetPosition,1-Math\.exp\(-dt\*9\)\)/);
- assert.match(scene,/novaRelativePosition\.setLength\(novaBaseOffset\.length\(\)\)/);
- assert.match(scene,/nova\.rotation\.y\+=novaTurn\*(1-Math\.exp\(-dt\*8\)\)/);
+ assert.ok(scene.includes("novaBaseOffset=new THREE.Vector3(1.55,0,-1.15)"));
+ assert.ok(scene.includes("novaFollowYaw+=followTurn*(1-Math.exp(-dt*5.5))"));
+ assert.ok(scene.includes("nova.position.lerp(novaTargetPosition,1-Math.exp(-dt*9))"));
+ assert.ok(scene.includes("novaRelativePosition.setLength(novaBaseOffset.length())"));
+ assert.ok(scene.includes("nova.rotation.y+=novaTurn*(1-Math.exp(-dt*8))"));
 });
