@@ -4,7 +4,7 @@
 - Replaced the single-file monolithic game with modular ES modules.
 - Added mobile-first navigation and bilingual English/Arabic interface.
 - Added four science-training modules.
-- Rebuilt the three-day simulator with guided, standard and expert difficulty.
+- Rebuilt the five-day simulator with guided, standard and expert difficulty.
 - Added verified NASA 2026 source metadata for lunar illumination, CRaTER and Diviner.
 - Added source limitations and optional DONKI live-event lookup using the migrated CCMC API host.
 - Added Canadian Space Agency food-production learning references.
