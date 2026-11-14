@@ -221,42 +221,41 @@ function makeScene(THREE,root){
  function interact(){if(!nearby)return;const st=nearby;root.dispatchEvent(new CustomEvent("lunar-station-interact",{bubbles:true,detail:{id:st.id,name:st.name,ar:st.ar,info:st.info,arInfo:st.arInfo}}));setStatus((uiAr?"تمت زيارة · ":"VISITED · ")+(uiAr?st.ar:st.name));}
  interactButton?.addEventListener("click",interact);
 
-
 function updateMovement(dt) {
-  let x = (keys.has("d") || keys.has("arrowright") ? 1 : 0)
-        - (keys.has("a") || keys.has("arrowleft") ? 1 : 0) + moveX;
+    let x =
+        (keys.has("d") || keys.has("arrowright") ? 1 : 0) -
+        (keys.has("a") || keys.has("arrowleft") ? 1 : 0) + moveX;
 
-  let z = (keys.has("s") || keys.has("arrowdown") ? 1 : 0)
-        - (keys.has("w") || keys.has("arrowup") ? 1 : 0) + moveZ;
+    let z =
+        (keys.has("s") || keys.has("arrowdown") ? 1 : 0) -
+        (keys.has("w") || keys.has("arrowup") ? 1 : 0) + moveZ;
 
-  const length = Math.hypot(x, z);
+    const length = Math.hypot(x, z);
 
-  if (length > .01) {
-    x /= length;
-    z /= length;
+    if (length > 0.01) {
+        x /= length;
+        z /= length;
 
-    const dx = x * Math.cos(azimuth) + z * Math.sin(azimuth);
-    const dz = -x * Math.sin(azimuth) + z * Math.cos(azimuth);
+        const dx = x * Math.cos(azimuth) + z * Math.sin(azimuth);
+        const dz = -x * Math.sin(azimuth) + z * Math.cos(azimuth);
 
-    astronaut.position.x = clamp(astronaut.position.x + dx * moveSpeed * dt, -21, 21);
-    astronaut.position.z = clamp(astronaut.position.z + dz * moveSpeed * dt, -21, 21);
-
-    astronaut.rotation.y = Math.atan2(dx, dz);
-    followPlayer = true;
-
-    if (Date.now() - lastPositionSave > 350) {
-      lastPositionSave = Date.now();
-      try {
-        sessionStorage.setItem(
-          "lunar-outpost-player-position",
-          JSON.stringify({
-            x: astronaut.position.x,
-            z: astronaut.position.z
-          })
+        astronaut.position.x = clamp(
+            astronaut.position.x + dx * moveSpeed * dt,
+            -21,
+            21
         );
-      } catch {}
+
+        astronaut.position.z = clamp(
+            astronaut.position.z + dz * moveSpeed * dt,
+            -21,
+            21
+        );
+
+        astronaut.rotation.y = Math.atan2(dx, dz);
+        followPlayer = true;
     }
-  }
+}
+  
 
   const px = astronaut.position.x;
   const pz = astronaut.position.z;
