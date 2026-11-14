@@ -54,7 +54,7 @@ import {readFile} from "node:fs/promises";
 
 test("offline service worker precaches NOVA and rotates the cache",async()=>{
  const sw=await readFile(new URL("../service-worker.js",import.meta.url),"utf8");
- assert.match(sw,/lunar-outpost-app-v23/); 
+ assert.match(sw,/lunar-outpost-app-v24/); 
  assert.match(sw,/styles\/kids-comfort\.css/);
  assert.match(sw,/\.\/src\/nova\.js/);
  assert.match(sw,/\.\/src\/scene3d\.js/);
@@ -88,6 +88,10 @@ test("3D experience includes first-person mode and optional immersive WebXR",asy
  assert.match(scene,/Follow the glowing signs/);
  assert.match(scene,/Mission waypoint/);
  assert.match(scene,/data-scene-waypoint/);
+ assert.match(scene,/data-scene-auto-walk/);
+ assert.match(scene,/autoWalkTarget/);
+ assert.match(scene,/low-power/);
+ assert.match(scene,/new URL\("\.\.\/vendor\/three\.module\.js",import\.meta\.url\)/);
  assert.match(scene,/NEXT STOP ·/);
 });
 
