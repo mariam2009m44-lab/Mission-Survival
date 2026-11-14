@@ -551,7 +551,7 @@ button:active{transform:scale(.97)}
 
 /* Shared four-way movement grid: four direct buttons, no flex wrapper. */
 .scene-pad{
- display:grid;grid-template-columns:minmax(38px,48px) minmax(104px,148px) minmax(38px,48px);
+ display:grid;grid-template-columns:48px minmax(132px,148px) 48px;
  grid-template-rows:50px 46px;grid-template-areas:". forward ." "left back right";
  grid-auto-flow:row;gap:5px;justify-items:stretch;align-items:stretch;touch-action:none;
 }
@@ -562,11 +562,11 @@ button:active{transform:scale(.97)}
 .scene-pad>[data-move="right"]{grid-area:right}
 .scene-pad>.scene-forward-button{position:static!important;inset:auto!important;transform:none!important;width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;max-height:none!important}
 @media(max-width:760px){
- .scene-pad{grid-template-columns:40px minmax(104px,132px) 40px;grid-template-rows:46px 42px;gap:4px}
+ .scene-pad{grid-template-columns:42px minmax(112px,132px) 42px;grid-template-rows:46px 42px;gap:4px}
 }
 @media(max-width:360px){
  .scene-pad{grid-template-columns:36px minmax(96px,116px) 36px;grid-template-rows:44px 38px;gap:3px}
 }
 @media(orientation:landscape) and (max-height:520px) and (max-width:900px){
- .scene-pad{grid-template-columns:38px minmax(104px,116px) 38px;grid-template-rows:42px 40px;gap:3px}
+ .scene-pad{grid-template-columns:42px minmax(112px,124px) 42px;grid-template-rows:46px 42px;gap:3px}
 }
