@@ -81,3 +81,20 @@ test("small landscape tablets keep the compact two-thumb cockpit after desktop r
  assert.match(compact,/\.scene-pad\{left:7px!important[\s\S]*?width:130px!important/);
  assert.match(compact,/\.scene-interact\{left:auto!important;right:7px!important[\s\S]*?width:108px!important/);
 });
+
+test("mobile cockpit v2 keeps the camera, status, movement and station action in separate touch zones",async()=>{
+ const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");
+ const cockpit=css.slice(css.lastIndexOf("MOBILE COCKPIT REBUILD v2"));
+ assert.match(cockpit,/height:clamp\(460px,76svh,650px\)!important/);
+ assert.match(cockpit,/\.scene-camera-switch\{[\s\S]*?top:8px!important[\s\S]*?height:40px!important/);
+ assert.match(cockpit,/\.scene-hud\{[\s\S]*?top:56px!important[\s\S]*?max-height:calc\(100% - 188px\)!important/);
+ assert.match(cockpit,/\.scene-pad\{[\s\S]*?left:8px!important[\s\S]*?bottom:calc\(8px \+ env\(safe-area-inset-bottom,0px\)\)!important/);
+ assert.match(cockpit,/\.scene-interact\{[\s\S]*?right:8px!important[\s\S]*?width:104px!important/);
+ assert.match(cockpit,/\.scene-pad>div\{display:contents!important/);
+});
+test("mobile cockpit v2 has dedicated compact rules for narrow phones and landscape devices",async()=>{
+ const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");
+ const cockpit=css.slice(css.lastIndexOf("MOBILE COCKPIT REBUILD v2"));
+ assert.match(cockpit,/@media\(max-width:360px\)/);
+ assert.match(cockpit,/@media\(orientation:landscape\) and \(max-height:520px\) and \(max-width:900px\)/);
+});
