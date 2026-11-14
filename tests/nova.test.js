@@ -46,7 +46,7 @@ test("NOVA keeps bilingual suggested prompts kid-focused",()=>{
 });
 
 test("NOVA prompt suggestions are bilingual",()=>{
- assert.equal(NOVA_PROMPTS.length,8);
+ assert.equal(NOVA_PROMPTS.length,10);
  assert.ok(NOVA_PROMPTS.every(p=>p.en&&p.ar));
 });
 

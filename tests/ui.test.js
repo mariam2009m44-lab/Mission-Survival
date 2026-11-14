@@ -103,7 +103,7 @@ test("app completes junior commander onboarding, training, five mission decision
  assert.match(root.innerHTML,/MISSION ARCHIVE/);
  await nav("science");
  assert.match(root.innerHTML,/LRO CRaTER/);
- assert.match(root.innerHTML,/9 SOURCES/);
+ assert.match(root.innerHTML,/11 SOURCES/);
  assert.match(root.innerHTML,/DONKI/);
  assert.match(root.innerHTML,/2,310,946/);
  await action("language");
@@ -114,7 +114,7 @@ test("walking to a lunar station opens a child-friendly discovery challenge",asy
  assert.equal(typeof handler,"function");
  handler({detail:{id:"solar",name:"Solar Power Farm",ar:"مزرعة الطاقة الشمسية",info:"Solar panels use sunlight.",arInfo:"الألواح تستخدم ضوء الشمس."}});
  assert.match(root.innerHTML,/station-modal/);
- assert.match(root.innerHTML,/ليه قائد القاعدة يدرس الظلال/);
+ assert.match(root.innerHTML,/ليه قائد القاعدة يدرس الظلال قبل وضع الألواح الشمسية/);
  await action("station-answer",{answer:"1"});
  assert.match(root.innerHTML,/مش دي الإجابة الصحيحة/);
  await action("station-answer",{answer:"0"});
