@@ -86,7 +86,7 @@ test("app completes junior commander onboarding, training, five mission decision
  assert.match(root.innerHTML,/MISSION SCORE/);
  await nav("report");
  assert.match(root.innerHTML,/MY BADGES/);
- assert.match(root.innerHTML,/MISSION HISTORY/);
+ assert.match(root.innerHTML,/MISSION HISTORY|سجل المهمات/);
  assert.match(root.innerHTML,/My achievements|إنجازاتي/);
  assert.match(root.innerHTML,/class="mobile-nav"/);
  assert.match(root.innerHTML,/Completed missions|المهمات المكتملة/);
