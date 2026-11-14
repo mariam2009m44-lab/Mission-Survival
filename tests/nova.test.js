@@ -127,3 +127,17 @@ test("junior comfort layer is linked and cached for mobile and offline use",asyn
  assert.match(css,/prefers-reduced-motion/);
  assert.match(css,/env\(safe-area-inset-bottom\)/);
 });
+
+
+test("NOVA understands natural conversational rewording in English and Arabic",()=>{
+ const en=answerNova("Can you tell me why the Moon has so many holes?","en");
+ const ar=answerNova("إيه هو القمر؟","ar");
+ assert.match(en.answer,/crater|bowl-shaped/i);
+ assert.match(ar.answer,/الجار الفضائي الطبيعي/);
+ assert.ok(en.sources.length>0);
+});
+test("NOVA responds safely to unsupported questions without pretending to be generative AI",()=>{
+ const result=answerNova("Can you write a fantasy story about a robot on Mars?","en");
+ assert.match(result.answer,/couldn't match that wording/i);
+ assert.ok(result.sources.length>0);
+});
