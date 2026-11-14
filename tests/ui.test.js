@@ -66,9 +66,8 @@ test("app completes junior commander onboarding, training, five mission decision
  assert.match(root.innerHTML,/fieldwork-panel/);
  assert.match(root.innerHTML,/OXYGEN KNOWLEDGE CHECK/);
  assert.match(root.innerHTML,/WATER KNOWLEDGE CHECK/);
- assert.match(root.innerHTML,/Solar-support package/);
- assert.match(root.innerHTML,/Polar-science package/);
- assert.match(root.innerHTML,/Balanced mobility package/);
+ assert.doesNotMatch(root.innerHTML,/landing-selector|اختر موقع الهبوط بالأعلى|Choose your landing-region strategy/);
+ assert.match(root.innerHTML,/decision-grid/);
  assert.match(root.innerHTML,/Answer the final scenario correctly to apply one mission decision/);
  await action("oxygen-quiz",{question:"0",answer:"0"});
  assert.match(root.innerHTML,/Correct\. This is a planning value/);
@@ -87,9 +86,6 @@ test("app completes junior commander onboarding, training, five mission decision
  assert.match(root.innerHTML,/Visit the five stations/);
  assert.match(root.innerHTML,/Find the glowing station/);
  for(const station of ["habitat","oxygen","solar","greenhouse","rover"])assert.match(root.innerHTML,new RegExp("assets/stations/"+station+"\\.svg"));
- await action("site-select",{site:"malapert"});
- assert.match(root.innerHTML,/ACTIVE MISSION LOADOUT/);
- assert.match(root.innerHTML,/SELECTED · PLAN ACTIVE/);
  for(let day=0;day<5;day++){
   await action("choose",{choice:"0"});
   if(day<4){
@@ -104,8 +100,7 @@ test("app completes junior commander onboarding, training, five mission decision
   }
  }
  assert.match(root.innerHTML,/MISSION SCORE/);
- assert.match(root.innerHTML,/Solar-support package/);
- assert.match(root.innerHTML,/Landing strategy/);
+ assert.doesNotMatch(root.innerHTML,/Solar-support package|Landing strategy|NASA CANDIDATE REGION/);
  assert.match(root.innerHTML,/START CHALLENGE 2/);
  await action("next-challenge");
  assert.match(root.innerHTML,/CHALLENGE 02/);
@@ -153,7 +148,6 @@ test("signing out preserves the local explorer profile and achievements",async()
  assert.ok(savedProfiles[0].security?.salt);
  assert.ok(savedProfiles[0].security?.hash);
  assert.ok(savedProfiles[0].state.missionArchive.length>=1);
- assert.equal(savedProfiles[0].state.missionArchive[0].sitePlan.id,"malapert");
  assert.ok(savedState.signedOut);
  await action("choose-profile",{profileId:savedProfiles[0].id});
  assert.match(root.innerHTML,/login-pin/);
