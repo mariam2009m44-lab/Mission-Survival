@@ -2,7 +2,7 @@
 
 An installable, mobile-first mission trainer for NASA Space Apps 2026 challenge **Build a Junior Astronaut Mission Trainer**.
 
-The app teaches young learners to command a lunar South Pole training outpost, understand connected life-support systems, and make three days of resource decisions. Its science library separates modeled illumination, lunar-orbit instrument measurements, space-weather event records and partner-agency learning resources.
+The app teaches young learners to command a lunar South Pole training outpost, understand connected life-support systems, and make five days of resource decisions. Its science library separates modeled illumination, lunar-orbit instrument measurements, space-weather event records and partner-agency learning resources.
 
 ## TECNOVA experience\n- Cinematic first-launch planetarium with animated 3D planets, Saturn rings, Earth, lunar surface, stars and a floating astronaut illustration.\n- Browser-based 3D experience with a first-person astronaut view for phones and computers, plus an optional WebXR immersive-VR entry point for compatible headsets and secure browsers. Headset support is detected at runtime; unsupported devices retain the normal 3D experience.
 - In headset mode, tracked headset pose drives the camera and controller selection supports simple point-to-move exploration; keyboard/touch and first-person camera remain available as fallbacks.
@@ -14,12 +14,12 @@ WebXR immersive VR is optional and depends on the headset, browser, permissions 
 - Modular ES modules for mission data, simulation, persistence and UI.
 - Mobile-first app shell, desktop navigation and touch-friendly mobile navigation.
 - First-run junior commander profile with four custom astronaut avatars (local demo profile, not online authentication).
-- Mission selection hub with three lunar campaign destinations, NASA candidate landing-site selection, comic interludes, five decisions across three days, four resource meters, task checklist and achievement badges.
+- Mission selection hub with three lunar campaign destinations, NASA candidate landing-site selection, comic interludes, five decisions across five days, four resource meters, task checklist and achievement badges.
 - Interactive Three.js lunar outpost scene with orbit/zoom controls and focus points for the habitat, solar farm, rover and lander.
 - Lightweight visual fallback if the 3D renderer cannot load; the Three.js module is cached after first successful load for offline use.
 - English and Arabic interface modes.
 - Four science-training modules and three NASA-studied candidate landing-region scenarios.
-- Three-day simulation with five sequential decisions, guided/standard/expert difficulty, comic story beats, a live task bar and hidden sustainability badge.
+- Five-day simulation with five sequential decisions, guided/standard/expert difficulty, comic story beats, a live task bar and hidden sustainability badge.
 - In-mission fieldwork guide listing all five walkable stations, showing discovery progress, and explaining how optional NOVA challenges award bonus XP and adjust illustrative game reserves.
 - Science library with source dates, data coverage and limitations.
 - Optional DONKI event lookup using NASA CCMC's migrated 2026 API.
