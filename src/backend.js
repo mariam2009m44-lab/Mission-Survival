@@ -16,7 +16,7 @@ function snapshot(state){
     language:state.language==="en"?"en":"ar",
     trainingDone:Array.isArray(state.trainingDone)?state.trainingDone.slice(0,20):[],
     stats:{missions:state.stats?.missions||0,totalXp:state.stats?.totalXp||0,bestScore:state.stats?.bestScore||0},
-    mission:m?{difficulty:m.difficulty,started:m.started,phase:m.phase,day:m.day,site:m.site,siteName:m.siteName,resources:m.resources,history:m.history,stationTasks:Array.isArray(m.stationTasks)?m.stationTasks.slice(0,5):[],responseHistory:Array.isArray(m.responseHistory)?m.responseHistory.slice(-25):[],xp:m.xp||0,result:m.result||null,saved:Boolean(m.saved)}:null
+    mission:m?{difficulty:m.difficulty,started:m.started,phase:m.phase,day:m.day,site:m.site,siteName:m.siteName,resources:m.resources,history:m.history,stationTasks:Array.isArray(m.stationTasks)?m.stationTasks.slice(0,5):[],stationHistory:Array.isArray(m.stationHistory)?m.stationHistory.slice(-25):[],responseHistory:Array.isArray(m.responseHistory)?m.responseHistory.slice(-25):[],xp:m.xp||0,result:m.result||null,saved:Boolean(m.saved)}:null
   };
 }
 async function sessionFor(state){
@@ -49,6 +49,8 @@ export async function restoreProgress(localState){
         ...cloud.mission,
         resources:{...(localState.mission?.resources||{}),...(cloud.mission.resources||{})},
         history:Array.isArray(cloud.mission.history)?cloud.mission.history:[],
+        stationTasks:Array.isArray(cloud.mission.stationTasks)?cloud.mission.stationTasks:(Array.isArray(localState.mission?.stationTasks)?localState.mission.stationTasks:[]),
+        stationHistory:Array.isArray(cloud.mission.stationHistory)?cloud.mission.stationHistory:(Array.isArray(localState.mission?.stationHistory)?localState.mission.stationHistory:[]),
         responseHistory:Array.isArray(cloud.mission.responseHistory)?cloud.mission.responseHistory:(Array.isArray(localState.mission?.responseHistory)?localState.mission.responseHistory:[])
       }:null,
       localUpdatedAt:remoteTime

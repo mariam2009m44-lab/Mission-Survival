@@ -84,3 +84,28 @@ test("mission analysis keeps decision history usable when older saves lack recov
  assert.equal(result.timeline.length,1);
  assert.equal(result.timeline[0].kind,"decision");
 });
+
+test("station task resource changes are recorded in the mission impact report",()=>{
+ const m=startMission(createMission("standard"));
+ const before={...m.resources};
+ const task=completeStationTask(m,"greenhouse");
+ assert.equal(task.day,1);
+ assert.equal(task.delta.water,8);
+ assert.equal(task.delta.food,8);
+ assert.equal(task.delta.power,-4);
+ const report=analyzeMission(m);
+ const entry=report.timeline.find(item=>item.kind==="station");
+ assert.ok(entry);
+ assert.equal(entry.day,1);
+ assert.equal(entry.delta.water,8);
+ assert.equal(entry.before.water,before.water);
+ assert.equal(entry.after.water,Math.min(100,before.water+8));
+ assert.deepEqual(summary(m).stationTasks,["greenhouse"]);
+ assert.equal(summary(m).stationHistory.length,1);
+});
+test("starting a fresh mission clears the previous station impact log",()=>{
+ const m=startMission(createMission("standard"));
+ completeStationTask(m,"solar");
+ startMission(m);
+ assert.deepEqual(m.stationHistory,[]);
+});
