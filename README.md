@@ -17,7 +17,7 @@ WebXR immersive VR is optional and depends on the headset, browser, permissions 
 - Five-day campaign with five linked decision stages, three NASA-studied candidate landing-region scenarios, comic interludes, five resource meters, an optional station-task checklist and achievement badges.
 - Interactive Three.js lunar outpost scene with orbit/zoom controls and focus points for the habitat, solar farm, rover and lander.
 - Lightweight visual fallback if the 3D renderer cannot load; the Three.js module is cached after first successful load for offline use.
-- English and Arabic interface modes.
+- English-first interface for global judging, with a one-tap Arabic language mode.
 - Four science-training modules and three NASA-studied candidate landing-region scenarios.
 - Five-day simulation with five sequential decisions, guided/standard/expert difficulty, comic story beats, a live task bar and hidden sustainability badge.
 - In-mission fieldwork guide listing all five walkable stations, showing discovery progress, and explaining how optional NOVA challenges award bonus XP and adjust illustrative game reserves.
