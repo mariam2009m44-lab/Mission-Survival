@@ -25,4 +25,7 @@ for (const entry of entries) {
   await cp(resolve(root, entry), resolve(out, entry), {recursive: true});
 }
 
+await mkdir(resolve(out, "vendor"), {recursive: true});
+await cp(resolve(root, "node_modules/three/build/three.module.js"), resolve(out, "vendor/three.module.js"));
+
 console.log("Built TECNOVA web bundle in " + out);
