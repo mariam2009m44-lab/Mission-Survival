@@ -1,4 +1,4 @@
-const CACHE="lunar-outpost-app-v22";
+const CACHE="lunar-outpost-app-v23";
 const CORE=["./","./index.html","./styles.css","./styles/theme-polish.css","./styles/kids-world.css","./styles/kids-comfort.css","./manifest.webmanifest","./favicon.svg","./src/main.js","./src/scene3d.js","./src/mission-days.js","./vendor/three.module.js","./src/nova.js","./src/data.js","./assets/avatars/astronaut-kids.svg","./assets/stations/habitat.svg","./assets/stations/oxygen.svg","./assets/stations/solar.svg","./assets/stations/greenhouse.svg","./assets/stations/rover.svg","./src/engine.js","./src/storage.js","./src/backend.js","./src/backend-config.js","./assets/icons/icon-192.svg","./assets/icons/icon-512.svg","./assets/icons/icon-192.png","./assets/icons/icon-512.png","./data/mission-science.json"];
 self.addEventListener("install",e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith("lunar-outpost-")&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
