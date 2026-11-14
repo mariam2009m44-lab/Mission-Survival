@@ -716,3 +716,114 @@ html[dir="rtl"] .lunar-3d-stage .scene-pad::before{
     max-width:calc(100% - 190px)!important;
   }
 }
+
+
+/* Final control polish: keep the movement cluster and station action in
+   opposite bottom corners, with a clear visual gap at every viewport size. */
+.lunar-3d-stage .scene-pad{
+  left:clamp(10px,2vw,22px)!important;
+  right:auto!important;
+  top:auto!important;
+  bottom:clamp(12px,2vw,20px)!important;
+  transform:none!important;
+  display:grid!important;
+  grid-template-columns:repeat(3,44px);
+  grid-template-rows:14px repeat(2,44px);
+  align-items:center;
+  justify-items:center;
+  gap:4px;
+  padding:8px;
+  border:1px solid rgba(173,224,248,.34);
+  border-radius:18px;
+  background:rgba(7,17,34,.82);
+  box-shadow:0 10px 26px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.1);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  opacity:1;
+}
+.lunar-3d-stage .scene-pad::before{
+  grid-column:1/-1;
+  grid-row:1;
+  width:100%;
+  padding:0;
+  line-height:14px;
+  font-size:9px;
+}
+.lunar-3d-stage .scene-pad>button{grid-column:2;grid-row:2}
+.lunar-3d-stage .scene-pad>div{display:contents!important}
+.lunar-3d-stage .scene-pad>div button:nth-child(1){grid-column:1;grid-row:3}
+.lunar-3d-stage .scene-pad>div button:nth-child(2){grid-column:2;grid-row:3}
+.lunar-3d-stage .scene-pad>div button:nth-child(3){grid-column:3;grid-row:3}
+.lunar-3d-stage .scene-pad>button,
+.lunar-3d-stage .scene-pad>div button{
+  width:44px!important;height:44px!important;
+  min-width:44px!important;min-height:44px!important;
+  margin:0!important;
+  border-radius:13px!important;
+  display:grid;place-items:center;
+}
+.lunar-3d-stage .scene-interact{
+  left:auto!important;
+  right:clamp(10px,2vw,22px)!important;
+  inset-inline-start:auto!important;
+  inset-inline-end:clamp(10px,2vw,22px)!important;
+  bottom:clamp(12px,2vw,20px)!important;
+  transform:none!important;
+  width:max-content;
+  max-width:calc(100% - 190px)!important;
+  min-height:56px;
+  margin:0!important;
+  padding:8px 10px;
+  gap:9px;
+  border-radius:16px;
+  box-shadow:0 10px 26px rgba(0,0,0,.34);
+}
+.lunar-3d-stage .scene-interact button{
+  min-height:44px!important;
+  min-width:94px;
+  border-radius:12px!important;
+  padding:9px 12px!important;
+}
+@media(max-width:520px){
+  .lunar-3d-stage .scene-pad{
+    left:calc(7px + env(safe-area-inset-left,0px))!important;
+    bottom:calc(9px + env(safe-area-inset-bottom,0px))!important;
+    grid-template-columns:repeat(3,40px);
+    grid-template-rows:13px repeat(2,40px);
+    gap:3px;padding:6px;
+  }
+  .lunar-3d-stage .scene-pad>button,
+  .lunar-3d-stage .scene-pad>div button{
+    width:40px!important;height:40px!important;
+    min-width:40px!important;min-height:40px!important;
+  }
+  .lunar-3d-stage .scene-interact{
+    right:calc(7px + env(safe-area-inset-right,0px))!important;
+    inset-inline-end:calc(7px + env(safe-area-inset-right,0px))!important;
+    bottom:calc(9px + env(safe-area-inset-bottom,0px))!important;
+    max-width:calc(100% - 164px)!important;
+    min-height:48px;padding:5px;
+  }
+  .lunar-3d-stage .scene-interact button{
+    min-width:76px;min-height:40px!important;
+    padding:7px 9px!important;font-size:11px!important;
+  }
+}
+@media(orientation:landscape) and (max-height:520px) and (max-width:900px){
+  .lunar-3d-stage .scene-pad{
+    bottom:calc(6px + env(safe-area-inset-bottom,0px))!important;
+    grid-template-columns:repeat(3,36px);
+    grid-template-rows:12px repeat(2,36px);
+    gap:2px;padding:5px;
+  }
+  .lunar-3d-stage .scene-pad>button,
+  .lunar-3d-stage .scene-pad>div button{
+    width:36px!important;height:36px!important;
+    min-width:36px!important;min-height:36px!important;
+  }
+  .lunar-3d-stage .scene-interact{
+    bottom:calc(6px + env(safe-area-inset-bottom,0px))!important;
+    max-width:calc(100% - 150px)!important;
+    min-height:42px;
+  }
+}
