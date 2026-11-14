@@ -979,3 +979,34 @@ html[dir="rtl"] .lunar-3d-stage .scene-pad::before{
     flex-wrap:wrap;
   }
 }
+
+
+/* Desktop keeps its original centered action and right-hand movement pad. */
+@media(min-width:761px){
+  .lunar-3d-stage .scene-pad{
+    left:auto!important;right:12px!important;
+    top:auto!important;bottom:14px!important;
+    transform:none!important;
+    display:grid!important;
+    grid-template-columns:none;
+    grid-template-rows:none;
+    padding:0;border:0;border-radius:0;
+    background:transparent;box-shadow:none;
+    backdrop-filter:none;-webkit-backdrop-filter:none;
+  }
+  .lunar-3d-stage .scene-pad::before{display:none}
+  .lunar-3d-stage .scene-pad>button{grid-column:auto;grid-row:auto}
+  .lunar-3d-stage .scene-pad>div{display:flex!important;gap:5px}
+  .lunar-3d-stage .scene-pad>div button{
+    grid-column:auto;grid-row:auto;
+    width:46px!important;height:46px!important;
+    min-width:46px!important;min-height:46px!important;
+  }
+  .lunar-3d-stage .scene-interact{
+    left:50%!important;right:auto!important;
+    inset-inline-start:50%!important;inset-inline-end:auto!important;
+    bottom:18px!important;transform:translateX(-50%)!important;
+    width:auto;max-width:calc(100% - 24px);
+    min-height:0;padding:8px 10px 8px 14px;gap:10px;
+  }
+}
