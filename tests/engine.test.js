@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {createMission,startMission,selectLandingSite,choose,nextDay,summary,analyzeMission,completeStationTask,resourceAlerts,applyResourceResponse} from "../src/engine.js";
+import {createMission,startMission,selectLandingSite,choose,nextDay,summary,analyzeMission,completeStationTask,resourceAlerts,applyResourceResponse,applyScenarioResponse} from "../src/engine.js";
 import {DAYS,SOURCES,MODULES} from "../src/data.js";
 test("the challenge is implemented as five distinct mission days",()=>{const m=startMission(createMission());assert.equal(DAYS.length,5);assert.equal(new Set(DAYS.map(d=>d.dayNumber)).size,5);assert.deepEqual(DAYS.map(d=>d.dayNumber),[1,2,3,4,5]);assert.deepEqual(Object.keys(m.resources).sort(),["food","oxygen","power","shield","water"]);assert.deepEqual(DAYS.map(d=>d.id),["launch","isru","solar-safety","water-recovery","food-strategy"]);assert.ok(DAYS.every(d=>d.choices.length===2));assert.match(DAYS[3].title,/Day 4/);assert.match(DAYS[4].title,/Day 5/);});
 test("difficulty modes have different starting reserves",()=>{assert.ok(createMission("training").resources.oxygen>createMission("standard").resources.oxygen);assert.ok(createMission("standard").resources.oxygen>createMission("expert").resources.oxygen);});
@@ -184,4 +184,36 @@ test("switching a capped strategy restores the exact baseline and preserves stat
  selectLandingSite(m,"nobile");
  assert.equal(m.resources.power,Math.min(100,powerAfterStation-12+(-8)));
  assert.equal(m.resources.shield,95);
+});
+
+test("correct oxygen scenario applies a once-per-mission reserve trade-off even before the low-resource threshold",()=>{
+ const m=startMission(createMission("standard"));
+ const before={...m.resources};
+ const result=applyScenarioResponse(m,"oxygen","backup");
+ assert.ok(result);
+ assert.equal(m.resources.oxygen,Math.min(100,before.oxygen+14));
+ assert.equal(m.resources.power,before.power-6);
+ assert.equal(m.xp,0);
+ assert.equal(m.responseHistory[0].key,"scenario:oxygen");
+ assert.equal(applyScenarioResponse(m,"oxygen","backup"),null);
+ assert.equal(m.responseHistory.length,1);
+});
+test("correct water scenario is a once-per-mission trade-off and appears in the mission impact timeline",()=>{
+ const m=startMission(createMission("standard"));
+ const before={...m.resources};
+ const result=applyScenarioResponse(m,"water","recovery");
+ assert.ok(result);
+ assert.equal(m.resources.water,Math.min(100,before.water+14));
+ assert.equal(m.resources.power,before.power-7);
+ assert.equal(applyScenarioResponse(m,"water","recovery"),null);
+ const event=analyzeMission(m).timeline.find(x=>x.kind==="scenario");
+ assert.ok(event);
+ assert.equal(event.delta.water,14);
+ assert.equal(event.delta.power,-7);
+});
+test("scenario decisions cannot run before a mission starts or after the mission ends",()=>{
+ const m=createMission("standard");
+ assert.equal(applyScenarioResponse(m,"oxygen","backup"),null);
+ startMission(m);m.phase="complete";
+ assert.equal(applyScenarioResponse(m,"oxygen","backup"),null);
 });
