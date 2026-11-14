@@ -16,12 +16,35 @@ const KNOWLEDGE=[
 {id:"moon-phases",keys:["moon phases","why moon changes shape","full moon","new moon","مراحل القمر","أطوار القمر","ليه شكل القمر بيتغير","البدر والهلال"],en:"The Moon does not actually change shape during the month. Half of it is lit by the Sun, and as the Moon travels around Earth, we see different amounts of that bright half. That creates the phases: crescent, quarter, gibbous and full Moon.",ar:"القمر مش بيغير شكله الحقيقي خلال الشهر. الشمس بتنور نصه، ولما القمر بيلف حوالين الأرض بنشوف أجزاء مختلفة من النصف المنوّر. وده اللي بيعمل أطواره زي الهلال والتربيع والأحدب والبدر.",sources:[["NASA · Moon Phases","https://science.nasa.gov/moon/"]]}
 ];
 const normalize=value=>String(value||"").toLowerCase().normalize("NFKD").replace(/[\u064B-\u065F\u0670]/g,"").replace(/[أإآ]/g,"ا").replace(/ى/g,"ي").replace(/[\u200f\u200e]/g,"").replace(/[^\p{L}\p{N}\s-]/gu," ").replace(/\s+/g," ").trim();
+const STOPWORDS=new Set(["what","is","the","a","an","of","on","in","to","for","and","or","how","why","does","do","can","could","would","should","tell","me","about","explain","please","هل","ايه","إيه","ما","هو","هي","عن","على","في","من","ازاي","إزاي","ليه","كيف","ماذا","هل","ممكن","اشرح","لي","عايز","عاوزه","عاوز","اعرف","اعرفي","القمر","قمري","moon","lunar"]);
+const tokens=value=>normalize(value).split(" ").filter(token=>token.length>1&&!STOPWORDS.has(token));
 export function answerNova(question,language="en"){
-const q=normalize(question);
-if(!q)return null;
-const ranked=KNOWLEDGE.map(item=>({item,score:item.keys.reduce((sum,key)=>{const k=normalize(key);return sum+(q.includes(k)?Math.max(2,k.split(" ").length):0)},0)})).sort((a,b)=>b.score-a.score);
-if(!ranked[0]||ranked[0].score===0)return{answer:language==="ar"?"أقدر أساعدك في علوم القمر ومهمة LRO والإضاءة والإشعاع وبيانات CRaTER وDiviner وDONKI ونموذج NASA-IBM. جرّبي سؤالًا أكثر تحديدًا، أو اختاري أحد الاقتراحات. لا أختلق إجابة عند غياب مصدر موثوق.":"I can help with lunar science, LRO, illumination, radiation, CRaTER, Diviner, DONKI, and the NASA-IBM model. Try a more specific question or choose a suggested prompt. I won't invent an answer when I don't have a reliable source.",sources:[["NASA Science","https://science.nasa.gov/moon/"]]};
-return{answer:ranked[0].item[language==="ar"?"ar":"en"],sources:ranked.slice(0,2).filter(x=>x.score>0).flatMap(x=>x.item.sources).filter((x,i,a)=>a.findIndex(y=>y[1]===x[1])===i).slice(0,4)};
+ const q=normalize(question);
+ if(!q)return null;
+ const queryTokens=new Set(tokens(q));
+ const ranked=KNOWLEDGE.map(item=>{
+  let score=0;
+  for(const key of item.keys){
+   const k=normalize(key);
+   if(q===k||q.includes(k)||k.includes(q))score=Math.max(score,8+tokens(k).length*3);
+   const keyTokens=[...new Set(tokens(k))];
+   const matched=keyTokens.filter(token=>queryTokens.has(token));
+   if(matched.length>=2)score=Math.max(score,matched.reduce((sum,token)=>sum+(token.length>=7?3:2),0)+matched.length);
+   else if(matched.length===1&&matched[0].length>=8)score=Math.max(score,3);
+  }
+  return{item,score};
+ }).sort((a,b)=>b.score-a.score);
+ if(!ranked[0]||ranked[0].score<3){
+  return{
+   answer:language==="ar"
+    ?"أنا NOVA، مساعد علوم القمر. أقدر أشرح القمر والجاذبية والفوهات والجليد المائي والأكسجين والطاقة الشمسية والإشعاع ومهمة القاعدة. مش لاقي إجابة موثقة لسؤالك بصيغته دي؛ جرّبي تقسيمه لسؤال أقصر أو اختاري سؤالًا من الاقتراحات. مش هخمن معلومة علمية من غير مصدر."
+    :"I'm NOVA, your lunar-science guide. I can explain the Moon, gravity, craters, water ice, oxygen, solar power, radiation, and the outpost mission. I couldn't match that wording to a reviewed answer. Try a shorter question or choose one of the suggested prompts. I won't guess at science facts without a source.",
+   sources:[["NASA Moon Science","https://science.nasa.gov/moon/"]]
+  };
+ }
+ const best=ranked[0];
+ const sources=ranked.filter(x=>x.score>=Math.max(3,best.score-3)).flatMap(x=>x.item.sources).filter((x,i,a)=>a.findIndex(y=>y[1]===x[1])===i).slice(0,4);
+ return{answer:best.item[language==="ar"?"ar":"en"],sources};
 }
 export const NOVA_PROMPTS=[
 {en:"What is the Moon?",ar:"إيه هو القمر؟"},
