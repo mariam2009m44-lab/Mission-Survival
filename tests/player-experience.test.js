@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const read = async path => readFile(new URL("../" + path, import.meta.url), "utf8");
-const [main, scene, css, worker] = await Promise.all([
-  read("src/main.js"), read("src/scene3d.js"), read("styles/layout-system.css"), read("service-worker.js")
+const [main, scene, css, worldCss, baseCss, worker] = await Promise.all([
+  read("src/main.js"), read("src/scene3d.js"), read("styles/layout-system.css"), read("styles/kids-world.css"), read("styles.css"), read("service-worker.js")
 ]);
 
 test("player can reach sign-out and settings from the main application header", () => {
@@ -39,11 +39,11 @@ test("3D preview follows the selected identity and renders a selectable spacecra
 test("identity preview and profile controls stay usable on narrow screens", () => {
   assert.match(css, /profile-switch-trigger/);
   assert.match(css, /onboard-3d-preview/);
-  assert.match(css, /Mission 3D mobile controls/);
-  assert.match(css, /\.scene-auto-walk/);
-  assert.match(css, /pointer-events:auto/);
-  assert.match(css, /max-width:calc\(100% - 160px\)/);
+  assert.match(worldCss, /MOBILE COCKPIT REBUILD v2/);
+  assert.match(worldCss, /pointer-events:auto!important/);
+  assert.match(baseCss, /\.lunar-3d-stage\.mission-world \.scene-viewport/);
   assert.match(css, /@media\(max-width:700px\)/);
+  assert.match(worldCss, /FINAL D-PAD SPACING FIX/);
 });
 
 test("service worker advances the cache for the new player and 3D experience", () => {
