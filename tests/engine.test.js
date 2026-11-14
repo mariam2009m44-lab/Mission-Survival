@@ -171,3 +171,17 @@ test("a new mission clears the selected landing plan and restores difficulty res
  const m=startMission(createMission("standard"));selectLandingSite(m,"nobile");startMission(m);
  assert.equal(m.site,null);assert.equal(m.sitePlan,null);assert.equal(m.resources.water,65);assert.equal(m.resources.power,65);
 });
+
+test("switching a capped strategy restores the exact baseline and preserves station gains",()=>{
+ const m=startMission(createMission("standard"));
+ selectLandingSite(m,"de-gerlache");
+ assert.equal(m.resources.shield,100);
+ selectLandingSite(m,"malapert");
+ assert.equal(m.resources.shield,95);
+ assert.equal(m.resources.power,77);
+ completeStationTask(m,"solar");
+ const powerAfterStation=m.resources.power;
+ selectLandingSite(m,"nobile");
+ assert.equal(m.resources.power,Math.min(100,powerAfterStation-12+(-8)));
+ assert.equal(m.resources.shield,95);
+});
