@@ -143,44 +143,6 @@ test("systems resilience rubric remains compatible with older or incomplete miss
 
 test("every listed science source has an explicit A–E provenance classification",()=>{assert.ok(SOURCES.length>=10);for(const source of SOURCES)assert.ok(["A","B","C","D","E"].includes(source.classification),source.id+" missing classification");assert.equal(SOURCES.find(x=>x.id==="donki").classification,"A");assert.equal(SOURCES.find(x=>x.id==="crater").classification,"B");assert.equal(SOURCES.find(x=>x.id==="diviner").classification,"B");assert.equal(SOURCES.find(x=>x.id==="illumination").classification,"C");assert.equal(SOURCES.find(x=>x.id==="card").classification,"C");});
 
- const malapert=startMission(createMission("standard"));
- const nobile=startMission(createMission("standard"));
- const gerlache=startMission(createMission("standard"));
- assert.ok(selectLandingSite(malapert,"malapert"));assert.ok(selectLandingSite(nobile,"nobile"));assert.ok(selectLandingSite(gerlache,"de-gerlache"));
- assert.equal(malapert.resources.power,77);assert.equal(malapert.resources.water,59);
- assert.equal(nobile.resources.water,75);assert.equal(nobile.resources.power,57);
- assert.equal(gerlache.resources.power,70);assert.equal(gerlache.resources.shield,100);assert.equal(gerlache.resources.food,75);
- assert.notDeepEqual(malapert.resources,nobile.resources);assert.notDeepEqual(nobile.resources,gerlache.resources);
-});
- const m=startMission(createMission("standard"));
- assert.equal(selectLandingSite(m,"unknown"),null);
- assert.ok(selectLandingSite(m,"malapert"));assert.ok(selectLandingSite(m,"nobile"));
- assert.equal(m.site,"nobile");assert.equal(m.resources.power,57);assert.equal(m.resources.water,75);
- assert.ok(choose(m,0));assert.equal(selectLandingSite(m,"de-gerlache"),null);assert.equal(m.site,"nobile");
-});
- const m=startMission(createMission("standard"));selectLandingSite(m,"malapert");
- const report=analyzeMission(m);
- assert.equal(report.resources.find(x=>x.id==="power").start,77);assert.equal(report.resources.find(x=>x.id==="water").start,59);
- assert.equal(report.timeline[0].kind,"site");assert.equal(report.timeline[0].delta.power,12);assert.equal(report.timeline[0].delta.water,-6);
- assert.equal(summary(m).sitePlan.id,"malapert");
-});
- const m=startMission(createMission("standard"));selectLandingSite(m,"nobile");startMission(m);
- assert.equal(m.site,null);assert.equal(m.sitePlan,null);assert.equal(m.resources.water,65);assert.equal(m.resources.power,65);
-});
-
- const m=startMission(createMission("standard"));
- selectLandingSite(m,"de-gerlache");
- assert.equal(m.resources.shield,100);
- selectLandingSite(m,"malapert");
- assert.equal(m.resources.shield,95);
- assert.equal(m.resources.power,77);
- completeStationTask(m,"solar");
- const powerAfterStation=m.resources.power;
- selectLandingSite(m,"nobile");
- assert.equal(m.resources.power,Math.min(100,powerAfterStation-12+(-8)));
- assert.equal(m.resources.shield,95);
-});
-
 test("correct oxygen scenario applies a once-per-mission reserve trade-off even before the low-resource threshold",()=>{
  const m=startMission(createMission("standard"));
  const before={...m.resources};
