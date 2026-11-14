@@ -11,7 +11,7 @@ const json = (body, status = 200, headers = {}) => new Response(JSON.stringify(b
 const base64url = bytes => btoa(String.fromCharCode(...new Uint8Array(bytes))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
 const fromBase64url = value => Uint8Array.from(atob(value.replace(/-/g,"+").replace(/_/g,"/")),c=>c.charCodeAt(0));
 const safeAvatar = value => ["blue","purple","gold","green"].includes(value) ? value : "blue";
-const safeLanguage = value => value === "en" ? "en" : "ar";
+const safeLanguage = value => value === "ar" ? "ar" : "en";
 
 async function readJsonBody(request, maxBytes) {
   let raw;
