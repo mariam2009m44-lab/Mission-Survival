@@ -1,0 +1,105 @@
+/* TECNOVA shared layout system — final, predictable responsive layer.
+   Loaded after feature styles so every screen follows the same spacing and sizing rules. */
+:root{
+  --space-1:clamp(6px,.7vw,9px);
+  --space-2:clamp(10px,1vw,14px);
+  --space-3:clamp(14px,1.5vw,20px);
+  --space-4:clamp(18px,2vw,26px);
+  --space-5:clamp(22px,3vw,36px);
+  --control-height:44px;
+  --content-width:1240px;
+  scroll-behavior:smooth;
+  text-size-adjust:100%;
+  -webkit-text-size-adjust:100%;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body,#app{min-height:100%;max-width:100%}
+html{overflow-x:clip}
+body{overflow-x:hidden;line-height:1.55}
+#app{width:100%;min-width:320px;overflow-x:clip}
+img,svg,video,canvas{max-width:100%}
+button,input,select,textarea{font:inherit}
+button{touch-action:manipulation}
+button:disabled{cursor:not-allowed;opacity:.62}
+:where(button,a,input,select,textarea,[tabindex]):focus-visible{outline:3px solid var(--cyan,#70dce2);outline-offset:3px}
+:where(h1,h2,h3,h4,p){overflow-wrap:anywhere}
+:where(.content,.main,.panel,.stat,.system,.module,.source,.decision,.kid-home,.account-card,.account-portal,.nova-panel){min-width:0}
+.content{width:min(100%,var(--content-width));margin-inline:auto}
+.heading,.section-row,.kid-progress-heading,.kid-section-heading{min-width:0}
+.heading h1,.section-row h2,.kid-progress-heading h2,.kid-section-heading h2{line-height:1.25}
+:where(.panel,.stat,.system,.module,.source,.decision,.kid-progress-panel,.kid-resource-panel,.mission-evidence,.water-learning-card,.fieldwork-stations,.field-guide,.task-panel,.active-station-guide,.resource-tile,.station-modal,.kid-tour){min-width:0;overflow-wrap:anywhere}
+:where(.primary,.secondary,.install,.kid-secondary,.account-new,.account-install,.account-back,.intro-web-play,.intro-install){min-height:var(--control-height);max-width:100%;white-space:normal;line-height:1.35}
+:where(.actions,.kid-hero-actions,.intro-secondary-actions,.top-actions,.kid-header-controls){min-width:0;flex-wrap:wrap}
+:where(.actions,.kid-hero-actions) button{max-width:100%}
+:where(input,select,textarea){max-width:100%;min-width:0}
+:where(.resource,.kid-resource,.water-facts p,.water-quiz-question,.mission-evidence-links a){min-width:0}
+:where(.resource-list,.resource,.resource label,.resource b){overflow-wrap:anywhere}
+:where(.mission-evidence-links,.water-facts,.water-quiz-options,.decision-grid,.systems,.modules,.sources){min-width:0}
+:where(.footer,.small-note,.note,.callout p,.system p,.panel p,.module p,.source p){line-height:1.65}
+:where(.mobile-nav,.tecnova-bottom-nav){padding-bottom:max(7px,env(safe-area-inset-bottom))}
+:where(.mobile-nav button,.tecnova-bottom-nav button){min-width:0;overflow-wrap:anywhere}
+.nova-launcher{max-width:calc(100vw - 20px)}
+.nova-panel{min-width:0;max-width:calc(100vw - 20px)}
+.nova-message{overflow-wrap:anywhere;word-break:normal}
+.install-help-backdrop,.station-modal-backdrop{padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
+.install-help,.account-card,.station-modal,.kid-tour{max-height:calc(100svh - 24px);overflow-y:auto;overscroll-behavior:contain}
+.lunar-3d-stage,.lunar-3d-home{width:100%;max-width:100%;min-width:0}
+.lunar-3d-stage .scene-viewport{max-width:100%;min-width:0;isolation:isolate}
+.lunar-3d-stage button{touch-action:manipulation}
+@media(max-width:1000px){
+  .shell{grid-template-columns:210px minmax(0,1fr)}
+  .main{min-width:0}
+  .content{padding-inline:0}
+  .systems{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:700px){
+  .shell{display:block;min-height:100svh}
+  .sidebar{display:none}
+  .main{width:100%;padding:0 14px calc(104px + env(safe-area-inset-bottom));}
+  .content{padding:16px 0 22px}
+  .topbar{min-height:60px;height:auto;gap:8px}
+  .top-actions{gap:6px}
+  .heading{align-items:flex-start;gap:9px;margin-bottom:16px}
+  .heading h1{font-size:clamp(23px,7vw,31px)}
+  .hero{grid-template-columns:minmax(0,1fr);min-height:0;padding:22px 18px}
+  .hero h1{font-size:clamp(29px,8vw,38px)}
+  .moon-wrap{height:145px}
+  .stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+  .stat{min-width:0;padding:11px 8px;gap:6px}
+  .stat b{font-size:clamp(16px,5vw,20px)}
+  .stat small{font-size:clamp(7px,2vw,9px);line-height:1.35;overflow-wrap:anywhere}
+  .systems{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .system{min-width:0;padding:12px}
+  .two-col,.data-hero{grid-template-columns:minmax(0,1fr)}
+  .modules,.sources{grid-template-columns:minmax(0,1fr)}
+  .decision-grid{grid-template-columns:minmax(0,1fr)}
+  .report-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .resource{grid-template-columns:minmax(64px,85px) minmax(0,1fr) 30px;gap:7px}
+  .callout,.release-note{align-items:flex-start;flex-direction:column}
+  .kid-home{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+  .tecnova-bottom-nav{position:sticky;bottom:max(6px,env(safe-area-inset-bottom));z-index:30}
+  .mobile-nav{padding-bottom:calc(7px + env(safe-area-inset-bottom))}
+  .nova-launcher{bottom:calc(82px + env(safe-area-inset-bottom))!important}
+  .nova-panel{bottom:calc(146px + env(safe-area-inset-bottom))!important;max-height:calc(100dvh - 190px - env(safe-area-inset-bottom))!important}
+}
+@media(max-width:390px){
+  .main{padding-inline:10px}
+  .stats{gap:5px}
+  .stat{padding:9px 6px}
+  .stat span{display:none}
+  .resource{grid-template-columns:64px minmax(0,1fr) 27px}
+  .report-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kid-home{padding-inline:9px}
+  .kid-hero-actions{grid-template-columns:1fr}
+}
+@media(orientation:landscape) and (max-height:520px) and (max-width:900px){
+  .main{padding-bottom:calc(90px + env(safe-area-inset-bottom))}
+  .nova-panel{height:min(62dvh,430px)!important}
+  .kid-hero{grid-template-columns:minmax(0,1fr) minmax(130px,.55fr)}
+  .kid-hero-art{min-height:125px}
+}
+@media(prefers-reduced-motion:reduce){
+  :root{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
