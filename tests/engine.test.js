@@ -140,3 +140,5 @@ test("systems resilience rubric remains compatible with older or incomplete miss
  assert.ok(result.resilience>=0&&result.resilience<=100);
  assert.equal(result.priority.resource,"oxygen");
 });
+
+test("every listed science source has an explicit A–E provenance classification",()=>{assert.ok(SOURCES.length>=10);for(const source of SOURCES)assert.ok(["A","B","C","D","E"].includes(source.classification),source.id+" missing classification");assert.equal(SOURCES.find(x=>x.id==="donki").classification,"A");assert.equal(SOURCES.find(x=>x.id==="crater").classification,"B");assert.equal(SOURCES.find(x=>x.id==="diviner").classification,"B");assert.equal(SOURCES.find(x=>x.id==="illumination").classification,"C");assert.equal(SOURCES.find(x=>x.id==="card").classification,"C");});
