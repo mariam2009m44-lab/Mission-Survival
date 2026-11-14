@@ -119,3 +119,24 @@ test("mission impact timeline uses a stable event order within each mission day"
  completeStationTask(m,"solar");
  assert.deepEqual(analyzeMission(m).timeline.map(event=>event.kind),["decision","recovery","station"]);
 });
+
+test("systems resilience index uses a transparent weighted learning rubric and names the next review priority",()=>{
+ const m=startMission(createMission("standard"));
+ m.resources.oxygen=20;m.resources.water=70;m.resources.power=80;m.resources.food=90;m.resources.shield=100;
+ const before=JSON.stringify(m);
+ const result=analyzeMission(m);
+ const average=Math.round((20+70+80+90+100)/5);
+ const spread=100-20;
+ assert.equal(result.resilience,Math.round(average*.55+20*.30+(100-spread)*.15));
+ assert.equal(result.balance,20);
+ assert.equal(result.risk,"watch");
+ assert.equal(result.priority.resource,"oxygen");
+ assert.match(result.priority.en,/power cost/i);
+ assert.match(result.priority.ar,/الأكسجين/);
+ assert.equal(JSON.stringify(m),before);
+});
+test("systems resilience rubric remains compatible with older or incomplete mission saves",()=>{
+ const result=analyzeMission({difficulty:"standard",resources:{oxygen:40}});
+ assert.ok(result.resilience>=0&&result.resilience<=100);
+ assert.equal(result.priority.resource,"oxygen");
+});
