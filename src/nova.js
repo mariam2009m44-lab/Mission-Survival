@@ -37,8 +37,8 @@ export function answerNova(question,language="en"){
  if(!ranked[0]||ranked[0].score<3){
   return{
    answer:language==="ar"
-    ?"أنا NOVA، مساعد علوم القمر. أقدر أشرح القمر والجاذبية والفوهات والجليد المائي والأكسجين والطاقة الشمسية والإشعاع ومهمة القاعدة. مش لاقي إجابة موثقة لسؤالك بصيغته دي؛ جرّبي تقسيمه لسؤال أقصر أو اختاري سؤالًا من الاقتراحات. مش هخمن معلومة علمية من غير مصدر."
-    :"I'm NOVA, your lunar-science guide. I can explain the Moon, gravity, craters, water ice, oxygen, solar power, radiation, and the outpost mission. I couldn't match that wording to a reviewed answer. Try a shorter question or choose one of the suggested prompts. I won't guess at science facts without a source.",
+    ?"أنا NOVA، مساعد علوم القمر. أقدر أشرح القمر والجاذبية والفوهات والجليد المائي والأكسجين والطاقة الشمسية والإشعاع ومهمة القاعدة. مش لاقي إجابة موثقة لسؤالك بصيغته دي؛ جرّبي تقسيمه لسؤال أقصر أو اختاري سؤالًا من الاقتراحات. مش هخترع إجابة أو أخمن معلومة علمية من غير مصدر."
+    :"I'm NOVA, your lunar-science guide. I can explain the Moon, gravity, craters, water ice, oxygen, solar power, radiation, and the outpost mission. I couldn't match that wording to a reviewed answer. Try a shorter question or choose one of the suggested prompts. I won't invent an answer or guess at science facts without a source.",
    sources:[["NASA Moon Science","https://science.nasa.gov/moon/"]]
   };
  }
