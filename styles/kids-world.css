@@ -377,3 +377,7 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #9af1
 .scene-fallback-art .fallback-rover:before,.scene-fallback-art .fallback-rover:after{content:"";position:absolute;bottom:-45%;width:22%;aspect-ratio:1;border-radius:50%;background:#18263a;border:2px solid #c2d0dc}
 .scene-fallback-art .fallback-rover:before{left:8%}.scene-fallback-art .fallback-rover:after{right:8%}
 .scene-fallback-art .fallback-caption{position:absolute;top:12%;left:50%;transform:translateX(-50%);width:max-content;max-width:85%;color:#c9e9ff;font-size:clamp(9px,2vw,13px);font-weight:900;letter-spacing:.12em;text-align:center}
+
+/* Keep the WebGL surface above the viewport backdrop on mobile browsers. */
+.lunar-3d-stage .scene-viewport{position:relative!important;isolation:isolate;overflow:hidden;background:#070d18!important;}
+.lunar-3d-stage .scene-viewport>canvas{position:absolute!important;inset:0!important;display:block!important;max-width:none!important;max-height:none!important;opacity:1!important;visibility:visible!important;z-index:0!important;}
