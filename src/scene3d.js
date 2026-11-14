@@ -259,8 +259,10 @@ function updateMovement(dt) {
     marker.ring.scale.setScalar(pulse);
   }
   if (followPlayer) target.lerp(new THREE.Vector3(px, .5, pz), Math.min(1, dt * 3));
-  nova.position.set(px + 1.55, Math.sin(clock.elapsedTime * 2.1) * .12 + .92, pz + 1.15);
-  nova.rotation.y = Math.sin(clock.elapsedTime * .8) * .16;
+  const novaOffset = new THREE.Vector3(1.55, 0, 1.15).applyAxisAngle(new THREE.Vector3(0, 1, 0), astronaut.rotation.y);
+  nova.position.set(px + novaOffset.x, Math.sin(clock.elapsedTime * 2.1) * .12 + .92, pz + novaOffset.z);
+  const novaTurn = Math.atan2(Math.sin(astronaut.rotation.y - nova.rotation.y), Math.cos(astronaut.rotation.y - nova.rotation.y));
+  nova.rotation.y += novaTurn * Math.min(1, dt * 8);
 }
 
 const onKeyDown = e => {
@@ -287,6 +289,9 @@ window.addEventListener("blur", clearMovementInput);
 document.addEventListener("visibilitychange", clearMovementInput);
 
 root.querySelectorAll("[data-move]").forEach(btn => {
+  btn.style.touchAction = "none";
+  btn.style.userSelect = "none";
+  btn.addEventListener("contextmenu", e => e.preventDefault());
   const set = (on) => {
     const dir = btn.dataset.move;
     const key = { forward: "w", back: "s", left: "a", right: "d" }[dir];
@@ -303,6 +308,7 @@ root.querySelectorAll("[data-move]").forEach(btn => {
 
   btn.addEventListener("pointerup", () => set(false));
   btn.addEventListener("pointercancel", () => set(false));
+  btn.addEventListener("pointerleave", e => { if (!btn.hasPointerCapture?.(e.pointerId)) set(false); });
   btn.addEventListener("lostpointercapture", () => set(false));
 });
 
