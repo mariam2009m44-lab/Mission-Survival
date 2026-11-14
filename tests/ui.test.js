@@ -54,6 +54,8 @@ test("app completes junior commander onboarding, training, five mission decision
  await nav("mission");
  await action("start");
  assert.match(root.innerHTML,/fieldwork-panel/);
+ assert.match(root.innerHTML,/SCIENCE BEHIND THIS DAY/);
+ assert.match(root.innerHTML,/svs\.gsfc\.nasa\.gov\/4930/);
  assert.match(root.innerHTML,/active-station-guide/);
  assert.match(root.innerHTML,/YOUR EXPLORER TASK/);
  assert.match(root.innerHTML,/Visit the five stations/);
