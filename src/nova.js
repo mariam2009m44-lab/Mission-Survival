@@ -67,7 +67,7 @@ export function answerNova(question,language="en",mission=null){
  }
  const best=ranked[0];
  const sources=ranked.filter(x=>x.score>=Math.max(3,best.score-3)).flatMap(x=>x.item.sources).filter((x,i,a)=>a.findIndex(y=>y[1]===x[1])===i).slice(0,4);
- return{answer:missionContext?missionContext+"\\n\\n"+best.item[language==="ar"?"ar":"en"]:best.item[language==="ar"?"ar":"en"],sources};
+ return{answer:missionContext?missionContext+"\n\n"+best.item[language==="ar"?"ar":"en"]:best.item[language==="ar"?"ar":"en"],sources};
 }
 export const NOVA_PROMPTS=[
 {en:"What is the Moon?",ar:"إيه هو القمر؟"},
