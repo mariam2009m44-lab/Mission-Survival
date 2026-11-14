@@ -78,6 +78,11 @@ test("app completes junior commander onboarding, training, five mission decision
   }
  }
  assert.match(root.innerHTML,/MISSION SCORE/);
+ await nav("report");
+ assert.match(root.innerHTML,/MISSION HISTORY/);
+ assert.match(root.innerHTML,/Completed missions|المهمات المكتملة/);
+ assert.match(root.innerHTML,/View mission decisions|عرض قرارات المهمة/);
+ assert.match(root.innerHTML,/MISSION ARCHIVE/);
  await nav("science");
  assert.match(root.innerHTML,/LRO CRaTER/);
  assert.match(root.innerHTML,/9 SOURCES/);
