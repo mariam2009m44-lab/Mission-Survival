@@ -51,3 +51,27 @@ export function applyResourceResponse(m,resourceId,actionId){
 }
 
 export function summary(m){return{score:score(m),xp:m.xp,decisions:m.history.length,result:m.result,resources:{...m.resources},history:[...m.history],site:m.site,siteName:m.siteName||null,badges:badges(m)};}
+
+
+/**
+ * Explain the final state of a training mission without changing the saved mission.
+ * Values are illustrative game units, never spacecraft telemetry.
+ */
+export function analyzeMission(m){
+ const initial=DIFFICULTIES[m?.difficulty]?.values||DIFFICULTIES.standard.values;
+ const resources=RESOURCES.map(resource=>{
+  const value=clamp(Number(m?.resources?.[resource.id]??initial[resource.id]));
+  return {id:resource.id,name:resource.name,ar:resource.ar,start:initial[resource.id],value,change:value-initial[resource.id]};
+ });
+ const ranked=[...resources].sort((a,b)=>a.value-b.value);
+ const average=resources.length?Math.round(resources.reduce((sum,item)=>sum+item.value,0)/resources.length):0;
+ return {
+  score:average,
+  decisions:Array.isArray(m?.history)?m.history.length:0,
+  stationTasks:Array.isArray(m?.stationTasks)?m.stationTasks.length:0,
+  lowest:ranked[0]||null,
+  highest:ranked.at(-1)||null,
+  critical:ranked.filter(item=>item.value<20).map(item=>item.id),
+  resources
+ };
+}
