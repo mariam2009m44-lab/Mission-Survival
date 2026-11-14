@@ -76,7 +76,7 @@ test("astronaut life-support pack has twin oxygen cylinders and a live status in
 
 
 test("movement controls render as exactly four direct grid children with explicit areas", () => {
-  const pad = scene.match(/<div class="scene-pad" role="group"[\\s\\S]*?<\\/div>/)?.[0] || "";
+  const pad = scene.match(/<div class="scene-pad" role="group"[\s\S]*?<\/div>/)?.[0] || "";
   assert.ok(pad, "movement pad markup should exist");
   assert.equal((pad.match(/data-move=/g) || []).length, 4);
   assert.equal((pad.match(/<button\b/g) || []).length, 4);
