@@ -14,36 +14,40 @@ test("movement pad renders exactly four direct directional button children",()=>
  const end=scene.indexOf("</div>",start);
  assert.notEqual(end,-1,"movement pad closes");
  const markup=scene.slice(start,end+6);
- assert.equal((markup.match(/<button\b/g)||[]).length,4);
- assert.equal((markup.match(/<div\b/g)||[]).length,1,"no nested wrapper div");
+ assert.equal(markup.split("<button").length-1,4);
+ assert.equal(markup.split("<div").length-1,1,"no nested wrapper div");
  for(const direction of ["forward","back","left","right"]){
-  assert.equal((markup.match(new RegExp('data-move="'+direction+'"',"g"))||[]).length,1);
+  assert.ok(markup.includes('data-move="'+direction+'"'));
  }
 });
 
 test("movement controls keep pointer capture, release handling and keyboard mapping",()=>{
- assert.match(scene,/setPointerCapture\(e\.pointerId\)/);
- assert.match(scene,/addEventListener\("pointerdown"/);
- assert.match(scene,/addEventListener\("pointerup"/);
- assert.match(scene,/addEventListener\("pointercancel"/);
- assert.match(scene,/addEventListener\("lostpointercapture"/);
- assert.match(scene,/forward:\s*"w",\s*back:\s*"s",\s*left:\s*"a",\s*right:\s*"d"/);
- assert.match(scene,/const movementButtons=root\.querySelectorAll\("\.scene-pad > button\[data-move\]"\)/);
+ for(const token of [
+  "btn.setPointerCapture(e.pointerId)",
+  'btn.addEventListener("pointerdown"',
+  'btn.addEventListener("pointerup"',
+  'btn.addEventListener("pointercancel"',
+  'btn.addEventListener("lostpointercapture"',
+  'forward: "w", back: "s", left: "a", right: "d"',
+  'const movementButtons=root.querySelectorAll(".scene-pad > button[data-move]")'
+ ])assert.ok(scene.includes(token),"missing movement behavior: "+token);
 });
 
 test("both stylesheet layers use the same explicit four-way CSS grid areas",()=>{
- const areas=/grid-template-areas:\s*["']\. forward \.["']\s*["']left back right["']/;
- assert.match(baseCss,areas);
- assert.match(worldCss,areas);
- assert.match(worldCss,/\.lunar-3d-stage \.scene-pad>div\{display:contents!important;flex:none!important\}/);
- assert.match(worldCss,/@media\(orientation:landscape\) and \(max-height:520px\)/);
- assert.match(worldCss,/@media\(max-width:360px\)/);
+ const areas='grid-template-areas:". forward ." "left back right"';
+ assert.ok(baseCss.includes(areas));
+ assert.ok(worldCss.includes(areas));
+ assert.ok(worldCss.includes(".lunar-3d-stage .scene-pad>div{display:contents!important;flex:none!important}"));
+ assert.ok(worldCss.includes("@media(orientation:landscape) and (max-height:520px)"));
+ assert.ok(worldCss.includes("@media(max-width:360px)"));
 });
 
 test("NOVA eases its existing relative offset and preserves companion distance",()=>{
- assert.ok(scene.includes("novaBaseOffset=new THREE.Vector3(1.55,0,-1.15)"));
- assert.ok(scene.includes("novaFollowYaw+=followTurn*(1-Math.exp(-dt*5.5))"));
- assert.ok(scene.includes("nova.position.lerp(novaTargetPosition,1-Math.exp(-dt*9))"));
- assert.ok(scene.includes("novaRelativePosition.setLength(novaBaseOffset.length())"));
- assert.ok(scene.includes("nova.rotation.y+=novaTurn*(1-Math.exp(-dt*8))"));
+ for(const token of [
+  "novaBaseOffset=new THREE.Vector3(1.55,0,-1.15)",
+  "novaFollowYaw+=followTurn*(1-Math.exp(-dt*5.5))",
+  "nova.position.lerp(novaTargetPosition,1-Math.exp(-dt*9))",
+  "novaRelativePosition.setLength(novaBaseOffset.length())",
+  "nova.rotation.y+=novaTurn*(1-Math.exp(-dt*8))"
+ ])assert.ok(scene.includes(token),"missing NOVA following behavior: "+token);
 });
