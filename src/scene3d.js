@@ -79,6 +79,7 @@ function makeScene(THREE,root){
  box(1.7,.65,1.25,white,0,.85,0,rover);box(.65,.5,.6,gold,-.15,1.42,-.1,rover);
  for(const x of [-.72,.72])for(const z of [-.72,.72]){const wheel=new THREE.Mesh(new THREE.CylinderGeometry(.38,.38,.2,20),dark);wheel.rotation.z=Math.PI/2;wheel.position.set(x,.45,z);rover.add(wheel);}
  const mast=cyl(.045,.045,1.5,white,.45,1.8,0,rover);mast.rotation.z=-.15;
+let profileState={};try{profileState=JSON.parse(localStorage.getItem("lunar-outpost-trainer-v2")||"{}")||{};}catch{}const commander={avatar:profileState.commander?.avatar||localStorage.getItem("tecnova-preview-avatar")||"blue",name:profileState.commander?.name||"Commander",vehicle:profileState.commander?.vehicle||localStorage.getItem("tecnova-preview-vehicle")||"astra"};
 // Selected explorer spacecraft: a complete procedural 3D vehicle, with a different livery for each choice.
 const craftStyles={
  astra:{body:0xdce8f4,accent:0x43d9f1,glass:0x225b80,name:"ASTRA ONE"},
@@ -104,7 +105,7 @@ for(const side of [-1,1]){
 }
 const craftStripe=new THREE.Mesh(new THREE.BoxGeometry(.12,.045,2.2),craftAccent);craftStripe.position.set(0,1.59,-.05);craft.add(craftStripe);
 const craftLamp=new THREE.PointLight(craftStyle.accent,3,7);craftLamp.position.set(0,1.25,-2.1);craft.add(craftLamp);
-const craftLabelCanvas=document.createElement("canvas");craftLabelCanvas.width=512;craftLabelCanvas.height=128;const craftLabelCtx=craftLabelCanvas.getContext("2d");craftLabelCtx.fillStyle="rgba(8,22,42,.88)";craftLabelCtx.strokeStyle="#"+craftStyle.accent.toString(16).padStart(6,"0");craftLabelCtx.lineWidth=6;craftLabelCtx.beginPath();craftLabelCtx.roundRect(8,8,496,112,20);craftLabelCtx.fill();craftLabelCtx.stroke();craftLabelCtx.fillStyle="#fff";craftLabelCtx.font="bold 34px Arial";craftLabelCtx.textAlign="center";craftLabelCtx.textBaseline="middle";craftLabelCtx.fillText(craftStyle.name,256,64,450);const craftLabelTexture=new THREE.CanvasTexture(craftLabelCanvas);craftLabelTexture.colorSpace=THREE.SRGBColorSpace;const craftLabel=new THREE.Sprite(new THREE.SpriteMaterial({map:craftLabelTexture,transparent:true,depthWrite:false}));craftLabel.position.set(10,3.2,10);craftLabel.scale.set(4.2,1.05,1);group.add(craftLabel);
+const craftLabelCanvas=document.createElement("canvas");craftLabelCanvas.width=512;craftLabelCanvas.height=128;const craftLabelCtx=craftLabelCanvas.getContext("2d");craftLabelCtx.fillStyle="rgba(8,22,42,.88)";craftLabelCtx.strokeStyle="#"+craftStyle.accent.toString(16).padStart(6,"0");craftLabelCtx.lineWidth=6;craftLabelCtx.beginPath();craftLabelCtx.rect(8,8,496,112);craftLabelCtx.fill();craftLabelCtx.stroke();craftLabelCtx.fillStyle="#fff";craftLabelCtx.font="bold 34px Arial";craftLabelCtx.textAlign="center";craftLabelCtx.textBaseline="middle";craftLabelCtx.fillText(craftStyle.name,256,64,450);const craftLabelTexture=new THREE.CanvasTexture(craftLabelCanvas);craftLabelTexture.colorSpace=THREE.SRGBColorSpace;const craftLabel=new THREE.Sprite(new THREE.SpriteMaterial({map:craftLabelTexture,transparent:true,depthWrite:false}));craftLabel.position.set(10,3.2,10);craftLabel.scale.set(4.2,1.05,1);group.add(craftLabel);
 // Detailed outpost infrastructure: landing pad, communications mast, storage and service lights.
  const serviceMat=mat(0x9aaabd,.48,.42),warningMat=mat(0xffb95e,.25,.38),windowMat=new THREE.MeshStandardMaterial({color:0x79d8f1,emissive:0x17445b,emissiveIntensity:.8,metalness:.25,roughness:.22});
  const landingPad=new THREE.Group();landingPad.position.set(-8,0,-5);group.add(landingPad);
@@ -125,7 +126,7 @@ const craftLabelCanvas=document.createElement("canvas");craftLabelCanvas.width=5
  box(.55,.45,.12,windowMat,0,1.15,.91,storageModule);
  for(const x of [-.55,.55]){const foot=box(.14,.65,.14,dark,x,.32,0,storageModule);foot.rotation.z=x*.12;}
  // Junior commander avatar: a child-proportioned astronaut in a clear helmet.
- let profileState={};try{profileState=JSON.parse(localStorage.getItem("lunar-outpost-trainer-v2")||"{}")||{};}catch{}const commander={avatar:profileState.commander?.avatar||localStorage.getItem("tecnova-preview-avatar")||"blue",name:profileState.commander?.name||"Commander",vehicle:profileState.commander?.vehicle||localStorage.getItem("tecnova-preview-vehicle")||"astra"};
+ 
  const avatarPalette={blue:{accent:0x42dfff,hair:0x56382d,skin:0xe7ae88},purple:{accent:0xc28cff,hair:0x49302c,skin:0xe6ae88},gold:{accent:0xffbf59,hair:0x211b18,skin:0xd99570},green:{accent:0x62e2b2,hair:0x3e2a24,skin:0xe8b28f}};
  const chosen=avatarPalette[commander.avatar]||avatarPalette.blue,accentMat=mat(chosen.accent,.35,.28),skinMat=mat(chosen.skin,0,.72),hairMat=mat(chosen.hair,0,.8);
  const astronaut=new THREE.Group();astronaut.position.set(1,0,5);try{const saved=JSON.parse(sessionStorage.getItem("lunar-outpost-player-position")||"null");if(saved&&Number.isFinite(saved.x)&&Number.isFinite(saved.z))astronaut.position.set(clamp(saved.x,-21,21),0,clamp(saved.z,-21,21));}catch{}group.add(astronaut);
@@ -379,7 +380,8 @@ renderer.setAnimationLoop(() => {
   updateMovement(dt);
 
   astronaut.position.y = .035 + Math.sin(t * 1.8) * .035;
-  beacon.intensity = 17 + Math.sin(t * 2.4) * 5;\n  craftLamp.intensity = 2.4 + Math.sin(t * 2.8) * .8;
+  beacon.intensity = 17 + Math.sin(t * 2.4) * 5;
+  craftLamp.intensity = 2.4 + Math.sin(t * 2.8) * .8;
 
   if (waypointRing) {
     const pulse = 1 + Math.sin(t * 3.2) * .12;
