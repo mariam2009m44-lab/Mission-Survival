@@ -6,7 +6,7 @@ const PROFILES_KEY = "tecnova-local-profiles-v1";
 export function loadProfiles() {
   try {
     const value = JSON.parse(localStorage.getItem(PROFILES_KEY) || "[]");
-    return Array.isArray(value) ? value.filter(x => x && typeof x.id === "string" && x.state && x.state.commander).slice(-8) : [];
+    if(!Array.isArray(value))return [];const seen=new Set();return value.filter(x=>{if(!x||typeof x.id!=="string"||!x.state||!x.state.commander||seen.has(x.id))return false;seen.add(x.id);return true;}).slice(-8);
   } catch { return []; }
 }
 export function saveProfiles(profiles) {
