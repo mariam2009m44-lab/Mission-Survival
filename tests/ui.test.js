@@ -26,13 +26,11 @@ test("app completes junior commander onboarding, training, five mission decision
  await action("guide-finish");
  assert.match(root.innerHTML,/اختاري رائدة الفضاء بتاعتك/);
  await action("create-profile");
- assert.match(root.innerHTML,/أهلاً بك على القمر/);
- await action("tour-next");
- assert.match(root.innerHTML,/اتحرك جوه القاعدة/);
- await action("tour-next");
- assert.match(root.innerHTML,/خمس أماكن هتكتشفها/);
- await action("tour-start");
- assert.match(root.innerHTML,/MISSION DAY/);
+ assert.match(root.innerHTML,/tecnova-home/);
+ assert.match(root.innerHTML,/lunar-3d-home/);
+ assert.match(root.innerHTML,/TECNOVA/);
+ await action("start");
+ assert.match(root.innerHTML,/MISSION DAY 01 \/ 05/);
  assert.match(root.innerHTML,/sound-toggle/);
  assert.match(root.innerHTML,/music-toggle/);
  assert.match(root.innerHTML,/aria-pressed="true"/);
