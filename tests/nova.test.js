@@ -76,7 +76,7 @@ test("commander onboarding and mission hub are available in the app shell",async
 
 test("3D scene reads the selected junior commander profile",async()=>{const scene=await readFile(new URL("../src/scene3d.js",import.meta.url),"utf8");assert.match(scene,/avatarPalette/);assert.match(scene,/lunar-outpost-trainer-v2/);});
 
-test("3D exploration supports movement, nearby station interaction and NOVA event dispatch",async()=>{const scene=await readFile(new URL("../src/scene3d.js",import.meta.url),"utf8");const app=await readFile(new URL("../src/main.js",import.meta.url),"utf8");assert.match(scene,/data-move/);assert.match(scene,/data-scene-interact/);assert.match(scene,/lunar-station-interact/);assert.match(scene,/ISRU Oxygen Lab/);assert.match(scene,/Greenhouse & Water/);assert.match(app,/lunar-station-interact/);});
+test("3D exploration supports movement, nearby station interaction and NOVA event dispatch",async()=>{const scene=await readFile(new URL("../src/scene3d.js",import.meta.url),"utf8");const app=await readFile(new URL("../src/main.js",import.meta.url),"utf8");assert.match(scene,/data-move/);assert.match(scene,/data-scene-interact/);assert.match(scene,/interactWhenArrived/);assert.match(scene,/autoWalkTarget=destination/);assert.match(scene,/lunar-station-interact/);assert.doesNotMatch(scene,/<div class="scene-interact" hidden>/);assert.match(scene,/ISRU Oxygen Lab/);assert.match(scene,/Greenhouse & Water/);assert.match(app,/lunar-station-interact/);});
 
 test("3D experience includes first-person mode and optional immersive WebXR",async()=>{
  const scene=await readFile(new URL("../src/scene3d.js",import.meta.url),"utf8");
