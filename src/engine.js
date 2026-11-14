@@ -12,7 +12,7 @@ export function badges(m){const ids=m.history.map(x=>x.choiceId);const earned=[]
 
 export const RESOURCE_RESPONSES={
  oxygen:{
-  backup:{delta:{oxygen:14,power:-6},en:"Switch to the backup oxygen reserve",ar:"التحويل إلى احتياطي الأكسجين",enWhy:"The simulation uses stored backup oxygen. Power is consumed by the life-support system.",arWhy:"تستخدم المحاكاة احتياطي الأكسجين المخزن، مع استهلاك طاقة لتشغيل نظام دعم الحياة."},
+  backup:{delta:{oxygen:14,power:-6},en:"Review simulated consumption, postpone optional activities and activate the backup reserve",ar:"مراجعة الاستهلاك الافتراضي وتأجيل الأنشطة الاختيارية وتفعيل احتياطي الأكسجين",enWhy:"In this training scenario, the crew reduces non-essential demand and uses the simulated backup reserve. The oxygen reserve improves while the life-support system uses power. This is a game model, not a real spacecraft procedure.",arWhy:"في سيناريو التدريب، يقلل الطاقم الطلب غير الضروري ويستخدم احتياطي الأكسجين الافتراضي. يتحسن مخزون الأكسجين مع استهلاك طاقة لنظام دعم الحياة. ده نموذج داخل اللعبة وليس إجراءً حقيقيًا لتشغيل مركبة فضائية."},
   inspect:{delta:{oxygen:8,power:-3},en:"Inspect the habitat life-support loop",ar:"فحص دورة دعم الحياة في السكن",enWhy:"The crew checks the simulated air loop and isolates the issue. This is a game action, not a real operating procedure.",arWhy:"يفحص الطاقم دورة الهواء داخل المحاكاة ويعزل المشكلة. ده إجراء داخل اللعبة وليس تعليمات تشغيل حقيقية."}
  },
  water:{
