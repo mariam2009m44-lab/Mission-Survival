@@ -1,51 +1,45 @@
-# Three-Day Lunar Outpost Mission Flow
+# Five-Day Lunar Outpost Mission Flow
 
-This is an Artemis-inspired educational scenario, not an official NASA mission or a claim that a permanent lunar base is operating.
+TECNOVA is an Artemis-inspired educational game for the NASA Space Apps 2026 challenge **Build a Junior Astronaut Mission Trainer**. It is a fictional training scenario, not an official NASA mission or a claim that a permanent lunar base is operating.
 
-## Day 1 — Launch and payload planning
-The crew prepares for a fictional lunar expedition. The commander chooses between extra battery modules or extra water and oxygen tanks. The launch vehicle and lunar landing system are described separately: SLS is a launch vehicle and does not itself land the crew on the lunar surface.
+## Five-day campaign
 
-## Day 2 — ISRU oxygen experiment
-The commander chooses whether to run a simulated oxygen-resource experiment using lunar-regolith simulant or conserve power and postpone it. The game makes clear that oxygen is chemically bound in minerals and is not free breathable gas. NASA's CaRD work is a ground-based prototype demonstration using simulated lunar regolith, not an operating lunar plant.
+1. **Day 1 — Landing region and payload planning.** Select one of three NASA-studied Artemis III candidate regions (Malapert Massif, Nobile Rim 1 or de Gerlache Rim 2), then prioritize extra battery capacity or water and oxygen supplies. SLS is a launch vehicle; it does not itself land astronauts on the lunar surface.
+2. **Day 2 — Oxygen from lunar regolith.** Choose whether to run a simulated ISRU oxygen experiment using lunar-regolith simulant or conserve power. Oxygen in lunar minerals is chemically bound; it is not free breathable gas. NASA's CaRD work tested a ground prototype using simulated lunar regolith, not an operating lunar oxygen plant.
+3. **Day 3 — Solar alert and crew protection.** Respond to a fictional training alert, pause non-essential outdoor work and balance crew protection against power needs. This is not a live radiation forecast.
+4. **Day 4 — Water recovery and life support.** Choose whether to use energy for water recovery or conserve the remaining supply. Water recovery requires power, filters and maintenance.
+5. **Day 5 — Food and greenhouse strategy.** Decide whether to invest in a long-term greenhouse trial or rely on stored food. A greenhouse does not produce a complete meal instantly.
 
-Reference: [NASA CaRD prototype testing (13 February 2026)](https://www.nasa.gov/centers-and-facilities/johnson/sunlight-extracts-oxygen-from-regolith-using-solar-chemistry/).
+## Simulation rules and scientific boundaries
 
-## Day 3 — Solar alert, crew safety and sustainable supplies
-The player receives a fictional training alert, not a live radiation forecast. Every response prioritizes crew-safety procedures, then trades power, water recovery and food reserves. A greenhouse is treated as a long-term experiment rather than instant food production.
-
-## Simulation rules
-- Resource values are illustrative game units from 0 to 100, not spacecraft telemetry or engineering safety thresholds.
-- The three mission days contain five strategic decision stages: one on Day 1, one on Day 2, and three connected decisions on Day 3. The five stages are separate player choices, not five in-game days.
-- Solar-weather records from DONKI are contextual references only; they do not change game values or predict radiation at a lunar habitat.
-- CRaTER data are from lunar orbit, not from inside a surface habitat.
+- The game has five distinct decision days and one strategic decision per day.
+- Resource values are illustrative game units from 0 to 100, not spacecraft telemetry, engineering safety thresholds, medical readings or real sensor measurements.
+- Oxygen, water, power, food and crew protection are connected game resources. Improving one can consume another.
+- Crew protection is a simplified game resource, not a medical measure of astronaut health.
+- DONKI event records are optional research context only. They do not change game values or predict radiation at a lunar habitat.
+- CRaTER measurements are from lunar orbit, not from inside a surface habitat.
 - NASA's lunar illumination sequence is a terrain-based model, not live sunlight or power telemetry.
+- The three candidate landing regions are educational scenarios, not approved or guaranteed-safe landing sites. Terrain, illumination, communication and landing safety require mission-specific assessment.
 
 ## Three-dimensional environment
-The Three.js scene is a conceptual training environment with a habitat, solar farm, lander, rover and astronaut marker. It is not a flight-accurate engineering model or a NASA-built simulator.
 
-## 2026 campaign expansion
+The Three.js scene is a conceptual training environment with a habitat, solar farm, lander, rover, greenhouse, oxygen lab, astronaut and NOVA guide. It supports touch movement, keyboard movement when the scene canvas is focused, camera controls and nearby station interactions. It is not a flight-accurate engineering model or a NASA-built simulator.
 
-The interactive campaign now uses five decision stages across three in-game days:
-1. Select one NASA-studied Artemis III candidate landing region, then prioritize extra batteries or water/oxygen payload.
-2. Run the simulated ISRU oxygen experiment or conserve energy.
-3. Respond to a fictional solar-particle alert with the crew-shelter protocol.
-4. Activate water recovery or ration the available supply.
-5. Start a long-term greenhouse trial or use stored food.
+## Learning stations
 
-The candidate-region picker uses Malapert Massif, Nobile Rim 1 and de Gerlache Rim 2 as educational scenarios. NASA identified these among candidate Artemis III landing regions; the app does not present them as approved or guaranteed-safe landing sites. Terrain, illumination, communication and landing safety require mission-specific assessment.
+The five optional station activities introduce:
+- Habitat and life support
+- Oxygen-resource processing (ISRU)
+- Solar power and lunar shadows
+- Greenhouse and water recycling
+- Rover exploration and route planning
 
-The mission HUD summarizes Oxygen, Water, Power, Food, and Crew Protection. Crew protection is a simplified game resource; it is not a medical measure of astronaut health. Resource values are illustrative game units, not engineering telemetry. The task list marks completed stages, and the final report includes the chosen site, decision history, score and badges.
+Station challenges are optional learning bonuses. They do not block the five core decisions. NOVA explains the science in child-friendly Arabic and English and links to reviewed sources.
 
-The first-run commander profile offers four original child-astronaut avatar illustrations. The profile is saved locally on the device; it is not an online account or authentication system. The selected avatar also appears as a child-proportioned astronaut in the Three.js lunar scene.
+## References
 
-NOVA provides a contextual science panel during each stage and remains available through the floating assistant. NOVA is a project feature, not an official NASA service. The comic interludes are fictional storytelling and are clearly separated from the NASA source notes.
-
-
-## In-world learning route
-
-Each of the five decision stages now includes a NOVA field assignment that points the junior commander to one matching 3D station: solar farm, oxygen lab, habitat, greenhouse, then rover garage. The player can open the base, follow the glowing station marker, complete its short knowledge challenge, and return to the same mission step. Station discoveries remain optional learning bonuses; they do not block the core decision flow, and the app continues to explain that all resource effects are illustrative game units.
-
-
-## Child-friendly station artwork
-
-Five original, lightweight SVG illustrations identify the habitat, oxygen lab, solar farm, greenhouse and rover garage in the mission field guide. Each illustration is decorative guidance rather than a scale-accurate engineering drawing.
+- NASA CaRD prototype testing (13 February 2026): https://www.nasa.gov/centers-and-facilities/johnson/sunlight-extracts-oxygen-from-regolith-using-solar-chemistry/
+- NASA South Pole illumination model: https://svs.gsfc.nasa.gov/4930/
+- NASA LRO instruments: https://science.nasa.gov/mission/lro/spacecraft-and-instruments/
+- Canadian Space Agency food-production toolkit: https://www.asc-csa.gc.ca/eng/youth-educators/toolkits/food-production/
+- NASA Space Apps 2026 challenge: https://www.spaceappschallenge.org/2026/challenges/junior-astronaut-mission-trainer/
