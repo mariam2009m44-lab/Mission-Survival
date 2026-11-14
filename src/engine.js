@@ -65,13 +65,24 @@ export function analyzeMission(m){
  });
  const ranked=[...resources].sort((a,b)=>a.value-b.value);
  const average=resources.length?Math.round(resources.reduce((sum,item)=>sum+item.value,0)/resources.length):0;
+ const decisions=Array.isArray(m?.history)?m.history:[];
+ const responses=Array.isArray(m?.responseHistory)?m.responseHistory:[];
+ const timeline=[
+  ...decisions.map(event=>({day:Number(event.day)||1,kind:"decision",title:event.title||"Mission decision",delta:{...(event.delta||{})},before:{...(event.before||{})},after:{...(event.after||{})}})),
+  ...responses.map(event=>{
+   const action=RESOURCE_RESPONSES[event.resourceId]?.[event.actionId];
+   const resource=RESOURCES.find(item=>item.id===event.resourceId);
+   return {day:Number(event.day)||1,kind:"recovery",title:action?(action.en||action.ar):(resource?.name||"Resource recovery"),arTitle:action?(action.ar||action.en):(resource?.ar||"استعادة مورد"),delta:{...(event.delta||{})},before:{...(event.before||{})},after:{...(event.after||{})}};
+  })
+ ].sort((a,b)=>a.day-b.day||(a.kind==="decision"?-1:1));
  return {
   score:average,
-  decisions:Array.isArray(m?.history)?m.history.length:0,
+  decisions:decisions.length,
   stationTasks:Array.isArray(m?.stationTasks)?m.stationTasks.length:0,
   lowest:ranked[0]||null,
   highest:ranked.at(-1)||null,
   critical:ranked.filter(item=>item.value<20).map(item=>item.id),
-  resources
+  resources,
+  timeline
  };
 }
