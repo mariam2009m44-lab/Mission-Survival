@@ -1347,8 +1347,8 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #9af1
 @media(orientation:landscape) and (max-height:520px) and (max-width:900px){
  .lunar-3d-stage .scene-pad{
   left:6px!important;right:auto!important;inset-inline-start:6px!important;inset-inline-end:auto!important;
-  bottom:6px!important;grid-template-columns:38px minmax(116px,128px) 38px!important;
-  grid-template-rows:44px 38px!important;gap:3px!important;padding:5px!important;
+  bottom:6px!important;grid-template-columns:42px minmax(112px,124px) 42px!important;
+  grid-template-rows:46px 42px!important;gap:3px!important;padding:5px!important;
  }
 }
 @media(min-width:761px){

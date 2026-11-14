@@ -35,7 +35,7 @@ test("3D preview follows the selected identity and renders a selectable spacecra
   assert.match(scene, /MY SPACECRAFT/);
   assert.match(scene, /if \(missionWorld\) root\.classList\.add\("mission-world"\)/);
   assert.match(scene, /else root\.classList\.remove\("mission-world"\)/);
-  assert.match(scene, /novaOffset/);
+  assert.match(scene, /novaBaseOffset/);
 });
 
 test("identity preview and profile controls stay usable on narrow screens", () => {
@@ -49,6 +49,6 @@ test("identity preview and profile controls stay usable on narrow screens", () =
 });
 
 test("service worker advances the cache for the new player and 3D experience", () => {
-  assert.match(worker, /lunar-outpost-app-v57/);
+  assert.match(worker, /lunar-outpost-app-v58/);
   assert.match(worker, /src\/profile-security\.js/);
 });

@@ -16,20 +16,23 @@ test("NOVA launcher and panel stay above the bottom navigation dock", () => {
 });
 
 
-test("3D movement pad stays side-mounted with large touch targets", async () => {
+test("3D movement pad uses four explicit grid areas and large touch targets", async () => {
   const worldCss = await readFile(new URL("../styles/kids-world.css", import.meta.url), "utf8");
-  assert.match(worldCss, /\.lunar-3d-stage \.scene-pad\{[\s\S]*?left:12px!important[\s\S]*?top:50%!important[\s\S]*?transform:translateY\(-50%\)!important/);
-  assert.match(worldCss, /\.lunar-3d-stage \.scene-pad>button,[\s\S]*?width:52px!important[\s\S]*?height:52px!important/);
-  assert.match(worldCss, /\.lunar-3d-stage \.scene-interact\{[\s\S]*?right:14px!important/);
+  assert.match(worldCss, /grid-template-areas:"\. forward \." "left back right"/);
+  assert.match(worldCss, /grid-template-columns:48px minmax\(132px,148px\) 48px!important/);
+  assert.match(worldCss, /grid-template-rows:50px 46px!important/);
+  assert.match(worldCss, /\.scene-pad>\[data-move\]/);
+  assert.match(worldCss, /\.scene-pad>\[data-move="forward"\]\{grid-area:forward/);
+  assert.match(worldCss, /right:14px!important/);
+  assert.match(worldCss, /height:100%!important;min-width:0!important;min-height:0!important/);
 });
 
-
-test("movement pad includes a clear label for first-time players", async () => {
-  const worldCss = await readFile(new URL("../styles/kids-world.css", import.meta.url), "utf8");
-  assert.match(worldCss, /\.lunar-3d-stage \.scene-pad::before\{[\s\S]*?content:"MOVE"/);
-  assert.match(worldCss, /html\[dir="rtl"\] \.lunar-3d-stage \.scene-pad::before\{[\s\S]*?content:"حركة"/);
+test("forward movement button includes a clear bilingual hold instruction", async () => {
+  const scene = await readFile(new URL("../src/scene3d.js", import.meta.url), "utf8");
+  assert.match(scene, /class="scene-forward-button" data-move="forward"/);
+  assert.match(scene, /HOLD TO WALK/);
+  assert.match(scene, /اضغطي مطولًا للتحرك/);
 });
-
 
 test("station action reserves space for the side-mounted D-pad on narrow phones", async () => {
   const worldCss = await readFile(new URL("../styles/kids-world.css", import.meta.url), "utf8");
@@ -38,15 +41,14 @@ test("station action reserves space for the side-mounted D-pad on narrow phones"
 });
 
 
-test("mobile 3D controls use a compact left-hand D-pad and right-hand action area", async () => {
+test("mobile 3D controls use the same direct-child grid on narrow screens", async () => {
   const worldCss = await readFile(new URL("../styles/kids-world.css", import.meta.url), "utf8");
-  const mobileLayout = worldCss.slice(worldCss.lastIndexOf("/* Mobile-only two-thumb layout"));
-  assert.match(mobileLayout, /@media\(max-width:760px\)/);
-  assert.match(mobileLayout, /grid-template-columns:repeat\(3,46px\)/);
-  assert.match(mobileLayout, /\.scene-pad>div\{\s*display:contents!important/);
-  assert.match(mobileLayout, /left:calc\(10px \+ env\(safe-area-inset-left,0px\)\)!important/);
-  assert.match(mobileLayout, /right:calc\(10px \+ env\(safe-area-inset-right,0px\)\)!important/);
-  assert.match(mobileLayout, /@media\(orientation:landscape\) and \(max-height:520px\)/);
+  const unified = worldCss.slice(worldCss.lastIndexOf("TECNOVA unified four-direction movement pad"));
+  assert.match(unified, /@media\(max-width:760px\)/);
+  assert.match(unified, /grid-template-areas:"\. forward \." "left back right"/);
+  assert.match(unified, /grid-template-columns:42px minmax\(112px,132px\) 42px!important/);
+  assert.match(unified, /left:8px!important/);
+  assert.doesNotMatch(unified, /\.scene-pad\s*>\s*div/);
 });
 
 test("desktop 3D controls retain their original right-pad and centered action layout", async () => {
@@ -68,9 +70,25 @@ test("mobile 3D cockpit keeps HUD actions in the content column and camera contr
   assert.match(responsive, /\.scene-focus\{[\s\S]*?flex-wrap:nowrap/);
 });
 
-test("3D touch controls use separate non-overlapping zones and retain compact landscape sizing",async()=>{const {readFile}=await import("node:fs/promises");const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");assert.match(css,/3D control zoning: keep camera, guidance, movement and interaction in separate lanes/);assert.match(css,/\.lunar-3d-stage \.scene-pad\{left:10px;bottom:10px/);assert.match(css,/\.lunar-3d-stage \.scene-interact\{right:10px;bottom:10px/);assert.match(css,/orientation:landscape\) and \(max-height:520px/);assert.match(css,/grid-template-columns:repeat\(3,42px\)/);});
+test("3D touch controls retain separate action zones and compact landscape grid sizing",async()=>{
+ const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");
+ const unified=css.slice(css.lastIndexOf("TECNOVA unified four-direction movement pad"));
+ assert.match(unified,/\.lunar-3d-stage \.scene-pad\{/);
+ assert.match(unified,/\.lunar-3d-stage \.scene-interact/);
+ assert.match(unified,/orientation:landscape\) and \(max-height:520px/);
+ assert.match(unified,/grid-template-columns:42px minmax\(112px,124px\) 42px!important/);
+ assert.match(unified,/grid-template-rows:46px 42px!important/);
+});
 
-test("final mobile 3D cascade separates camera bar, HUD, left movement pad and right action button",async()=>{const {readFile}=await import("node:fs/promises");const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");const i=css.lastIndexOf("Final cascade fix: override legacy");const finalCss=css.slice(i);assert.ok(i>0);assert.match(finalCss,/\.scene-camera-switch\{[\s\S]*?top:8px!important[\s\S]*?height:42px!important/);assert.match(finalCss,/\.scene-hud\{[\s\S]*?top:60px!important/);assert.match(finalCss,/\.scene-pad\{[\s\S]*?left:10px!important[\s\S]*?bottom:10px!important/);assert.match(finalCss,/\.scene-interact\{[\s\S]*?right:10px!important[\s\S]*?bottom:12px!important/);assert.match(finalCss,/@media\(orientation:landscape\) and \(max-height:520px\)/);});
+test("final 3D movement cascade consistently places all four direct-child controls",async()=>{
+ const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");
+ const finalCss=css.slice(css.lastIndexOf("TECNOVA unified four-direction movement pad"));
+ assert.match(finalCss,/grid-template-areas:"\. forward \." "left back right"/);
+ assert.match(finalCss,/\[data-move="left"\]\{grid-area:left/);
+ assert.match(finalCss,/\[data-move="back"\]\{grid-area:back/);
+ assert.match(finalCss,/\[data-move="right"\]\{grid-area:right/);
+ assert.match(finalCss,/@media\(orientation:landscape\) and \(max-height:520px\)/);
+});
 
 test("small landscape tablets keep the compact two-thumb cockpit after desktop rules",async()=>{
  const worldCss=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");
@@ -82,7 +100,7 @@ test("small landscape tablets keep the compact two-thumb cockpit after desktop r
  assert.match(compact,/\.scene-interact\{left:auto!important;right:7px!important[\s\S]*?width:108px!important/);
 });
 
-test("mobile cockpit v2 keeps the camera, status, movement and station action in separate touch zones",async()=>{
+test("mobile cockpit keeps camera, status, movement and station action in separate touch zones",async()=>{
  const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");
  const cockpit=css.slice(css.lastIndexOf("MOBILE COCKPIT REBUILD v2"));
  assert.match(cockpit,/height:clamp\(460px,76svh,650px\)!important/);
@@ -90,8 +108,9 @@ test("mobile cockpit v2 keeps the camera, status, movement and station action in
  assert.match(cockpit,/\.scene-hud\{[\s\S]*?top:56px!important[\s\S]*?max-height:calc\(100% - 188px\)!important/);
  assert.match(cockpit,/\.scene-pad\{[\s\S]*?left:8px!important[\s\S]*?bottom:calc\(8px \+ env\(safe-area-inset-bottom,0px\)\)!important/);
  assert.match(cockpit,/\.scene-interact\{[\s\S]*?right:8px!important[\s\S]*?width:104px!important/);
- assert.match(cockpit,/\.scene-pad>div\{display:contents!important/);
+ assert.doesNotMatch(cockpit,/\.scene-pad\s*>\s*div/);
 });
+
 test("mobile cockpit v2 has dedicated compact rules for narrow phones and landscape devices",async()=>{
  const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");
  const cockpit=css.slice(css.lastIndexOf("MOBILE COCKPIT REBUILD v2"));
@@ -109,14 +128,13 @@ test("3D movement keys are cleared when the app loses focus or is backgrounded",
  assert.match(scene,/document\.removeEventListener\("visibilitychange", clearMovementInput\)/);
 });
 
-test("landscape movement buttons retain larger touch targets and visible keyboard focus",async()=>{
+test("landscape movement buttons retain 42px touch targets and visible keyboard focus",async()=>{
  const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");
- const refinement=css.slice(css.lastIndexOf("Landscape touch refinement"));
- assert.match(refinement,/grid-template-columns:repeat\(3,42px\)!important/);
- assert.match(refinement,/min-height:42px!important/);
- assert.match(refinement,/focus-visible/);
+ const unified=css.slice(css.lastIndexOf("TECNOVA unified four-direction movement pad"));
+ assert.match(unified,/grid-template-rows:46px 42px!important/);
+ assert.match(unified,/grid-template-columns:42px minmax\(112px,124px\) 42px!important/);
+ assert.match(unified,/focus-visible/);
 });
-
 
 test("final D-pad spacing reserves a full lower arrow row without clipping",async()=>{
  const css=await readFile(new URL("../styles/kids-world.css",import.meta.url),"utf8");
