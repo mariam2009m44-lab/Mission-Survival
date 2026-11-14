@@ -86,6 +86,7 @@ test("app completes junior commander onboarding, training, five mission decision
  assert.match(root.innerHTML,/START CHALLENGE 2/);
  await action("next-challenge");
  assert.match(root.innerHTML,/CHALLENGE 02/);
+ assert.match(root.innerHTML,/ADVANCED CHALLENGE/);
  for(let step=0;step<5;step++)await action("challenge-two-answer",{answer:"0"});
  assert.match(root.innerHTML,/Systems Integrator/);
  await nav("report");
@@ -132,4 +133,12 @@ test("signing out preserves the local explorer profile and achievements",async()
  assert.match(root.innerHTML,/class="shell/);
  await nav("report");
  assert.match(root.innerHTML,/MISSION HISTORY|سجل المهمات/);
+});
+
+test("starting a new journey closes the settings dialog",async()=>{
+ await action("settings");
+ assert.match(root.innerHTML,/tecnova-settings-backdrop/);
+ await action("new-journey");
+ assert.match(root.innerHTML,/MISSION DAY 01 \/ 05/);
+ assert.doesNotMatch(root.innerHTML,/tecnova-settings-backdrop/);
 });
