@@ -1296,8 +1296,6 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #9af1
  background:rgba(5,14,28,.9)!important;backdrop-filter:blur(10px)!important;
  touch-action:none!important;opacity:.98!important;
 }
-/* Neutralize any old wrapper layout if stale markup is ever encountered. */
-.lunar-3d-stage .scene-pad>div{display:contents!important;flex:none!important}
 .lunar-3d-stage .scene-pad>[data-move]{
  position:relative!important;inset:auto!important;float:none!important;transform:none!important;
  display:grid!important;place-items:center!important;grid-area:auto!important;
