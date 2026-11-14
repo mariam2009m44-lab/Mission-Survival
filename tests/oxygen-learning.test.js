@@ -29,7 +29,9 @@ test("four-astronaut oxygen shortage scenario rewards the safe B choice in simul
   assert.match(main, /Review oxygen consumption, postpone non-essential activities/);
   assert.match(main, /Reduce the cabin oxygen percentage without checking safety limits/);
   assert.match(main, /index===2/);
-  assert.match(main, /applyResourceResponse\(s\.mission,"oxygen","backup"\)/);
+  assert.match(main, /applyScenarioResponse\(s\.mission,"oxygen","backup"\)/);
+  assert.match(main, /\+14.*Oxygen|Resource impact/);
+  assert.match(main, /once per mission/);
   assert.match(main, /Resource Management points/);
   const engine = await readFile(new URL("../src/engine.js", import.meta.url), "utf8");
   assert.match(engine, /postpone optional activities and activate the backup reserve/);
