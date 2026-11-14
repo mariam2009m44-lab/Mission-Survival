@@ -221,6 +221,7 @@ function makeScene(THREE,root){
  function interact(){if(!nearby)return;const st=nearby;root.dispatchEvent(new CustomEvent("lunar-station-interact",{bubbles:true,detail:{id:st.id,name:st.name,ar:st.ar,info:st.info,arInfo:st.arInfo}}));setStatus((uiAr?"تمت زيارة · ":"VISITED · ")+(uiAr?st.ar:st.name));}
  interactButton?.addEventListener("click",interact);
 
+
 function updateMovement(dt) {
   let x = (keys.has("d") || keys.has("arrowright") ? 1 : 0)
         - (keys.has("a") || keys.has("arrowleft") ? 1 : 0) + moveX;
@@ -271,7 +272,7 @@ function updateMovement(dt) {
     }
   }
 
-  const next = dist < nearest.radius ? nearest : null;
+  const next = nearest && dist < nearest.radius ? nearest : null;
 
   if (next !== nearby) {
     nearby = next;
@@ -305,38 +306,242 @@ function updateMovement(dt) {
   nova.position.y += .92;
 }
 
- const px=astronaut.position.x,pz=astronaut.position.z;let nearest=null,dist=Infinity;for(const st of stations){const d=Math.hypot(px-st.position.x,pz-st.position.z);if(d<dist){dist=d;nearest=st;}}
- const next=dist<nearest.radius?nearest:null;if(next!==nearby){nearby=next;if(interactWrap)interactWrap.hidden=!nearby;if(nearby){root.querySelector("[data-scene-nearby]").textContent=nearby.name;setStatus((uiAr?"في النطاق · ":"IN RANGE · ")+(uiAr?nearby.ar:nearby.name));}else setStatus(uiAr?"استكشفي القاعدة وابحثي عن محطة مضيئة":"Explore the outpost and find a glowing station");}
- for(const marker of stationMarkers){const pulse=1+Math.sin(clock.elapsedTime*2.5+marker.station.position.x)*.09;marker.ring.scale.setScalar(pulse);}
- if(followPlayer){target.lerp(new THREE.Vector3(px,.5,pz),Math.min(1,dt*3));}nova.position.set(px+1.55,Math.sin(clock.elapsedTime*2.1)*.12,pz+1.15);nova.rotation.y=Math.sin(clock.elapsedTime*.8)*.16;nova.position.y+=.92;
- }
- const onKeyDown=e=>{const key=e.key.toLowerCase();if(["w","a","s","d","arrowup","arrowdown","arrowleft","arrowright"," "].includes(key))e.preventDefault();keys.add(key);if(key==="e"||key==="enter")interact();};
- const onKeyUp=e=>keys.delete(e.key.toLowerCase());window.addEventListener("keydown",onKeyDown);window.addEventListener("keyup",onKeyUp);
- root.querySelectorAll("[data-move]").forEach(btn=>{const set=(on)=>{const dir=btn.dataset.move;const key={forward:"w",back:"s",left:"a",right:"d"}[dir];if(on)keys.add(key);else keys.delete(key);};btn.addEventListener("pointerdown",e=>{e.preventDefault();set(true);btn.setPointerCapture(e.pointerId);});btn.addEventListener("pointerup",()=>set(false));btn.addEventListener("pointercancel",()=>set(false));btn.addEventListener("lostpointercapture",()=>set(false));});
- root.querySelectorAll("[data-scene-focus]").forEach(b=>b.addEventListener("click",()=>{const v=focus[b.dataset.sceneFocus];if(v){followPlayer=false;target.set(...v);radius= b.dataset.sceneFocus==="base"?27:10.5;cameraMode="overview";root.querySelectorAll("[data-scene-camera]").forEach(x=>x.classList.toggle("active",x.dataset.sceneCamera==="overview"));cameraUpdate();root.querySelectorAll("[data-scene-focus]").forEach(x=>x.classList.toggle("active",x===b));}}));
- const clock=new THREE.Clock();
- group.traverse(object=>{if(object.isMesh){object.castShadow=true;object.receiveShadow=true;}});
- renderer.setAnimationLoop(()=>{const dt=Math.min(clock.getDelta(),.05),t=clock.elapsedTime;if(!renderer.xr.isPresenting&&!drag&&!keys.size&&cameraMode==="follow"&&!firstPerson)azimuth+=.00018;updateMovement(dt);astronaut.position.y=.035+Math.sin(t*1.8)*.035;beacon.intensity=17+Math.sin(t*2.4)*5;if(waypointRing){const pulse=1+Math.sin(t*3.2)*.12;waypointRing.scale.setScalar(pulse);waypointRing.material.opacity=.62+Math.sin(t*3.2)*.22;if(waypointBeam)waypointBeam.material.opacity=.12+Math.sin(t*2.4)*.09;}if(!renderer.xr.isPresenting)cameraUpdate();renderer.render(scene,camera);});
- return()=>{renderer.setAnimationLoop(null);ro.disconnect();window.removeEventListener("keydown",onKeyDown);window.removeEventListener("keyup",onKeyUp);document.removeEventListener("fullscreenchange",resize);if(activeXRSession)activeXRSession.end().catch(()=>{});renderer.dispose();geo.dispose();starsGeo.dispose();};
-}
-function mount(){
- const app=document.querySelector("#app");if(!app)return;
- const hero=app.querySelector(".moon-wrap");const heading=app.querySelector(".heading");const label=heading?.querySelector(".eyebrow")?.textContent||"";const missionWorld=/MISSION DAY|MISSION CONTROL \/ FINAL DEBRIEF/i.test(label);
- const target=hero||(/MISSION DAY|SIMULATION \/ TRAINING ENVIRONMENT/i.test(label)?heading:null);
- if(!target)return;
- let root=app.querySelector(".lunar-3d-stage");
- if(!root){root=document.createElement("section");root.className="lunar-3d-stage";const uiAr=(()=>{try{return JSON.parse(localStorage.getItem("lunar-outpost-trainer-v2")||"{}").language==="ar";}catch{return false;}})();
- root.innerHTML='<div class="scene-topline"><span>LIVE 3D · LUNAR SOUTH POLE</span><span class="scene-hint">'+(uiAr?"اسحب لتدوير المشهد · قرّب إصبعين للتكبير · أزرار الحركة للمشي":"DRAG TO LOOK · PINCH TO ZOOM · HOLD PAD TO WALK")+'</span></div><div class="scene-viewport"><canvas aria-label="Interactive three-dimensional lunar outpost scene"></canvas><div class="scene-loading">INITIALIZING 3D TERRAIN…</div><div class="scene-camera-switch"><button type="button" class="active" data-scene-camera="follow">'+(uiAr?"تتبع":"FOLLOW")+'</button><button type="button" data-scene-camera="overview">'+(uiAr?"نظرة عامة":"OVERVIEW")+'</button><button type="button" data-scene-first-person aria-pressed="false">'+(uiAr?"منظور رائدة الفضاء":"FIRST PERSON")+'</button><button type="button" data-scene-fullscreen>'+(uiAr?"ملء الشاشة":"FULL SCREEN")+'</button><button type="button" data-scene-vr hidden>'+(uiAr?"دخول VR":"ENTER VR")+'</button></div><div class="scene-hud"><span class="scene-hud-dot"></span><b>'+(uiAr?"وضع الاستكشاف":"EXPLORATION MODE")+'</b><small data-scene-status>'+(uiAr?"اقتربي من محطة مضيئة":"Move near a glowing station")+'</small><small class="scene-waypoint" data-scene-waypoint></small><small class="scene-child-tip">' + (uiAr?"امشي ناحية اللافتات المضيئة، ثم اضغطي تفاعل لتتعلمي مع NOVA":"Follow the glowing signs, then interact to learn with NOVA") + '</small></div><div class="scene-interact" hidden><b data-scene-nearby>STATION</b><button type="button" data-scene-interact>'+(uiAr?"تفاعل ↗":"INTERACT ↗")+'</button></div><div class="scene-pad" aria-label="Movement controls"><button data-move="forward" aria-label="Move forward">▲</button><div><button data-move="left" aria-label="Move left">◀</button><button data-move="back" aria-label="Move back">▼</button><button data-move="right" aria-label="Move right">▶</button></div></div></div><div class="scene-toolbar"><div class="scene-focus"><button class="active" data-scene-focus="base">'+(uiAr?"القاعدة":"BASE")+'</button><button data-scene-focus="habitat">'+(uiAr?"السكن":"HABITAT")+'</button><button data-scene-focus="oxygen">'+(uiAr?"معمل الأكسجين":"OXYGEN LAB")+'</button><button data-scene-focus="power">'+(uiAr?"الطاقة الشمسية":"SOLAR FARM")+'</button><button data-scene-focus="greenhouse">'+(uiAr?"الصوبة":"GREENHOUSE")+'</button><button data-scene-focus="rover">'+(uiAr?"المركبة":"ROVER")+'</button><button data-scene-focus="lander">'+(uiAr?"المركبة الهابطة":"LANDER")+'</button></div><span class="scene-caption">'+(uiAr?"بيئة تدريب تصورية · ليست معدات طيران":"CONCEPTUAL TRAINING ENVIRONMENT · NOT FLIGHT HARDWARE")+'</span></div>';
-  if(hero){hero.innerHTML="";hero.append(root);}else target.after(root);
-  }
- if(root.dataset.ready)return;root.dataset.ready="loading";
- import(THREE_URL).then(THREE=>{if(!root.isConnected)return;root.dataset.ready="true";root.querySelector(".scene-loading")?.remove();root._dispose=makeScene(THREE,root.querySelector(".scene-viewport"));}).catch(()=>{root.dataset.ready="fallback";root.querySelector(".scene-loading")?.remove();addStylesFallback(root.querySelector(".scene-viewport"));});
-}
-let activeRoot=null;
-const observer=new MutationObserver(()=>{if(activeRoot&&!activeRoot.isConnected){activeRoot._dispose?.();activeRoot=null;}mount();});
-observer.observe(document.querySelector("#app"),{childList:true,subtree:true});
-mount();
-const appRoot=document.querySelector("#app");
-const capture=new MutationObserver(()=>{const next=appRoot.querySelector(".lunar-3d-stage");if(next&&next!==activeRoot)activeRoot=next;const intro=appRoot.querySelector(".intro-3d-world");if(window.__tecnovaIntroRoot&&window.__tecnovaIntroRoot!==intro){window.__tecnovaIntroRoot._dispose?.();window.__tecnovaIntroRoot=null;}if(intro)window.__tecnovaIntroRoot=intro;});
-capture.observe(appRoot,{childList:true,subtree:true});
+const onKeyDown = e => {
+  const key = e.key.toLowerCase();
 
+  if (["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright", " "].includes(key)) {
+    e.preventDefault();
+  }
+
+  keys.add(key);
+
+  if (key === "e" || key === "enter") interact();
+};
+
+const onKeyUp = e => keys.delete(e.key.toLowerCase());
+
+window.addEventListener("keydown", onKeyDown);
+window.addEventListener("keyup", onKeyUp);
+
+root.querySelectorAll("[data-move]").forEach(btn => {
+  const set = (on) => {
+    const dir = btn.dataset.move;
+    const key = { forward: "w", back: "s", left: "a", right: "d" }[dir];
+
+    if (on) keys.add(key);
+    else keys.delete(key);
+  };
+
+  btn.addEventListener("pointerdown", e => {
+    e.preventDefault();
+    set(true);
+    btn.setPointerCapture(e.pointerId);
+  });
+
+  btn.addEventListener("pointerup", () => set(false));
+  btn.addEventListener("pointercancel", () => set(false));
+  btn.addEventListener("lostpointercapture", () => set(false));
+});
+
+root.querySelectorAll("[data-scene-focus]").forEach(b => {
+  b.addEventListener("click", () => {
+    const v = focus[b.dataset.sceneFocus];
+
+    if (v) {
+      followPlayer = false;
+      target.set(...v);
+      radius = b.dataset.sceneFocus === "base" ? 27 : 10.5;
+      cameraMode = "overview";
+
+      root.querySelectorAll("[data-scene-camera]").forEach(x =>
+        x.classList.toggle("active", x.dataset.sceneCamera === "overview")
+      );
+
+      cameraUpdate();
+
+      root.querySelectorAll("[data-scene-focus]").forEach(x =>
+        x.classList.toggle("active", x === b)
+      );
+    }
+  });
+});
+
+const clock = new THREE.Clock();
+
+group.traverse(object => {
+  if (object.isMesh) {
+    object.castShadow = true;
+    object.receiveShadow = true;
+  }
+});
+
+renderer.setAnimationLoop(() => {
+  const dt = Math.min(clock.getDelta(), .05);
+  const t = clock.elapsedTime;
+
+  // تم إيقاف دوران الكاميرا التلقائي مؤقتًا لاختبار اتجاه الحركة
+  updateMovement(dt);
+
+  astronaut.position.y = .035 + Math.sin(t * 1.8) * .035;
+  beacon.intensity = 17 + Math.sin(t * 2.4) * 5;
+
+  if (waypointRing) {
+    const pulse = 1 + Math.sin(t * 3.2) * .12;
+    waypointRing.scale.setScalar(pulse);
+    waypointRing.material.opacity = .62 + Math.sin(t * 3.2) * .22;
+
+    if (waypointBeam) {
+      waypointBeam.material.opacity = .12 + Math.sin(t * 2.4) * .09;
+    }
+  }
+
+  if (!renderer.xr.isPresenting) cameraUpdate();
+
+  renderer.render(scene, camera);
+});
+
+return () => {
+  renderer.setAnimationLoop(null);
+  ro.disconnect();
+  window.removeEventListener("keydown", onKeyDown);
+  window.removeEventListener("keyup", onKeyUp);
+  document.removeEventListener("fullscreenchange", resize);
+
+  if (activeXRSession) activeXRSession.end().catch(() => {});
+
+  renderer.dispose();
+  geo.dispose();
+  starsGeo.dispose();
+};
+}
+
+function mount() {
+  const app = document.querySelector("#app");
+  if (!app) return;
+
+  const hero = app.querySelector(".moon-wrap");
+  const heading = app.querySelector(".heading");
+  const label = heading?.querySelector(".eyebrow")?.textContent || "";
+  const missionWorld = /MISSION DAY|MISSION CONTROL \/\ FINAL DEBRIEF/i.test(label);
+  const target = hero || (/MISSION DAY|SIMULATION \/\ TRAINING ENVIRONMENT/i.test(label) ? heading : null);
+
+  if (!target) return;
+
+  let root = app.querySelector(".lunar-3d-stage");
+
+  if (!root) {
+    root = document.createElement("section");
+    root.className = "lunar-3d-stage";
+
+    const uiAr = (() => {
+      try {
+        return JSON.parse(localStorage.getItem("lunar-outpost-trainer-v2") || "{}").language === "ar";
+      } catch {
+        return false;
+      }
+    })();
+
+    root.innerHTML = '<div class="scene-topline"><span>LIVE 3D · LUNAR SOUTH POLE</span><span class="scene-hint">' +
+      (uiAr ? "اسحب لتدوير المشهد · قرّب إصبعين للتكبير · أزرار الحركة للمشي" : "DRAG TO LOOK · PINCH TO ZOOM · HOLD PAD TO WALK") +
+      '</span></div><div class="scene-viewport"><canvas aria-label="Interactive three-dimensional lunar outpost scene"></canvas><div class="scene-loading">INITIALIZING 3D TERRAIN…</div><div class="scene-camera-switch"><button type="button" class="active" data-scene-camera="follow">' +
+      (uiAr ? "تتبع" : "FOLLOW") +
+      '</button><button type="button" data-scene-camera="overview">' +
+      (uiAr ? "نظرة عامة" : "OVERVIEW") +
+      '</button><button type="button" data-scene-first-person aria-pressed="false">' +
+      (uiAr ? "منظور رائدة الفضاء" : "FIRST PERSON") +
+      '</button><button type="button" data-scene-fullscreen>' +
+      (uiAr ? "ملء الشاشة" : "FULL SCREEN") +
+      '</button><button type="button" data-scene-vr hidden>' +
+      (uiAr ? "دخول VR" : "ENTER VR") +
+      '</button></div><div class="scene-hud"><span class="scene-hud-dot"></span><b>' +
+      (uiAr ? "وضع الاستكشاف" : "EXPLORATION MODE") +
+      '</b><small data-scene-status>' +
+      (uiAr ? "اقتربي من محطة مضيئة" : "Move near a glowing station") +
+      '</small><small class="scene-waypoint" data-scene-waypoint></small><small class="scene-child-tip">' +
+      (uiAr ? "امشي ناحية اللافتات المضيئة، ثم اضغطي تفاعل لتتعلمي مع NOVA" : "Follow the glowing signs, then interact to learn with NOVA") +
+      '</small></div><div class="scene-interact" hidden><b data-scene-nearby>STATION</b><button type="button" data-scene-interact>' +
+      (uiAr ? "تفاعل ↗" : "INTERACT ↗") +
+      '</button></div><div class="scene-pad" aria-label="Movement controls"><button data-move="forward" aria-label="Move forward">▲</button><div><button data-move="left" aria-label="Move left">◀</button><button data-move="back" aria-label="Move back">▼</button><button data-move="right" aria-label="Move right">▶</button></div></div></div><div class="scene-toolbar"><div class="scene-focus"><button class="active" data-scene-focus="base">' +
+      (uiAr ? "القاعدة" : "BASE") +
+      '</button><button data-scene-focus="habitat">' +
+      (uiAr ? "السكن" : "HABITAT") +
+      '</button><button data-scene-focus="oxygen">' +
+      (uiAr ? "معمل الأكسجين" : "OXYGEN LAB") +
+      '</button><button data-scene-focus="power">' +
+      (uiAr ? "الطاقة الشمسية" : "SOLAR FARM") +
+      '</button><button data-scene-focus="greenhouse">' +
+      (uiAr ? "الصوبة" : "GREENHOUSE") +
+      '</button><button data-scene-focus="rover">' +
+      (uiAr ? "المركبة" : "ROVER") +
+      '</button><button data-scene-focus="lander">' +
+      (uiAr ? "المركبة الهابطة" : "LANDER") +
+      '</button></div><span class="scene-caption">' +
+      (uiAr ? "بيئة تدريب تصورية · ليست معدات طيران" : "CONCEPTUAL TRAINING ENVIRONMENT · NOT FLIGHT HARDWARE") +
+      '</span></div>';
+
+    if (hero) {
+      hero.innerHTML = "";
+      hero.append(root);
+    } else {
+      target.after(root);
+    }
+  }
+
+  if (root.dataset.ready) return;
+  root.dataset.ready = "loading";
+
+  import(THREE_URL).then(THREE => {
+    if (!root.isConnected) return;
+    root.dataset.ready = "true";
+    root.querySelector(".scene-loading")?.remove();
+    root._dispose = makeScene(THREE, root.querySelector(".scene-viewport"));
+  }).catch(() => {
+    root.dataset.ready = "fallback";
+    root.querySelector(".scene-loading")?.remove();
+    addStylesFallback(root.querySelector(".scene-viewport"));
+  });
+}
+
+let activeRoot = null;
+
+const observer = new MutationObserver(() => {
+  if (activeRoot && !activeRoot.isConnected) {
+    activeRoot._dispose?.();
+    activeRoot = null;
+  }
+  mount();
+});
+
+observer.observe(document.querySelector("#app"), {
+  childList: true,
+  subtree: true
+});
+
+mount();
+
+const appRoot = document.querySelector("#app");
+
+const capture = new MutationObserver(() => {
+  const next = appRoot.querySelector(".lunar-3d-stage");
+  if (next && next !== activeRoot) activeRoot = next;
+
+  const intro = appRoot.querySelector(".intro-3d-world");
+
+  if (window.__tecnovaIntroRoot && window.__tecnovaIntroRoot !== intro) {
+    window.__tecnovaIntroRoot._dispose?.();
+    window.__tecnovaIntroRoot = null;
+  }
+
+  if (intro) window.__tecnovaIntroRoot = intro;
+});
+
+capture.observe(appRoot, {
+  childList: true,
+  subtree: true
+});
+
+
+     
+   
+  
+ 
