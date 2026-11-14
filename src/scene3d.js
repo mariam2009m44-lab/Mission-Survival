@@ -220,9 +220,91 @@ function makeScene(THREE,root){
  function setStatus(text){if(status)status.textContent=text;}
  function interact(){if(!nearby)return;const st=nearby;root.dispatchEvent(new CustomEvent("lunar-station-interact",{bubbles:true,detail:{id:st.id,name:st.name,ar:st.ar,info:st.info,arInfo:st.arInfo}}));setStatus((uiAr?"تمت زيارة · ":"VISITED · ")+(uiAr?st.ar:st.name));}
  interactButton?.addEventListener("click",interact);
- function updateMovement(dt){let x=(keys.has("d")||keys.has("arrowright")?1:0)-(keys.has("a")||keys.has("arrowleft")?1:0)+moveX;let z=(keys.has("s")||keys.has("arrowdown")?1:0)-(keys.has("w")||keys.has("arrowup")?1:0)+moveZ;const length=Math.hypot(x,z);if(length>.01){x/=length;z/=length;const dx=x*Math.cos(azimuth)-z*Math.sin(azimuth),dz=x*Math.sin(azimuth)+z*Math.cos(azimuth);astronaut.position.x=clamp(astronaut.position.x+dx*moveSpeed*dt,-21,21);astronaut.position.z=clamp(astronaut.position.z+dz*moveSpeed*dt,-21,21);astronaut.rotation.y=Math.atan2(dx,dz);followPlayer=true;if(Date.now()-lastPositionSave>350){lastPositionSave=Date.now();try{sessionStorage.setItem("lunar-outpost-player-position",JSON.stringify({x:astronaut.position.x,z:astronaut.position.z}));}catch{}}}
-const dx = x * Math.cos(azimuth) + z * Math.sin(azimuth);
-const dz = -x * Math.sin(azimuth) + z * Math.cos(azimuth);
+
+function updateMovement(dt) {
+  let x = (keys.has("d") || keys.has("arrowright") ? 1 : 0)
+        - (keys.has("a") || keys.has("arrowleft") ? 1 : 0) + moveX;
+
+  let z = (keys.has("s") || keys.has("arrowdown") ? 1 : 0)
+        - (keys.has("w") || keys.has("arrowup") ? 1 : 0) + moveZ;
+
+  const length = Math.hypot(x, z);
+
+  if (length > .01) {
+    x /= length;
+    z /= length;
+
+    const dx = x * Math.cos(azimuth) + z * Math.sin(azimuth);
+    const dz = -x * Math.sin(azimuth) + z * Math.cos(azimuth);
+
+    astronaut.position.x = clamp(astronaut.position.x + dx * moveSpeed * dt, -21, 21);
+    astronaut.position.z = clamp(astronaut.position.z + dz * moveSpeed * dt, -21, 21);
+
+    astronaut.rotation.y = Math.atan2(dx, dz);
+    followPlayer = true;
+
+    if (Date.now() - lastPositionSave > 350) {
+      lastPositionSave = Date.now();
+      try {
+        sessionStorage.setItem(
+          "lunar-outpost-player-position",
+          JSON.stringify({
+            x: astronaut.position.x,
+            z: astronaut.position.z
+          })
+        );
+      } catch {}
+    }
+  }
+
+  const px = astronaut.position.x;
+  const pz = astronaut.position.z;
+
+  let nearest = null;
+  let dist = Infinity;
+
+  for (const st of stations) {
+    const d = Math.hypot(px - st.position.x, pz - st.position.z);
+    if (d < dist) {
+      dist = d;
+      nearest = st;
+    }
+  }
+
+  const next = dist < nearest.radius ? nearest : null;
+
+  if (next !== nearby) {
+    nearby = next;
+
+    if (interactWrap) interactWrap.hidden = !nearby;
+
+    if (nearby) {
+      root.querySelector("[data-scene-nearby]").textContent = nearby.name;
+      setStatus((uiAr ? "في النطاق · " : "IN RANGE · ") + (uiAr ? nearby.ar : nearby.name));
+    } else {
+      setStatus(uiAr ? "استكشفي القاعدة وابحثي عن محطة مضيئة" : "Explore the outpost and find a glowing station");
+    }
+  }
+
+  for (const marker of stationMarkers) {
+    const pulse = 1 + Math.sin(clock.elapsedTime * 2.5 + marker.station.position.x) * .09;
+    marker.ring.scale.setScalar(pulse);
+  }
+
+  if (followPlayer) {
+    target.lerp(new THREE.Vector3(px, .5, pz), Math.min(1, dt * 3));
+  }
+
+  nova.position.set(
+    px + 1.55,
+    Math.sin(clock.elapsedTime * 2.1) * .12,
+    pz + 1.15
+  );
+
+  nova.rotation.y = Math.sin(clock.elapsedTime * .8) * .16;
+  nova.position.y += .92;
+}
+
  const px=astronaut.position.x,pz=astronaut.position.z;let nearest=null,dist=Infinity;for(const st of stations){const d=Math.hypot(px-st.position.x,pz-st.position.z);if(d<dist){dist=d;nearest=st;}}
  const next=dist<nearest.radius?nearest:null;if(next!==nearby){nearby=next;if(interactWrap)interactWrap.hidden=!nearby;if(nearby){root.querySelector("[data-scene-nearby]").textContent=nearby.name;setStatus((uiAr?"في النطاق · ":"IN RANGE · ")+(uiAr?nearby.ar:nearby.name));}else setStatus(uiAr?"استكشفي القاعدة وابحثي عن محطة مضيئة":"Explore the outpost and find a glowing station");}
  for(const marker of stationMarkers){const pulse=1+Math.sin(clock.elapsedTime*2.5+marker.station.position.x)*.09;marker.ring.scale.setScalar(pulse);}
