@@ -148,3 +148,20 @@ test("NOVA launcher is available during intro, guide and profile setup",async()=
  assert.match(app,/if\(!s\.welcomeGuideDone\)\{app\.innerHTML=welcomeGuide\(\)\+novaWidget\(\)/);
  assert.match(app,/if\(!s\.commander\)\{app\.innerHTML=onboarding\(\)\+novaWidget\(\)/);
 });
+
+test("NOVA explains oxygen contingency safely without inventing operational instructions",()=>{
+ const en=answerNova("What should a crew do if the oxygen supply is running low?","en");
+ const ar=answerNova("إزاي نتعامل مع نقص الأكسجين؟","ar");
+ assert.match(en.answer,/approved contingency checklist/i);
+ assert.match(en.answer,/Never change cabin oxygen settings/i);
+ assert.match(ar.answer,/قائمة الطوارئ الرسمية/);
+ assert.ok(en.sources.some(x=>x[1].includes("nasa.gov")));
+});
+test("NOVA explains water recovery and distinguishes ISS results from lunar guarantees",()=>{
+ const en=answerNova("How does water recycling work in space?","en");
+ const ar=answerNova("إزاي نعيد تدوير المياه في الفضاء؟","ar");
+ assert.match(en.answer,/98%/);
+ assert.match(en.answer,/not a guarantee for a lunar base/i);
+ assert.match(en.answer,/never drink untreated wastewater/i);
+ assert.match(ar.answer,/مش ضمان لقاعدة على القمر/);
+});
