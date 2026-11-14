@@ -11,6 +11,8 @@ test("a successful first campaign unlocks a distinct second systems challenge", 
   assert.match(main, /function challengeTwo\(/);
   assert.match(main, /case"challenge-two-answer"/);
   assert.match(main, /systems-integrator/);
+  assert.match(main, /answerOrder\.splice/);
+  assert.match(main, /lastExplanation/);
 });
 
 test("challenge two has responsive question cards and progress feedback", () => {
